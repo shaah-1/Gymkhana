@@ -1,0 +1,337 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Whey Protein",
+      "category": "Protein",
+      "price": 2499,
+      "stock": 2,
+      "image": "/products/whey-protein.jpg",
+      "description": "A convenient protein supplement for everyday nutrition.",
+      "detailedDescription": "Make protein a convenient part of your daily routine with GYMKHANA Whey Protein. Designed for people who train regularly and want an easy way to supplement their dietary protein intake, it fits into a balanced diet alongside whole-food protein sources.",
+      "benefits": [
+        "Helps supplement daily dietary protein intake",
+        "Supports muscle maintenance and growth alongside resistance training",
+        "Convenient option after a workout or between meals",
+        "Can complement a balanced diet and consistent training routine"
+      ],
+      "features": [
+        "Convenient powdered format",
+        "Suitable for a variety of fitness routines",
+        "Easy to incorporate into everyday nutrition"
+      ],
+      "howToUse": "Mix according to the serving size and preparation instructions on the product label. Use water or another suitable beverage as directed.",
+      "additionalInfo": "Check the actual product label for protein per serving, ingredients, allergens, and serving size. This product is currently out of stock."
+    },
+    {
+      "id": "2",
+      "name": "Creatine Monohydrate",
+      "category": "Creatine",
+      "price": 999,
+      "stock": 12,
+      "image": "/products/creatine.jpg",
+      "description": "Creatine monohydrate for high-intensity training support.",
+      "detailedDescription": "Creatine Monohydrate is a popular sports nutrition supplement used by people who participate in strength training and repeated high-intensity exercise. When used consistently as directed, creatine can help support performance during repeated short bursts of intense activity.",
+      "benefits": [
+        "Can support performance during repeated high-intensity efforts",
+        "Complements a structured resistance-training programme",
+        "Can help support training goals when combined with adequate nutrition",
+        "Simple to incorporate into a consistent supplement routine"
+      ],
+      "features": [
+        "Creatine monohydrate supplement",
+        "Designed to complement regular training",
+        "Convenient powdered format"
+      ],
+      "howToUse": "Follow the serving instructions on the product label. Mix and consume as directed, and maintain adequate hydration.",
+      "additionalInfo": "Check the ingredient list and serving information on the package. If you have a medical condition or take medication, consult a healthcare professional before use."
+    },
+    {
+      "id": "3",
+      "name": "Pre Workout",
+      "category": "Pre-Workout",
+      "price": 1499,
+      "stock": 7,
+      "image": "/products/pre-workout.jpg",
+      "description": "A pre-training supplement for your workout routine.",
+      "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
+      "benefits": [
+        "Designed to complement a pre-workout routine",
+        "May support alertness or exercise performance depending on its formulation",
+        "Convenient for people following a structured training schedule",
+        "Can be incorporated into a broader fitness and nutrition plan"
+      ],
+      "features": [
+        "Pre-training supplement format",
+        "Designed for use before exercise",
+        "Suitable for planned workout routines"
+      ],
+      "howToUse": "Follow the product label for serving size and timing. Check the caffeine content and do not exceed the recommended serving.",
+      "additionalInfo": "Ingredient profiles vary between products. Avoid combining multiple stimulant-containing supplements without checking their combined caffeine content. Not intended to replace sleep, food, or hydration."
+    },
+    {
+      "id": "4",
+      "name": "Whey Protein Isolate",
+      "category": "Protein",
+      "price": 3499,
+      "stock": 12,
+      "image": "/products/whey-isolate.jpg",
+      "description": "A protein supplement for everyday nutrition and training.",
+      "detailedDescription": "Whey Protein Isolate is a form of whey protein that is processed to contain a higher proportion of protein and generally less lactose, fat, and carbohydrate than many standard whey concentrates. Exact nutritional values depend on the specific product.",
+      "benefits": [
+        "Helps supplement daily protein intake",
+        "Can support muscle maintenance and growth alongside resistance training",
+        "Convenient for people with higher daily protein needs",
+        "Can be used as part of a balanced meal and training plan"
+      ],
+      "features": [
+        "Whey protein isolate format",
+        "Convenient powder for mixing",
+        "Useful for supplementing protein intake"
+      ],
+      "howToUse": "Prepare according to the package directions and recommended serving size. Mix with the beverage specified or preferred where suitable.",
+      "additionalInfo": "Whey is milk-derived and is not suitable for people with a milk protein allergy. Check the label for protein content, lactose information, ingredients, and allergens."
+    },
+    {
+      "id": "5",
+      "name": "Mass Gainer",
+      "category": "Weight Gain",
+      "price": 2199,
+      "stock": 10,
+      "image": "/products/mass-gainer.jpg",
+      "description": "A calorie-dense supplement to complement a weight-gain diet.",
+      "detailedDescription": "Mass Gainer is intended for people who find it difficult to meet their energy needs through regular meals alone. Depending on its formulation, it can provide a combination of calories, carbohydrates, and protein to complement a planned nutrition routine.",
+      "benefits": [
+        "Can make it easier to add calories to a daily diet",
+        "May help supplement protein and carbohydrate intake",
+        "Convenient for people with higher energy requirements",
+        "Works best alongside appropriate meals and progressive strength training"
+      ],
+      "features": [
+        "Powdered nutritional supplement",
+        "Designed to complement a calorie-surplus diet",
+        "Convenient option between meals when appropriate"
+      ],
+      "howToUse": "Follow the package serving size and preparation instructions. Consider your overall daily food intake when deciding how it fits into your diet.",
+      "additionalInfo": "Check calories per serving, sugar content, protein content, and allergens on the actual label. Weight changes depend on overall energy intake, activity, and individual needs."
+    },
+    {
+      "id": "6",
+      "name": "BCAA Powder",
+      "category": "Recovery",
+      "price": 1899,
+      "stock": 15,
+      "image": "/products/bcaa-powder.jpg",
+      "description": "A branched-chain amino acid supplement.",
+      "detailedDescription": "BCAA Powder contains branched-chain amino acids—leucine, isoleucine, and valine. These amino acids are found in protein-rich foods and are involved in normal protein metabolism. The usefulness of supplementation depends on your overall diet and training needs.",
+      "benefits": [
+        "Provides branched-chain amino acids as listed on the label",
+        "Can complement an established sports nutrition routine",
+        "Offers an alternative powdered format for supplement users",
+        "Can be considered alongside adequate dietary protein"
+      ],
+      "features": [
+        "Branched-chain amino acid supplement",
+        "Powdered format",
+        "Designed to complement nutrition and exercise routines"
+      ],
+      "howToUse": "Follow the serving size, mixing instructions, and usage guidance on the product label.",
+      "additionalInfo": "BCAA supplements are not a substitute for complete dietary protein. Review the ingredient list and consult a qualified professional if you have specific dietary or medical concerns."
+    },
+    {
+      "id": "7",
+      "name": "Protein Bar",
+      "category": "Snacks",
+      "price": 99,
+      "stock": 25,
+      "image": "/products/protein-bar.jpg",
+      "description": "A convenient snack for busy days and active routines.",
+      "detailedDescription": "The GYMKHANA Protein Bar is a portable snack option for busy days, commuting, or keeping in your gym bag. Its nutritional contribution depends on the specific bar's protein, calorie, carbohydrate, and fat content.",
+      "benefits": [
+        "Convenient to carry and eat on the go",
+        "Can help supplement protein intake between meals",
+        "Useful as a portable snack around a busy schedule",
+        "Requires no preparation"
+      ],
+      "features": [
+        "Portable snack format",
+        "Easy to store in a bag",
+        "Suitable for convenient snacking"
+      ],
+      "howToUse": "Enjoy according to the package serving information as part of your normal diet.",
+      "additionalInfo": "Check the label for protein per bar, calories, added sugar, allergens, and storage instructions. Actual nutritional values vary by flavour and formulation."
+    },
+    {
+      "id": "8",
+      "name": "Shaker",
+      "category": "Accessories",
+      "price": 799,
+      "stock": 5,
+      "image": "/products/shaker.jpg",
+      "description": "A reusable shaker for mixing drinks on the go.",
+      "detailedDescription": "Keep your workout routine convenient with the GYMKHANA Shaker. A dedicated shaker can make it easier to mix powdered drinks at the gym, at home, or while travelling. Its actual capacity, construction, and included mixing features depend on the supplied model.",
+      "benefits": [
+        "Convenient for preparing drinks away from home",
+        "Reusable alternative to disposable drink containers",
+        "Easy to carry as part of your gym essentials",
+        "Suitable for mixing drinks according to their instructions"
+      ],
+      "features": [
+        "Reusable shaker bottle",
+        "Portable design",
+        "Designed for workout and everyday use"
+      ],
+      "howToUse": "Add the appropriate liquid and powder according to their instructions, secure the lid, and shake as needed. Wash thoroughly after use.",
+      "additionalInfo": "Check the actual product for capacity, material, dishwasher suitability, and leak-resistance instructions. Do not use with hot liquids unless the manufacturer specifically permits it."
+    },
+    {
+      "id": "9",
+      "name": "Gym Hand Grips",
+      "category": "Gym Accessories",
+      "price": 299,
+      "stock": 25,
+      "image": "/products/gym-grips.jpg",
+      "description": "Workout grips designed to support your hold on gym equipment.",
+      "detailedDescription": "GYMKHANA Gym Hand Grips are training accessories intended to help improve contact with gym equipment and make selected pulling or weight-training movements more comfortable. The level of grip support and hand coverage depends on the actual design.",
+      "benefits": [
+        "Can provide an additional contact layer between hands and equipment",
+        "May improve comfort during selected exercises",
+        "Useful for including in a regular gym kit",
+        "Reusable accessory for appropriate training movements"
+      ],
+      "features": [
+        "Compact gym accessory",
+        "Designed for selected weight-training exercises",
+        "Portable and easy to store with workout equipment"
+      ],
+      "howToUse": "Position the grips according to their design and the manufacturer's instructions. Check that they are secure before beginning an exercise.",
+      "additionalInfo": "Check the material, sizing, fit, and care instructions for the actual item. Grips do not replace correct lifting technique or a secure hold on equipment."
+    },
+    {
+      "id": "10",
+      "name": "Gym Bag",
+      "category": "Gym Accessories",
+      "price": 899,
+      "stock": 0,
+      "image": "/products/gym-bag.jpg",
+      "description": "A practical bag for carrying everyday workout essentials.",
+      "detailedDescription": "The GYMKHANA Gym Bag helps organise the essentials you take to a workout, such as training clothes, a towel, accessories, and personal items. Its best use depends on the actual bag's dimensions, compartments, and construction.",
+      "benefits": [
+        "Keeps workout essentials together",
+        "Makes it easier to organise gym accessories",
+        "Convenient for travel between home, work, and the gym",
+        "Can be used for everyday fitness-related carrying needs"
+      ],
+      "features": [
+        "Gym and everyday carry accessory",
+        "Designed for storing workout essentials",
+        "Portable bag format"
+      ],
+      "howToUse": "Pack items according to the available space and compartments. Avoid exceeding the bag's recommended carrying capacity.",
+      "additionalInfo": "Check the actual product for dimensions, material, pocket layout, closure type, and cleaning instructions. Do not assume waterproofing unless specified by the manufacturer."
+    }
+  ],
+  "users": [
+    {
+      "name": "zayedmasood",
+      "email": "zayed@gmail.com",
+      "password": "12345688",
+      "id": "fKCYrWVDxEo"
+    }
+  ],
+  "orders": [
+    {
+      "userId": "XeNvW6vlc5o",
+      "customer": {
+        "fullName": "Muhammed Shahid",
+        "email": "zyrxop@gmail.com",
+        "phone": "6238291593",
+        "address": "irivetty road kavanur mayangathodi house",
+        "city": "Malappuram",
+        "pincode": "673639"
+      },
+      "items": [
+        {
+          "id": "10",
+          "name": "Gym Bag",
+          "price": 899,
+          "quantity": 15
+        }
+      ],
+      "total": 13485,
+      "status": "pending",
+      "createdAt": "2026-10-26T09:06:10.807Z",
+      "id": "-kImhydZ8n4"
+    },
+    {
+      "userId": "fKCYrWVDxEo",
+      "customer": {
+        "fullName": "Muhammed Shahid",
+        "email": "zyrxop@gmail.com",
+        "phone": "6238291593",
+        "address": "irivetty road kavanur mayangathodi house",
+        "city": "Malappuram",
+        "pincode": "673639"
+      },
+      "items": [
+        {
+          "id": "3",
+          "name": "Pre Workout",
+          "price": 1499,
+          "quantity": 3
+        }
+      ],
+      "total": 4497,
+      "status": "pending",
+      "createdAt": "2026-10-26T09:48:11.515Z",
+      "id": "JkV3fgoy81I"
+    },
+    {
+      "userId": "fKCYrWVDxEo",
+      "customer": {
+        "fullName": "zayed",
+        "email": "zayed@gmail.com",
+        "phone": "2742346846",
+        "address": "america kolkata china",
+        "city": "california",
+        "pincode": "000001"
+      },
+      "items": [
+        {
+          "id": "2",
+          "name": "Creatine Monohydrate",
+          "price": 999,
+          "quantity": 2
+        }
+      ],
+      "total": 1998,
+      "status": "pending",
+      "createdAt": "2026-10-26T09:55:47.473Z",
+      "id": "va0M9AGtCSU"
+    },
+    {
+      "userId": "fKCYrWVDxEo",
+      "customer": {
+        "fullName": "shahid",
+        "email": "sdbeqdh@gmail.com",
+        "phone": "1273612375",
+        "address": "wqdqefbj",
+        "city": "wdwqd",
+        "pincode": "232323"
+      },
+      "items": [
+        {
+          "id": "2",
+          "name": "Creatine Monohydrate",
+          "price": 999,
+          "quantity": 1
+        }
+      ],
+      "total": 999,
+      "status": "pending",
+      "createdAt": "2026-10-27T11:44:12.988Z",
+      "id": "0nJH8eMxdE8"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

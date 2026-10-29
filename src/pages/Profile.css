@@ -1,0 +1,149 @@
+
+/* FIX: GYMKHANA profile layout */
+.profile-page {
+  display: block !important;
+  width: 100% !important;
+  min-height: 100vh;
+  padding: 40px 24px 60px !important;
+  overflow-x: hidden;
+  background: #111210;
+  color: #f5f2eb;
+}
+
+.profile-page .profile-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0;
+  width: 100% !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+}
+
+.profile-page .profile-heading {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 26px;
+}
+
+.profile-page .profile-hero,
+.profile-page .profile-card,
+.profile-page .profile-actions {
+  position: relative;
+  inset: auto;
+  float: none !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 0 22px !important;
+  transform: none !important;
+}
+
+.profile-page .profile-hero {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 22px;
+  padding: 28px;
+}
+
+.profile-page .profile-hero-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.profile-page .profile-hero-info h2 {
+  font-size: 24px;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.profile-page .profile-hero-info .profile-muted,
+.profile-page .profile-value {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.profile-page .profile-info-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px;
+  width: 100% !important;
+}
+
+.profile-page .profile-info-item {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.profile-page .profile-card-heading {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.profile-page .profile-card-heading > div:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-page .profile-order,
+.profile-page .profile-empty {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.profile-page .profile-order-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-page .profile-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0 !important;
+}
+
+.profile-page .profile-footer {
+  display: block !important;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .profile-page {
+    padding: 28px 16px 40px !important;
+  }
+
+  .profile-page .profile-hero {
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .profile-page .profile-avatar {
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .profile-page .profile-hero-info h2 {
+    font-size: 19px;
+  }
+
+  .profile-page .profile-info-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .profile-page .profile-actions {
+    align-items: flex-start;
+    flex-direction: column !important;
+  }
+}
