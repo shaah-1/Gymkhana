@@ -2135,10 +2135,22 @@ img {
 
 /* GYMKHANA split-screen login */
 
+/* Keep the login screen within the viewport. */
+body:has(.auth-page.auth-split-layout) {
+  padding-top: 0;
+  overflow: hidden;
+}
+
+body:has(.auth-page.auth-split-layout) .navbar {
+  display: none;
+}
+
 .auth-page.auth-split-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
   padding: 0;
   gap: 0;
   align-items: stretch;
@@ -2147,7 +2159,7 @@ img {
 
 .auth-image-panel {
   position: relative;
-  min-height: 100vh;
+  min-height: 0;
   overflow: hidden;
   background: #20211f;
 }
@@ -2221,12 +2233,13 @@ img {
 @media (max-width: 760px) {
   .auth-page.auth-split-layout {
     grid-template-columns: 1fr;
+    grid-template-rows: 32% 68%;
   }
 
   .auth-image-panel {
-    min-height: 260px;
-    height: 32vh;
-    max-height: 340px;
+    min-height: 0;
+    height: auto;
+    max-height: none;
   }
 
   .auth-image-overlay {
@@ -2238,7 +2251,20 @@ img {
   }
 
   .auth-form-panel {
-    padding: 36px 24px;
+    min-height: 0;
+    padding: 20px 24px;
+  }
+
+  .auth-form-panel .auth-subtitle {
+    margin-bottom: 18px;
+  }
+
+  .auth-form-panel .auth-card label {
+    margin-top: 12px;
+  }
+
+  .auth-form-panel .auth-submit {
+    margin-top: 18px;
   }
 }
 /* Remove the login card appearance */

@@ -3,7 +3,7 @@ import "./Toast.css";
 
 export default function Toast({ message, onClose }) {
   useEffect(() => {
-    if (!message) return;
+    if (!message) return;f
 
     const timer = setTimeout(onClose, 2500);
     return () => clearTimeout(timer);

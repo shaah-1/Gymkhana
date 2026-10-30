@@ -64,7 +64,7 @@ return (
   <main className="auth-page auth-split-layout">
     <section className="auth-image-panel">
       <img
-        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=85"
+        src="/images/login-banner.jpg"
         alt="GYMKHANA fitness training space"
       />
 
