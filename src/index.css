@@ -2946,7 +2946,7 @@ body:has(.auth-page.auth-split-layout) .navbar {
 .product-menu-chevron { color: #aaa; }
 
 .product-menu-list {
-  top: calc(100% + 8px);
+  top: 100%;
   padding: 6px;
   border-color: #353535;
   border-radius: 14px;
