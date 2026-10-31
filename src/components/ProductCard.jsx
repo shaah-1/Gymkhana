@@ -1,6 +1,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { toggleWishlist } from "../redux/wishlistSlice";
@@ -9,6 +10,12 @@ import { addToCart } from "../redux/cartSlice";
 function ProductCard({ product }) {
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (!showPopup) return undefined;
+    const timeout = window.setTimeout(() => setShowPopup(false), 1000);
+    return () => window.clearTimeout(timeout);
+  }, [showPopup]);
 
   // Find this product in the cart
   const cartItem = useSelector((state) =>
@@ -56,10 +63,6 @@ function ProductCard({ product }) {
 
     dispatch(addToCart(product));
     setShowPopup(true);
-
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 1800);
   };
 
   return (
@@ -137,12 +140,25 @@ function ProductCard({ product }) {
       </div>
 
       {showPopup && (
-        <div className="popup-overlay">
-          <div className="success-popup">
-            <div className="success-icon">✓</div>
-            <h3>Item added successfully</h3>
-          </div>
-        </div>
+        createPortal(
+          <div className="popup-overlay">
+            <div className="cart-added-modal" role="dialog" aria-modal="true" aria-labelledby={`cart-added-title-${product.id}`}>
+              <button
+                type="button"
+                className="cart-added-close"
+                aria-label="Close confirmation"
+                onClick={() => setShowPopup(false)}
+              >
+                ×
+              </button>
+              <div className="cart-added-check" aria-hidden="true">✓</div>
+              <p className="cart-added-eyebrow">Added to cart</p>
+              <h2 id={`cart-added-title-${product.id}`}>{product.name}</h2>
+              <Link to="/cart" className="cart-added-link">View cart</Link>
+            </div>
+          </div>,
+          document.body
+        )
       )}
     </div>
   );

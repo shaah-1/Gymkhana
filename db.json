@@ -5,7 +5,7 @@
       "name": "Whey Protein",
       "category": "Protein",
       "price": 2499,
-      "stock": 2,
+      "stock": 0,
       "image": "/products/whey-protein.jpg",
       "description": "A convenient protein supplement for everyday nutrition.",
       "detailedDescription": "Make protein a convenient part of your daily routine with GYMKHANA Whey Protein. Designed for people who train regularly and want an easy way to supplement their dietary protein intake, it fits into a balanced diet alongside whole-food protein sources.",
@@ -97,7 +97,7 @@
       "name": "Mass Gainer",
       "category": "Weight Gain",
       "price": 2199,
-      "stock": 10,
+      "stock": 8,
       "image": "/products/mass-gainer.jpg",
       "description": "A calorie-dense supplement to complement a weight-gain diet.",
       "detailedDescription": "Mass Gainer is intended for people who find it difficult to meet their energy needs through regular meals alone. Depending on its formulation, it can provide a combination of calories, carbohydrates, and protein to complement a planned nutrition routine.",
@@ -521,6 +521,79 @@
       "status": "pending",
       "createdAt": "2026-10-27T11:44:12.988Z",
       "id": "0nJH8eMxdE8"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "zabeeh",
+        "email": "shahi@gmail.com",
+        "phone": "8606717184",
+        "address": "irivetty road kavanur mayangathodi house",
+        "city": "Malappuram",
+        "pincode": "673639"
+      },
+      "items": [
+        {
+          "id": "1",
+          "name": "Whey Protein",
+          "price": 2499,
+          "quantity": 2
+        }
+      ],
+      "total": 4998,
+      "status": "pending",
+      "createdAt": "2026-10-31T06:18:29.997Z",
+      "id": "OEW-s3oUujE"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "Saj",
+        "email": "saj@gmail.com",
+        "phone": "8606847474",
+        "address": "xsxnasjxnj",
+        "city": "calicut",
+        "pincode": "673635"
+      },
+      "items": [
+        {
+          "id": "5",
+          "name": "Mass Gainer",
+          "price": 2199,
+          "quantity": 1
+        }
+      ],
+      "total": 2199,
+      "paymentMethod": "upi",
+      "paymentStatus": "payment_pending",
+      "status": "pending",
+      "createdAt": "2026-10-31T06:43:51.707Z",
+      "id": "4WA6W8J4Q5I"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "muhammed shahid",
+        "email": "shahi@gmail.com",
+        "phone": "8606717171",
+        "address": "akc house",
+        "city": "malappuram",
+        "pincode": "272727"
+      },
+      "items": [
+        {
+          "id": "5",
+          "name": "Mass Gainer",
+          "price": 2199,
+          "quantity": 1
+        }
+      ],
+      "total": 2199,
+      "paymentMethod": "netbanking",
+      "paymentStatus": "payment_pending",
+      "status": "pending",
+      "createdAt": "2026-10-31T06:45:59.660Z",
+      "id": "aaRyAE_MZ7o"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -43,6 +44,12 @@ export default function ProductDetails() {
 
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    if (!showPopup) return undefined;
+    const timeout = window.setTimeout(() => setShowPopup(false), 1000);
+    return () => window.clearTimeout(timeout);
+  }, [showPopup]);
 
   if (loading) {
     return <div className="product-details-status">Loading product...</div>;
@@ -153,11 +160,27 @@ export default function ProductDetails() {
           </div>
 
           {showPopup && (
-            <div className="details-added-message" role="status">
-              ✓ {quantity} {quantity === 1 ? "item" : "items"} added to cart
-              <Link to="/cart">View Cart →</Link>
-              <button onClick={() => setShowPopup(false)}>×</button>
-            </div>
+            createPortal(
+              <div className="popup-overlay">
+                <div className="cart-added-modal" role="dialog" aria-modal="true" aria-labelledby="details-cart-added-title">
+                  <button
+                    type="button"
+                    className="cart-added-close"
+                    aria-label="Close confirmation"
+                    onClick={() => setShowPopup(false)}
+                  >
+                    ×
+                  </button>
+                  <div className="cart-added-check" aria-hidden="true">✓</div>
+                  <p className="cart-added-eyebrow">Added to cart</p>
+                  <h2 id="details-cart-added-title">
+                    {quantity} {quantity === 1 ? "item" : "items"} added successfully
+                  </h2>
+                  <Link to="/cart" className="cart-added-link">View cart</Link>
+                </div>
+              </div>,
+              document.body
+            )
           )}
         </div>
       </section>

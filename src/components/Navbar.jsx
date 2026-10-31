@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Heart, Search } from "lucide-react";
+import { Heart, Search, ShoppingBag } from "lucide-react";
 import { logout } from "../redux/authSlice";
 
 export default function Navbar() {
@@ -15,6 +15,10 @@ export default function Navbar() {
   const isAuthenticated = useSelector(
     (state) => state.auth.isAuthenticated
   );
+  const cartItemCount = useSelector((state) =>
+    state.cart.items.reduce((count, item) => count + Number(item.quantity || 0), 0)
+  );
+  const isCheckout = location.pathname === "/checkout";
 
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -84,7 +88,7 @@ const handleLogout = () => {
 };
 
   return (
-    <header className={`navbar ${showMobileMenu ? "mobile-open" : ""}`}>
+    <header className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isCheckout ? "checkout-navbar" : ""}`}>
       <button
         type="button"
         className="mobile-menu-toggle"
@@ -142,11 +146,20 @@ const handleLogout = () => {
               <Search size={17} strokeWidth={1.8} />
             </button>
           </form>
-          <Link to="/cart">Cart</Link>
+          <Link
+            to="/cart"
+            className="navbar-cart-icon-link"
+            aria-label={`Cart, ${cartItemCount} ${cartItemCount === 1 ? "item" : "items"}`}
+            title="Cart"
+          >
+            <ShoppingBag size={18} strokeWidth={1.7} aria-hidden="true" />
+            {cartItemCount > 0 && (
+              <span className="navbar-item-count" aria-hidden="true">{cartItemCount}</span>
+            )}
+          </Link>
 
-          <Link to="/wishlist" className="navbar-wishlist" aria-label="Wishlist">
-            <Heart size={15} strokeWidth={1.8} className="navbar-wishlist-icon" />
-            <span>Wishlist</span>
+          <Link to="/wishlist" className="navbar-wishlist" aria-label="Wishlist" title="Wishlist">
+            <Heart size={18} strokeWidth={1.7} className="navbar-wishlist-icon" aria-hidden="true" />
           </Link>
 
           {isAuthenticated ? (
