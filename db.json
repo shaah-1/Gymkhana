@@ -229,6 +229,190 @@
       ],
       "howToUse": "Pack items according to the available space and compartments. Avoid exceeding the bag's recommended carrying capacity.",
       "additionalInfo": "Check the actual product for dimensions, material, pocket layout, closure type, and cleaning instructions. Do not assume waterproofing unless specified by the manufacturer."
+    },
+    {
+      "id": "11",
+      "name": "Fish Oil Omega-3",
+      "category": "Supplements",
+      "price": 899,
+      "stock": 20,
+      "image": "/products/fish-oil.jpg",
+      "description": "Omega-3 fish oil softgels containing EPA and DHA fatty acids.",
+      "detailedDescription": "GYMKHANA Fish Oil Omega-3 is a dietary supplement designed to complement a balanced diet. It contains omega-3 fatty acids, including EPA and DHA, in convenient softgel form.",
+      "benefits": [
+        "Provides omega-3 fatty acids",
+        "Contains EPA and DHA",
+        "Supports general health as part of a balanced diet",
+        "Convenient softgel format for everyday use"
+      ],
+      "features": [
+        "Omega-3 fish oil supplement",
+        "Contains EPA and DHA",
+        "Softgel capsule format",
+        "60 softgels per bottle"
+      ],
+      "howToUse": "Follow the serving instructions provided on the product label. Take with food if directed by the manufacturer.",
+      "additionalInfo": "Check the actual product label for EPA and DHA quantities, fish source, allergens, serving size, expiry date, and storage instructions. Not suitable for people with fish allergies unless confirmed safe by a healthcare professional."
+    },
+    {
+      "id": "23",
+      "name": "Casein Protein",
+      "category": "Protein",
+      "price": 2299,
+      "stock": 12,
+      "image": "https://nakednutrition.com/cdn/shop/files/CASEIN-2LB-Unflavored-Main-Image_ebc277e7-9b3d-4ca1-8dac-d9be9369cb74.jpg?v=1783324151&width=3000",
+      "description": "A casein-based protein supplement.",
+      "detailedDescription": "Casein is a milk-derived protein commonly used to supplement daily protein intake.",
+      "benefits": [
+        "Helps supplement dietary protein",
+        "Convenient powdered format"
+      ],
+      "features": [
+        "Casein protein formula",
+        "Mixable powder"
+      ],
+      "howToUse": "Follow the serving and preparation instructions on the label.",
+      "additionalInfo": "Contains milk-derived protein. Check allergens and nutritional information."
+    },
+    {
+      "id": "25",
+      "name": "Electrolyte Powder",
+      "category": "Supplements",
+      "price": 799,
+      "stock": 24,
+      "image": "https://www.optimumnutrition.com/cdn/shop/files/EU_ON_Electrolyte_264G_33sv_Orange_6079840_Angle1.png?v=1782129637&width=2800",
+      "description": "An electrolyte drink mix for hydration routines.",
+      "detailedDescription": "A powdered drink mix designed to provide electrolytes according to its formulation.",
+      "benefits": [
+        "Provides electrolytes listed on the label",
+        "Convenient drink preparation"
+      ],
+      "features": [
+        "Powdered format",
+        "Mixes with water"
+      ],
+      "howToUse": "Mix according to the package instructions.",
+      "additionalInfo": "Check sodium, sugar and other electrolyte quantities on the label."
+    },
+    {
+      "id": "26",
+      "name": "Multivitamin",
+      "category": "Supplements",
+      "price": 599,
+      "stock": 30,
+      "image": "https://www.optimumnutrition.com/cdn/shop/files/ON_OptiMen_90ct_6074229.png?v=1779369013&width=3000",
+      "description": "A multivitamin supplement containing selected vitamins and minerals.",
+      "detailedDescription": "A dietary supplement intended to complement nutritional intake.",
+      "benefits": [
+        "Provides nutrients listed on the label",
+        "Convenient supplement format"
+      ],
+      "features": [
+        "Multiple vitamins and minerals",
+        "Daily supplement format"
+      ],
+      "howToUse": "Follow the serving instructions on the package.",
+      "additionalInfo": "Check ingredient quantities and avoid exceeding recommended intake."
+    },
+    {
+      "id": "27",
+      "name": "Vitamin D3",
+      "category": "Supplements",
+      "price": 499,
+      "stock": 20,
+      "image": "https://www.naturessunshine.com/cf-images/cdn-cgi/image/width%3D1920%2Cheight%3Dauto%2Cformat%3Dwebp%2Cquality%3D75%2Cfit%3Dcontain/globalassets/nsp-products-catalog/variants/lus1155_vitamin_d3_150cc_2026-1920.webp",
+      "description": "A vitamin D3 dietary supplement.",
+      "detailedDescription": "Vitamin D3 is a nutrient involved in normal bone and muscle function.",
+      "benefits": [
+        "Provides vitamin D3",
+        "Convenient supplement format"
+      ],
+      "features": [
+        "Vitamin D3 formula",
+        "Packaged supplement"
+      ],
+      "howToUse": "Use only according to the product label or professional advice.",
+      "additionalInfo": "Check the dosage carefully. Avoid excessive vitamin D intake."
+    },
+    {
+      "id": "28",
+      "name": "Magnesium",
+      "category": "Supplements",
+      "price": 699,
+      "stock": 16,
+      "image": "https://cdn.shopify.com/s/files/1/0605/7584/2483/files/nfs-magnesium-500mg-competitor-bottle.webp?v=1776431070",
+      "description": "A magnesium dietary supplement.",
+      "detailedDescription": "A supplement providing magnesium in the form and quantity stated on its label.",
+      "benefits": [
+        "Provides magnesium",
+        "Can complement dietary intake"
+      ],
+      "features": [
+        "Mineral supplement",
+        "Convenient format"
+      ],
+      "howToUse": "Follow the product label and recommended serving.",
+      "additionalInfo": "Check the magnesium form and quantity per serving."
+    },
+    {
+      "id": "29",
+      "name": "Zinc",
+      "category": "Supplements",
+      "price": 399,
+      "stock": 25,
+      "image": "https://ultimatenutrition.com/cdn/shop/products/302_Zinc30mg120Tab-940x1018_8ef9c2e2-5661-443a-a054-907efd566bdb-544594.png?v=1737708546&width=940",
+      "description": "A zinc dietary supplement.",
+      "detailedDescription": "A mineral supplement designed to provide zinc as part of a balanced nutrition routine.",
+      "benefits": [
+        "Provides zinc",
+        "Convenient supplement format"
+      ],
+      "features": [
+        "Zinc supplement",
+        "Packaged for everyday use"
+      ],
+      "howToUse": "Follow the package serving instructions.",
+      "additionalInfo": "Check the quantity per serving and avoid excessive intake."
+    },
+    {
+      "id": "30",
+      "name": "Plant Protein",
+      "category": "Protein",
+      "price": 1899,
+      "stock": 14,
+      "image": "https://www.optimumnutrition.com/cdn/shop/files/on-1117733_Image_01.png?v=1765445381&width=1500",
+      "description": "A plant-based protein powder.",
+      "detailedDescription": "A powdered protein supplement made from plant-derived protein sources, depending on its formulation.",
+      "benefits": [
+        "Helps supplement dietary protein",
+        "Plant-based protein option"
+      ],
+      "features": [
+        "Powdered format",
+        "Suitable for plant-based diets when ingredients allow"
+      ],
+      "howToUse": "Follow the serving and preparation instructions on the label.",
+      "additionalInfo": "Check protein quantity, source and allergen information."
+    },
+    {
+      "id": "31",
+      "name": "L-Glutamine",
+      "category": "Supplements",
+      "price": 999,
+      "stock": 18,
+      "image": "https://www.optimumnutrition.com/cdn/shop/files/on-1031801_Image_01.png?v=1755790961&width=1910",
+      "description": "An L-glutamine amino acid supplement.",
+      "detailedDescription": "L-glutamine is an amino acid available in powdered supplement form.",
+      "benefits": [
+        "Provides L-glutamine",
+        "Convenient powdered format"
+      ],
+      "features": [
+        "Amino acid supplement",
+        "Mixable powder"
+      ],
+      "howToUse": "Follow the product label for serving and preparation instructions.",
+      "additionalInfo": "Check ingredients and consult a qualified professional if needed."
     }
   ],
   "users": [
@@ -237,6 +421,12 @@
       "email": "zayed@gmail.com",
       "password": "12345688",
       "id": "fKCYrWVDxEo"
+    },
+    {
+      "name": "shahi",
+      "email": "shahi@gmail.com",
+      "password": "12345678",
+      "id": "9hbGUx87F2E"
     }
   ],
   "orders": [

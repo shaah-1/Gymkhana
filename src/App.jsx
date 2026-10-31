@@ -1,4 +1,4 @@
-
+import ForgotPassword from "./pages/ForgotPassword";
 import { useCallback, useEffect, useState } from "react";
 import {
   Routes,
@@ -19,6 +19,7 @@ import Register from "./pages/Register";
 import Wishlist from "./pages/Wishlist";
 import Orders from "./pages/Orders";
 import Toast from "./components/Toast";
+import Contact from "./pages/Contact";
 
 import "./index.css";
 
@@ -73,14 +74,30 @@ function App() {
     );
   }, [location, navigate]);
 
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      if (location.hash) {
+        document.getElementById(location.hash.slice(1))?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
+
   return (
     <>
       <RefreshToHome />
 
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
+      <div key={location.pathname} className="page-transition">
+        <Routes>
+          <Route path="/" element={<Home />} />
 
         <Route
           path="/products/:id"
@@ -89,6 +106,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<Contact />} />
 
         <Route
           path="/profile"
@@ -127,9 +145,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
 
-        <Route path="*" element={<Home />} />
-      </Routes>
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </div>
 
       <Toast
         message={toastMessage}

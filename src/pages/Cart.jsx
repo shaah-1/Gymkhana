@@ -6,6 +6,7 @@ import {
   removeFromCart,
 } from "../redux/cartSlice";
 import { Link } from "react-router-dom";
+import { storefrontCopy } from "../copy/storefrontCopy";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default function Cart() {
             Looks like you haven't added anything to your cart yet.
           </p>
           <Link to="/" className="checkout-btn">
-            Explore Collection →
+            {storefrontCopy.collectionLink}
           </Link>
         </div>
       </main>

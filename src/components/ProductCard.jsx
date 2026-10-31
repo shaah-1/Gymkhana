@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { toggleWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
 
@@ -43,7 +44,9 @@ function ProductCard({ product }) {
         : "In Stock";
 
   // Toggle wishlist
-  const handleWishlist = () => {
+  const handleWishlist = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     dispatch(toggleWishlist(product));
   };
 
@@ -63,7 +66,7 @@ function ProductCard({ product }) {
     <div className="product-card">
       <button
         type="button"
-        className="wishlist-button"
+        className={`wishlist-button ${isFavorite ? "active" : ""}`}
         onClick={handleWishlist}
         aria-label={
           isFavorite
@@ -72,7 +75,11 @@ function ProductCard({ product }) {
         }
         aria-pressed={isFavorite}
       >
-        {isFavorite ? "♥" : "♡"}
+        <Heart
+          size={15}
+          strokeWidth={1.8}
+          fill={isFavorite ? "currentColor" : "none"}
+        />
       </button>
 
       <img

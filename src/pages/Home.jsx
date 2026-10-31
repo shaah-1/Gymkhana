@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/productSlice";
 import ProductCard from "../components/ProductCard";
+import { ContactSection } from "./Contact";
+import { storefrontCopy } from "../copy/storefrontCopy";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -57,13 +59,40 @@ export default function Home() {
     return result;
   }, [items, search, category, sort]);
 
+  useEffect(() => {
+    const cards = document.querySelectorAll("#products .product-card");
+    if (!cards.length) return undefined;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      cards.forEach((card) => card.classList.add("scroll-revealed"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("scroll-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -36px 0px" });
+
+    cards.forEach((card, index) => {
+      card.classList.add("scroll-reveal");
+      card.style.setProperty("--reveal-delay", `${(index % 4) * 65}ms`);
+      observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, [filteredProducts.length]);
+
   return (
     <main>
       <section className="hero" id="home">
         <p className="eyebrow">WELCOME TO</p>
         <h1 className="hero-brand">GYMKHANA</h1>
         <p className="hero-tagline">
-          FUEL YOUR AMBITION. BUILD YOUR LEGACY.
+          {storefrontCopy.ambitionTagline}
         </p>
         <p>
           Premium sports nutrition and gym essentials for your
@@ -71,15 +100,15 @@ export default function Home() {
         </p>
 
         <a href="#products" className="hero-button">
-          Explore Collection →
+          {storefrontCopy.collectionLink}
         </a>
       </section>
 
       <section id="products" className="products-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">THE COLLECTION</p>
-            <h2>Fuel your ambition.</h2>
+            <p className="eyebrow">{storefrontCopy.collectionLabel}</p>
+            <h2>{storefrontCopy.ambitionHeading}</h2>
           </div>
 
           <span>{filteredProducts.length} products</span>
@@ -140,6 +169,8 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      <ContactSection />
     </main>
   );
 }
