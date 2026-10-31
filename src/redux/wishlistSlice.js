@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const loadWishlist = () => {
   try {
-    return JSON.parse(localStorage.getItem("wishlist")) || [];
+    const savedItems = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    return Array.isArray(savedItems) ? savedItems : [];
   } catch {
     return [];
   }
@@ -30,12 +31,10 @@ const wishlistSlice = createSlice({
         state.items.push(product);
       }
 
-      localStorage.setItem("wishlist", JSON.stringify(state.items));
     },
 
     clearWishlist: (state) => {
       state.items = [];
-      localStorage.setItem("wishlist", JSON.stringify(state.items));
     },
   },
 });

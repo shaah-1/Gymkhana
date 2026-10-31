@@ -2506,6 +2506,16 @@ body:has(.auth-page.auth-split-layout) .navbar {
   text-decoration: underline;
 }
 
+.auth-home-link {
+  display: inline-flex;
+  margin-bottom: 24px;
+  color: #aaa69d;
+  font-size: 12px;
+  transition: color .2s ease;
+}
+
+.auth-home-link:hover { color: var(--text); }
+
 /* Minimal centered-brand navigation */
 .navbar {
   display: grid;

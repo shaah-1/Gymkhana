@@ -45,13 +45,17 @@ export default function Login() {
 
       const destination = location.state?.from;
 
-      const nextPath =
+      const nextLocation =
         destination?.pathname?.startsWith("/") &&
         !destination.pathname.startsWith("//")
-          ? destination.pathname
+          ? {
+              pathname: destination.pathname,
+              search: destination.search || "",
+              hash: destination.hash || "",
+            }
           : "/";
 
-      navigate(nextPath, {
+      navigate(nextLocation, {
         replace: true,
         state: { message: "Login successful!" },
       });
@@ -99,6 +103,7 @@ export default function Login() {
 
       <section className="auth-form-panel">
         <form className="auth-card" onSubmit={handleSubmit}>
+          <Link to="/" className="auth-home-link">← Back to home</Link>
           <p className="eyebrow">WELCOME BACK</p>
 
           <h1>Log in</h1>

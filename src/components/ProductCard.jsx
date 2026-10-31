@@ -2,13 +2,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { toggleWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ function ProductCard({ product }) {
       (item) => String(item.id) === String(product.id)
     )
   );
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   // Stock and cart quantity
   const stock = Math.max(0, Number(product.stock) || 0);
@@ -54,12 +57,23 @@ function ProductCard({ product }) {
   const handleWishlist = (e) => {
     e.stopPropagation();
     e.preventDefault();
+
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
+
     dispatch(toggleWishlist(product));
   };
 
   // Add product to cart
   const handleAddToCart = () => {
     if (availableToAdd <= 0) return;
+
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
 
     dispatch(addToCart(product));
     setShowPopup(true);

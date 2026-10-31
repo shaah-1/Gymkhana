@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addToCart } from "../redux/cartSlice";
@@ -9,6 +9,9 @@ import { addToCart } from "../redux/cartSlice";
 export default function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -69,6 +72,11 @@ export default function ProductDetails() {
 
   const handleAddToCart = () => {
     if (quantity < 1 || quantity > remainingStock) return;
+
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
 
     // Add the selected quantity using the existing cart reducer.
     for (let i = 0; i < quantity; i++) {

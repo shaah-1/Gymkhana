@@ -51,7 +51,7 @@
       "name": "Pre Workout",
       "category": "Pre-Workout",
       "price": 1499,
-      "stock": 7,
+      "stock": 4,
       "image": "/products/pre-workout.jpg",
       "description": "A pre-training supplement for your workout routine.",
       "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
@@ -319,7 +319,7 @@
       "name": "Vitamin D3",
       "category": "Supplements",
       "price": 499,
-      "stock": 20,
+      "stock": 18,
       "image": "https://www.naturessunshine.com/cf-images/cdn-cgi/image/width%3D1920%2Cheight%3Dauto%2Cformat%3Dwebp%2Cquality%3D75%2Cfit%3Dcontain/globalassets/nsp-products-catalog/variants/lus1155_vitamin_d3_150cc_2026-1920.webp",
       "description": "A vitamin D3 dietary supplement.",
       "detailedDescription": "Vitamin D3 is a nutrient involved in normal bone and muscle function.",
@@ -594,6 +594,37 @@
       "status": "pending",
       "createdAt": "2026-10-31T06:45:59.660Z",
       "id": "aaRyAE_MZ7o"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "Muhammed shahid",
+        "email": "shahi@gmail.com",
+        "phone": "8606717171",
+        "address": "irivetty road kavanur mayangathodi house",
+        "city": "Malappuram",
+        "pincode": "673639"
+      },
+      "items": [
+        {
+          "id": "3",
+          "name": "Pre Workout",
+          "price": 1499,
+          "quantity": 3
+        },
+        {
+          "id": "27",
+          "name": "Vitamin D3",
+          "price": 499,
+          "quantity": 2
+        }
+      ],
+      "total": 5495,
+      "paymentMethod": "cod",
+      "paymentStatus": "pay_on_delivery",
+      "status": "pending",
+      "createdAt": "2026-10-31T09:07:14.089Z",
+      "id": "pPvrcJkRWOw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
