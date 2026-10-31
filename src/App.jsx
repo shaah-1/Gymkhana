@@ -1,5 +1,5 @@
 import ForgotPassword from "./pages/ForgotPassword";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Routes,
   Route,
@@ -49,6 +49,7 @@ function RefreshToHome() {
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const previousScrollLocation = useRef(null);
 
   const [toastMessage, setToastMessage] = useState("");
 
@@ -75,6 +76,22 @@ function App() {
   }, [location, navigate]);
 
   useEffect(() => {
+    const currentSearch = new URLSearchParams(location.search).get("search")?.trim() || "";
+    const previous = previousScrollLocation.current;
+    const shouldScroll =
+      !previous ||
+      previous.pathname !== location.pathname ||
+      previous.hash !== location.hash ||
+      Boolean(previous.search) !== Boolean(currentSearch);
+
+    previousScrollLocation.current = {
+      pathname: location.pathname,
+      hash: location.hash,
+      search: currentSearch,
+    };
+
+    if (!shouldScroll) return undefined;
+
     const frame = window.requestAnimationFrame(() => {
       if (location.hash) {
         document.getElementById(location.hash.slice(1))?.scrollIntoView({
@@ -87,7 +104,7 @@ function App() {
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.search, location.hash]);
 
   return (
     <>

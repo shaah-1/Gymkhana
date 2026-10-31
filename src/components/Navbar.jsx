@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Heart } from "lucide-react";
+import { Heart, Search } from "lucide-react";
 import { logout } from "../redux/authSlice";
 
 export default function Navbar() {
@@ -10,6 +10,7 @@ export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const profileRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   const isAuthenticated = useSelector(
     (state) => state.auth.isAuthenticated
@@ -17,11 +18,44 @@ export default function Navbar() {
 
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [navbarSearch, setNavbarSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     setShowProfile(false);
     setShowMobileMenu(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    setNavbarSearch(new URLSearchParams(location.search).get("search") || "");
+  }, [location.search]);
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const query = navbarSearch.trim();
+    navigate({
+      pathname: "/",
+      search: query ? `?search=${encodeURIComponent(query)}` : "",
+      hash: "#products",
+    });
+    setSearchOpen(false);
+    searchInputRef.current?.blur();
+  };
+
+  const handleNavbarSearchChange = (event) => {
+    const value = event.target.value;
+    setNavbarSearch(value);
+    const query = value.trim();
+    navigate({
+      pathname: "/",
+      search: query ? `?search=${encodeURIComponent(query)}` : "",
+      hash: "#products",
+    }, { replace: true });
+  };
 
   useEffect(() => {
     function handleOutsideClick(event) {
@@ -77,6 +111,37 @@ const handleLogout = () => {
         </nav>
 
         <nav className="navbar-links navbar-links-right" aria-label="Shopping and account">
+          <form
+            className={`navbar-search ${searchOpen ? "is-open" : ""}`}
+            role="search"
+            onSubmit={handleSearch}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setSearchOpen(false);
+              }
+            }}
+          >
+            <input
+              ref={searchInputRef}
+              type="search"
+              aria-label="Search products"
+              placeholder="Search products..."
+              value={navbarSearch}
+              onChange={handleNavbarSearchChange}
+              tabIndex={searchOpen ? 0 : -1}
+            />
+            <button
+              type="button"
+              aria-label={searchOpen ? "Close search" : "Open search"}
+              aria-expanded={searchOpen}
+              onClick={(event) => {
+                if (searchOpen) event.currentTarget.blur();
+                setSearchOpen((open) => !open);
+              }}
+            >
+              <Search size={17} strokeWidth={1.8} />
+            </button>
+          </form>
           <Link to="/cart">Cart</Link>
 
           <Link to="/wishlist" className="navbar-wishlist" aria-label="Wishlist">

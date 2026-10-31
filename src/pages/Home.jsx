@@ -5,9 +5,11 @@ import { fetchProducts } from "../redux/productSlice";
 import ProductCard from "../components/ProductCard";
 import { ContactSection } from "./Contact";
 import { storefrontCopy } from "../copy/storefrontCopy";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { items, loading, error } = useSelector(
     (state) => state.products
@@ -16,10 +18,15 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("default");
+  const [openMenu, setOpenMenu] = useState(null);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    setSearch(new URLSearchParams(location.search).get("search") || "");
+  }, [location.search]);
 
   // Get categories from products in JSON Server
  const categories = useMemo(() => [
@@ -78,13 +85,14 @@ export default function Home() {
     }, { threshold: 0.12, rootMargin: "0px 0px -36px 0px" });
 
     cards.forEach((card, index) => {
+      card.classList.remove("scroll-revealed");
       card.classList.add("scroll-reveal");
       card.style.setProperty("--reveal-delay", `${(index % 4) * 65}ms`);
       observer.observe(card);
     });
 
     return () => observer.disconnect();
-  }, [filteredProducts.length]);
+  }, [filteredProducts.length, search]);
 
   return (
     <main>
@@ -115,36 +123,102 @@ export default function Home() {
         </div>
 
         <div className="product-controls">
-          <input
-            type="search"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="product-search"
-          />
+          <div className="product-menu-row">
+            <div
+              className="product-menu"
+              onMouseEnter={() => setOpenMenu("category")}
+              onMouseLeave={() => setOpenMenu(null)}
+              onFocus={() => setOpenMenu("category")}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) setOpenMenu(null);
+              }}
+            >
+              <button
+                type="button"
+                className="product-menu-trigger"
+                aria-haspopup="menu"
+                aria-expanded={openMenu === "category"}
+                onClick={() => setOpenMenu("category")}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setOpenMenu(null);
+                }}
+              >
+                <span>Category</span>
+                <span className="product-menu-value">{category === "All" ? "All" : category}</span>
+                <span className="product-menu-chevron" aria-hidden="true">⌄</span>
+              </button>
+              {openMenu === "category" && (
+                <div className="product-menu-list" role="menu" aria-label="Filter by category">
+                  {categories.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      role="menuitemradio"
+                      aria-checked={category === item}
+                      className={category === item ? "selected" : ""}
+                      onClick={() => {
+                        setCategory(item);
+                        setOpenMenu(null);
+                      }}
+                    >
+                      {item === "All" ? "All" : item}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="product-filter"
-          >
-            {categories.map((item) => (
-              <option key={item} value={item}>
-                {item === "All" ? "All Categories" : item}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            className="product-filter"
-          >
-            <option value="default">Default Order</option>
-            <option value="low-high">Price: Low to High</option>
-            <option value="high-low">Price: High to Low</option>
-            <option value="name">Name: A to Z</option>
-          </select>
+            <div
+              className="product-menu"
+              onMouseEnter={() => setOpenMenu("sort")}
+              onMouseLeave={() => setOpenMenu(null)}
+              onFocus={() => setOpenMenu("sort")}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) setOpenMenu(null);
+              }}
+            >
+              <button
+                type="button"
+                className="product-menu-trigger"
+                aria-haspopup="menu"
+                aria-expanded={openMenu === "sort"}
+                onClick={() => setOpenMenu("sort")}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setOpenMenu(null);
+                }}
+              >
+                <span>Sort by</span>
+                <span className="product-menu-value">
+                  {{ default: "Default", "low-high": "Price: Low to high", "high-low": "Price: High to low", name: "Name: A to Z" }[sort]}
+                </span>
+                <span className="product-menu-chevron" aria-hidden="true">⌄</span>
+              </button>
+              {openMenu === "sort" && (
+                <div className="product-menu-list" role="menu" aria-label="Sort products">
+                  {[
+                    ["default", "Default"],
+                    ["low-high", "Price: Low to high"],
+                    ["high-low", "Price: High to low"],
+                    ["name", "Name: A to Z"],
+                  ].map(([value, label]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      role="menuitemradio"
+                      aria-checked={sort === value}
+                      className={sort === value ? "selected" : ""}
+                      onClick={() => {
+                        setSort(value);
+                        setOpenMenu(null);
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {loading && <p>Loading products...</p>}
