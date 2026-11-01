@@ -1,4 +1,3 @@
-
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 import productReducer from "./productSlice";
@@ -14,23 +13,21 @@ export const store = configureStore({
   },
 });
 
-let previousCartItems = store.getState().cart.items;
-let previousWishlistItems = store.getState().wishlist.items;
+let prevCart = store.getState().cart.items;
+let prevWishlist = store.getState().wishlist.items;
 
 store.subscribe(() => {
   const { cart, wishlist } = store.getState();
-
   try {
-    if (cart.items !== previousCartItems) {
+    if (cart.items !== prevCart) {
       localStorage.setItem("cart", JSON.stringify(cart.items));
-      previousCartItems = cart.items;
+      prevCart = cart.items;
     }
-
-    if (wishlist.items !== previousWishlistItems) {
+    if (wishlist.items !== prevWishlist) {
       localStorage.setItem("wishlist", JSON.stringify(wishlist.items));
-      previousWishlistItems = wishlist.items;
+      prevWishlist = wishlist.items;
     }
-  } catch (error) {
-    console.error("Unable to save cart or wishlist.", error);
+  } catch (err) {
+    console.error("Storage error:", err);
   }
 });

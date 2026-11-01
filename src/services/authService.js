@@ -1,26 +1,6 @@
-
 import api from "./api";
 
-export const registerUser = async (userData) => {
-  const response = await api.post("/users", userData);
-  return response.data;
-};
-
-export const getUserByEmail = async (email) => {
-  const response = await api.get("/users", {
-    params: { email: email.trim().toLowerCase() },
-  });
-
-  return response.data;
-};
-
-export const getUserById = async (id) => {
-  const response = await api.get(`/users/${id}`);
-  return response.data;
-};
-
-export const loginUser = async (email, password) => {
-  const users = await getUserByEmail(email);
-
-  return users.find((user) => user.password === password) || null;
-};
+export const registerUser = (userData) => api.post("/users", userData).then((r) => r.data);
+export const getUserByEmail = (email) => api.get("/users", { params: { email: email.trim().toLowerCase() } }).then((r) => r.data);
+export const getUserById = (id) => api.get(`/users/${encodeURIComponent(id)}`).then((r) => r.data);
+export const loginUser = async (email, password) => (await getUserByEmail(email)).find((u) => u.password === password) || null;

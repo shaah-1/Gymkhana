@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../services/authService";
-import { loginSuccess } from "../redux/authSlice";
+
+import { loginUser } from "../../services/authService";
+import { loginSuccess } from "../../redux/authSlice";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -22,51 +22,25 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    if (password.length < 8) {
-      setError("Password must contain at least 8 characters.");
-      return;
-    }
+    if (password.length < 8) return setError("Password must contain at least 8 characters.");
 
     setLoading(true);
-
     try {
       const user = await loginUser(email.trim(), password);
+      if (!user) return setError("Invalid email or password");
 
-      if (!user) {
-        setError("Invalid email or password");
-        return;
-      }
-
-      // Never store the password in Redux user state.
-      const { password: _password, ...safeUser } = user;
-
+      const safeUser = { ...user };
+      delete safeUser.password;
       dispatch(loginSuccess(safeUser));
 
-      const destination = location.state?.from;
+      const dest = location.state?.from;
+      const next = dest?.pathname?.startsWith("/") && !dest.pathname.startsWith("//")
+        ? { pathname: dest.pathname, search: dest.search || "", hash: dest.hash || "" }
+        : "/";
 
-      const nextLocation =
-        destination?.pathname?.startsWith("/") &&
-        !destination.pathname.startsWith("//")
-          ? {
-              pathname: destination.pathname,
-              search: destination.search || "",
-              hash: destination.hash || "",
-            }
-          : "/";
-
-      navigate(nextLocation, {
-        replace: true,
-        state: { message: "Login successful!" },
-      });
+      navigate(next, { replace: true, state: { message: "Login successful!" } });
     } catch (err) {
-      if (err.response) {
-        setError("Unable to log in. Please try again.");
-      } else {
-        setError(
-          "Login failed. Check JSON Server and your API configuration."
-        );
-      }
+      setError(err.response ? "Unable to log in. Please try again." : "Login failed. Check server.");
     } finally {
       setLoading(false);
     }
@@ -75,47 +49,26 @@ export default function Login() {
   return (
     <main className="auth-page auth-split-layout">
       <section className="auth-image-panel">
-        <img
-          src="/images/login-banner.jpg"
-          alt="GYMKHANA fitness training space"
-        />
-
+        <img src="/images/login-banner.jpg" alt="GYMKHANA fitness training space" />
         <div className="auth-image-overlay">
           <p className="auth-image-brand">GYMKHANA</p>
-
           <div>
-            <p className="auth-image-eyebrow">
-              BUILT THROUGH DISCIPLINE
-            </p>
-
-            <h2>
-              Stronger every day.
-              <br />
-              Better every rep.
-            </h2>
-
-            <p className="auth-image-description">
-              Your journey. Your strength. Your rules.
-            </p>
+            <p className="auth-image-eyebrow">BUILT THROUGH DISCIPLINE</p>
+            <h2>Stronger every day.<br />Better every rep.</h2>
+            <p className="auth-image-description">Your journey. Your strength. Your rules.</p>
           </div>
         </div>
       </section>
 
       <section className="auth-form-panel">
         <form className="auth-card" onSubmit={handleSubmit}>
-          <Link to="/" className="auth-home-link">← Back to home</Link>
           <p className="eyebrow">WELCOME BACK</p>
-
           <h1>Log in</h1>
-
-          <p className="auth-subtitle">
-            Continue your journey with GYMKHANA.
-          </p>
+          <p className="auth-subtitle">Continue your journey with GYMKHANA.</p>
 
           {message && (
             <div className="login-success-popup" role="status">
               <span className="success-icon">✓</span>
-
               <div>
                 <strong>{message}</strong>
                 <p>Thank you for being part of GYMKHANA.</p>
@@ -123,16 +76,9 @@ export default function Login() {
             </div>
           )}
 
-          {error && (
-            <p className="auth-error" role="alert">
-              {error}
-            </p>
-          )}
+          {error && <p className="auth-error" role="alert">{error}</p>}
 
-          <label htmlFor="login-email">
-            Email address
-          </label>
-
+          <label htmlFor="login-email">Email address</label>
           <input
             id="login-email"
             type="email"
@@ -143,10 +89,7 @@ export default function Login() {
             required
           />
 
-          <label htmlFor="login-password">
-            Password
-          </label>
-
+          <label htmlFor="login-password">Password</label>
           <div className="password-wrapper">
             <input
               id="login-password"
@@ -157,41 +100,27 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-
             <button
               type="button"
               className="password-toggle"
               onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={
-                showPassword ? "Hide password" : "Show password"
-              }
+              aria-label={showPassword ? "Hide password" : "Show password"}
               aria-pressed={showPassword}
             >
-              {showPassword ? (
-                <EyeOff size={19} />
-              ) : (
-                <Eye size={19} />
-              )}
+              {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
             </button>
           </div>
 
           <div className="forgot-password">
-            <Link to="/forgot-password">
-              Forgot password?
-            </Link>
+            <Link to="/forgot-password">Forgot password?</Link>
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={loading}
-          >
+          <button type="submit" className="auth-submit" disabled={loading}>
             {loading ? "Logging in..." : "Log In →"}
           </button>
 
           <p className="auth-footer">
-            Don't have an account?{" "}
-            <Link to="/register">Create one</Link>
+            Don't have an account? <Link to="/register">Create one</Link>
           </p>
         </form>
       </section>

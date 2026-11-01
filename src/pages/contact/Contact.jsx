@@ -1,49 +1,35 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  ArrowUpRight,
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-} from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone, Send } from "lucide-react";
 import "./Contact.css";
 
-const contactEmail = "hello@gymkhana.com";
+const CONTACT_EMAIL = "hello@gymkhana.com";
 
 export function ContactSection() {
   const [sent, setSent] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return undefined;
-
+    const el = sectionRef.current;
+    if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      section.classList.add("scroll-revealed");
-      return undefined;
+      el.classList.add("scroll-revealed");
+      return;
     }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        section.classList.add("scroll-revealed");
-        observer.disconnect();
-      }
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { el.classList.add("scroll-revealed"); obs.disconnect(); }
     }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
-
-    observer.observe(section);
-    return () => observer.disconnect();
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const subject = encodeURIComponent(`Website enquiry from ${form.get("name")}`);
-    const body = encodeURIComponent(
-      `Name: ${form.get("name")}\nEmail: ${form.get("email")}\n\n${form.get("message")}`
-    );
-    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const sub = encodeURIComponent(`Website enquiry from ${data.get("name")}`);
+    const body = encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`);
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${sub}&body=${body}`;
     setSent(true);
-  }
+  };
 
   return (
     <section ref={sectionRef} className="contact-page home-contact-section scroll-reveal" id="contact">
@@ -51,8 +37,7 @@ export function ContactSection() {
         <p className="contact-eyebrow">GYMKHANA NUTRITION · HERE TO HELP</p>
         <h1>Let’s talk about <span>your next move.</span></h1>
         <p className="contact-lede">
-          Questions about an order, a product, or getting started? Send us a note
-          and we’ll help you find the right direction.
+          Questions about an order, a product, or getting started? Send us a note and we’ll help you find the right direction.
         </p>
       </section>
 
@@ -64,9 +49,9 @@ export function ContactSection() {
             <p>Choose the way that works best for you.</p>
           </div>
 
-          <a className="contact-detail" href={`mailto:${contactEmail}`}>
+          <a className="contact-detail" href={`mailto:${CONTACT_EMAIL}`}>
             <span className="contact-icon"><Mail size={19} /></span>
-            <span><small>Email</small><strong>{contactEmail}</strong></span>
+            <span><small>Email</small><strong>{CONTACT_EMAIL}</strong></span>
             <ArrowUpRight className="contact-arrow" size={17} />
           </a>
           <div className="contact-detail">

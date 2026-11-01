@@ -1,41 +1,23 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const loadWishlist = () => {
   try {
-    const savedItems = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    return Array.isArray(savedItems) ? savedItems : [];
-  } catch {
-    return [];
-  }
+    const s = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    return Array.isArray(s) ? s : [];
+  } catch { return []; }
 };
 
 const wishlistSlice = createSlice({
   name: "wishlist",
-  initialState: {
-    items: loadWishlist(),
-  },
+  initialState: { items: loadWishlist() },
   reducers: {
-    toggleWishlist: (state, action) => {
-      const product = action.payload;
-
-      const exists = state.items.some(
-        (item) => String(item.id) === String(product.id)
-      );
-
-      if (exists) {
-        state.items = state.items.filter(
-          (item) => String(item.id) !== String(product.id)
-        );
-      } else {
-        state.items.push(product);
-      }
-
+    toggleWishlist: (state, { payload: product }) => {
+      const exists = state.items.some((i) => String(i.id) === String(product.id));
+      state.items = exists
+        ? state.items.filter((i) => String(i.id) !== String(product.id))
+        : [...state.items, product];
     },
-
-    clearWishlist: (state) => {
-      state.items = [];
-    },
+    clearWishlist: (state) => { state.items = []; },
   },
 });
 

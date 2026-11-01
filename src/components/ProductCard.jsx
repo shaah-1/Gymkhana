@@ -1,80 +1,46 @@
-
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Heart } from "lucide-react";
+
 import { toggleWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
+import { formatCurrency } from "../utils/formatters";
 
-function ProductCard({ product }) {
+export default function ProductCard({ product }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [showPopup, setShowPopup] = useState(false);
+  const isAuth = useSelector((s) => s.auth.isAuthenticated);
+  const cartItem = useSelector((s) => s.cart.items.find((i) => String(i.id) === String(product.id)));
+  const isFavorite = useSelector((s) => s.wishlist.items.some((i) => String(i.id) === String(product.id)));
 
   useEffect(() => {
-    if (!showPopup) return undefined;
-    const timeout = window.setTimeout(() => setShowPopup(false), 1000);
-    return () => window.clearTimeout(timeout);
+    if (!showPopup) return;
+    const t = setTimeout(() => setShowPopup(false), 1000);
+    return () => clearTimeout(t);
   }, [showPopup]);
 
-  // Find this product in the cart
-  const cartItem = useSelector((state) =>
-    state.cart.items.find(
-      (item) => String(item.id) === String(product.id)
-    )
-  );
-
-  // Check if this product is in the wishlist
-  const isFavorite = useSelector((state) =>
-    state.wishlist.items.some(
-      (item) => String(item.id) === String(product.id)
-    )
-  );
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  // Stock and cart quantity
   const stock = Math.max(0, Number(product.stock) || 0);
-  const cartQuantity = Number(cartItem?.quantity) || 0;
-  const availableToAdd = Math.max(0, stock - cartQuantity);
+  const cartQty = Number(cartItem?.quantity) || 0;
+  const availableToAdd = Math.max(0, stock - cartQty);
 
-  const stockStatus =
-    stock === 0
-      ? "out-of-stock"
-      : stock <= 3
-        ? "low-stock"
-        : "in-stock";
+  const stockStatus = stock === 0 ? "out-of-stock" : stock <= 3 ? "low-stock" : "in-stock";
+  const stockLabel = stock === 0 ? "Out of Stock" : stock <= 3 ? `Only ${stock} left` : "In Stock";
 
-  const stockLabel =
-    stock === 0
-      ? "Out of Stock"
-      : stock <= 3
-        ? `Only ${stock} left`
-        : "In Stock";
-
-  // Toggle wishlist
   const handleWishlist = (e) => {
     e.stopPropagation();
     e.preventDefault();
-
-    if (!isAuthenticated) {
-      navigate("/login", { state: { from: location } });
-      return;
-    }
-
+    if (!isAuth) return navigate("/login", { state: { from: location } });
     dispatch(toggleWishlist(product));
   };
 
-  // Add product to cart
   const handleAddToCart = () => {
     if (availableToAdd <= 0) return;
-
-    if (!isAuthenticated) {
-      navigate("/login", { state: { from: location } });
-      return;
-    }
-
+    if (!isAuth) return navigate("/login", { state: { from: location } });
     dispatch(addToCart(product));
     setShowPopup(true);
   };
@@ -85,41 +51,19 @@ function ProductCard({ product }) {
         type="button"
         className={`wishlist-button ${isFavorite ? "active" : ""}`}
         onClick={handleWishlist}
-        aria-label={
-          isFavorite
-            ? "Remove from wishlist"
-            : "Add to wishlist"
-        }
+        aria-label={isFavorite ? "Remove from wishlist" : "Add to wishlist"}
         aria-pressed={isFavorite}
       >
-        <Heart
-          size={15}
-          strokeWidth={1.8}
-          fill={isFavorite ? "currentColor" : "none"}
-        />
+        <Heart size={15} strokeWidth={1.8} fill={isFavorite ? "currentColor" : "none"} />
       </button>
 
-      <img
-        src={product.image}
-        alt={product.name}
-        className="product-image"
-        loading="lazy"
-      />
+      <img src={product.image} alt={product.name} className="product-image" loading="lazy" />
 
       <div className="product-info">
-        <p className="product-category">
-          {product.category}
-        </p>
-
+        <p className="product-category">{product.category}</p>
         <h3>{product.name}</h3>
-
-        <p className="product-description">
-          {product.description}
-        </p>
-
-        <p className="product-price">
-          ₹{Number(product.price).toLocaleString("en-IN")}
-        </p>
+        <p className="product-description">{product.description}</p>
+        <p className="product-price">{formatCurrency(product.price)}</p>
 
         <div className={`stock-badge ${stockStatus}`}>
           <span className="stock-dot" />
@@ -127,15 +71,10 @@ function ProductCard({ product }) {
         </div>
 
         {stock > 0 && availableToAdd === 0 && (
-          <p className="stock-limit-message">
-            Maximum available quantity added
-          </p>
+          <p className="stock-limit-message">Maximum available quantity added</p>
         )}
 
-        <Link
-          to={`/products/${product.id}`}
-          className="view-details-btn"
-        >
+        <Link to={`/products/${product.id}`} className="view-details-btn">
           View Details →
         </Link>
 
@@ -145,26 +84,15 @@ function ProductCard({ product }) {
           onClick={handleAddToCart}
           disabled={availableToAdd <= 0}
         >
-          {stock === 0
-            ? "Out of Stock"
-            : availableToAdd === 0
-              ? "Stock Limit Reached"
-              : "Add to Cart"}
+          {stock === 0 ? "Out of Stock" : availableToAdd === 0 ? "Stock Limit Reached" : "Add to Cart"}
         </button>
       </div>
 
-      {showPopup && (
+      {showPopup &&
         createPortal(
           <div className="popup-overlay">
             <div className="cart-added-modal" role="dialog" aria-modal="true" aria-labelledby={`cart-added-title-${product.id}`}>
-              <button
-                type="button"
-                className="cart-added-close"
-                aria-label="Close confirmation"
-                onClick={() => setShowPopup(false)}
-              >
-                ×
-              </button>
+              <button type="button" className="cart-added-close" aria-label="Close" onClick={() => setShowPopup(false)}>×</button>
               <div className="cart-added-check" aria-hidden="true">✓</div>
               <p className="cart-added-eyebrow">Added to cart</p>
               <h2 id={`cart-added-title-${product.id}`}>{product.name}</h2>
@@ -172,10 +100,7 @@ function ProductCard({ product }) {
             </div>
           </div>,
           document.body
-        )
-      )}
+        )}
     </div>
   );
 }
-
-export default ProductCard;
