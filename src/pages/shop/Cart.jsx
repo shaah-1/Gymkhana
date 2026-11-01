@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { increaseQuantity, decreaseQuantity, removeFromCart } from "../../redux/cartSlice";
-import { storefrontCopy } from "../../copy/storefrontCopy";
 import { formatCurrency } from "../../utils/formatters";
 
 export default function Cart() {
@@ -17,7 +16,7 @@ export default function Cart() {
           <p className="eyebrow">YOUR SHOPPING BAG</p>
           <h1>Your cart is empty</h1>
           <p>Looks like you haven't added anything to your cart yet.</p>
-          <Link to="/" className="checkout-btn">{storefrontCopy.collectionLink}</Link>
+          <Link to="/" className="checkout-btn">Explore the Collection →</Link>
         </div>
       </main>
     );

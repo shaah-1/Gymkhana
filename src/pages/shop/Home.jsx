@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 import { fetchProducts } from "../../redux/productSlice";
 import ProductCard from "../../components/ProductCard";
 import { ContactSection } from "../contact/Contact";
-import { storefrontCopy } from "../../copy/storefrontCopy";
 
 const SORT_OPTIONS = [
   { value: "default", label: "Default" },
@@ -73,16 +72,16 @@ export default function Home() {
       <section className="hero" id="home">
         <p className="eyebrow">WELCOME TO</p>
         <h1 className="hero-brand">GYMKHANA</h1>
-        <p className="hero-tagline">{storefrontCopy.ambitionTagline}</p>
+        <p className="hero-tagline">FUEL YOUR AMBITION. BUILD YOUR LEGACY.</p>
         <p>Premium sports nutrition and gym essentials for your next level.</p>
-        <a href="#products" className="hero-button">{storefrontCopy.collectionLink}</a>
+        <a href="#products" className="hero-button">Explore the Collection →</a>
       </section>
 
       <section id="products" className="products-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">{storefrontCopy.collectionLabel}</p>
-            <h2>{storefrontCopy.ambitionHeading}</h2>
+            <p className="eyebrow">THE COLLECTION</p>
+            <h2>Fuel your ambition.</h2>
           </div>
           <span>{filteredProducts.length} products</span>
         </div>

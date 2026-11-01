@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { logout } from "../../redux/authSlice";
+import { clearCart } from "../../redux/cartSlice";
 import { getUserById } from "../../services/authService";
 import { getOrdersByUserId } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
@@ -53,6 +54,7 @@ export default function Profile() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
     navigate("/login", { replace: true });
   };
 

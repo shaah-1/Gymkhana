@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Heart, Search, ShoppingBag, User } from "lucide-react";
 import { logout } from "../redux/authSlice";
+import { clearCart } from "../redux/cartSlice";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
     navigate("/", { state: { message: "Logged out successfully!" }, replace: true });
   };
 

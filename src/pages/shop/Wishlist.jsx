@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Heart } from "lucide-react";
 import { toggleWishlist } from "../../redux/wishlistSlice";
-import { storefrontCopy } from "../../copy/storefrontCopy";
 import { formatCurrency } from "../../utils/formatters";
 
 export default function Wishlist() {
@@ -20,7 +19,7 @@ export default function Wishlist() {
           <div className="wishlist-empty-icon-wrap"><Heart size={44} strokeWidth={1.3} className="wishlist-empty-heart" /></div>
           <h2>Your wishlist is waiting.</h2>
           <p>Save products you love and find them here.</p>
-          <Link to="/" className="hero-button">{storefrontCopy.collectionLink}</Link>
+          <Link to="/" className="hero-button">Explore the Collection →</Link>
         </div>
       ) : (
         <div className="product-grid">

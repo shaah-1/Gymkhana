@@ -465,7 +465,7 @@ img {
   height: 220px;
   object-fit: contain;
   border-radius: 10px;
-  background: #f5f5f5;
+  background: transparent;
 }
 
 .product-info {
@@ -747,7 +747,7 @@ img {
   width: 115px;
   height: 125px;
   border-radius: 14px;
-  background: #20201c;
+  background: transparent;
   object-fit: contain;
 }
 

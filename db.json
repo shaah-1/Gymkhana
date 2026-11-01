@@ -6,7 +6,7 @@
       "category": "Protein",
       "price": 2499,
       "stock": 0,
-      "image": "/products/whey-protein.jpg",
+      "image": "/products/whey-protein.png",
       "description": "A convenient protein supplement for everyday nutrition.",
       "detailedDescription": "Make protein a convenient part of your daily routine with GYMKHANA Whey Protein. Designed for people who train regularly and want an easy way to supplement their dietary protein intake, it fits into a balanced diet alongside whole-food protein sources.",
       "benefits": [
@@ -29,7 +29,7 @@
       "category": "Creatine",
       "price": 999,
       "stock": 12,
-      "image": "/products/creatine.jpg",
+      "image": "/products/creatine.png",
       "description": "Creatine monohydrate for high-intensity training support.",
       "detailedDescription": "Creatine Monohydrate is a popular sports nutrition supplement used by people who participate in strength training and repeated high-intensity exercise. When used consistently as directed, creatine can help support performance during repeated short bursts of intense activity.",
       "benefits": [
@@ -52,7 +52,7 @@
       "category": "Pre-Workout",
       "price": 1499,
       "stock": 4,
-      "image": "/products/pre-workout.jpg",
+      "image": "/products/pre-workout.png",
       "description": "A pre-training supplement for your workout routine.",
       "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
       "benefits": [
@@ -75,7 +75,7 @@
       "category": "Protein",
       "price": 3499,
       "stock": 12,
-      "image": "/products/whey-isolate.jpg",
+      "image": "/products/whey-isolate.png",
       "description": "A protein supplement for everyday nutrition and training.",
       "detailedDescription": "Whey Protein Isolate is a form of whey protein that is processed to contain a higher proportion of protein and generally less lactose, fat, and carbohydrate than many standard whey concentrates. Exact nutritional values depend on the specific product.",
       "benefits": [
@@ -98,7 +98,7 @@
       "category": "Weight Gain",
       "price": 2199,
       "stock": 8,
-      "image": "/products/mass-gainer.jpg",
+      "image": "/products/mass-gainer.png",
       "description": "A calorie-dense supplement to complement a weight-gain diet.",
       "detailedDescription": "Mass Gainer is intended for people who find it difficult to meet their energy needs through regular meals alone. Depending on its formulation, it can provide a combination of calories, carbohydrates, and protein to complement a planned nutrition routine.",
       "benefits": [
@@ -121,7 +121,7 @@
       "category": "Recovery",
       "price": 1899,
       "stock": 15,
-      "image": "/products/bcaa-powder.jpg",
+      "image": "/products/bcaa-powder.png",
       "description": "A branched-chain amino acid supplement.",
       "detailedDescription": "BCAA Powder contains branched-chain amino acids—leucine, isoleucine, and valine. These amino acids are found in protein-rich foods and are involved in normal protein metabolism. The usefulness of supplementation depends on your overall diet and training needs.",
       "benefits": [
@@ -144,7 +144,7 @@
       "category": "Snacks",
       "price": 99,
       "stock": 25,
-      "image": "/products/protein-bar.jpg",
+      "image": "/products/protein-bar.png",
       "description": "A convenient snack for busy days and active routines.",
       "detailedDescription": "The GYMKHANA Protein Bar is a portable snack option for busy days, commuting, or keeping in your gym bag. Its nutritional contribution depends on the specific bar's protein, calorie, carbohydrate, and fat content.",
       "benefits": [
@@ -167,7 +167,7 @@
       "category": "Accessories",
       "price": 799,
       "stock": 5,
-      "image": "/products/shaker.jpg",
+      "image": "/products/shaker.png",
       "description": "A reusable shaker for mixing drinks on the go.",
       "detailedDescription": "Keep your workout routine convenient with the GYMKHANA Shaker. A dedicated shaker can make it easier to mix powdered drinks at the gym, at home, or while travelling. Its actual capacity, construction, and included mixing features depend on the supplied model.",
       "benefits": [
@@ -190,7 +190,7 @@
       "category": "Gym Accessories",
       "price": 299,
       "stock": 25,
-      "image": "/products/gym-grips.jpg",
+      "image": "/products/gym-grips.png",
       "description": "Workout grips designed to support your hold on gym equipment.",
       "detailedDescription": "GYMKHANA Gym Hand Grips are training accessories intended to help improve contact with gym equipment and make selected pulling or weight-training movements more comfortable. The level of grip support and hand coverage depends on the actual design.",
       "benefits": [
@@ -213,7 +213,7 @@
       "category": "Gym Accessories",
       "price": 899,
       "stock": 0,
-      "image": "/products/gym-bag.jpg",
+      "image": "/products/gym-bag.png",
       "description": "A practical bag for carrying everyday workout essentials.",
       "detailedDescription": "The GYMKHANA Gym Bag helps organise the essentials you take to a workout, such as training clothes, a towel, accessories, and personal items. Its best use depends on the actual bag's dimensions, compartments, and construction.",
       "benefits": [
@@ -236,7 +236,7 @@
       "category": "Supplements",
       "price": 899,
       "stock": 20,
-      "image": "/products/fish-oil.jpg",
+      "image": "/products/fish-oil.png",
       "description": "Omega-3 fish oil softgels containing EPA and DHA fatty acids.",
       "detailedDescription": "GYMKHANA Fish Oil Omega-3 is a dietary supplement designed to complement a balanced diet. It contains omega-3 fatty acids, including EPA and DHA, in convenient softgel form.",
       "benefits": [
@@ -260,7 +260,7 @@
       "category": "Protein",
       "price": 2299,
       "stock": 12,
-      "image": "https://nakednutrition.com/cdn/shop/files/CASEIN-2LB-Unflavored-Main-Image_ebc277e7-9b3d-4ca1-8dac-d9be9369cb74.jpg?v=1783324151&width=3000",
+      "image": "/products/casein.png",
       "description": "A casein-based protein supplement.",
       "detailedDescription": "Casein is a milk-derived protein commonly used to supplement daily protein intake.",
       "benefits": [
@@ -280,7 +280,7 @@
       "category": "Supplements",
       "price": 799,
       "stock": 24,
-      "image": "https://www.optimumnutrition.com/cdn/shop/files/EU_ON_Electrolyte_264G_33sv_Orange_6079840_Angle1.png?v=1782129637&width=2800",
+      "image": "/products/electrolyte.png",
       "description": "An electrolyte drink mix for hydration routines.",
       "detailedDescription": "A powdered drink mix designed to provide electrolytes according to its formulation.",
       "benefits": [
@@ -300,7 +300,7 @@
       "category": "Supplements",
       "price": 599,
       "stock": 30,
-      "image": "https://www.optimumnutrition.com/cdn/shop/files/ON_OptiMen_90ct_6074229.png?v=1779369013&width=3000",
+      "image": "/products/multivitamin.png",
       "description": "A multivitamin supplement containing selected vitamins and minerals.",
       "detailedDescription": "A dietary supplement intended to complement nutritional intake.",
       "benefits": [
@@ -320,7 +320,7 @@
       "category": "Supplements",
       "price": 499,
       "stock": 18,
-      "image": "https://www.naturessunshine.com/cf-images/cdn-cgi/image/width%3D1920%2Cheight%3Dauto%2Cformat%3Dwebp%2Cquality%3D75%2Cfit%3Dcontain/globalassets/nsp-products-catalog/variants/lus1155_vitamin_d3_150cc_2026-1920.webp",
+      "image": "/products/vitamin-d3.png",
       "description": "A vitamin D3 dietary supplement.",
       "detailedDescription": "Vitamin D3 is a nutrient involved in normal bone and muscle function.",
       "benefits": [
@@ -340,7 +340,7 @@
       "category": "Supplements",
       "price": 699,
       "stock": 16,
-      "image": "https://cdn.shopify.com/s/files/1/0605/7584/2483/files/nfs-magnesium-500mg-competitor-bottle.webp?v=1776431070",
+      "image": "/products/magnesium.png",
       "description": "A magnesium dietary supplement.",
       "detailedDescription": "A supplement providing magnesium in the form and quantity stated on its label.",
       "benefits": [
@@ -360,7 +360,7 @@
       "category": "Supplements",
       "price": 399,
       "stock": 25,
-      "image": "https://ultimatenutrition.com/cdn/shop/products/302_Zinc30mg120Tab-940x1018_8ef9c2e2-5661-443a-a054-907efd566bdb-544594.png?v=1737708546&width=940",
+      "image": "/products/zinc.png",
       "description": "A zinc dietary supplement.",
       "detailedDescription": "A mineral supplement designed to provide zinc as part of a balanced nutrition routine.",
       "benefits": [
@@ -380,7 +380,7 @@
       "category": "Protein",
       "price": 1899,
       "stock": 14,
-      "image": "https://www.optimumnutrition.com/cdn/shop/files/on-1117733_Image_01.png?v=1765445381&width=1500",
+      "image": "/products/plant-protein.png",
       "description": "A plant-based protein powder.",
       "detailedDescription": "A powdered protein supplement made from plant-derived protein sources, depending on its formulation.",
       "benefits": [
@@ -400,7 +400,7 @@
       "category": "Supplements",
       "price": 999,
       "stock": 18,
-      "image": "https://www.optimumnutrition.com/cdn/shop/files/on-1031801_Image_01.png?v=1755790961&width=1910",
+      "image": "/products/glutamine.png",
       "description": "An L-glutamine amino acid supplement.",
       "detailedDescription": "L-glutamine is an amino acid available in powdered supplement form.",
       "benefits": [

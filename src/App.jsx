@@ -5,19 +5,17 @@ import Navbar from "./components/Navbar";
 import Toast from "./components/Toast";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-import {
-  Home,
-  ProductDetails,
-  Cart,
-  Wishlist,
-  Checkout,
-  Orders,
-  Profile,
-  Login,
-  Register,
-  ForgotPassword,
-  Contact,
-} from "./pages";
+import Home from "./pages/shop/Home";
+import ProductDetails from "./pages/shop/ProductDetails";
+import Cart from "./pages/shop/Cart";
+import Wishlist from "./pages/shop/Wishlist";
+import Checkout from "./pages/shop/Checkout";
+import Orders from "./pages/account/Orders";
+import Profile from "./pages/account/Profile";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import Contact from "./pages/contact/Contact";
 
 import "./index.css";
 
