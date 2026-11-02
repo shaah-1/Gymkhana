@@ -11,7 +11,6 @@ export default function Navbar() {
   const dispatch = useDispatch();
 
   const profileRef = useRef(null);
-  const searchInputRef = useRef(null);
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
   const cartCount = useSelector((s) => s.cart.items.reduce((t, i) => t + Number(i.quantity || 0), 0));
@@ -19,7 +18,6 @@ export default function Navbar() {
 
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
 
   const urlSearch = new URLSearchParams(location.search).get("search") || "";
   const [navbarSearch, setNavbarSearch] = useState(urlSearch);
@@ -38,8 +36,10 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    if (searchOpen) searchInputRef.current?.focus();
-  }, [searchOpen]);
+    if (!isAuth) {
+      dispatch(clearCart());
+    }
+  }, [dispatch, isAuth]);
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -53,8 +53,6 @@ export default function Navbar() {
     e.preventDefault();
     const query = navbarSearch.trim();
     navigate({ pathname: "/", search: query ? `?search=${encodeURIComponent(query)}` : "", hash: "#products" });
-    setSearchOpen(false);
-    searchInputRef.current?.blur();
   };
 
   const handleSearchChange = (e) => {
@@ -68,11 +66,6 @@ export default function Navbar() {
     dispatch(logout());
     dispatch(clearCart());
     navigate("/", { state: { message: "Logged out successfully!" }, replace: true });
-  };
-
-  const toggleSearch = (e) => {
-    if (searchOpen) e.currentTarget.blur();
-    setSearchOpen((o) => !o);
   };
 
   return (
@@ -100,28 +93,34 @@ export default function Navbar() {
 
         <nav className="navbar-links navbar-links-right" aria-label="Shopping and account">
           <form
-            className={`navbar-search ${searchOpen ? "is-open" : ""}`}
+            className="navbar-search"
             role="search"
             onSubmit={handleSearch}
-            onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setSearchOpen(false)}
           >
             <input
-              ref={searchInputRef}
               type="search"
               aria-label="Search products"
               placeholder="Search products..."
               value={navbarSearch}
               onChange={handleSearchChange}
-              tabIndex={searchOpen ? 0 : -1}
             />
-            <button type="button" aria-label={searchOpen ? "Close search" : "Open search"} aria-expanded={searchOpen} onClick={toggleSearch}>
+            <button type="submit" aria-label="Search products">
               <Search size={17} strokeWidth={1.8} />
             </button>
           </form>
 
-          <Link to="/cart" className="navbar-cart-icon-link" aria-label={`Cart, ${cartCount} items`} title="Cart">
+          <Link
+            to="/cart"
+            className="navbar-cart-icon-link"
+            aria-label={`Cart${isAuth && cartCount ? `, ${cartCount} ${cartCount === 1 ? "item" : "items"}` : ""}`}
+            title="Cart"
+          >
             <ShoppingBag size={18} strokeWidth={1.7} aria-hidden="true" />
-            {cartCount > 0 && <span className="navbar-item-count" aria-hidden="true">{cartCount}</span>}
+            {isAuth && cartCount > 0 && (
+              <span className="navbar-item-count" aria-hidden="true">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
           <Link to="/wishlist" className="navbar-wishlist" aria-label="Wishlist" title="Wishlist">

@@ -28,7 +28,7 @@
       "name": "Creatine Monohydrate",
       "category": "Creatine",
       "price": 999,
-      "stock": 12,
+      "stock": 11,
       "image": "/products/creatine.png",
       "description": "Creatine monohydrate for high-intensity training support.",
       "detailedDescription": "Creatine Monohydrate is a popular sports nutrition supplement used by people who participate in strength training and repeated high-intensity exercise. When used consistently as directed, creatine can help support performance during repeated short bursts of intense activity.",
@@ -51,7 +51,7 @@
       "name": "Pre Workout",
       "category": "Pre-Workout",
       "price": 1499,
-      "stock": 4,
+      "stock": 3,
       "image": "/products/pre-workout.png",
       "description": "A pre-training supplement for your workout routine.",
       "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
@@ -625,6 +625,37 @@
       "status": "pending",
       "createdAt": "2026-10-31T09:07:14.089Z",
       "id": "pPvrcJkRWOw"
+    },
+    {
+      "userId": "fKCYrWVDxEo",
+      "customer": {
+        "fullName": "MUHAMMED SHAHID",
+        "email": "zayed@GMAIL.COM",
+        "phone": "8606717184",
+        "address": "NATIONAL HIGHWAY 66, NEAR CALICUT UNIVERSITY, KAKK",
+        "city": "malappuram",
+        "pincode": "673634"
+      },
+      "items": [
+        {
+          "id": "3",
+          "name": "Pre Workout",
+          "price": 1499,
+          "quantity": 1
+        },
+        {
+          "id": "2",
+          "name": "Creatine Monohydrate",
+          "price": 999,
+          "quantity": 1
+        }
+      ],
+      "total": 2498,
+      "paymentMethod": "upi",
+      "paymentStatus": "payment_pending",
+      "status": "pending",
+      "createdAt": "2026-11-01T09:54:59.312Z",
+      "id": "FXLIbvWteGk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

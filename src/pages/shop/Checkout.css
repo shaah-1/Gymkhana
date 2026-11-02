@@ -322,9 +322,7 @@ body:has(.checkout-page) { padding-top: 112px; background: #fff; }
 .navbar.checkout-navbar .navbar-wishlist span { display: none; }
 .navbar.checkout-navbar .navbar-checkout-cart { position: relative; display: inline-flex; align-items: center; }
 .navbar-checkout-count { position: absolute; top: -7px; right: -9px; font-size: 9px; }
-.navbar.checkout-navbar .navbar-search:hover,
-.navbar.checkout-navbar .navbar-search:focus-within,
-.navbar.checkout-navbar .navbar-search.is-open { background: #292929 !important; border-color: #555 !important; }
+.navbar.checkout-navbar .navbar-search { background: #292929 !important; border-color: #555 !important; }
 .navbar.checkout-navbar .navbar-search input { color: #fff !important; }
 .navbar.checkout-navbar .navbar-search input::placeholder { color: #aaa !important; }
 .navbar.checkout-navbar .navbar-search button { color: #f5f5f5 !important; }

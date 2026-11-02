@@ -138,32 +138,60 @@ export default function Profile() {
             <div className="profile-orders">
               {orders.map((order) => {
                 const items = order.items || order.products || [];
+                const status = String(order.status || "Processing");
+                const statusClass = status.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                const itemCount = items.reduce(
+                  (count, item) => count + (Number(item.quantity) || 1),
+                  0
+                );
+
                 return (
                   <article className="profile-order" key={order.id}>
                     <div className="profile-order-top">
-                      <div><span className="profile-label">ORDER ID</span><p className="profile-value">#{order.id}</p></div>
-                      <span className="profile-status">{order.status || "Processing"}</span>
+                      <div>
+                        <span className="profile-label">Order number</span>
+                        <p className="profile-value">#{order.id}</p>
+                      </div>
+                      <span className={`profile-status status-${statusClass}`}>
+                        {status.replace(/[_-]+/g, " ")}
+                      </span>
                     </div>
 
-                    <div className="profile-order-details">
-                      <p className="profile-muted">{formatDate(order.createdAt || order.date)}</p>
-                      <p className="profile-muted">{items.length} {items.length === 1 ? "item" : "items"}</p>
+                    <div className="profile-order-meta">
+                      <span>{formatDate(order.createdAt || order.date)}</span>
+                      <span>{itemCount} {itemCount === 1 ? "item" : "items"}</span>
+                      {order.paymentMethod && (
+                        <span className="profile-order-payment">
+                          Payment: {String(order.paymentMethod).replace(/[_-]+/g, " ")}
+                        </span>
+                      )}
                     </div>
 
                     {items.length > 0 && (
                       <div className="profile-order-items">
                         {items.map((item, idx) => (
                           <div className="profile-order-item" key={item.id || idx}>
-                            <span>{item.name || item.title || "Product"} × {item.quantity || 1}</span>
-                            <span>{formatCurrency(item.price || 0)}</span>
+                            <div className="profile-order-product">
+                              <span className="profile-order-product-name">
+                                {item.name || item.title || "Product"}
+                              </span>
+                              <span className="profile-order-quantity">
+                                Qty {Number(item.quantity) || 1}
+                              </span>
+                            </div>
+                            <span className="profile-order-item-total">
+                              {formatCurrency((Number(item.price) || 0) * (Number(item.quantity) || 1))}
+                            </span>
                           </div>
                         ))}
                       </div>
                     )}
 
                     <div className="profile-order-bottom">
-                      <span className="profile-label">ORDER TOTAL</span>
-                      <strong className="profile-order-total">{formatCurrency(order.total ?? order.totalAmount ?? 0)}</strong>
+                      <span className="profile-label">Order total</span>
+                      <strong className="profile-order-total">
+                        {formatCurrency(order.total ?? order.totalAmount ?? 0)}
+                      </strong>
                     </div>
                   </article>
                 );
