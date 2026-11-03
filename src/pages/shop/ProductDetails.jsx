@@ -13,7 +13,7 @@ export default function ProductDetails() {
   const location = useLocation();
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
-  const cartItem = useSelector((s) => s.cart.items.find((i) => String(i.id) === String(id)));
+  const cartItem = useSelector((s) => s.cart.items.find((i) => String(i.productId || i.id) === String(id)));
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);

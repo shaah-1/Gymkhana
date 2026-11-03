@@ -26,14 +26,14 @@ export default function Wishlist() {
         <div className="product-grid">
           {items.map((product) => (
             <article className="wishlist-card" key={product.id}>
-              <Link to={`/products/${product.id}`}>
+              <Link to={`/products/${product.productId || product.id}`}>
                 <img src={publicAssetUrl(product.image)} alt={product.name} className="wishlist-image" />
               </Link>
               <p className="product-category">{product.category}</p>
               <h3>{product.name}</h3>
               <p className="wishlist-price">{formatCurrency(product.price)}</p>
               <div className="wishlist-actions">
-                <Link to={`/products/${product.id}`} className="view-details-btn">View Product</Link>
+                <Link to={`/products/${product.productId || product.id}`} className="view-details-btn">View Product</Link>
                 <button type="button" className="wishlist-remove" onClick={() => dispatch(toggleWishlist(product))}>
                   <Heart size={13} strokeWidth={1.8} fill="currentColor" />
                   <span>Remove</span>

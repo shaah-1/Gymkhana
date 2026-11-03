@@ -16,8 +16,8 @@ export default function ProductCard({ product }) {
 
   const [showPopup, setShowPopup] = useState(false);
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
-  const cartItem = useSelector((s) => s.cart.items.find((i) => String(i.id) === String(product.id)));
-  const isFavorite = useSelector((s) => s.wishlist.items.some((i) => String(i.id) === String(product.id)));
+  const cartItem = useSelector((s) => s.cart.items.find((i) => String(i.productId || i.id) === String(product.id)));
+  const isFavorite = useSelector((s) => s.wishlist.items.some((i) => String(i.productId || i.id) === String(product.id)));
 
   useEffect(() => {
     if (!showPopup) return;

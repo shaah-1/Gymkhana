@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import cartReducer from "./cartSlice";
+import wishlistReducer from "./wishlistSlice";
 import productReducer from "./productSlice";
 import authReducer from "./authSlice";
-import wishlistReducer from "./wishlistSlice";
+
+import adminAuthReducer from "../admin/store/slices/adminAuthSlice";
+import adminProductReducer from "../admin/store/slices/adminProductSlice";
+import adminUserReducer from "../admin/store/slices/adminUserSlice";
+import adminOrderReducer from "../admin/store/slices/adminOrderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,24 +16,12 @@ export const store = configureStore({
     wishlist: wishlistReducer,
     products: productReducer,
     auth: authReducer,
+
+    adminAuth: adminAuthReducer,
+    adminProducts: adminProductReducer,
+    adminUsers: adminUserReducer,
+    adminOrders: adminOrderReducer,
   },
 });
 
-let prevCart = store.getState().cart.items;
-let prevWishlist = store.getState().wishlist.items;
-
-store.subscribe(() => {
-  const { cart, wishlist } = store.getState();
-  try {
-    if (cart.items !== prevCart) {
-      localStorage.setItem("cart", JSON.stringify(cart.items));
-      prevCart = cart.items;
-    }
-    if (wishlist.items !== prevWishlist) {
-      localStorage.setItem("wishlist", JSON.stringify(wishlist.items));
-      prevWishlist = wishlist.items;
-    }
-  } catch (err) {
-    console.error("Storage error:", err);
-  }
-});
+export default store;

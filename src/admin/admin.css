@@ -1,0 +1,876 @@
+:root {
+  --eden-bg: #fbfbfb;
+  --eden-surface: #ffffff;
+  --eden-black: #121214;
+  --eden-dark-nav: #141416;
+  --eden-border: #e6e6e9;
+  --eden-border-light: #eeeeef;
+  --eden-border-dark: #121214;
+  --eden-text: #121214;
+  --eden-muted: #6f7177;
+  --eden-subtle: #989aa0;
+  --eden-light-box: #f5f5f7;
+  --eden-serif: "Cormorant Garamond", Didot, "Bodoni MT", "Cinzel", Georgia, serif;
+  --eden-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   GLOBAL RESET & TYPOGRAPHY
+============================================================ */
+.admin-layout,
+.admin-login-page {
+  min-height: 100vh;
+  background-color: var(--eden-bg);
+  color: var(--eden-text);
+  font-family: var(--eden-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   TOP NAVIGATION (EDÉN BLACK BAR)
+============================================================ */
+.eden-topbar {
+  background: var(--eden-dark-nav);
+  color: #ffffff;
+  padding: 16px clamp(20px, 4vw, 56px) 14px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.eden-topbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.eden-brand-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.eden-brand-title {
+  font-family: var(--eden-serif);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0;
+  text-transform: none;
+}
+
+.eden-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.eden-topbar-link {
+  color: #a4a6ad;
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.16s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.eden-topbar-link:hover {
+  color: #ffffff;
+}
+
+.eden-topbar-badge {
+  font-size: 9px;
+  background: #2b2c31;
+  color: #ffffff;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+/* Secondary Navigation links below brand */
+.eden-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(16px, 2.5vw, 32px);
+  padding-top: 4px;
+}
+
+.eden-nav-item {
+  color: #8c8f96;
+  text-decoration: none;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: color 0.16s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.eden-nav-item:hover {
+  color: #ffffff;
+}
+
+.eden-nav-item.active {
+  color: #ffffff;
+}
+
+.eden-nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ffffff;
+}
+
+/* ============================================================
+   EDÉN MAIN CONTAINER & BREADCRUMBS
+============================================================ */
+.eden-main-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 48px) clamp(20px, 4vw, 40px) 80px;
+}
+
+.eden-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8e9096;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  margin-bottom: 22px;
+}
+
+.eden-breadcrumbs a {
+  color: #8e9096;
+  text-decoration: none;
+  transition: color 0.16s ease;
+}
+
+.eden-breadcrumbs a:hover {
+  color: var(--eden-text);
+}
+
+.eden-breadcrumbs span {
+  color: #3b3d42;
+}
+
+.eden-page-title {
+  font-family: var(--eden-serif);
+  font-size: clamp(34px, 4.5vw, 48px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eden-black);
+  margin: 0 0 36px;
+  line-height: 1.1;
+}
+
+/* ============================================================
+   EDÉN 2-COLUMN LUXURY LAYOUT
+============================================================ */
+.eden-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: clamp(36px, 5vw, 72px);
+  align-items: flex-start;
+}
+
+/* Left Column: Numbered Sections */
+.eden-sections-col {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.eden-section-block {
+  border-bottom: 1px solid var(--eden-border);
+  padding-bottom: 30px;
+}
+
+.eden-section-block:last-child {
+  border-bottom: none;
+}
+
+.eden-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.eden-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eden-black);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eden-section-num {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.eden-section-toggle {
+  color: #717379;
+  font-size: 14px;
+}
+
+/* Hairline Underline Form Inputs (Matches Screenshot) */
+.eden-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 24px;
+}
+
+.eden-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.eden-field-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.eden-field-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7a7c82;
+  margin-bottom: 4px;
+}
+
+.eden-underline-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d4d5d9;
+  background: transparent;
+  padding: 10px 0;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--eden-black);
+  outline: none;
+  transition: border-color 0.2s ease;
+  border-radius: 0;
+}
+
+.eden-underline-input:focus {
+  border-bottom-color: var(--eden-black);
+}
+
+.eden-underline-input::placeholder {
+  color: #a4a6ad;
+  font-weight: 300;
+}
+
+/* Radio Options in Section 3 & 4 */
+.eden-radio-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.eden-radio-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.16s ease;
+}
+
+.eden-radio-item:hover,
+.eden-radio-item.selected {
+  border-color: var(--eden-black);
+}
+
+.eden-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--eden-text);
+  font-weight: 500;
+}
+
+.eden-radio-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #8e9198;
+  display: grid;
+  place-items: center;
+}
+
+.eden-radio-item.selected .eden-radio-dot {
+  border-color: var(--eden-black);
+}
+
+.eden-radio-item.selected .eden-radio-dot::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--eden-black);
+}
+
+.eden-radio-price {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--eden-black);
+}
+
+/* Solid Black Rectangular Buttons */
+.eden-btn-black {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--eden-black);
+  color: #ffffff;
+  border: 1px solid var(--eden-black);
+  padding: 14px 34px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border-radius: 0;
+}
+
+.eden-btn-black:hover {
+  background: #ffffff;
+  color: var(--eden-black);
+}
+
+.eden-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--eden-black);
+  border: 1px solid #d4d5d9;
+  padding: 13px 28px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border-radius: 0;
+}
+
+.eden-btn-outline:hover {
+  border-color: var(--eden-black);
+  background: #f7f7f8;
+}
+
+/* ============================================================
+   RIGHT COLUMN: EDÉN ORDER / STORE SUMMARY PANEL
+============================================================ */
+.eden-summary-col {
+  background: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  padding: clamp(24px, 3.5vw, 36px);
+  position: sticky;
+  top: 96px;
+}
+
+.eden-summary-heading {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eden-black);
+  margin: 0 0 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--eden-border);
+}
+
+/* Product Gallery Strip (Framed boxes like in screenshot) */
+.eden-products-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.eden-product-box {
+  background: var(--eden-light-box);
+  border: 1px solid var(--eden-border-light);
+  aspect-ratio: 1 / 1.15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  transition: border-color 0.16s ease;
+}
+
+.eden-product-box:hover {
+  border-color: #c9cace;
+}
+
+.eden-product-box img {
+  max-width: 80%;
+  max-height: 70px;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+
+.eden-product-box-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: #3b3d42;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.eden-product-box-price {
+  font-size: 9.5px;
+  color: #7b7e86;
+  margin-top: 2px;
+}
+
+/* Promo / Action line */
+.eden-promo-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d4d5d9;
+  padding: 10px 0;
+  margin-bottom: 24px;
+}
+
+.eden-promo-line input {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--eden-black);
+  outline: none;
+  width: 100%;
+}
+
+.eden-promo-line input::placeholder {
+  color: #8c8f96;
+}
+
+.eden-promo-line button {
+  background: none;
+  border: none;
+  color: var(--eden-black);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 4px;
+}
+
+/* Financial Ledger Lines */
+.eden-ledger {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.eden-ledger-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6e7178;
+}
+
+.eden-ledger-row.total {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--eden-black);
+  padding-top: 14px;
+  border-top: 1px solid var(--eden-border);
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   EDÉN KPI METRIC CARDS (OVERVIEW DASHBOARD)
+============================================================ */
+.eden-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.eden-metric-card {
+  background: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.16s ease;
+}
+
+.eden-metric-card:hover {
+  border-color: #b5b7bc;
+}
+
+.eden-metric-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7b7e86;
+  margin: 0;
+}
+
+.eden-metric-val {
+  font-family: var(--eden-serif);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--eden-black);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.eden-metric-trend {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #55575e;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================================
+   EDÉN EDITORIAL TABLE (RECENT ORDERS & CATALOG)
+============================================================ */
+.eden-table-container {
+  background: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  overflow-x: auto;
+}
+
+.eden-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.eden-table th {
+  padding: 12px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #5f6168;
+  border-bottom: 1px solid var(--eden-border);
+  background: #f7f7f9;
+  white-space: nowrap;
+}
+
+.eden-table td {
+  padding: 14px 16px;
+  font-size: 12px;
+  color: #2b2c30;
+  border-bottom: 1px solid #f0f0f3;
+  vertical-align: middle;
+}
+
+.eden-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.eden-table tbody tr:hover {
+  background: #fafafc;
+}
+
+/* Status tags in luxury editorial style */
+.eden-status-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid #d4d5d9;
+  background: #ffffff;
+  color: #2b2c30;
+}
+
+.eden-status-tag.delivered {
+  border-color: #2e5939;
+  color: #204b2b;
+  background: #f1f8f3;
+}
+
+.eden-status-tag.processing {
+  border-color: #3b5b82;
+  color: #2b496e;
+  background: #f1f5fa;
+}
+
+.eden-status-tag.pending {
+  border-color: #92753a;
+  color: #7a5e24;
+  background: #faf6ed;
+}
+
+.eden-status-tag.cancelled {
+  border-color: #8c4242;
+  color: #793232;
+  background: #faf1f1;
+}
+
+/* Action Links */
+.eden-action-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--eden-black);
+  text-decoration: none;
+  transition: opacity 0.16s ease;
+}
+
+.eden-action-link:hover {
+  opacity: 0.6;
+}
+
+/* ============================================================
+   EDÉN ADMIN LOGIN PAGE (EDITORIAL LUXURY)
+============================================================ */
+.eden-login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--eden-bg);
+}
+
+.eden-login-body {
+  flex: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(36px, 6vw, 72px) 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.eden-login-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 90px);
+  align-items: flex-start;
+}
+
+.eden-login-brand-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.eden-login-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #787a82;
+  margin: 0 0 12px;
+}
+
+.eden-login-display-title {
+  font-family: var(--eden-serif);
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--eden-black);
+  margin: 0 0 18px;
+  line-height: 1.05;
+}
+
+.eden-login-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #61636b;
+  margin: 0 0 36px;
+  max-width: 420px;
+}
+
+.eden-login-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-top: 1px solid var(--eden-border);
+  padding-top: 24px;
+}
+
+.eden-login-pillar-item {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.eden-login-pillar-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--eden-black);
+}
+
+.eden-login-pillar-text {
+  font-size: 12px;
+  color: #55575e;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Right Form Card */
+.eden-login-card {
+  background: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  padding: clamp(28px, 4vw, 44px);
+}
+
+.eden-login-card-header {
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--eden-border);
+}
+
+.eden-login-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eden-black);
+  margin: 0;
+}
+
+.eden-login-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin-bottom: 28px;
+}
+
+.eden-login-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  font-size: 11.5px;
+}
+
+.eden-login-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #63656d;
+  cursor: pointer;
+  user-select: none;
+}
+
+.eden-login-checkbox-label input {
+  accent-color: var(--eden-black);
+  width: 14px;
+  height: 14px;
+}
+
+.eden-login-btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eden-return-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7b7e86;
+  text-decoration: none;
+  text-align: center;
+  transition: color 0.16s ease;
+}
+
+.eden-return-link:hover {
+  color: var(--eden-black);
+}
+
+/* Error Banner in Edén style */
+.eden-error-notice {
+  border: 1px solid #d4a5a5;
+  background: #fdf5f5;
+  color: #8c3b3b;
+  padding: 10px 14px;
+  font-size: 11.5px;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+============================================================ */
+@media (max-width: 900px) {
+  .eden-layout-grid,
+  .eden-login-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .eden-summary-col {
+    position: static;
+  }
+  .eden-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .eden-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .eden-nav-links {
+    gap: 14px;
+  }
+}

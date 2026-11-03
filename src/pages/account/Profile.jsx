@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { logout, setUser as setReduxUser } from "../../redux/authSlice";
-import { addToCart, clearCart } from "../../redux/cartSlice";
+import { addToCart } from "../../redux/cartSlice";
 import { toggleWishlist } from "../../redux/wishlistSlice";
 import { fetchProducts } from "../../redux/productSlice";
 import { getUserById } from "../../services/authService";
@@ -71,15 +71,15 @@ export default function Profile() {
 
   const handleLogout = () => {
     dispatch(logout());
-    dispatch(clearCart());
     navigate("/", { state: { message: "Logged out successfully!" }, replace: true });
   };
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
-    setAddedItemMap((prev) => ({ ...prev, [product.id]: true }));
+    const prodId = product.productId || product.id;
+    setAddedItemMap((prev) => ({ ...prev, [prodId]: true }));
     setTimeout(() => {
-      setAddedItemMap((prev) => ({ ...prev, [product.id]: false }));
+      setAddedItemMap((prev) => ({ ...prev, [prodId]: false }));
     }, 1200);
   };
 
@@ -341,23 +341,23 @@ export default function Profile() {
                           ✕
                         </button>
 
-                        <Link to={`/products/${product.id}`} className="dunst-favourite-image-wrap">
+                        <Link to={`/products/${product.productId || product.id}`} className="dunst-favourite-image-wrap">
                           <img src={publicAssetUrl(product.image)} alt={product.name} className="dunst-favourite-image" loading="lazy" />
                         </Link>
 
                         <div className="dunst-favourite-info">
                           <h3 className="dunst-favourite-name">
-                            <Link to={`/products/${product.id}`}>{product.name}</Link>
+                            <Link to={`/products/${product.productId || product.id}`}>{product.name}</Link>
                           </h3>
                           <p className="dunst-favourite-price">{formatCurrency(product.price)}</p>
                         </div>
 
                         <button
                           type="button"
-                          className={`dunst-add-cart-btn ${addedItemMap[product.id] ? "added" : ""}`}
+                          className={`dunst-add-cart-btn ${addedItemMap[product.productId || product.id] ? "added" : ""}`}
                           onClick={() => handleAddToCart(product)}
                         >
-                          {addedItemMap[product.id] ? "ADDED ✓" : "ADD CART"}
+                          {addedItemMap[product.productId || product.id] ? "ADDED ✓" : "ADD CART"}
                         </button>
                       </article>
                     ))}

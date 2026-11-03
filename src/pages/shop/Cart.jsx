@@ -66,7 +66,7 @@ export default function Cart() {
                 return (
                   <article className="aesop-cart-row" key={item.id}>
                     {/* Floating Product Image */}
-                    <Link to={`/products/${item.id}`} className="aesop-item-image-wrap" tabIndex={-1}>
+                    <Link to={`/products/${item.productId || item.id}`} className="aesop-item-image-wrap" tabIndex={-1}>
                       <img src={publicAssetUrl(item.image)} alt={item.name} className="aesop-item-image" loading="lazy" />
                     </Link>
 
@@ -74,7 +74,7 @@ export default function Cart() {
                     <div className="aesop-item-details">
                       <span className="aesop-item-category">{item.category}</span>
                       <h2 className="aesop-item-name">
-                        <Link to={`/products/${item.id}`}>{item.name}</Link>
+                        <Link to={`/products/${item.productId || item.id}`}>{item.name}</Link>
                       </h2>
                       <span className="aesop-item-unit-price">{formatCurrency(item.price)} each</span>
 

@@ -105,7 +105,10 @@ export default function Checkout() {
 
     try {
       const checked = await Promise.all(
-        items.map(async (cartItem) => ({ cartItem, product: await getProductById(cartItem.id) }))
+        items.map(async (cartItem) => ({
+          cartItem,
+          product: await getProductById(cartItem.productId || cartItem.id),
+        }))
       );
 
       for (const { cartItem, product } of checked) {

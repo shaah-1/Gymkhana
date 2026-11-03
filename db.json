@@ -5,7 +5,7 @@
       "name": "Whey Protein",
       "category": "Protein",
       "price": 2499,
-      "stock": 0,
+      "stock": 10,
       "image": "/products/whey-protein.png",
       "description": "A convenient protein supplement for everyday nutrition.",
       "detailedDescription": "Make protein a convenient part of your daily routine with GYMKHANA Whey Protein. Designed for people who train regularly and want an easy way to supplement their dietary protein intake, it fits into a balanced diet alongside whole-food protein sources.",
@@ -449,7 +449,7 @@
         }
       ],
       "total": 13485,
-      "status": "pending",
+      "status": "shipped",
       "createdAt": "2026-10-26T09:06:10.807Z",
       "id": "-kImhydZ8n4"
     },
@@ -622,7 +622,7 @@
       "total": 5495,
       "paymentMethod": "cod",
       "paymentStatus": "pay_on_delivery",
-      "status": "pending",
+      "status": "cancelled",
       "createdAt": "2026-10-31T09:07:14.089Z",
       "id": "pPvrcJkRWOw"
     },
@@ -653,9 +653,55 @@
       "total": 2498,
       "paymentMethod": "upi",
       "paymentStatus": "payment_pending",
-      "status": "pending",
+      "status": "processing",
       "createdAt": "2026-11-01T09:54:59.312Z",
       "id": "FXLIbvWteGk"
+    }
+  ],
+  "carts": [
+    {
+      "userId": "fKCYrWVDxEo",
+      "productId": "2",
+      "name": "Creatine Monohydrate",
+      "category": "Creatine",
+      "price": 999,
+      "image": "/products/creatine.png",
+      "stock": 11,
+      "quantity": 1,
+      "id": "COBNb_dN8YA"
+    },
+    {
+      "userId": "fKCYrWVDxEo",
+      "productId": "3",
+      "name": "Pre Workout",
+      "category": "Pre-Workout",
+      "price": 1499,
+      "image": "/products/pre-workout.png",
+      "stock": 3,
+      "quantity": 1,
+      "id": "GHfM-5pcwB4"
+    }
+  ],
+  "wishlists": [
+    {
+      "userId": "fKCYrWVDxEo",
+      "productId": "2",
+      "name": "Creatine Monohydrate",
+      "category": "Creatine",
+      "price": 999,
+      "image": "/products/creatine.png",
+      "stock": 11,
+      "id": "mMphJkp5DNs"
+    },
+    {
+      "userId": "fKCYrWVDxEo",
+      "productId": "3",
+      "name": "Pre Workout",
+      "category": "Pre-Workout",
+      "price": 1499,
+      "image": "/products/pre-workout.png",
+      "stock": 3,
+      "id": "OVXR3ul2rhQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

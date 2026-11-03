@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 
 import { loginUser } from "../../services/authService";
 import { loginSuccess } from "../../redux/authSlice";
+import { fetchCart } from "../../redux/cartSlice";
+import { fetchWishlist } from "../../redux/wishlistSlice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 export default function Login() {
@@ -27,10 +29,13 @@ export default function Login() {
     try {
       const user = await loginUser(email.trim(), password);
       if (!user) return setError("Invalid email or password");
+      if (user.blocked) return setError("Your account has been suspended. Please contact support.");
 
       const safeUser = { ...user };
       delete safeUser.password;
       dispatch(loginSuccess(safeUser));
+      dispatch(fetchCart(safeUser.id));
+      dispatch(fetchWishlist(safeUser.id));
 
       const dest = location.state?.from;
       const next = dest?.pathname?.startsWith("/") && !dest.pathname.startsWith("//")
