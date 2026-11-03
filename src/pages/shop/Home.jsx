@@ -63,7 +63,7 @@ export default function Home() {
     });
 
     return () => obs.disconnect();
-  }, [filteredProducts.length, search]);
+  }, [filteredProducts]);
 
   const activeSortLabel = SORT_OPTIONS.find((o) => o.value === sort)?.label || "Default";
 

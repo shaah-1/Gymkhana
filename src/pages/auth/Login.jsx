@@ -17,8 +17,6 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const message = location.state?.message;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -65,16 +63,6 @@ export default function Login() {
           <p className="eyebrow">WELCOME BACK</p>
           <h1>Log in</h1>
           <p className="auth-subtitle">Continue your journey with GYMKHANA.</p>
-
-          {message && (
-            <div className="login-success-popup" role="status">
-              <span className="success-icon">✓</span>
-              <div>
-                <strong>{message}</strong>
-                <p>Thank you for being part of GYMKHANA.</p>
-              </div>
-            </div>
-          )}
 
           {error && <p className="auth-error" role="alert">{error}</p>}
 

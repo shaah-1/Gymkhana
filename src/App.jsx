@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Toast from "./components/Toast";
@@ -10,7 +10,6 @@ import ProductDetails from "./pages/shop/ProductDetails";
 import Cart from "./pages/shop/Cart";
 import Wishlist from "./pages/shop/Wishlist";
 import Checkout from "./pages/shop/Checkout";
-import Orders from "./pages/account/Orders";
 import Profile from "./pages/account/Profile";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -22,47 +21,22 @@ import "./index.css";
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const scrollRef = useRef(null);
-
-  const navMessage = location.state?.message;
-  const [toastMessage, setToastMessage] = useState("");
-  const [lastNavMessage, setLastNavMessage] = useState(null);
-
-  if (navMessage && navMessage !== lastNavMessage) {
-    setLastNavMessage(navMessage);
-    setToastMessage(navMessage);
-  }
-
-  useEffect(() => {
-    const handlePageShow = (e) => {
-      if (e.persisted && window.location.pathname !== "/") navigate("/", { replace: true });
-    };
-    window.addEventListener("pageshow", handlePageShow);
-    return () => window.removeEventListener("pageshow", handlePageShow);
-  }, [navigate]);
-
-  useEffect(() => {
-    if (!location.state?.message) return;
+  const toastMessage = location.state?.message || "";
+  const handleToastClose = () => {
     navigate(location.pathname + location.search + location.hash, { replace: true, state: null });
-  }, [location, navigate]);
+  };
 
+  // Handle smooth scroll to anchor or page top on navigation
   useEffect(() => {
-    const search = new URLSearchParams(location.search).get("search")?.trim() || "";
-    const prev = scrollRef.current;
-    const shouldScroll = !prev || prev.pathname !== location.pathname || prev.hash !== location.hash || Boolean(prev.search) !== Boolean(search);
-
-    scrollRef.current = { pathname: location.pathname, hash: location.hash, search };
-    if (!shouldScroll) return;
-
-    const frame = window.requestAnimationFrame(() => {
-      if (location.hash) {
-        document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    if (location.hash) {
+      const element = document.getElementById(location.hash.slice(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
       }
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [location.pathname, location.search, location.hash]);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname, location.hash]);
 
   return (
     <>
@@ -78,12 +52,12 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Navigate to="/profile#orders" replace /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="*" element={<Home />} />
         </Routes>
       </div>
-      <Toast message={toastMessage} onClose={() => setToastMessage("")} />
+      <Toast message={toastMessage} onClose={handleToastClose} />
     </>
   );
 }

@@ -19,21 +19,12 @@ export default function Navbar() {
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const urlSearch = new URLSearchParams(location.search).get("search") || "";
-  const [navbarSearch, setNavbarSearch] = useState(urlSearch);
+  const search = new URLSearchParams(location.search).get("search") || "";
 
-  const [prevPath, setPrevPath] = useState(location.pathname);
-  if (prevPath !== location.pathname) {
-    setPrevPath(location.pathname);
+  const closeMenus = () => {
     setShowProfile(false);
     setShowMobileMenu(false);
-  }
-
-  const [prevSearch, setPrevSearch] = useState(location.search);
-  if (prevSearch !== location.search) {
-    setPrevSearch(location.search);
-    setNavbarSearch(urlSearch);
-  }
+  };
 
   useEffect(() => {
     if (!isAuth) {
@@ -51,15 +42,17 @@ export default function Navbar() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const query = navbarSearch.trim();
+    const query = search.trim();
     navigate({ pathname: "/", search: query ? `?search=${encodeURIComponent(query)}` : "", hash: "#products" });
+    closeMenus();
   };
 
   const handleSearchChange = (e) => {
     const val = e.target.value;
-    setNavbarSearch(val);
-    const query = val.trim();
-    navigate({ pathname: "/", search: query ? `?search=${encodeURIComponent(query)}` : "", hash: "#products" }, { replace: true });
+    navigate(
+      { pathname: "/", search: val ? `?search=${encodeURIComponent(val)}` : "", hash: "#products" },
+      { replace: true }
+    );
   };
 
   const handleLogout = () => {
@@ -80,20 +73,37 @@ export default function Navbar() {
         {showMobileMenu ? "✕" : "☰"}
       </button>
 
+      <form
+        className="navbar-search navbar-search-mobile"
+        role="search"
+        onSubmit={handleSearch}
+      >
+        <input
+          type="search"
+          aria-label="Search products"
+          placeholder="Search products..."
+          value={search}
+          onChange={handleSearchChange}
+        />
+        <button type="submit" aria-label="Search products">
+          <Search size={17} strokeWidth={1.8} />
+        </button>
+      </form>
+
       <Link to="/" className="brand" aria-label="GYMKHANA Nutrition home">
         <span>GYMKHANA</span>
         <small>NUTRITION</small>
       </Link>
 
       <div className="navbar-menu">
-        <nav className="navbar-links navbar-links-left" aria-label="Main navigation">
+        <nav className="navbar-links navbar-links-left" aria-label="Main navigation" onClick={closeMenus}>
           <Link to="/">Home</Link>
           <Link to="/#contact">Contact</Link>
         </nav>
 
         <nav className="navbar-links navbar-links-right" aria-label="Shopping and account">
           <form
-            className="navbar-search"
+            className="navbar-search navbar-search-desktop"
             role="search"
             onSubmit={handleSearch}
           >
@@ -101,7 +111,7 @@ export default function Navbar() {
               type="search"
               aria-label="Search products"
               placeholder="Search products..."
-              value={navbarSearch}
+              value={search}
               onChange={handleSearchChange}
             />
             <button type="submit" aria-label="Search products">
@@ -111,11 +121,13 @@ export default function Navbar() {
 
           <Link
             to="/cart"
+            onClick={closeMenus}
             className="navbar-cart-icon-link"
             aria-label={`Cart${isAuth && cartCount ? `, ${cartCount} ${cartCount === 1 ? "item" : "items"}` : ""}`}
             title="Cart"
           >
             <ShoppingBag size={18} strokeWidth={1.7} aria-hidden="true" />
+            <span className="navbar-mobile-label">Cart</span>
             {isAuth && cartCount > 0 && (
               <span className="navbar-item-count" aria-hidden="true">
                 {cartCount}
@@ -123,8 +135,9 @@ export default function Navbar() {
             )}
           </Link>
 
-          <Link to="/wishlist" className="navbar-wishlist" aria-label="Wishlist" title="Wishlist">
+          <Link to="/wishlist" onClick={closeMenus} className="navbar-wishlist" aria-label="Wishlist" title="Wishlist">
             <Heart size={18} strokeWidth={1.7} className="navbar-wishlist-icon" aria-hidden="true" />
+            <span className="navbar-mobile-label">Wishlist</span>
           </Link>
 
           {isAuth ? (
@@ -138,10 +151,11 @@ export default function Navbar() {
                 onClick={() => setShowProfile((o) => !o)}
               >
                 <User size={18} strokeWidth={1.7} aria-hidden="true" />
+                <span className="navbar-mobile-label">Profile</span>
               </button>
 
               {showProfile && (
-                <div className="profile-dropdown" id="profile-dropdown">
+                <div className="profile-dropdown" id="profile-dropdown" onClick={closeMenus}>
                   <p className="profile-title">My Account</p>
                   <Link to="/profile">Profile</Link>
                   <Link to="/profile#orders">My Orders</Link>
@@ -150,8 +164,9 @@ export default function Navbar() {
               )}
             </div>
           ) : (
-            <Link to="/login" className="profile-icon" aria-label="Sign in">
+            <Link to="/login" onClick={closeMenus} className="profile-icon" aria-label="Sign in">
               <User size={18} strokeWidth={1.7} aria-hidden="true" />
+              <span className="navbar-mobile-label">Sign in</span>
             </Link>
           )}
         </nav>

@@ -54,7 +54,7 @@ export default function ProductDetails() {
     if (quantity < 1 || quantity > remaining) return;
     if (!isAuth) return navigate("/login", { state: { from: location } });
 
-    for (let i = 0; i < quantity; i++) dispatch(addToCart(product));
+    dispatch(addToCart({ ...product, quantity }));
     setShowPopup(true);
   };
 

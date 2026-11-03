@@ -99,7 +99,7 @@ export default function Cart() {
                             className="aesop-stepper-btn"
                             aria-label={`Increase ${item.name} quantity`}
                             onClick={() => dispatch(increaseQuantity(item.id))}
-                            disabled={stock > 0 && item.quantity >= stock}
+                            disabled={stock <= 0 || item.quantity >= stock}
                           >
                             +
                           </button>
@@ -132,7 +132,7 @@ export default function Cart() {
                           className="aesop-stepper-btn"
                           aria-label={`Increase ${item.name} quantity`}
                           onClick={() => dispatch(increaseQuantity(item.id))}
-                          disabled={stock > 0 && item.quantity >= stock}
+                          disabled={stock <= 0 || item.quantity >= stock}
                         >
                           +
                         </button>

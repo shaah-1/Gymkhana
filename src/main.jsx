@@ -8,9 +8,9 @@ import App from "./App";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <BrowserRouter basename="/Gymkhana">
+  <App />
+</BrowserRouter>
     </Provider>
   </StrictMode>
 );

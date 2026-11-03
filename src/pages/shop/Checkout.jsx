@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Smartphone, CreditCard, Landmark, Wallet, Banknote } from "lucide-react";
@@ -22,14 +22,37 @@ export default function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const items = useSelector((s) => s.cart.items);
+  const authUser = useSelector((s) => s.auth.user);
 
-  const [form, setForm] = useState({ fullName: "", email: "", phone: "", address: "", city: "", pincode: "" });
+  const [form, setForm] = useState({
+    fullName: authUser?.name || authUser?.fullName || "",
+    email: authUser?.email || "",
+    phone: "",
+    address: "",
+    city: "",
+    pincode: "",
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [emailCheck, setEmailCheck] = useState({ status: "idle", message: "" });
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+    getUserById(userId)
+      .then((u) => {
+        if (!u) return;
+        setForm((prev) => ({
+          ...prev,
+          fullName: prev.fullName || u.name || u.fullName || "",
+          email: prev.email || u.email || "",
+        }));
+      })
+      .catch(() => {});
+  }, []);
 
   const total = items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
 
