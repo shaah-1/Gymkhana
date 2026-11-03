@@ -8,6 +8,7 @@ import { getUserById } from "../../services/authService";
 import { getProductById, updateProductStock } from "../../services/productService";
 import { createOrder } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./Checkout.css";
 
 const PAYMENT_METHODS = [
@@ -249,7 +250,7 @@ export default function Checkout() {
           <aside className="checkout-summary">
             <h2>Your Order <span>({items.reduce((c, i) => c + i.quantity, 0)})</span></h2>
             <div className="checkout-order-images">
-              {items.map((i) => <div className="checkout-order-image" key={i.id}><img src={i.image} alt={i.name} /><span>{i.quantity}</span></div>)}
+              {items.map((i) => <div className="checkout-order-image" key={i.id}><img src={publicAssetUrl(i.image)} alt={i.name} /><span>{i.quantity}</span></div>)}
             </div>
 
             <div className="checkout-order-items">

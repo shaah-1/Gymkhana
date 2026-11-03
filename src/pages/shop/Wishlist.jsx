@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Heart } from "lucide-react";
 import { toggleWishlist } from "../../redux/wishlistSlice";
 import { formatCurrency } from "../../utils/formatters";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 export default function Wishlist() {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function Wishlist() {
           {items.map((product) => (
             <article className="wishlist-card" key={product.id}>
               <Link to={`/products/${product.id}`}>
-                <img src={product.image} alt={product.name} className="wishlist-image" />
+                <img src={publicAssetUrl(product.image)} alt={product.name} className="wishlist-image" />
               </Link>
               <p className="product-category">{product.category}</p>
               <h3>{product.name}</h3>

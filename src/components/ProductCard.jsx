@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { toggleWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
 import { formatCurrency } from "../utils/formatters";
+import { publicAssetUrl } from "../utils/publicAssetUrl";
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ export default function ProductCard({ product }) {
         <Heart size={15} strokeWidth={1.8} fill={isFavorite ? "currentColor" : "none"} />
       </button>
 
-      <img src={product.image} alt={product.name} className="product-image" loading="lazy" />
+      <img src={publicAssetUrl(product.image)} alt={product.name} className="product-image" loading="lazy" />
 
       <div className="product-info">
         <p className="product-category">{product.category}</p>

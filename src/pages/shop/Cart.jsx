@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { increaseQuantity, decreaseQuantity, removeFromCart } from "../../redux/cartSlice";
 import { formatCurrency } from "../../utils/formatters";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./Cart.css";
 
 export default function Cart() {
@@ -66,7 +67,7 @@ export default function Cart() {
                   <article className="aesop-cart-row" key={item.id}>
                     {/* Floating Product Image */}
                     <Link to={`/products/${item.id}`} className="aesop-item-image-wrap" tabIndex={-1}>
-                      <img src={item.image} alt={item.name} className="aesop-item-image" loading="lazy" />
+                      <img src={publicAssetUrl(item.image)} alt={item.name} className="aesop-item-image" loading="lazy" />
                     </Link>
 
                     {/* Product Details */}

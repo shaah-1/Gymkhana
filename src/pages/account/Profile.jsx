@@ -9,6 +9,7 @@ import { fetchProducts } from "../../redux/productSlice";
 import { getUserById } from "../../services/authService";
 import { getOrdersByUserId } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./Profile.css";
 
 export default function Profile() {
@@ -263,7 +264,7 @@ export default function Profile() {
                         return (
                           <article className="dunst-order-card" key={`${order.id}-${item.id || idx}`}>
                             <Link to={`/products/${item.id}`} className="dunst-order-thumb-wrap">
-                              <img src={itemImage} alt={item.name} className="dunst-order-thumb" loading="lazy" />
+                              <img src={publicAssetUrl(itemImage)} alt={item.name} className="dunst-order-thumb" loading="lazy" />
                             </Link>
 
                             <div className="dunst-order-details">
@@ -341,7 +342,7 @@ export default function Profile() {
                         </button>
 
                         <Link to={`/products/${product.id}`} className="dunst-favourite-image-wrap">
-                          <img src={product.image} alt={product.name} className="dunst-favourite-image" loading="lazy" />
+                          <img src={publicAssetUrl(product.image)} alt={product.name} className="dunst-favourite-image" loading="lazy" />
                         </Link>
 
                         <div className="dunst-favourite-info">

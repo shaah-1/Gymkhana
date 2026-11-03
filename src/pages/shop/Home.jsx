@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { fetchProducts } from "../../redux/productSlice";
 import ProductCard from "../../components/ProductCard";
 import { ContactSection } from "../contact/Contact";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 const SORT_OPTIONS = [
   { value: "default", label: "Default" },
@@ -69,7 +70,11 @@ export default function Home() {
 
   return (
     <main>
-      <section className="hero" id="home">
+      <section
+        className="hero"
+        id="home"
+        style={{ "--hero-image": `url("${publicAssetUrl("/images/whey-hero.png")}")` }}
+      >
         <p className="eyebrow">WELCOME TO</p>
         <h1 className="hero-brand">GYMKHANA</h1>
         <p className="hero-tagline">FUEL YOUR AMBITION. BUILD YOUR LEGACY.</p>

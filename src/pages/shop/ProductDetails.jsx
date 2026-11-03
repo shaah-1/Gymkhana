@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { getProductById } from "../../services/productService";
 import { formatCurrency } from "../../utils/formatters";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -64,7 +65,7 @@ export default function ProductDetails() {
 
       <section className="product-details-layout">
         <div className="product-details-image-wrap">
-          <img src={product.image} alt={product.name} className="product-details-image" />
+          <img src={publicAssetUrl(product.image)} alt={product.name} className="product-details-image" />
         </div>
 
         <div className="product-details-info">

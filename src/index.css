@@ -327,7 +327,7 @@ img {
       rgba(16, 17, 18, 0.78) 45%,
       rgba(16, 17, 18, 0.1) 100%
     ),
-    url("/images/whey-hero.png") center / cover no-repeat;
+    var(--hero-image) center / cover no-repeat;
 }
 
 .eyebrow {

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { loginUser } from "../../services/authService";
 import { loginSuccess } from "../../redux/authSlice";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function Login() {
   return (
     <main className="auth-page auth-split-layout">
       <section className="auth-image-panel">
-        <img src="/images/login-banner.jpg" alt="GYMKHANA fitness training space" />
+        <img src={publicAssetUrl("/images/login-banner.jpg")} alt="GYMKHANA fitness training space" />
         <div className="auth-image-overlay">
           <p className="auth-image-brand">GYMKHANA</p>
           <div>
