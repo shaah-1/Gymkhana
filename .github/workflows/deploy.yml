@@ -29,20 +29,18 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: gym/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        working-directory: gym
         run: npm ci
 
       - name: Build
-        working-directory: gym
         run: npm run build
 
       - name: Upload build
         uses: actions/upload-pages-artifact@v3
         with:
-          path: gym/dist
+          path: dist
 
   deploy:
     environment:
