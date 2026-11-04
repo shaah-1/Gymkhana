@@ -1,190 +1,252 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { fetchProducts } from "../../redux/productSlice";
 import ProductCard from "../../components/ProductCard";
-import { ContactSection } from "../contact/Contact";
+import { AboutSection } from "../about/About";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
+import "./Home.css";
 
-const SORT_OPTIONS = [
-  { value: "default", label: "Default" },
-  { value: "low-high", label: "Price: Low to high" },
-  { value: "high-low", label: "Price: High to low" },
-  { value: "name", label: "Name: A to Z" },
+const FEATURED_CATEGORIES = [
+  {
+    id: "protein",
+    name: "Proteins & Isolates",
+    slug: "Protein",
+    desc: "Bioavailable cold-filtered whey isolate and clean plant matrices for pure muscle protein synthesis.",
+    badge: "FOUNDATION",
+  },
+  {
+    id: "preworkout",
+    name: "Performance & Energy",
+    slug: "Pre-Workout",
+    desc: "Clinically dosed pump amplifiers, cognitive focus boosters, and endurance compounds.",
+    badge: "OUTPUT",
+  },
+  {
+    id: "creatine",
+    name: "Strength & Power",
+    slug: "Creatine",
+    desc: "Micronized 99.9% pure creatine monohydrate for rapid intracellular ATP regeneration.",
+    badge: "FORCE",
+  },
+  {
+    id: "recovery",
+    name: "Recovery & Aminos",
+    slug: "Recovery",
+    desc: "Fermented branch-chain aminos, cellular hydration electrolytes, and tissue repair.",
+    badge: "RESTORATION",
+  },
 ];
 
 export default function Home() {
   const dispatch = useDispatch();
-  const location = useLocation();
   const { items, loading, error } = useSelector((s) => s.products);
 
-  const search = new URLSearchParams(location.search).get("search") || "";
-  const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("default");
-  const [openMenu, setOpenMenu] = useState(null);
-
-  useEffect(() => { dispatch(fetchProducts()); }, [dispatch]);
-
-  const categories = useMemo(() => ["All", ...new Set(items.map((p) => p.category).filter(Boolean))], [items]);
-
-  const filteredProducts = useMemo(() => {
-    const q = search.toLowerCase();
-    const list = items.filter((p) => {
-      const matchQ = !q || `${p.name} ${p.description || ""}`.toLowerCase().includes(q);
-      return matchQ && (category === "All" || p.category === category);
-    });
-
-    if (sort === "low-high") list.sort((a, b) => Number(a.price) - Number(b.price));
-    else if (sort === "high-low") list.sort((a, b) => Number(b.price) - Number(a.price));
-    else if (sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
-    return list;
-  }, [items, search, category, sort]);
+  // Newsletter state
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState("idle"); // idle | subscribed | error
 
   useEffect(() => {
-    const cards = document.querySelectorAll("#products .product-card");
-    if (!cards.length) return;
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      cards.forEach((c) => c.classList.add("scroll-revealed"));
+  // Curate top best seller products (prefer in-stock products with images, up to 4 items)
+  const bestSellers = useMemo(() => {
+    if (!items || !items.length) return [];
+    // Prioritize high-stock items and diverse categories
+    const sorted = [...items].sort((a, b) => {
+      const stockDiff = (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0);
+      if (stockDiff !== 0) return stockDiff;
+      return Number(b.price) - Number(a.price);
+    });
+    return sorted.slice(0, 4);
+  }, [items]);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (!newsletterEmail || !newsletterEmail.includes("@")) {
+      setNewsletterStatus("error");
       return;
     }
-
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add("scroll-revealed"); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -36px 0px" });
-
-    cards.forEach((card, idx) => {
-      card.classList.remove("scroll-revealed");
-      card.classList.add("scroll-reveal");
-      card.style.setProperty("--reveal-delay", `${(idx % 4) * 65}ms`);
-      obs.observe(card);
-    });
-
-    return () => obs.disconnect();
-  }, [filteredProducts]);
-
-  const activeSortLabel = SORT_OPTIONS.find((o) => o.value === sort)?.label || "Default";
+    setNewsletterStatus("subscribed");
+  };
 
   return (
-    <main>
-      <section
-        className="hero"
-        id="home"
-        style={{ "--hero-image": `url("${publicAssetUrl("/images/whey-hero.png")}")` }}
-      >
-        <p className="eyebrow">WELCOME TO</p>
-        <h1 className="hero-brand">GYMKHANA</h1>
-        <p className="hero-tagline">FUEL YOUR AMBITION. BUILD YOUR LEGACY.</p>
-        <p>Premium sports nutrition and gym essentials for your next level.</p>
-        <a href="#products" className="hero-button">Explore the Collection →</a>
+    <main className="home-container">
+      {/* 1. HERO SECTION - STARK PURE MONOCHROME (CUYANA / DAZE) */}
+      <section className="editorial-white-hero" id="home">
+        <div className="editorial-hero-container">
+          <div className="editorial-hero-grid">
+            {/* Left Column: Brand & Editorial Manifesto */}
+            <div className="editorial-hero-text">
+              <p className="editorial-hero-eyebrow">GYMKHANA NUTRITION · EST. 2026</p>
+              <h1 className="editorial-hero-title">GYMKHANA</h1>
+              <p className="editorial-hero-tagline">
+                Precision sports nutrition engineered with zero proprietary fillers.
+              </p>
+              <p className="editorial-hero-desc">
+                We create timeless formulations for the dedicated athlete through carefully selected,
+                third-party verified active compounds, precise clinical dosages, and uncompromising
+                attention to biological purity.
+              </p>
+              <div className="editorial-hero-actions">
+                <Link to="/shop" className="editorial-hero-btn-primary">
+                  Explore The Collection &rarr;
+                </Link>
+                <a href="#bestsellers" className="editorial-hero-link-secondary">
+                  Best Sellers &darr;
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Framed Editorial Staging */}
+            <div className="editorial-hero-image-col">
+              <div className="editorial-hero-image-frame">
+                <img
+                  src={publicAssetUrl("/images/whey-hero.png")}
+                  alt="Gymkhana Nutrition — Whey Formulation"
+                  className="editorial-hero-img"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section id="products" className="products-section">
-        <div className="section-heading">
+      {/* 2. BEST SELLERS SECTION */}
+      <section id="bestsellers" className="home-section best-sellers-section">
+        <div className="home-section-header">
           <div>
-            <p className="eyebrow">THE COLLECTION</p>
-            <h2>Fuel your ambition.</h2>
+            <p className="home-section-eyebrow">THE ESSENTIAL FORMULATIONS</p>
+            <h2 className="home-section-title">Best Sellers</h2>
           </div>
-          <span>{filteredProducts.length} products</span>
+          <Link to="/shop" className="home-section-more-link">
+            View All Products &rarr;
+          </Link>
         </div>
 
-        <div className="product-controls">
-          <div className="product-menu-row">
-            <div
-              className="product-menu"
-              onMouseEnter={() => setOpenMenu("category")}
-              onMouseLeave={() => setOpenMenu(null)}
-              onFocus={() => setOpenMenu("category")}
-              onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setOpenMenu(null)}
-            >
-              <button
-                type="button"
-                className="product-menu-trigger"
-                aria-haspopup="menu"
-                aria-expanded={openMenu === "category"}
-                onClick={() => setOpenMenu("category")}
-                onKeyDown={(e) => e.key === "Escape" && setOpenMenu(null)}
-              >
-                <span>Category</span>
-                <span className="product-menu-value">{category}</span>
-                <span className="product-menu-chevron" aria-hidden="true">⌄</span>
-              </button>
-
-              {openMenu === "category" && (
-                <div className="product-menu-list" role="menu" aria-label="Filter by category">
-                  {categories.map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      role="menuitemradio"
-                      aria-checked={category === item}
-                      className={category === item ? "selected" : ""}
-                      onClick={() => { setCategory(item); setOpenMenu(null); }}
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div
-              className="product-menu"
-              onMouseEnter={() => setOpenMenu("sort")}
-              onMouseLeave={() => setOpenMenu(null)}
-              onFocus={() => setOpenMenu("sort")}
-              onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setOpenMenu(null)}
-            >
-              <button
-                type="button"
-                className="product-menu-trigger"
-                aria-haspopup="menu"
-                aria-expanded={openMenu === "sort"}
-                onClick={() => setOpenMenu("sort")}
-                onKeyDown={(e) => e.key === "Escape" && setOpenMenu(null)}
-              >
-                <span>Sort by</span>
-                <span className="product-menu-value">{activeSortLabel}</span>
-                <span className="product-menu-chevron" aria-hidden="true">⌄</span>
-              </button>
-
-              {openMenu === "sort" && (
-                <div className="product-menu-list" role="menu" aria-label="Sort products">
-                  {SORT_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      role="menuitemradio"
-                      aria-checked={sort === opt.value}
-                      className={sort === opt.value ? "selected" : ""}
-                      onClick={() => { setSort(opt.value); setOpenMenu(null); }}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {loading && <p>Loading products...</p>}
-        {error && <p className="error-message">{error}. Check whether JSON Server is running on port 3000.</p>}
-        {!loading && !error && filteredProducts.length === 0 && (
-          <p className="no-products">No products found. Try another search or category.</p>
-        )}
+        {loading && <p className="home-status-msg">Loading best seller formulations...</p>}
+        {error && <p className="home-status-msg error">{error}</p>}
 
         {!loading && !error && (
           <div className="product-grid">
-            {filteredProducts.map((p) => <ProductCard key={p.id} product={p} />)}
+            {bestSellers.map((product) => (
+              <ProductCard key={product.id} product={product} showBadge={true} />
+            ))}
           </div>
         )}
+
+        <div className="best-sellers-footer">
+          <Link to="/shop" className="home-cta-button">
+            Explore All Formulations ({items.length}) &rarr;
+          </Link>
+        </div>
       </section>
 
-      <ContactSection />
+      {/* 3. CATEGORIES SECTION - MINIMAL EDITORIAL */}
+      <section id="categories" className="home-minimal-editorial-section categories-minimal-section">
+        <div className="home-minimal-container">
+          <header className="home-minimal-header">
+            <p className="home-minimal-eyebrow">CURATED DISCIPLINES</p>
+            <h2 className="home-minimal-title">Shop by Category</h2>
+            <p className="home-minimal-subtitle">
+              Precision nutritional architectures formulated with intent for every phase of training and biological recovery.
+            </p>
+          </header>
+
+          <div className="home-minimal-categories-grid">
+            {FEATURED_CATEGORIES.map((cat, idx) => (
+              <Link
+                key={cat.id}
+                to={`/shop?category=${encodeURIComponent(cat.slug)}`}
+                className="home-minimal-category-card"
+              >
+                <div className="home-minimal-cat-top">
+                  <span className="home-minimal-cat-num">0{idx + 1}</span>
+                  <span className="home-minimal-cat-badge">{cat.badge}</span>
+                </div>
+
+                <div className="home-minimal-cat-body">
+                  <h3 className="home-minimal-cat-name">{cat.name}</h3>
+                  <p className="home-minimal-cat-desc">{cat.desc}</p>
+                </div>
+
+                <div className="home-minimal-cat-footer">
+                  <span className="home-minimal-cat-link">
+                    Explore Formulations &rarr;
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ABOUT PREVIEW SECTION */}
+      <section id="about-preview" className="home-about-preview-anchor">
+        <AboutSection isStandalone={false} />
+      </section>
+
+      {/* 5. NEWSLETTER SECTION - MINIMAL EDITORIAL */}
+      <section id="newsletter" className="home-minimal-editorial-section newsletter-minimal-section">
+        <div className="home-minimal-newsletter-box">
+          <p className="home-minimal-eyebrow">THE GYMKHANA JOURNAL</p>
+          <h2 className="home-minimal-heading-italic">Stay in the know</h2>
+          <p className="home-minimal-subtitle">
+            Subscribe for priority batch allocations, private laboratory releases, and athletic training philosophy.
+          </p>
+
+          {newsletterStatus === "subscribed" ? (
+            <div className="home-minimal-success-box" role="status">
+              <p className="home-minimal-success-title">You are now on the private list.</p>
+              <p className="home-minimal-success-desc">
+                We’ve reserved your priority allocation for upcoming formulation releases.
+              </p>
+            </div>
+          ) : (
+            <form className="home-minimal-newsletter-form" onSubmit={handleNewsletterSubmit}>
+              <div className="home-minimal-field-group">
+                <label htmlFor="newsletter-email" className="home-minimal-field-label">
+                  EMAIL ADDRESS
+                </label>
+                <input
+                  id="newsletter-email"
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(e) => {
+                    setNewsletterEmail(e.target.value);
+                    if (newsletterStatus === "error") setNewsletterStatus("idle");
+                  }}
+                  placeholder="name@example.com"
+                  aria-label="Email address for newsletter"
+                  required
+                  className="home-minimal-underline-input"
+                />
+              </div>
+
+              <button type="submit" className="home-minimal-submit-btn">
+                SIGN UP
+              </button>
+            </form>
+          )}
+
+          {newsletterStatus === "error" && (
+            <p className="home-minimal-error-msg" role="alert">
+              Please enter a valid email address.
+            </p>
+          )}
+
+          <div className="home-minimal-guarantees">
+            <span>Clinical Transparency</span>
+            <span className="dot">&bull;</span>
+            <span>Zero Spam</span>
+            <span className="dot">&bull;</span>
+            <span>Unsubscribe Anytime</span>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

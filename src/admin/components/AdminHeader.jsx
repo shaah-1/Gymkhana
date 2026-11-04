@@ -159,12 +159,14 @@ function AdminHeader() {
           )}
         </div>
 
-        <div
+        <Link
+          to="/admin/profile"
           className="admin-header-avatar"
+          aria-label="Open admin profile"
           title={admin?.email || "Administrator"}
         >
-          {emailInitial}
-        </div>
+          {admin?.photo ? <img src={admin.photo} alt="" /> : emailInitial}
+        </Link>
       </div>
     </header>
   );

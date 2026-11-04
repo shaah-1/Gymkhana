@@ -25,7 +25,7 @@ function OrderDetails() {
   if (!order) {
     return (
       <section>
-        <p style={{ color: "#8e9198" }}>Loading order details...</p>
+        <p style={{ color: "#7a7c82" }}>Loading order record...</p>
       </section>
     );
   }
@@ -74,7 +74,7 @@ function OrderDetails() {
   };
 
   const orderDate = order.createdAt
-    ? new Date(order.createdAt).toLocaleString("en-US", {
+    ? new Date(order.createdAt).toLocaleString("en-IN", {
         dateStyle: "medium",
         timeStyle: "short",
       })
@@ -82,25 +82,51 @@ function OrderDetails() {
 
   return (
     <section>
-      <div className="admin-page-heading">
+      {/* Breadcrumbs */}
+      <div className="eden-breadcrumbs">
+        <Link to="/admin">Administration</Link>
+        <span>/</span>
+        <Link to="/admin/orders">Orders</Link>
+        <span>/</span>
+        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+          #{order.id}
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          gap: "20px",
+          marginBottom: "32px",
+        }}
+      >
         <div>
-          <p className="admin-eyebrow">FULFILLMENT</p>
-          <h2>Order #{order.id}</h2>
-          <p>Placed on {orderDate}</p>
+          <h1 className="eden-page-title" style={{ margin: 0 }}>
+            ORDER #{order.id}
+          </h1>
+          <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
+            Placed on {orderDate}
+          </p>
         </div>
+
         <Link
           to="/admin/orders"
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            color: "#8e9198",
-            fontSize: "12px",
+            color: "#6f7177",
+            fontSize: "11px",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
             textDecoration: "none",
+            fontWeight: 600,
           }}
         >
-          <ArrowLeft size={14} />
-          <span>Back to orders</span>
+          <ArrowLeft size={13} />
+          <span>Queue</span>
         </Link>
       </div>
 
@@ -108,47 +134,62 @@ function OrderDetails() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "16px",
-          marginBottom: "20px",
+          gap: "24px",
+          marginBottom: "36px",
         }}
       >
         {/* Customer Information Card */}
-        <div className="admin-card-panel">
-          <p className="admin-eyebrow" style={{ marginBottom: "14px" }}>
-            Customer & Delivery
+        <div
+          style={{
+            background: "var(--eden-surface)",
+            border: "1px solid var(--eden-border)",
+            padding: "24px",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "10.5px",
+              fontWeight: 700,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: "#6f7177",
+              margin: "0 0 16px",
+            }}
+          >
+            1 CLIENT & SHIPPING
           </p>
-          <p style={{ margin: "0 0 6px", color: "#ffffff", fontWeight: 600 }}>
+          <p style={{ margin: "0 0 6px", color: "var(--eden-black)", fontWeight: 600 }}>
             {customerName}
           </p>
-          <p style={{ margin: "0 0 4px", color: "#8e9198", fontSize: "12px" }}>
+          <p style={{ margin: "0 0 4px", color: "#6f7177", fontSize: "12px" }}>
             Email: {customer.email || order.email || "—"}
           </p>
-          <p style={{ margin: "0 0 12px", color: "#8e9198", fontSize: "12px" }}>
+          <p style={{ margin: "0 0 14px", color: "#6f7177", fontSize: "12px" }}>
             Phone: {customer.phone || "—"}
           </p>
           {customer.address && (
             <div
               style={{
                 marginTop: "12px",
-                borderTop: "1px solid #1f2127",
+                borderTop: "1px solid var(--eden-border)",
                 paddingTop: "12px",
               }}
             >
               <p
                 style={{
                   margin: "0 0 4px",
-                  color: "#6e7178",
+                  color: "#989aa0",
                   fontSize: "10px",
                   textTransform: "uppercase",
                   fontWeight: 600,
                 }}
               >
-                Shipping Address
+                Delivery Address:
               </p>
               <p
                 style={{
                   margin: 0,
-                  color: "#d1d3d6",
+                  color: "#3b3d42",
                   fontSize: "12px",
                   lineHeight: "1.5",
                 }}
@@ -162,23 +203,37 @@ function OrderDetails() {
         </div>
 
         {/* Fulfillment & Payment Card */}
-        <div className="admin-card-panel">
-          <p className="admin-eyebrow" style={{ marginBottom: "14px" }}>
-            Status & Payment
+        <div
+          style={{
+            background: "var(--eden-surface)",
+            border: "1px solid var(--eden-border)",
+            padding: "24px",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "10.5px",
+              fontWeight: 700,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: "#6f7177",
+              margin: "0 0 16px",
+            }}
+          >
+            2 STATUS & PAYMENT
           </p>
           <div style={{ marginBottom: "16px" }}>
             <span
               style={{
                 fontSize: "12px",
-                color: "#8e9198",
+                color: "#6f7177",
                 marginRight: "10px",
               }}
             >
-              Current Status:
+              Fulfillment Status:
             </span>
-            <span className={`admin-status-pill ${statusKey}`}>
-              <span className="dot" />
-              <span>{statusLabel}</span>
+            <span className={`eden-status-tag ${statusKey}`}>
+              {statusLabel}
             </span>
           </div>
 
@@ -186,29 +241,22 @@ function OrderDetails() {
             <span
               style={{
                 display: "block",
-                fontSize: "11.5px",
-                color: "#b0b2b8",
+                fontSize: "11px",
+                color: "#6f7177",
                 marginBottom: "6px",
-                fontWeight: 500,
+                fontWeight: 600,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
               }}
             >
-              Update Order Status:
+              Update Status:
             </span>
             <select
               value={statusStr}
               onChange={handleStatusChange}
               disabled={updating}
-              style={{
-                width: "100%",
-                height: "38px",
-                background: "#17181d",
-                border: "1px solid #23252c",
-                borderRadius: "8px",
-                color: "#ffffff",
-                padding: "0 12px",
-                fontSize: "12px",
-                outline: "none",
-              }}
+              className="eden-underline-input"
+              style={{ cursor: "pointer" }}
             >
               <option value="pending">Pending</option>
               <option value="processing">Processing</option>
@@ -218,15 +266,15 @@ function OrderDetails() {
             </select>
           </label>
 
-          <p style={{ margin: "0 0 6px", color: "#8e9198", fontSize: "12px" }}>
+          <p style={{ margin: "0 0 6px", color: "#6f7177", fontSize: "12px" }}>
             Payment Method:{" "}
-            <strong style={{ color: "#ffffff" }}>
+            <strong style={{ color: "var(--eden-black)" }}>
               {String(order.paymentMethod || "COD").toUpperCase()}
             </strong>
           </p>
-          <p style={{ margin: 0, color: "#8e9198", fontSize: "12px" }}>
+          <p style={{ margin: 0, color: "#6f7177", fontSize: "12px" }}>
             Payment Status:{" "}
-            <span style={{ color: "#fbbf24", fontWeight: 500 }}>
+            <span style={{ color: "#7a5e24", fontWeight: 600 }}>
               {String(order.paymentStatus || "Pending")
                 .replace(/_/g, " ")
                 .toUpperCase()}
@@ -236,104 +284,100 @@ function OrderDetails() {
       </div>
 
       {/* Ordered Items Table */}
-      <div className="admin-card-panel">
-        <div className="admin-card-panel-header">
-          <h3 className="admin-card-title">Ordered Items ({items.length})</h3>
-        </div>
+      <div className="eden-table-container">
+        <table className="eden-table">
+          <thead>
+            <tr>
+              <th>Ordered Formulation</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Line Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, idx) => {
+              const qty = Number(item.quantity || 1);
+              const price = Number(item.price || 0);
+              const lineTotal = price * qty;
 
-        {items.length === 0 ? (
-          <p style={{ color: "#8e9198", fontSize: "13px" }}>
-            No item details available for this order.
-          </p>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Unit Price</th>
-                  <th>Quantity</th>
-                  <th>Line Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item, idx) => {
-                  const qty = Number(item.quantity || 1);
-                  const price = Number(item.price || 0);
-                  const lineTotal = price * qty;
-
-                  return (
-                    <tr key={item.id || item.productId || idx}>
-                      <td>
-                        <div
+              return (
+                <tr key={item.id || item.productId || idx}>
+                  <td>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "14px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "44px",
+                          height: "44px",
+                          background: "var(--eden-light-box)",
+                          border: "1px solid var(--eden-border)",
+                          display: "grid",
+                          placeItems: "center",
+                          padding: "4px",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        <img
+                          src={publicAssetUrl(
+                            item.image || "/products/whey-protein.png"
+                          )}
+                          alt={item.name}
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "contain",
                           }}
-                        >
-                          <img
-                            src={publicAssetUrl(
-                              item.image || "/products/whey-protein.png"
-                            )}
-                            alt={item.name}
-                            style={{
-                              width: "36px",
-                              height: "36px",
-                              borderRadius: "8px",
-                              background: "#17181d",
-                              border: "1px solid #23252c",
-                              objectFit: "cover",
-                              padding: "2px",
-                            }}
-                          />
-                          <span style={{ fontWeight: 500, color: "#ffffff" }}>
-                            {item.name || item.title || "Product"}
-                          </span>
-                        </div>
-                      </td>
-                      <td>{formatCurrency(price)}</td>
-                      <td>{qty}</td>
-                      <td>
-                        <strong style={{ color: "#ffffff" }}>
-                          {formatCurrency(lineTotal)}
-                        </strong>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td
-                    colSpan="3"
-                    style={{
-                      textAlign: "right",
-                      fontWeight: 600,
-                      padding: "16px",
-                      color: "#6e7178",
-                      borderTop: "1px solid #1f2127",
-                    }}
-                  >
-                    Grand Total:
+                        />
+                      </div>
+                      <span style={{ fontWeight: 600, color: "var(--eden-black)" }}>
+                        {item.name || item.title || "Product"}
+                      </span>
+                    </div>
                   </td>
-                  <td
-                    style={{
-                      padding: "16px",
-                      borderTop: "1px solid #1f2127",
-                    }}
-                  >
-                    <strong style={{ fontSize: "15px", color: "#ffffff" }}>
-                      {formatCurrency(
-                        Number(order.total ?? order.totalAmount ?? 0)
-                      )}
-                    </strong>
+                  <td>{formatCurrency(price)}</td>
+                  <td>{qty}</td>
+                  <td>
+                    <strong>{formatCurrency(lineTotal)}</strong>
                   </td>
                 </tr>
-              </tfoot>
-            </table>
-          </div>
-        )}
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan="3"
+                style={{
+                  textAlign: "right",
+                  fontWeight: 600,
+                  padding: "16px",
+                  color: "#6f7177",
+                  borderTop: "1px solid var(--eden-border)",
+                  letterSpacing: "0.1em",
+                }}
+              >
+                TOTAL:
+              </td>
+              <td
+                style={{
+                  padding: "16px",
+                  borderTop: "1px solid var(--eden-border)",
+                }}
+              >
+                <strong style={{ fontSize: "15px", color: "var(--eden-black)" }}>
+                  {formatCurrency(
+                    Number(order.total ?? order.totalAmount ?? 0)
+                  )}
+                </strong>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </section>
   );

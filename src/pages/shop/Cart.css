@@ -1,11 +1,11 @@
 /* ==========================================================================
-   AESOP-INSPIRED EDITORIAL LUXURY CART (BLACK THEME)
+   EDITORIAL LUXURY CART (WHITE MINIMALIST THEME)
    ========================================================================== */
 
 .aesop-cart-page {
   min-height: calc(100vh - 80px);
-  background-color: #070707;
-  color: #f4f3ee;
+  background-color: #ffffff;
+  color: #121214;
   padding: 60px 4% 100px;
   box-sizing: border-box;
 }
@@ -25,37 +25,38 @@
   align-items: flex-end;
   gap: 24px;
   padding-bottom: 28px;
-  border-bottom: 1px solid #1a1a18;
+  border-bottom: 1px solid #ebebef;
   margin-bottom: 40px;
   flex-wrap: wrap;
 }
 
 .aesop-eyebrow {
   display: block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #c9a96e;
+  color: #8b8e96;
   margin-bottom: 8px;
 }
 
 .aesop-cart-title {
-  font-family: Georgia, "Times New Roman", "Playfair Display", serif;
+  font-family: Arial, sans-serif;
   font-size: clamp(28px, 3.4vw, 42px);
-  font-weight: 400;
-  color: #f7f6f2;
+  font-weight: 700;
+  color: #121214;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.15;
 }
 
 .aesop-item-count {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 0.5em;
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.05em;
-  color: #8c8a82;
+  color: #71737d;
   vertical-align: middle;
   margin-left: 8px;
 }
@@ -66,19 +67,19 @@
   gap: 10px;
   font-size: 12px;
   letter-spacing: 0.04em;
-  color: #a6a39a;
+  color: #55575e;
   padding: 8px 14px;
-  border: 1px solid #20201d;
-  background: #0d0d0c;
-  border-radius: 2px;
+  border: 1px solid #ebebef;
+  background: #fbfbfd;
+  border-radius: 0;
 }
 
 .aesop-shipping-badge .badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #c9a96e;
-  box-shadow: 0 0 6px rgba(201, 169, 110, 0.6);
+  background: #15803d;
+  box-shadow: 0 0 6px rgba(21, 128, 61, 0.35);
 }
 
 /* ==========================================================================
@@ -100,12 +101,13 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 140px 110px;
   padding: 0 0 14px;
-  border-bottom: 1px solid #1a1a18;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  border-bottom: 1px solid #ebebef;
+  font-family: Arial, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #787670;
+  color: #8b8e96;
 }
 
 .aesop-items-table-header .th-qty {
@@ -127,12 +129,12 @@
   gap: 24px;
   align-items: center;
   padding: 28px 0;
-  border-bottom: 1px solid #161614;
-  transition: border-color 0.2s ease;
+  border-bottom: 1px solid #ebebef;
+  transition: background-color 0.2s ease;
 }
 
 .aesop-cart-row:hover {
-  border-color: #242420;
+  background-color: #fafafc;
 }
 
 .aesop-item-image-wrap {
@@ -141,9 +143,9 @@
   justify-content: center;
   width: 120px;
   height: 130px;
-  background: #0f0f0e;
-  border: 1px solid #1c1c1a;
-  border-radius: 2px;
+  background: #f7f7f9;
+  border: 1px solid #ebebef;
+  border-radius: 0;
   padding: 10px;
   box-sizing: border-box;
   text-decoration: none;
@@ -151,15 +153,19 @@
 }
 
 .aesop-item-image-wrap:hover {
-  border-color: #383630;
-  background: #141412;
+  border-color: #121214;
+  background: #f0f0f4;
 }
 
 .aesop-item-image {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+  transition: transform 0.25s ease;
+}
+
+.aesop-item-image-wrap:hover .aesop-item-image {
+  transform: scale(1.04);
 }
 
 .aesop-item-details {
@@ -170,40 +176,44 @@
 }
 
 .aesop-item-category {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #8f8d85;
+  color: #8b8e96;
 }
 
 .aesop-item-name {
-  font-family: Georgia, "Times New Roman", "Playfair Display", serif;
-  font-size: 20px;
-  font-weight: 400;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
   margin: 2px 0 4px;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .aesop-item-name a {
-  color: #f7f6f2;
+  color: #121214;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.18s ease;
 }
 
 .aesop-item-name a:hover {
-  color: #c9a96e;
+  color: #55575e;
 }
 
 .aesop-item-unit-price {
+  font-family: Arial, sans-serif;
   font-size: 13px;
-  color: #9e9b92;
+  color: #71737d;
   font-variant-numeric: tabular-nums;
 }
 
 .aesop-low-stock {
+  font-family: Arial, sans-serif;
   font-size: 11px;
-  color: #d4a373;
+  font-weight: 600;
+  color: #b45309;
   letter-spacing: 0.04em;
   margin-top: 4px;
 }
@@ -219,9 +229,9 @@
 .aesop-stepper {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #282824;
-  background: #0a0a09;
-  border-radius: 2px;
+  border: 1px solid #ebebef;
+  background: #ffffff;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -230,9 +240,9 @@
   height: 34px;
   background: transparent;
   border: none;
-  color: #f0eee8;
-  font-size: 16px;
-  font-weight: 300;
+  color: #121214;
+  font-size: 15px;
+  font-weight: 400;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -241,8 +251,8 @@
 }
 
 .aesop-stepper-btn:hover:not(:disabled) {
-  background: #1c1c19;
-  color: #c9a96e;
+  background: #f7f7f9;
+  color: #121214;
 }
 
 .aesop-stepper-btn:disabled {
@@ -251,33 +261,34 @@
 }
 
 .aesop-stepper-value {
+  font-family: Arial, sans-serif;
   min-width: 32px;
   text-align: center;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: #f4f3ee;
+  color: #121214;
 }
 
 .aesop-remove-link {
   background: none;
   border: none;
-  color: #787670;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  color: #8b8e96;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
   padding: 2px 0;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: #383630;
+  text-decoration-color: #ebebef;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .aesop-remove-link:hover {
-  color: #e07a6e;
-  text-decoration-color: #e07a6e;
+  color: #b91c1c;
+  text-decoration-color: #b91c1c;
 }
 
 .aesop-row-actions-mobile {
@@ -289,10 +300,11 @@
 }
 
 .aesop-line-total {
-  font-size: 17px;
-  font-weight: 500;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: #f7f6f2;
+  color: #121214;
 }
 
 .aesop-cart-footer-nav {
@@ -303,15 +315,18 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #9e9b92;
-  font-size: 13px;
-  letter-spacing: 0.04em;
+  color: #55575e;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .aesop-back-link:hover {
-  color: #c9a96e;
+  color: #121214;
   transform: translateX(-3px);
 }
 
@@ -325,21 +340,22 @@
 }
 
 .aesop-summary-card {
-  background: #0c0c0b;
-  border: 1px solid #1f1f1d;
-  border-radius: 2px;
+  background: #fbfbfd;
+  border: 1px solid #ebebef;
+  border-radius: 0;
   padding: 34px 30px;
 }
 
 .aesop-summary-heading {
-  font-family: Georgia, "Times New Roman", "Playfair Display", serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #f7f6f2;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #121214;
   margin: 0 0 24px;
   padding-bottom: 18px;
-  border-bottom: 1px solid #1a1a18;
-  letter-spacing: -0.01em;
+  border-bottom: 1px solid #ebebef;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .aesop-ledger {
@@ -354,47 +370,53 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 13px;
-  color: #9e9b92;
+  font-size: 13.5px;
+  color: #55575e;
 }
 
 .aesop-ledger-row dt {
-  color: #8f8d85;
+  color: #55575e;
 }
 
 .aesop-ledger-row dd {
   margin: 0;
-  color: #f4f3ee;
+  color: #121214;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
 .aesop-ledger-row .aesop-shipping-highlight {
-  color: #c9a96e;
-  font-weight: 500;
+  color: #15803d;
+  font-weight: 600;
 }
 
 .aesop-ledger-divider {
   height: 1px;
-  background: #1c1c1a;
+  background: #ebebef;
   margin: 8px 0;
 }
 
 .aesop-ledger-total {
-  font-size: 16px;
+  font-size: 15px;
   padding-top: 6px;
-  color: #f7f6f2;
+  color: #121214;
 }
 
 .aesop-ledger-total dt {
-  font-weight: 500;
-  color: #f7f6f2;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  color: #121214;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .aesop-total-amount {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 24px;
-  font-weight: 400;
-  color: #c9a96e !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums;
+  color: #121214 !important;
 }
 
 /* Luxury Contrast Checkout Button */
@@ -404,24 +426,25 @@
   justify-content: space-between;
   width: 100%;
   padding: 17px 22px;
-  background: #f4f3ef;
-  color: #080808;
-  border: 1px solid #f4f3ef;
-  border-radius: 2px;
-  font-size: 12px;
+  background: #121214;
+  color: #ffffff;
+  border: 1px solid #121214;
+  border-radius: 0;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
   box-sizing: border-box;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .aesop-btn-primary:hover {
-  background: #c9a96e;
-  border-color: #c9a96e;
-  color: #080808;
+  background: #2b2b30;
+  border-color: #2b2b30;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 
@@ -433,11 +456,11 @@
   transform: translateX(4px);
 }
 
-/* Aesop Brand Pledge Box */
+/* Brand Pledge Box */
 .aesop-pledge {
   margin-top: 30px;
   padding-top: 24px;
-  border-top: 1px solid #1a1a18;
+  border-top: 1px solid #ebebef;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -456,9 +479,9 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: rgba(201, 169, 110, 0.12);
-  color: #c9a96e;
-  font-size: 11px;
+  background: #f0f0f3;
+  color: #121214;
+  font-size: 10px;
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 1px;
@@ -468,16 +491,16 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: #e6e4dc;
+  color: #121214;
   letter-spacing: 0.02em;
   margin-bottom: 2px;
 }
 
 .aesop-pledge-item p {
   margin: 0;
-  font-size: 11px;
-  line-height: 1.5;
-  color: #7d7a72;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #55575e;
 }
 
 /* ==========================================================================
@@ -489,24 +512,24 @@
   margin: 80px auto;
   text-align: center;
   padding: 60px 40px;
-  border: 1px solid #1a1a18;
-  background: #0b0b0a;
-  border-radius: 2px;
+  border: 1px solid #ebebef;
+  background: #fbfbfd;
+  border-radius: 0;
 }
 
 .aesop-empty-title {
-  font-family: Georgia, "Times New Roman", "Playfair Display", serif;
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 400;
-  color: #f7f6f2;
+  font-family: Arial, sans-serif;
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 700;
+  color: #121214;
   margin: 12px 0 16px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .aesop-empty-desc {
-  font-size: 14px;
+  font-size: 14.5px;
   line-height: 1.7;
-  color: #8f8d85;
+  color: #55575e;
   margin: 0 auto 32px;
   max-width: 460px;
 }
@@ -559,7 +582,7 @@
   }
 
   .aesop-item-name {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .aesop-row-qty-col {
@@ -597,4 +620,3 @@
     padding: 24px 20px;
   }
 }
-

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Heart, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, Menu, ShoppingBag, User } from "lucide-react";
 import { logout } from "../redux/authSlice";
+import { adminLogout } from "../admin/store/slices/adminAuthSlice";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -10,18 +11,18 @@ export default function Navbar() {
   const dispatch = useDispatch();
 
   const profileRef = useRef(null);
-  const desktopSearchInputRef = useRef(null);
-  const mobileSearchInputRef = useRef(null);
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
+  const isAdmin = useSelector(
+    (s) =>
+      s.adminAuth?.isAuthenticated ||
+      s.auth.user?.role === "admin" ||
+      s.auth.user?.isAdmin === true
+  );
   const cartCount = useSelector((s) => s.cart.items.reduce((t, i) => t + Number(i.quantity || 0), 0));
-  const isCheckout = location.pathname === "/checkout";
 
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-
-  const search = new URLSearchParams(location.search).get("search") || "";
 
   const closeMenus = () => {
     setShowProfile(false);
@@ -36,81 +37,31 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const openSearch = () => {
-    setIsSearchExpanded(true);
-    requestAnimationFrame(() => {
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      (isMobile ? mobileSearchInputRef : desktopSearchInputRef).current?.focus();
-    });
-  };
-
-  const handleSearchHover = () => {
-    if (!window.matchMedia("(max-width: 768px)").matches) setIsSearchExpanded(true);
-  };
-
-  const handleSearchLeave = () => {
-    if (!window.matchMedia("(max-width: 768px)").matches) setIsSearchExpanded(false);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const query = search.trim();
-    navigate({ pathname: "/", search: query ? `?search=${encodeURIComponent(query)}` : "", hash: "#products" });
-    setIsSearchExpanded(false);
-    closeMenus();
-  };
-
-  const handleSearchChange = (e) => {
-    const val = e.target.value;
-    navigate(
-      { pathname: "/", search: val ? `?search=${encodeURIComponent(val)}` : "", hash: "#products" },
-      { replace: true }
-    );
-  };
-
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(adminLogout());
     navigate("/", { state: { message: "Logged out successfully!" }, replace: true });
   };
 
   return (
-    <header className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isCheckout ? "checkout-navbar" : ""}`}>
+    <header
+      className={`navbar ${showMobileMenu ? "mobile-open" : ""}`}
+      onMouseLeave={() => {
+        if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(false);
+      }}
+    >
       <button
         type="button"
         className="mobile-menu-toggle"
         aria-label={showMobileMenu ? "Close menu" : "Open menu"}
         aria-expanded={showMobileMenu}
         onClick={() => setShowMobileMenu((o) => !o)}
+        onMouseEnter={() => {
+          if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(true);
+        }}
       >
-        {showMobileMenu ? "✕" : "☰"}
+        <Menu size={18} strokeWidth={1.8} aria-hidden="true" />
       </button>
-
-      <form
-        className={`navbar-search navbar-search-mobile${isSearchExpanded ? " is-expanded" : ""}`}
-        role="search"
-        onSubmit={handleSearch}
-        onMouseEnter={handleSearchHover}
-        onMouseLeave={handleSearchLeave}
-      >
-        <input
-          ref={mobileSearchInputRef}
-          type="search"
-          aria-label="Search products"
-          placeholder="Search products..."
-          value={search}
-          tabIndex={isSearchExpanded ? 0 : -1}
-          aria-hidden={!isSearchExpanded}
-          onChange={handleSearchChange}
-          onKeyDown={(event) => { if (event.key === "Escape") setIsSearchExpanded(false); }}
-        />
-        <button
-          type="button"
-          aria-label={isSearchExpanded ? "Focus search field" : "Open search"}
-          onClick={openSearch}
-        >
-          <Search size={17} strokeWidth={1.8} />
-        </button>
-      </form>
 
       <Link to="/" className="brand" aria-label="GYMKHANA Nutrition home">
         <span>GYMKHANA</span>
@@ -118,39 +69,35 @@ export default function Navbar() {
       </Link>
 
       <div className="navbar-menu">
-        <nav className="navbar-links navbar-links-left" aria-label="Main navigation" onClick={closeMenus}>
-          <Link to="/">Home</Link>
-          <Link to="/#contact">Contact</Link>
+        <nav className="navbar-links navbar-links-left" aria-label="Main navigation">
+          <Link
+            to="/"
+            onClick={() => {
+              closeMenus();
+              if (location.pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
+            Home
+          </Link>
+          <Link to="/shop" onClick={closeMenus}>
+            Shop
+          </Link>
+          <Link to="/about" onClick={closeMenus}>
+            About
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => {
+              closeMenus();
+            }}
+          >
+            Contact
+          </Link>
         </nav>
 
         <nav className="navbar-links navbar-links-right" aria-label="Shopping and account">
-          <form
-            className={`navbar-search navbar-search-desktop${isSearchExpanded ? " is-expanded" : ""}`}
-            role="search"
-            onSubmit={handleSearch}
-            onMouseEnter={handleSearchHover}
-            onMouseLeave={handleSearchLeave}
-          >
-            <input
-              ref={desktopSearchInputRef}
-              type="search"
-              aria-label="Search products"
-              placeholder="Search products..."
-              value={search}
-              tabIndex={isSearchExpanded ? 0 : -1}
-              aria-hidden={!isSearchExpanded}
-              onChange={handleSearchChange}
-              onKeyDown={(event) => { if (event.key === "Escape") setIsSearchExpanded(false); }}
-            />
-            <button
-              type="button"
-              aria-label={isSearchExpanded ? "Focus search field" : "Open search"}
-              onClick={openSearch}
-            >
-              <Search size={17} strokeWidth={1.8} />
-            </button>
-          </form>
-
           <Link
             to="/cart"
             onClick={closeMenus}
@@ -189,16 +136,26 @@ export default function Navbar() {
               {showProfile && (
                 <div className="profile-dropdown" id="profile-dropdown" onClick={closeMenus}>
                   <p className="profile-title">My Account</p>
-                  <Link to="/profile">Profile</Link>
-                  <Link to="/profile#orders">My Orders</Link>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      style={{
+                        fontWeight: 600,
+                        color: "var(--accent, #e53e3e)",
+                      }}
+                    >
+                      Admin Dashboard →
+                    </Link>
+                  )}
+                  <Link to="/profile">Profile & Settings</Link>
+                  <Link to="/orders">My Orders</Link>
                   <button type="button" onClick={handleLogout}>Logout</button>
                 </div>
               )}
             </div>
           ) : (
-            <Link to="/login" onClick={closeMenus} className="profile-icon" aria-label="Sign in">
-              <User size={18} strokeWidth={1.7} aria-hidden="true" />
-              <span className="navbar-mobile-label">Sign in</span>
+            <Link to="/login" onClick={closeMenus} className="navbar-signin-link">
+              Sign in
             </Link>
           )}
         </nav>

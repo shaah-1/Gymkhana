@@ -12,6 +12,7 @@
   --eden-light-box: #f5f5f7;
   --eden-serif: "Cormorant Garamond", Didot, "Bodoni MT", "Cinzel", Georgia, serif;
   --eden-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --eden-num: Arial, sans-serif;
 }
 
 /* ============================================================
@@ -28,16 +29,17 @@
 }
 
 /* ============================================================
-   TOP NAVIGATION (EDÉN BLACK BAR)
+   TOP NAVIGATION (EDÉN WHITE BAR)
 ============================================================ */
 .eden-topbar {
-  background: var(--eden-dark-nav);
-  color: #ffffff;
+  background: #ffffff;
+  color: #121214;
   padding: 16px clamp(20px, 4vw, 56px) 14px;
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--eden-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .eden-topbar-inner {
@@ -57,14 +59,14 @@
 }
 
 .eden-brand-title {
-  font-family: var(--eden-serif);
-  font-size: 28px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: #ffffff;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #121214;
   text-decoration: none;
   margin: 0;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
 .eden-topbar-actions {
@@ -74,7 +76,7 @@
 }
 
 .eden-topbar-link {
-  color: #a4a6ad;
+  color: #71737d;
   text-decoration: none;
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -91,15 +93,18 @@
 }
 
 .eden-topbar-link:hover {
-  color: #ffffff;
+  color: #121214;
 }
 
 .eden-topbar-badge {
+  font-family: var(--eden-num, Arial, sans-serif);
   font-size: 9px;
-  background: #2b2c31;
+  font-weight: 700;
+  background: #121214;
   color: #ffffff;
   padding: 1px 6px;
   border-radius: 999px;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Secondary Navigation links below brand */
@@ -113,7 +118,7 @@
 }
 
 .eden-nav-item {
-  color: #8c8f96;
+  color: #71737d;
   text-decoration: none;
   font-size: 10.5px;
   font-weight: 600;
@@ -125,11 +130,11 @@
 }
 
 .eden-nav-item:hover {
-  color: #ffffff;
+  color: #121214;
 }
 
 .eden-nav-item.active {
-  color: #ffffff;
+  color: #121214;
 }
 
 .eden-nav-item.active::after {
@@ -138,8 +143,8 @@
   bottom: -4px;
   left: 0;
   right: 0;
-  height: 1px;
-  background: #ffffff;
+  height: 2px;
+  background: #121214;
 }
 
 /* ============================================================
@@ -234,8 +239,10 @@
 }
 
 .eden-section-num {
+  font-family: var(--eden-num, Arial, sans-serif);
   font-size: 12px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .eden-section-toggle {
@@ -347,9 +354,11 @@
 }
 
 .eden-radio-price {
+  font-family: var(--eden-num, Arial, sans-serif);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--eden-black);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Solid Black Rectangular Buttons */
@@ -469,9 +478,12 @@
 }
 
 .eden-product-box-price {
+  font-family: var(--eden-num, Arial, sans-serif);
   font-size: 9.5px;
+  font-weight: 700;
   color: #7b7e86;
   margin-top: 2px;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Promo / Action line */
@@ -523,6 +535,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #6e7178;
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-variant-numeric: tabular-nums;
 }
 
 .eden-ledger-row.total {
@@ -532,6 +546,8 @@
   padding-top: 14px;
   border-top: 1px solid var(--eden-border);
   letter-spacing: 0.1em;
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
@@ -568,15 +584,17 @@
 }
 
 .eden-metric-val {
-  font-family: var(--eden-serif);
+  font-family: var(--eden-num, Arial, sans-serif);
   font-size: 32px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--eden-black);
   margin: 0;
   line-height: 1.1;
+  font-variant-numeric: tabular-nums;
 }
 
 .eden-metric-trend {
+  font-family: var(--eden-num, Arial, sans-serif);
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -584,6 +602,151 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   EDÉN SALES OVERVIEW GRAPH
+============================================================ */
+.eden-sales-graph-panel {
+  background: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  padding: 24px 26px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.eden-graph-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.eden-graph-revenue-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7b7e86;
+  margin: 0 0 4px;
+}
+
+.eden-graph-revenue-group {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.eden-graph-revenue-num {
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--eden-black);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.eden-graph-pill-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #204b2b;
+  background: #f1f8f3;
+  border: 1px solid #c2e2cb;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+.eden-graph-time-tabs {
+  display: inline-flex;
+  gap: 2px;
+  background: #f4f4f6;
+  border: 1px solid var(--eden-border);
+  padding: 2px;
+}
+
+.eden-graph-time-tab {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6e7178;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.eden-graph-time-tab:hover {
+  color: var(--eden-black);
+}
+
+.eden-graph-time-tab.active {
+  background: var(--eden-black);
+  color: #ffffff;
+}
+
+.eden-graph-svg-wrap {
+  width: 100%;
+  height: 210px;
+  position: relative;
+  margin-top: 4px;
+}
+
+.eden-graph-svg-wrap svg text {
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+
+.eden-graph-x-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px 0 46px;
+  color: #8a8c92;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+
+.eden-graph-submetrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--eden-border);
+}
+
+.eden-submetric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.eden-submetric-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8c8f96;
+}
+
+.eden-submetric-val {
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--eden-black);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
@@ -621,6 +784,11 @@
   vertical-align: middle;
 }
 
+.eden-table td strong {
+  font-family: var(--eden-num, Arial, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+
 .eden-table tbody tr:last-child td {
   border-bottom: none;
 }
@@ -631,15 +799,21 @@
 
 /* Status tags in luxury editorial style */
 .eden-status-tag {
-  display: inline-block;
+  display: inline-flex;
+  width: 104px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
   font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 3px 8px;
   border: 1px solid #d4d5d9;
+  border-radius: 999px;
   background: #ffffff;
   color: #2b2c30;
+  text-align: center;
 }
 
 .eden-status-tag.delivered {
@@ -652,12 +826,14 @@
   border-color: #3b5b82;
   color: #2b496e;
   background: #f1f5fa;
+  border-radius: 999px;
 }
 
 .eden-status-tag.pending {
   border-color: #92753a;
   color: #7a5e24;
   background: #faf6ed;
+  border-radius: 999px;
 }
 
 .eden-status-tag.cancelled {

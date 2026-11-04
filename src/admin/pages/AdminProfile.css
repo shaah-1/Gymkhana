@@ -1,0 +1,63 @@
+.admin-profile-page {
+  width: min(100%, 1050px);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 48px);
+  color: #151518;
+}
+
+.admin-profile-heading { margin-bottom: 28px; }
+.admin-profile-heading span { color: #777981; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+.admin-profile-heading h1 { margin: 7px 0 0; font-family: var(--eden-serif, Georgia, serif); font-size: clamp(28px, 4vw, 40px); font-weight: 400; letter-spacing: .015em; }
+.admin-profile-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 18px; }
+.admin-profile-card { min-width: 0; padding: clamp(20px, 3vw, 30px); border: 1px solid #e4e4e7; background: #fff; }
+.admin-profile-grid > .admin-profile-card { width: 100%; padding: clamp(28px, 5vw, 52px); }
+.admin-profile-card-heading { display: flex; align-items: center; gap: 11px; margin-bottom: 22px; padding-bottom: 17px; border-bottom: 1px solid #ededee; }
+.admin-profile-section-icon { display: grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; border: 1px solid #e1e1e4; color: #33343a; }
+.admin-profile-card-heading h2 { margin: 0 0 4px; color: #17171a; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+.admin-profile-card-heading p { margin: 0; color: #777981; font-size: 10px; }
+.admin-profile-photo-row { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+.admin-profile-photo { display: grid; width: 78px; height: 78px; flex: 0 0 78px; place-items: center; overflow: hidden; border: 1px solid #dfe0e3; border-radius: 50%; background: #f0f0f2; color: #25262a; font-size: 25px; font-weight: 600; }
+.admin-profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+.admin-profile-photo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.admin-profile-photo-actions small { flex-basis: 100%; color: #85878d; font-size: 9px; }
+.admin-secondary-button { position: relative; display: inline-flex; min-height: 32px; align-items: center; gap: 7px; padding: 0 11px; border: 1px solid #d9d9dd; background: #fff; color: #303137; cursor: pointer; font-size: 10px; }
+.admin-secondary-button:hover { background: #f4f4f5; }
+.admin-secondary-button input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.admin-profile-remove-photo { padding: 6px 2px; border: 0; background: transparent; color: #74767d; cursor: pointer; font-size: 10px; }
+.admin-profile-remove-photo:hover { color: #111; }
+.admin-profile-fields { display: grid; gap: 15px; }
+.admin-profile-fields label { display: grid; gap: 7px; color: #5f6066; font-size: 10px; font-weight: 600; letter-spacing: .035em; }
+.admin-profile-fields input { width: 100%; min-height: 40px; padding: 9px 11px; border: 1px solid #dedee2; border-radius: 0; outline: none; background: #fff; color: #17171a; font: inherit; font-size: 12px; }
+.admin-profile-fields input:focus { border-color: #707178; }
+.admin-profile-feedback { margin: 13px 0 0; font-size: 10px; }
+.admin-profile-feedback.is-error { color: #a43e3e; }
+.admin-profile-feedback.is-success { color: #39784c; }
+.admin-profile-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 21px; padding-top: 17px; border-top: 1px solid #ededee; }
+.admin-profile-card-footer > span { display: inline-flex; align-items: center; gap: 6px; color: #777981; font-size: 9px; }
+.admin-profile-primary-button { display: inline-flex; min-height: 36px; align-items: center; justify-content: center; gap: 7px; padding: 0 13px; border: 1px solid #151518; background: #151518; color: #fff; cursor: pointer; font: inherit; font-size: 10px; font-weight: 600; white-space: nowrap; }
+.admin-profile-primary-button:hover:not(:disabled) { background: #33343a; }
+.admin-profile-primary-button:disabled { cursor: wait; opacity: .6; }
+.admin-profile-security-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 28px; padding: 20px 0; border-top: 1px solid #ededee; border-bottom: 1px solid #ededee; }
+.admin-profile-security-row > div { display: grid; gap: 5px; }
+.admin-profile-security-row strong { color: #25262a; font-size: 12px; font-weight: 600; }
+.admin-profile-security-row span { color: #777981; font-size: 10px; }
+.admin-profile-password-trigger { display: inline-flex; min-height: 36px; align-items: center; justify-content: center; gap: 8px; padding: 0 15px; border: 1px solid #d9d9dd; border-radius: 999px; background: #fff; color: #292a2f; cursor: pointer; font: inherit; font-size: 10px; font-weight: 600; transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease; }
+.admin-profile-password-trigger:hover { transform: translateY(-1px); border-color: #151518; background: #151518; color: #fff; }
+.admin-password-modal-backdrop { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 20px; background: rgb(15 15 18 / 46%); }
+.admin-password-modal { width: min(100%, 440px); max-height: min(90vh, 700px); overflow-y: auto; padding: 26px; border: 1px solid #e4e4e7; background: #fff; box-shadow: 0 20px 70px rgb(0 0 0 / 18%); }
+.admin-password-modal .admin-profile-card-heading h3 { margin: 0 0 4px; color: #17171a; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+.admin-password-modal .admin-profile-card-footer { justify-content: flex-end; }
+.admin-password-modal .admin-secondary-button { border-radius: 999px; }
+
+@media (max-width: 760px) {
+  .admin-profile-page { padding: 24px 18px; }
+  .admin-profile-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .admin-profile-card { padding: 17px; }
+  .admin-profile-grid > .admin-profile-card { padding: 22px 17px; }
+  .admin-profile-card-footer { align-items: flex-start; flex-direction: column; }
+  .admin-profile-security-row { align-items: flex-start; flex-direction: column; }
+  .admin-password-modal .admin-profile-card-footer { align-items: stretch; flex-direction: row; }
+}

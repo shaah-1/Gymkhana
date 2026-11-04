@@ -83,9 +83,25 @@ export default function ProductDetails() {
           )}
 
           <p className="product-details-price">{formatCurrency(product.price)}</p>
-          <p className={remaining > 0 ? "details-in-stock" : "details-out-stock"}>
-            {stock === 0 ? "Out of Stock" : remaining > 0 ? `${remaining} available` : "Stock limit reached"}
-          </p>
+
+          <div className="details-stock-status-wrap">
+            <span
+              className={`details-stock-badge ${
+                stock === 0 ? "out-of-stock" : remaining <= 3 ? "low-stock" : "in-stock"
+              }`}
+            >
+              <span className="details-stock-dot" aria-hidden="true" />
+              <span>
+                {stock === 0
+                  ? "Out of Stock"
+                  : remaining <= 0
+                  ? "Stock limit reached in cart"
+                  : remaining <= 3
+                  ? `Only ${remaining} left in stock`
+                  : `In Stock (${remaining} available)`}
+              </span>
+            </span>
+          </div>
 
           <div className="details-purchase-row">
             <div className="quantity-selector">

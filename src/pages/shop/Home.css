@@ -1,0 +1,553 @@
+/* ============================================================
+   GYMKHANA HOMEPAGE STYLES - STARK PURE MONOCHROME (CUYANA / DAZE)
+   ============================================================ */
+
+.home-container {
+  width: 100%;
+  background: #ffffff;
+  color: #121214;
+}
+
+/* ============================================================
+   1. EDITORIAL WHITE HERO (MATCHING CUYANA / DAZE)
+   ============================================================ */
+
+.editorial-white-hero {
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height, 72px));
+  min-height: calc(100dvh - var(--navbar-height, 72px));
+  background: #ffffff;
+  color: #121214;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(48px, 6vw, 84px) clamp(24px, 5vw, 64px);
+  box-sizing: border-box;
+  border-bottom: 1px solid #f0f0f2;
+}
+
+.editorial-hero-container {
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.editorial-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(40px, 6vw, 88px);
+  align-items: center;
+  width: 100%;
+}
+
+.editorial-hero-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.editorial-hero-eyebrow {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  margin: 0 0 16px 0;
+}
+
+.editorial-hero-title {
+  font-family: Arial, sans-serif;
+  font-size: clamp(42px, 5.8vw, 72px);
+  font-weight: 700;
+  color: #121214;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px 0;
+}
+
+.editorial-hero-tagline {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #121214;
+  margin: 0 0 16px 0;
+}
+
+.editorial-hero-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #55575e;
+  max-width: 480px;
+  margin: 0 0 32px 0;
+}
+
+.editorial-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.editorial-hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #121214;
+  color: #ffffff;
+  padding: 15px 34px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0;
+  transition: background 0.18s ease;
+}
+
+.editorial-hero-btn-primary:hover {
+  background: #2b2b30;
+}
+
+.editorial-hero-link-secondary {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #121214;
+  text-decoration: none;
+  border-bottom: 1.5px solid #121214;
+  padding-bottom: 3px;
+  transition: opacity 0.18s ease;
+}
+
+.editorial-hero-link-secondary:hover {
+  opacity: 0.65;
+}
+
+.editorial-hero-image-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editorial-hero-image-frame {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 4 / 5;
+  padding: 32px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.editorial-hero-image-frame img,
+.editorial-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08));
+}
+
+@media (max-width: 860px) {
+  .editorial-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .editorial-hero-text {
+    align-items: center;
+  }
+
+  .editorial-hero-actions {
+    justify-content: center;
+  }
+
+  .editorial-hero-image-frame {
+    max-width: 360px;
+  }
+}
+
+/* ============================================================
+   2. BEST SELLERS SECTION
+   ============================================================ */
+
+.home-section {
+  padding: clamp(56px, 7vw, 96px) clamp(24px, 5vw, 64px);
+  max-width: 1180px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.best-sellers-section {
+  background: #ffffff;
+}
+
+.home-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: clamp(36px, 5vw, 56px);
+  gap: 20px;
+}
+
+.home-section-eyebrow {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  margin: 0 0 10px 0;
+}
+
+.home-section-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 600;
+  color: #121214;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.home-section-more-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #121214;
+  text-decoration: none;
+  border-bottom: 1.5px solid #121214;
+  padding-bottom: 2px;
+  transition: opacity 0.18s ease;
+  white-space: nowrap;
+}
+
+.home-section-more-link:hover {
+  opacity: 0.65;
+}
+
+.home-status-msg {
+  text-align: center;
+  padding: 40px;
+  color: #8b8e96;
+}
+
+.home-status-msg.error {
+  color: #c94a3e;
+}
+
+/* Best Sellers Footer */
+.best-sellers-footer {
+  margin-top: 52px;
+  text-align: center;
+}
+
+.home-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 36px;
+  border: 1px solid #121214;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #121214;
+  text-decoration: none;
+  background: transparent;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.home-cta-button:hover {
+  background: #121214;
+  color: #ffffff;
+}
+
+/* ============================================================
+   MINIMAL EDITORIAL SECTIONS (MATCHING LOGIN PAGE AESTHETIC)
+   ============================================================ */
+
+.home-minimal-editorial-section {
+  width: 100%;
+  background: #ffffff;
+  color: #121214;
+  position: relative;
+  border-top: 1px solid #f0f0f2;
+  box-sizing: border-box;
+}
+
+.home-minimal-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(60px, 7vw, 96px) clamp(24px, 5vw, 64px);
+  box-sizing: border-box;
+}
+
+.home-minimal-header {
+  text-align: center;
+  margin-bottom: clamp(44px, 6vw, 68px);
+}
+
+.home-minimal-eyebrow {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  margin: 0 0 12px 0;
+}
+
+.home-minimal-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 600;
+  color: #121214;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px 0;
+  line-height: 1.15;
+}
+
+.home-minimal-subtitle {
+  font-size: 15px;
+  color: #55575e;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* Minimal Categories Grid */
+.home-minimal-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(20px, 3vw, 32px);
+}
+
+.home-minimal-category-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(28px, 4vw, 36px) clamp(22px, 3vw, 28px);
+  background: #ffffff;
+  border: 1px solid #ebebef;
+  text-decoration: none;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  box-sizing: border-box;
+  min-height: 290px;
+}
+
+.home-minimal-category-card:hover {
+  border-color: #121214;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.04);
+}
+
+.home-minimal-cat-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.home-minimal-cat-num {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #8b8e96;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-minimal-cat-badge {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8b8e96;
+}
+
+.home-minimal-cat-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #121214;
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+}
+
+.home-minimal-cat-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #55575e;
+  margin: 0 0 24px 0;
+}
+
+.home-minimal-cat-footer {
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f2;
+}
+
+.home-minimal-cat-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #121214;
+  border-bottom: 1.5px solid transparent;
+  padding-bottom: 2px;
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.home-minimal-category-card:hover .home-minimal-cat-link {
+  border-bottom-color: #121214;
+}
+
+/* About Preview Section Anchor */
+.home-about-preview-anchor {
+  width: 100%;
+}
+
+/* ============================================================
+   STAY IN THE KNOW (NEWSLETTER) - MINIMAL EDITORIAL
+   ============================================================ */
+
+.newsletter-minimal-section {
+  padding: clamp(64px, 8vw, 110px) clamp(24px, 5vw, 64px);
+  border-bottom: 1px solid #f0f0f2;
+}
+
+.home-minimal-newsletter-box {
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-minimal-heading-italic {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(42px, 5.2vw, 56px);
+  line-height: 1.05;
+  color: #121214;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+}
+
+.home-minimal-newsletter-form {
+  margin-top: 36px;
+}
+
+.home-minimal-field-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.home-minimal-field-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  margin-bottom: 4px;
+}
+
+.home-minimal-underline-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d5d7dc;
+  background: transparent;
+  padding: 10px 0;
+  font-family: inherit;
+  font-size: 14.5px;
+  color: #121214;
+  outline: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.home-minimal-underline-input:focus {
+  border-bottom-color: #121214;
+}
+
+.home-minimal-underline-input::placeholder {
+  color: #a6a8b0;
+  font-size: 13.5px;
+}
+
+.home-minimal-submit-btn {
+  width: 100%;
+  height: 48px;
+  background: #121214;
+  color: #ffffff;
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.18s ease;
+  margin-top: 10px;
+}
+
+.home-minimal-submit-btn:hover {
+  background: #2b2b30;
+}
+
+.home-minimal-error-msg {
+  color: #c94a3e;
+  font-size: 12.5px;
+  margin-top: 10px;
+}
+
+.home-minimal-success-box {
+  padding: 24px 20px;
+  background: #fbfbfd;
+  border: 1px solid #ebebef;
+  text-align: center;
+  margin: 32px 0;
+}
+
+.home-minimal-success-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 20px;
+  color: #121214;
+  margin: 0 0 6px 0;
+}
+
+.home-minimal-success-desc {
+  font-size: 13.5px;
+  color: #55575e;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.home-minimal-guarantees {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 10.5px;
+  color: #8b8e96;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-minimal-guarantees .dot {
+  font-size: 12px;
+  color: #c4c6cd;
+}

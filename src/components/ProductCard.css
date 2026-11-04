@@ -1,0 +1,336 @@
+/* ==========================================================================
+   MINIMALIST PRODUCT CARD (EXACT BE MINIMALIST STYLE)
+   ========================================================================== */
+
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* 1. IMAGE STAGE CONTAINER */
+.product-card-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: #f0f1f3;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Badge (Top-Right) */
+.product-card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #000000;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Wishlist Button (Top-Left) */
+.product-card-wishlist {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  padding: 0;
+}
+
+.product-card-wishlist:hover {
+  transform: scale(1.08);
+  background: #fafafa;
+}
+
+/* Nav Arrows (Vertically Centered) */
+.product-card-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: #71717a;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  padding: 0;
+}
+
+.product-card-arrow:hover {
+  background: #ffffff;
+  color: #111111;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.product-card-arrow-left {
+  left: 14px;
+}
+
+.product-card-arrow-right {
+  right: 14px;
+}
+
+/* Image Link & Image */
+.product-card-image-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px 20px 36px;
+  box-sizing: border-box;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.product-card-img {
+  width: 100%;
+  height: 100%;
+  max-height: 290px;
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.07));
+}
+
+.product-card-image-link:hover .product-card-img {
+  transform: scale(1.03);
+}
+
+/* Pagination Dots (Bottom-Center) */
+.product-card-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 4;
+}
+
+.product-card-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c4c4c8;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.product-card-dot.active {
+  background: #111111;
+  transform: scale(1.15);
+}
+
+/* 2. BODY CONTENT (BELOW IMAGE STAGE) */
+.product-card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0 0;
+  box-sizing: border-box;
+}
+
+/* Product Title */
+.product-card-title {
+  margin: 0 0 6px 0;
+  font-family: Arial, sans-serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.product-card-title a {
+  color: #111111;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.product-card-title a:hover {
+  color: #55575e;
+}
+
+/* Subtitle / Skin-type / Formula descriptor */
+.product-card-subtitle {
+  margin: 0 0 10px 0;
+  font-family: Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #71717a;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Star Rating (5 stars: 4 filled black, 1 outline) */
+.product-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 0 12px 0;
+}
+
+.product-card-rating svg {
+  flex-shrink: 0;
+}
+
+/* Price Row */
+.product-card-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 14px 0;
+}
+
+.product-card-current-price {
+  font-family: Arial, sans-serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-card-original-price {
+  font-family: Arial, sans-serif;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: #71717a;
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Size Variant Pills */
+.product-card-sizes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px 0;
+  flex-wrap: wrap;
+}
+
+.product-size-pill {
+  min-width: 68px;
+  height: 32px;
+  padding: 0 18px;
+  border-radius: 9999px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid #d4d4d8;
+}
+
+.product-size-pill:hover {
+  border-color: #111111;
+}
+
+.product-size-pill.active {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+  font-weight: 500;
+}
+
+/* Add to Cart Button */
+.product-card-add-btn {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 20px;
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.18s ease;
+  box-sizing: border-box;
+  text-transform: none;
+}
+
+.product-card-add-btn:hover:not(:disabled) {
+  background: #27272a;
+}
+
+.product-card-add-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Stock limit message */
+.product-card-limit-msg {
+  font-size: 11px;
+  color: #b45309;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .product-card-arrow {
+    width: 28px;
+    height: 28px;
+  }
+  .product-card-arrow-left { left: 8px; }
+  .product-card-arrow-right { right: 8px; }
+  .product-card-title { font-size: 15.5px; }
+  .product-card-subtitle { font-size: 12.5px; }
+  .product-card-current-price { font-size: 16px; }
+  .product-size-pill { height: 30px; font-size: 12px; padding: 0 14px; min-width: 58px; }
+  .product-card-add-btn { min-height: 44px; font-size: 14px; }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, Plus, Trash2, Edit2 } from "lucide-react";
+import { ArrowRight, Trash2, Edit2 } from "lucide-react";
 import {
   fetchAdminProducts,
   deleteAdminProduct,
@@ -40,107 +40,93 @@ function Products() {
 
   return (
     <section>
-      <div className="admin-page-heading">
+      {/* Breadcrumbs */}
+      <div className="eden-breadcrumbs">
+        <Link to="/admin">Administration</Link>
+        <span>/</span>
+        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+          Products
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          gap: "20px",
+          marginBottom: "32px",
+        }}
+      >
         <div>
-          <p className="admin-eyebrow">CATALOG</p>
-          <h2>Products ({products.length})</h2>
-          <p>Manage all inventory, pricing, and stock levels.</p>
+          <h1 className="eden-page-title" style={{ margin: 0 }}>
+            CATALOG ({products.length})
+          </h1>
+          <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
+            Curate specifications, stock availability, and retail pricing.
+          </p>
         </div>
-        <Link
-          to="/admin/products/add"
-          className="admin-form"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "9px 18px",
-            background: "#ffffff",
-            color: "#0b0c0e",
-            borderRadius: "9999px",
-            textDecoration: "none",
-            fontSize: "12px",
-            fontWeight: 600,
-            margin: 0,
-            border: "none",
-          }}
-        >
-          <Plus size={15} strokeWidth={2.2} />
-          <span>Add product</span>
+
+        <Link to="/admin/products/add" className="eden-btn-black">
+          <span>ADD PRODUCT</span>
+          <ArrowRight size={13} />
         </Link>
       </div>
 
-      <div className="admin-card-panel">
-        <div
-          style={{
-            position: "relative",
-            maxWidth: "320px",
-            marginBottom: "20px",
-          }}
-        >
-          <Search
-            size={14}
-            style={{
-              position: "absolute",
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "#6b6e76",
-            }}
-          />
-          <input
-            type="search"
-            placeholder="Filter by name or category..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              width: "100%",
-              height: "36px",
-              padding: "0 14px 0 36px",
-              background: "#17181d",
-              border: "1px solid #23252c",
-              borderRadius: "8px",
-              color: "#ffffff",
-              fontSize: "12px",
-              outline: "none",
-            }}
-          />
-        </div>
+      {/* Filter line */}
+      <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
+        <input
+          type="search"
+          className="eden-underline-input"
+          placeholder="Filter by name or category..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
-        {loading && products.length === 0 ? (
-          <p style={{ color: "#8e9198", fontSize: "13px" }}>
-            Loading products...
-          </p>
-        ) : error ? (
-          <p className="admin-login-error-banner">{error}</p>
-        ) : filteredProducts.length === 0 ? (
-          <p style={{ color: "#8e9198", fontSize: "13px" }}>
-            No products found matching your search.
-          </p>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((product) => {
-                  const stock = Number(product.stock ?? 0);
-                  const isOutOfStock = stock <= 0;
+      {loading && products.length === 0 ? (
+        <p style={{ color: "#7a7c82" }}>Loading catalog...</p>
+      ) : error ? (
+        <div className="eden-error-notice">{error}</div>
+      ) : filteredProducts.length === 0 ? (
+        <p style={{ color: "#7a7c82" }}>No products found matching your search.</p>
+      ) : (
+        <div className="eden-table-container">
+          <table className="eden-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Inventory Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProducts.map((product) => {
+                const stock = Number(product.stock ?? 0);
+                const isOutOfStock = stock <= 0;
 
-                  return (
-                    <tr key={product.id}>
-                      <td>
+                return (
+                  <tr key={product.id}>
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "14px",
+                        }}
+                      >
                         <div
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
+                            width: "44px",
+                            height: "44px",
+                            background: "var(--eden-light-box)",
+                            border: "1px solid var(--eden-border)",
+                            display: "grid",
+                            placeItems: "center",
+                            padding: "4px",
+                            boxSizing: "border-box",
                           }}
                         >
                           <img
@@ -149,74 +135,76 @@ function Products() {
                             )}
                             alt={product.name}
                             style={{
-                              width: "36px",
-                              height: "36px",
-                              borderRadius: "8px",
-                              background: "#17181d",
-                              border: "1px solid #23252c",
-                              objectFit: "cover",
-                              padding: "2px",
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
                             }}
                           />
-                          <span style={{ fontWeight: 500, color: "#ffffff" }}>
-                            {product.name || product.title}
-                          </span>
                         </div>
-                      </td>
-                      <td>{product.category || "—"}</td>
-                      <td>
-                        <strong>
-                          {formatCurrency(Number(product.price || 0))}
-                        </strong>
-                      </td>
-                      <td>
-                        <span
-                          className={`admin-status-pill ${
-                            isOutOfStock ? "cancelled" : "delivered"
-                          }`}
-                        >
-                          <span className="dot" />
-                          <span>
-                            {isOutOfStock ? "Out of Stock" : `${stock} in stock`}
-                          </span>
+                        <span style={{ fontWeight: 600, color: "var(--eden-black)" }}>
+                          {product.name || product.title}
                         </span>
-                      </td>
-                      <td>
-                        <div
+                      </div>
+                    </td>
+                    <td>{product.category || "—"}</td>
+                    <td>
+                      <strong>{formatCurrency(Number(product.price || 0))}</strong>
+                    </td>
+                    <td>
+                      <span
+                        className={`eden-status-tag ${
+                          isOutOfStock ? "cancelled" : "delivered"
+                        }`}
+                      >
+                        {isOutOfStock ? "OUT OF STOCK" : `${stock} IN STOCK`}
+                      </span>
+                    </td>
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "14px",
+                        }}
+                      >
+                        <Link
+                          to={`/admin/products/edit/${product.id}`}
+                          className="eden-action-link"
+                          style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
+                        >
+                          <Edit2 size={12} />
+                          <span>Edit</span>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(product.id, product.name)}
                           style={{
-                            display: "flex",
+                            background: "none",
+                            border: "none",
+                            color: "#8c4242",
+                            cursor: "pointer",
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            letterSpacing: "0.12em",
+                            textTransform: "uppercase",
+                            padding: 0,
+                            display: "inline-flex",
                             alignItems: "center",
-                            gap: "8px",
+                            gap: "4px",
                           }}
                         >
-                          <Link
-                            to={`/admin/products/edit/${product.id}`}
-                            className="admin-icon-btn"
-                            title="Edit product"
-                          >
-                            <Edit2 size={13} />
-                          </Link>
-                          <button
-                            type="button"
-                            className="admin-icon-btn"
-                            style={{ color: "#f87171" }}
-                            title="Delete product"
-                            onClick={() =>
-                              handleDelete(product.id, product.name)
-                            }
-                          >
-                            <Trash2 size={13} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                          <Trash2 size={12} />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 }

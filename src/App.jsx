@@ -18,6 +18,7 @@ import { fetchCart } from "./redux/cartSlice";
 import { fetchWishlist } from "./redux/wishlistSlice";
 
 import Home from "./pages/shop/Home";
+import Shop from "./pages/shop/Shop";
 import ProductDetails from "./pages/shop/ProductDetails";
 import Cart from "./pages/shop/Cart";
 import Wishlist from "./pages/shop/Wishlist";
@@ -27,8 +28,8 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Contact from "./pages/contact/Contact";
+import About from "./pages/about/About";
 
-import AdminLogin from "./admin/pages/AdminLogin";
 import AdminLayout from "./admin/components/AdminLayout";
 import Dashboard from "./admin/pages/Dashboard";
 import AdminProducts from "./admin/pages/Products";
@@ -37,6 +38,7 @@ import EditProduct from "./admin/pages/EditProduct";
 import AdminUsers from "./admin/pages/Users";
 import AdminOrders from "./admin/pages/Orders";
 import OrderDetails from "./admin/pages/OrderDetails";
+import AdminProfile from "./admin/pages/AdminProfile";
 
 import "./index.css";
 
@@ -47,6 +49,7 @@ export default function App() {
 
   const userId = useSelector((state) => state.auth.userId);
   const isAdminRoute = location.pathname.startsWith("/admin");
+  const isLoginPage = location.pathname === "/login";
 
   const toastMessage = location.state?.message || "";
 
@@ -86,13 +89,16 @@ export default function App() {
 
   return (
     <>
-      {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && !isLoginPage && <Navbar />}
 
       <div key={location.pathname} className="page-transition">
         <Routes>
           {/* Customer routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/products" element={<Navigate to="/shop" replace />} />
           <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
           <Route path="/login" element={<Login />} />
@@ -130,7 +136,7 @@ export default function App() {
             path="/orders"
             element={
               <ProtectedRoute>
-                <Navigate to="/profile#orders" replace />
+                <Profile defaultTab="orders" />
               </ProtectedRoute>
             }
           />
@@ -139,13 +145,13 @@ export default function App() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <Profile />
+                <Profile defaultTab="details" />
               </ProtectedRoute>
             }
           />
 
-          {/* Admin login is public; the remaining admin pages are protected. */}
-          <Route path="/admin/login" element={<AdminLogin />} />
+          {/* Admin routes: admin login is now merged with user login */}
+          <Route path="/admin/login" element={<Navigate to="/login" replace />} />
 
           <Route element={<AdminProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
@@ -159,6 +165,7 @@ export default function App() {
 
               <Route path="orders" element={<AdminOrders />} />
               <Route path="orders/:id" element={<OrderDetails />} />
+              <Route path="profile" element={<AdminProfile />} />
             </Route>
           </Route>
 

@@ -1,0 +1,378 @@
+/* ============================================================
+   CUYANA LUXURY ABOUT PAGE ("OUR STORY")
+============================================================ */
+
+.cuyana-about-page {
+  width: 100%;
+  background: #ffffff;
+  color: #121214;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Standalone page breadcrumbs */
+.about-breadcrumbs {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px clamp(24px, 5vw, 64px) 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b8e96;
+}
+
+.about-breadcrumbs a {
+  color: #8b8e96;
+  text-decoration: none;
+  transition: color 0.16s ease;
+}
+
+.about-breadcrumbs a:hover {
+  color: #121214;
+}
+
+.about-breadcrumbs span {
+  color: #121214;
+  font-weight: 500;
+}
+
+/* Section Container (both standalone and embedded on home) */
+.cuyana-about-section {
+  width: 100%;
+  background: #ffffff;
+  color: #121214;
+  position: relative;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  scroll-margin-top: 85px;
+}
+
+/* Inner Container */
+.cuyana-about-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(48px, 6vw, 84px) clamp(24px, 5vw, 64px) clamp(64px, 8vw, 110px);
+  box-sizing: border-box;
+}
+
+/* Header: Centered "Our Story" + Subtitle (Screenshot Match) */
+.cuyana-about-header {
+  text-align: center;
+  margin-bottom: clamp(52px, 7vw, 92px);
+}
+
+.cuyana-about-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(40px, 4.8vw, 56px);
+  font-weight: 600;
+  color: #121214;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px 0;
+}
+
+.cuyana-about-subtitle {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #55575e;
+  margin: 0;
+}
+
+/* Two-column layout */
+.cuyana-about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+}
+
+/* Left Column: Narrative */
+.cuyana-about-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cuyana-about-heading {
+  font-family: inherit;
+  font-size: clamp(22px, 2.3vw, 28px);
+  font-weight: 600;
+  color: #121214;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 22px 0;
+}
+
+.cuyana-about-description {
+  font-family: inherit;
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: #4a4d55;
+  margin: 0 0 20px 0;
+  max-width: 440px;
+}
+
+.cuyana-about-quote {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #121214;
+  border-left: 2px solid #121214;
+  padding-left: 18px;
+  margin: 24px 0 0;
+}
+
+.cuyana-story-links {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.cuyana-story-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #121214;
+  text-decoration: none;
+  border-bottom: 1.5px solid #121214;
+  padding-bottom: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.cuyana-story-link:hover {
+  opacity: 0.65;
+}
+
+.cuyana-story-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #71737d;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.cuyana-story-more:hover {
+  color: #121214;
+}
+
+/* Right Column: Editorial Photograph */
+.cuyana-about-image-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.cuyana-about-image-wrapper {
+  width: 100%;
+  aspect-ratio: 557 / 545;
+  overflow: hidden;
+  background: #f5f5f7;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+}
+
+.cuyana-about-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Principles / Pillars Section */
+.cuyana-pillars-section {
+  width: 100%;
+  border-top: 1px solid #f0f0f2;
+  margin-top: clamp(64px, 8vw, 110px);
+  padding-top: clamp(52px, 7vw, 92px);
+}
+
+.cuyana-pillars-eyebrow {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  margin-bottom: 12px;
+}
+
+.cuyana-pillars-title {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(30px, 3.5vw, 42px);
+  font-weight: 600;
+  color: #121214;
+  margin: 0 0 12px 0;
+}
+
+.cuyana-section-intro {
+  text-align: center;
+  font-size: 15px;
+  color: #71737d;
+  max-width: 580px;
+  margin: 0 auto clamp(40px, 5vw, 64px) auto;
+  line-height: 1.6;
+}
+
+.cuyana-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(28px, 4vw, 48px);
+}
+
+.cuyana-pillar-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cuyana-pillar-num {
+  font-family: Arial, sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: #8b8e96;
+  margin-bottom: 12px;
+}
+
+.cuyana-pillar-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #121214;
+  margin: 0 0 10px 0;
+}
+
+.cuyana-pillar-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #55575e;
+  margin: 0;
+}
+
+/* Philosophy Section */
+.cuyana-philosophy-section {
+  width: 100%;
+  border-top: 1px solid #f0f0f2;
+  margin-top: clamp(64px, 8vw, 100px);
+  padding-top: clamp(52px, 7vw, 84px);
+}
+
+.cuyana-philosophy-content {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cuyana-philosophy-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 600;
+  color: #121214;
+  margin: 0 0 24px 0;
+}
+
+.cuyana-philosophy-body {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #4a4d55;
+  margin: 0 0 20px 0;
+}
+
+/* Bottom CTA Strip */
+.cuyana-about-cta-strip {
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #f0f0f2;
+  margin-top: clamp(64px, 8vw, 100px);
+  padding-top: clamp(48px, 6vw, 76px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cuyana-about-cta-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-style: italic;
+  font-weight: 500;
+  color: #121214;
+  margin: 0 0 24px 0;
+}
+
+.cuyana-about-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #121214;
+  color: #ffffff;
+  padding: 15px 32px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0;
+  transition: background 0.18s ease;
+}
+
+.cuyana-about-cta-btn:hover {
+  background: #2b2b30;
+}
+
+/* In-Home Embedded Section Adjustments */
+.home-about-wrapper {
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #f0f0f2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 820px) {
+  .cuyana-about-container {
+    padding: 44px 20px 60px;
+  }
+
+  .cuyana-about-header {
+    margin-bottom: 36px;
+  }
+
+  .cuyana-about-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .cuyana-about-description {
+    max-width: none;
+  }
+
+  .cuyana-about-image-wrapper {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .cuyana-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+

@@ -7,8 +7,10 @@ import {
   ShoppingBag,
   Settings,
   LogOut,
+  UserRound,
 } from "lucide-react";
 import { adminLogout } from "../store/slices/adminAuthSlice";
+import { logout } from "../../redux/authSlice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 function AdminSidebar({ isOpen = false, onClose = () => {} }) {
@@ -17,7 +19,8 @@ function AdminSidebar({ isOpen = false, onClose = () => {} }) {
 
   const handleLogout = () => {
     dispatch(adminLogout());
-    navigate("/admin/login", { replace: true });
+    dispatch(logout());
+    navigate("/login", { replace: true, state: { message: "Logged out successfully." } });
   };
 
   const navItems = [
@@ -51,6 +54,15 @@ function AdminSidebar({ isOpen = false, onClose = () => {} }) {
             </NavLink>
           );
         })}
+
+        <NavLink
+          to="/admin/profile"
+          onClick={onClose}
+          className={({ isActive }) => isActive ? "admin-nav-link active" : "admin-nav-link"}
+        >
+          <UserRound size={17} strokeWidth={1.8} />
+          <span>Profile</span>
+        </NavLink>
 
         <div className="admin-sidebar-divider" />
 

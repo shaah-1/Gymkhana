@@ -51,7 +51,7 @@
       "name": "Pre Workout",
       "category": "Pre-Workout",
       "price": 1499,
-      "stock": 3,
+      "stock": 0,
       "image": "/products/pre-workout.png",
       "description": "A pre-training supplement for your workout routine.",
       "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
@@ -212,7 +212,7 @@
       "name": "Gym Bag",
       "category": "Gym Accessories",
       "price": 899,
-      "stock": 0,
+      "stock": 10,
       "image": "/products/gym-bag.png",
       "description": "A practical bag for carrying everyday workout essentials.",
       "detailedDescription": "The GYMKHANA Gym Bag helps organise the essentials you take to a workout, such as training clothes, a towel, accessories, and personal items. Its best use depends on the actual bag's dimensions, compartments, and construction.",
@@ -259,7 +259,7 @@
       "name": "Casein Protein",
       "category": "Protein",
       "price": 2299,
-      "stock": 12,
+      "stock": 7,
       "image": "/products/casein.png",
       "description": "A casein-based protein supplement.",
       "detailedDescription": "Casein is a milk-derived protein commonly used to supplement daily protein intake.",
@@ -339,7 +339,7 @@
       "name": "Magnesium",
       "category": "Supplements",
       "price": 699,
-      "stock": 16,
+      "stock": 6,
       "image": "/products/magnesium.png",
       "description": "A magnesium dietary supplement.",
       "detailedDescription": "A supplement providing magnesium in the form and quantity stated on its label.",
@@ -420,13 +420,21 @@
       "name": "zayedmasood",
       "email": "zayed@gmail.com",
       "password": "12345688",
-      "id": "fKCYrWVDxEo"
+      "id": "fKCYrWVDxEo",
+      "blocked": false
     },
     {
       "name": "shahi",
       "email": "shahi@gmail.com",
       "password": "12345678",
-      "id": "9hbGUx87F2E"
+      "id": "9hbGUx87F2E",
+      "blocked": false
+    },
+    {
+      "name": "heisenberg",
+      "email": "heisenberg@gmail.com",
+      "password": "0987654321",
+      "id": "9kppW7VTfzM"
     }
   ],
   "orders": [
@@ -449,7 +457,7 @@
         }
       ],
       "total": 13485,
-      "status": "shipped",
+      "status": "processing",
       "createdAt": "2026-10-26T09:06:10.807Z",
       "id": "-kImhydZ8n4"
     },
@@ -472,7 +480,7 @@
         }
       ],
       "total": 4497,
-      "status": "pending",
+      "status": "cancelled",
       "createdAt": "2026-10-26T09:48:11.515Z",
       "id": "JkV3fgoy81I"
     },
@@ -518,7 +526,7 @@
         }
       ],
       "total": 999,
-      "status": "pending",
+      "status": "delivered",
       "createdAt": "2026-10-27T11:44:12.988Z",
       "id": "0nJH8eMxdE8"
     },
@@ -566,7 +574,7 @@
       "total": 2199,
       "paymentMethod": "upi",
       "paymentStatus": "payment_pending",
-      "status": "pending",
+      "status": "shipped",
       "createdAt": "2026-10-31T06:43:51.707Z",
       "id": "4WA6W8J4Q5I"
     },
@@ -591,7 +599,7 @@
       "total": 2199,
       "paymentMethod": "netbanking",
       "paymentStatus": "payment_pending",
-      "status": "pending",
+      "status": "delivered",
       "createdAt": "2026-10-31T06:45:59.660Z",
       "id": "aaRyAE_MZ7o"
     },
@@ -622,7 +630,7 @@
       "total": 5495,
       "paymentMethod": "cod",
       "paymentStatus": "pay_on_delivery",
-      "status": "cancelled",
+      "status": "shipped",
       "createdAt": "2026-10-31T09:07:14.089Z",
       "id": "pPvrcJkRWOw"
     },
@@ -653,9 +661,40 @@
       "total": 2498,
       "paymentMethod": "upi",
       "paymentStatus": "payment_pending",
-      "status": "processing",
+      "status": "delivered",
       "createdAt": "2026-11-01T09:54:59.312Z",
       "id": "FXLIbvWteGk"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "Fabis",
+        "email": "shahi@gmail.com",
+        "phone": "3223840813",
+        "address": "irivetty road kavanur mayangathodi house",
+        "city": "Malappuram",
+        "pincode": "673639"
+      },
+      "items": [
+        {
+          "id": "3",
+          "name": "Pre Workout",
+          "price": 1499,
+          "quantity": 13
+        },
+        {
+          "id": "23",
+          "name": "Casein Protein",
+          "price": 2299,
+          "quantity": 5
+        }
+      ],
+      "total": 30982,
+      "paymentMethod": "wallet",
+      "paymentStatus": "payment_pending",
+      "status": "delivered",
+      "createdAt": "2026-11-04T11:54:30.852Z",
+      "id": "NES1JfiUC1E"
     }
   ],
   "carts": [
@@ -680,6 +719,17 @@
       "stock": 3,
       "quantity": 1,
       "id": "GHfM-5pcwB4"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "23",
+      "name": "Casein Protein",
+      "category": "Protein",
+      "price": 2299,
+      "image": "/products/casein.png",
+      "stock": 7,
+      "quantity": 1,
+      "id": "0hrJwv3gxqE"
     }
   ],
   "wishlists": [
@@ -702,6 +752,16 @@
       "image": "/products/pre-workout.png",
       "stock": 3,
       "id": "OVXR3ul2rhQ"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "3",
+      "name": "Pre Workout",
+      "category": "Pre-Workout",
+      "price": 1499,
+      "image": "/products/pre-workout.png",
+      "stock": 13,
+      "id": "j0yvPM-gpUw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

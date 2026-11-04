@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, ShieldAlert, ShieldCheck } from "lucide-react";
 import {
   fetchAdminUsers,
   toggleUserBlocked,
@@ -33,161 +33,101 @@ function Users() {
 
   return (
     <section>
-      <div className="admin-page-heading">
-        <div>
-          <p className="admin-eyebrow">CUSTOMERS</p>
-          <h2>Users ({users.length})</h2>
-          <p>Monitor customer accounts, security, and permissions.</p>
-        </div>
+      {/* Breadcrumbs */}
+      <div className="eden-breadcrumbs">
+        <Link to="/admin">Administration</Link>
+        <span>/</span>
+        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+          Users
+        </span>
       </div>
 
-      <div className="admin-card-panel">
-        <div
-          style={{
-            position: "relative",
-            maxWidth: "320px",
-            marginBottom: "20px",
-          }}
-        >
-          <Search
-            size={14}
-            style={{
-              position: "absolute",
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "#6b6e76",
-            }}
-          />
-          <input
-            type="search"
-            placeholder="Filter by name or email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              width: "100%",
-              height: "36px",
-              padding: "0 14px 0 36px",
-              background: "#17181d",
-              border: "1px solid #23252c",
-              borderRadius: "8px",
-              color: "#ffffff",
-              fontSize: "12px",
-              outline: "none",
-            }}
-          />
-        </div>
+      <div style={{ marginBottom: "32px" }}>
+        <h1 className="eden-page-title" style={{ margin: 0 }}>
+          CLIENT ACCOUNTS ({users.length})
+        </h1>
+        <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
+          Registered customer accounts, contact directories, and authorization.
+        </p>
+      </div>
 
-        {loading && users.length === 0 ? (
-          <p style={{ color: "#8e9198", fontSize: "13px" }}>Loading users...</p>
-        ) : error ? (
-          <p className="admin-login-error-banner">{error}</p>
-        ) : filteredUsers.length === 0 ? (
-          <p style={{ color: "#8e9198", fontSize: "13px" }}>
-            No users found matching your search.
-          </p>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                  <th>Action</th>
+      {/* Filter line */}
+      <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
+        <input
+          type="search"
+          className="eden-underline-input"
+          placeholder="Filter by name or email address..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {loading && users.length === 0 ? (
+        <p style={{ color: "#7a7c82" }}>Loading customer accounts...</p>
+      ) : error ? (
+        <div className="eden-error-notice">{error}</div>
+      ) : filteredUsers.length === 0 ? (
+        <p style={{ color: "#7a7c82" }}>No user accounts found matching your search.</p>
+      ) : (
+        <div className="eden-table-container">
+          <table className="eden-table">
+            <thead>
+              <tr>
+                <th>User / Name</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>Account Status</th>
+                <th>Access Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>
+                    <strong style={{ color: "var(--eden-black)" }}>
+                      {user.name || user.fullName || "Customer"}
+                    </strong>
+                  </td>
+                  <td>{user.email}</td>
+                  <td>
+                    <span style={{ textTransform: "uppercase", fontSize: "11px", letterSpacing: "0.08em" }}>
+                      {user.role || "Customer"}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      className={`eden-status-tag ${
+                        user.blocked ? "cancelled" : "delivered"
+                      }`}
+                    >
+                      {user.blocked ? "BLOCKED" : "ACTIVE"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleBlock(user)}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: user.blocked ? "#204b2b" : "#793232",
+                        cursor: "pointer",
+                        fontSize: "11px",
+                        fontWeight: 600,
+                        letterSpacing: "0.14em",
+                        textTransform: "uppercase",
+                        padding: 0,
+                      }}
+                    >
+                      {user.blocked ? "Restore Access" : "Block User"}
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user.id}>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "32px",
-                            height: "32px",
-                            borderRadius: "50%",
-                            background: "#1c1e24",
-                            border: "1px solid #292b34",
-                            color: "#ffffff",
-                            fontSize: "12px",
-                            fontWeight: 600,
-                            display: "grid",
-                            placeItems: "center",
-                          }}
-                        >
-                          {(user.name || user.fullName || user.email || "U")
-                            .charAt(0)
-                            .toUpperCase()}
-                        </div>
-                        <span style={{ fontWeight: 500, color: "#ffffff" }}>
-                          {user.name || user.fullName || "Customer"}
-                        </span>
-                      </div>
-                    </td>
-                    <td>{user.email}</td>
-                    <td>
-                      <span
-                        style={{
-                          fontSize: "11px",
-                          color: "#92959c",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {user.role || "Customer"}
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={`admin-status-pill ${
-                          user.blocked ? "cancelled" : "delivered"
-                        }`}
-                      >
-                        <span className="dot" />
-                        <span>{user.blocked ? "Blocked" : "Active"}</span>
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        onClick={() => handleToggleBlock(user)}
-                        className="admin-icon-btn"
-                        style={{
-                          width: "auto",
-                          padding: "6px 12px",
-                          gap: "6px",
-                          fontSize: "11px",
-                          color: user.blocked ? "#4ade80" : "#f87171",
-                          borderColor: user.blocked ? "#1e3a2b" : "#382326",
-                        }}
-                      >
-                        {user.blocked ? (
-                          <>
-                            <ShieldCheck size={13} />
-                            <span>Unblock</span>
-                          </>
-                        ) : (
-                          <>
-                            <ShieldAlert size={13} />
-                            <span>Block</span>
-                          </>
-                        )}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 }

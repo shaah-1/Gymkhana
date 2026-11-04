@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   fetchAdminProducts,
   updateAdminProduct,
@@ -51,97 +51,118 @@ function EditProductForm({ product, onSave }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="admin-form">
-      {error && (
-        <div
-          className="admin-login-error-banner"
-          style={{ gridColumn: "1 / -1" }}
-        >
-          {error}
+    <div
+      style={{
+        background: "var(--eden-surface)",
+        border: "1px solid var(--eden-border)",
+        padding: "clamp(24px, 4vw, 44px)",
+        maxWidth: "840px",
+      }}
+    >
+      {error && <div className="eden-error-notice">{error}</div>}
+
+      <form onSubmit={handleSubmit}>
+        <div className="eden-form-grid" style={{ marginBottom: "32px" }}>
+          <div className="eden-field-group">
+            <label htmlFor="ep-name" className="eden-field-label">
+              Product Title
+            </label>
+            <input
+              id="ep-name"
+              name="name"
+              className="eden-underline-input"
+              value={form.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="eden-field-group">
+            <label htmlFor="ep-category" className="eden-field-label">
+              Category
+            </label>
+            <input
+              id="ep-category"
+              name="category"
+              className="eden-underline-input"
+              value={form.category}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="eden-field-group">
+            <label htmlFor="ep-price" className="eden-field-label">
+              Retail Price (₹)
+            </label>
+            <input
+              id="ep-price"
+              name="price"
+              type="number"
+              min="0"
+              className="eden-underline-input"
+              value={form.price}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="eden-field-group">
+            <label htmlFor="ep-stock" className="eden-field-label">
+              Inventory Units
+            </label>
+            <input
+              id="ep-stock"
+              name="stock"
+              type="number"
+              min="0"
+              className="eden-underline-input"
+              value={form.stock}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="eden-field-group full-width">
+            <label htmlFor="ep-image" className="eden-field-label">
+              Image Path or URL
+            </label>
+            <input
+              id="ep-image"
+              name="image"
+              className="eden-underline-input"
+              value={form.image}
+              onChange={handleChange}
+              placeholder="/products/example.png"
+            />
+          </div>
+
+          <div className="eden-field-group full-width">
+            <label htmlFor="ep-desc" className="eden-field-label">
+              Formulation & Overview
+            </label>
+            <textarea
+              id="ep-desc"
+              name="description"
+              className="eden-underline-input"
+              value={form.description}
+              onChange={handleChange}
+              rows={3}
+              style={{ resize: "vertical" }}
+            />
+          </div>
         </div>
-      )}
 
-      <label>
-        Product name
-        <input name="name" value={form.name} onChange={handleChange} required />
-      </label>
-
-      <label>
-        Price (₹)
-        <input
-          name="price"
-          type="number"
-          min="0"
-          value={form.price}
-          onChange={handleChange}
-          required
-        />
-      </label>
-
-      <label>
-        Stock Quantity
-        <input
-          name="stock"
-          type="number"
-          min="0"
-          value={form.stock}
-          onChange={handleChange}
-          required
-        />
-      </label>
-
-      <label>
-        Category
-        <input
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label style={{ gridColumn: "1 / -1" }}>
-        Image URL or Path
-        <input
-          name="image"
-          value={form.image}
-          onChange={handleChange}
-          placeholder="/products/example.png"
-        />
-      </label>
-
-      <label style={{ gridColumn: "1 / -1" }}>
-        Description
-        <textarea
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          rows={3}
-        />
-      </label>
-
-      <div
-        style={{
-          gridColumn: "1 / -1",
-          display: "flex",
-          gap: "14px",
-          alignItems: "center",
-        }}
-      >
-        <button type="submit" disabled={saving}>
-          {saving ? "Saving..." : "Save changes"}
-        </button>
-        <Link
-          to="/admin/products"
-          style={{
-            color: "#8e9198",
-            fontSize: "12px",
-            textDecoration: "none",
-          }}
-        >
-          Cancel
-        </Link>
-      </div>
-    </form>
+        <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+          <button type="submit" className="eden-btn-black" disabled={saving}>
+            <span>{saving ? "SAVING..." : "UPDATE PRODUCT"}</span>
+            <ArrowRight size={13} />
+          </button>
+          <Link to="/admin/products" className="eden-btn-outline">
+            CANCEL
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }
 
@@ -165,30 +186,56 @@ function EditProduct() {
 
   return (
     <section>
-      <div className="admin-page-heading">
+      {/* Breadcrumbs */}
+      <div className="eden-breadcrumbs">
+        <Link to="/admin">Administration</Link>
+        <span>/</span>
+        <Link to="/admin/products">Products</Link>
+        <span>/</span>
+        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+          Edit
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          gap: "20px",
+          marginBottom: "32px",
+        }}
+      >
         <div>
-          <p className="admin-eyebrow">CATALOG</p>
-          <h2>Edit Product</h2>
-          <p>Update product specifications, price, or inventory.</p>
+          <h1 className="eden-page-title" style={{ margin: 0 }}>
+            EDIT PRODUCT
+          </h1>
+          <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
+            Modify retail price, inventory stock, or ingredient specifications.
+          </p>
         </div>
+
         <Link
           to="/admin/products"
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            color: "#8e9198",
-            fontSize: "12px",
+            color: "#6f7177",
+            fontSize: "11px",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
             textDecoration: "none",
+            fontWeight: 600,
           }}
         >
-          <ArrowLeft size={14} />
-          <span>Back to products</span>
+          <ArrowLeft size={13} />
+          <span>Catalog</span>
         </Link>
       </div>
 
       {!product ? (
-        <p style={{ color: "#8e9198" }}>Loading product...</p>
+        <p style={{ color: "#6f7177" }}>Loading product specifications...</p>
       ) : (
         <EditProductForm
           key={product.id}
