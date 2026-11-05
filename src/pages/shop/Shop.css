@@ -122,7 +122,15 @@
   color: #121214;
 }
 
-/* 2. MINIMAL REFINED SORT DROPDOWN */
+/* Filters Group (Category + Sort Controls) */
+.shop-filters-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 24px);
+  flex-wrap: wrap;
+}
+
+/* 2. MINIMAL REFINED CATEGORY & SORT DROPDOWNS */
 .shop-sort-wrapper {
   display: flex;
   align-items: center;
@@ -193,6 +201,11 @@
   color: #121214;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+}
+
+.shop-active-cat-badge {
+  color: #121214;
+  font-weight: 600;
 }
 
 .shop-reset-btn {
@@ -269,8 +282,32 @@
     min-width: 100%;
     flex: 1 1 100%;
   }
-  .shop-sort-wrapper {
+  .shop-filters-group {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+  }
+  .shop-sort-wrapper {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: space-between;
+    min-width: 0;
+  }
+  .shop-sort-select {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 460px) {
+  .shop-filters-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .shop-sort-wrapper {
+    flex: 1 1 100%;
     width: 100%;
   }
 }

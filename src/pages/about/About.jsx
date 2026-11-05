@@ -18,22 +18,20 @@ export function AboutSection({ isStandalone = false }) {
         <div className="cuyana-about-grid">
           {/* Left Column: Narrative */}
           <div className="cuyana-about-text-col">
-            <h3 className="cuyana-about-heading">A Foundation of Fewer</h3>
+            <h3 className="cuyana-about-heading">Train with purpose.</h3>
             <p className="cuyana-about-description">
-              Fewer, better is the philosophy behind everything we do. We create
-              timeless collections for the dedicated individual through carefully
-              selected formulations, precise silhouettes, and uncompromising attention
-              to detail.
+              Progress is not defined by where you begin, but by the commitment you bring to every step forward.
+                                At GYMKHANA, every formulation is part of a bigger journey — one built on ambition, resilience, and the relentless pursuit of personal excellence.
             </p>
 
             {isStandalone ? (
               <>
-                <p className="cuyana-about-description">
+                {/* <p className="cuyana-about-description">
                   Progress is not defined by where you begin, but by the commitment you bring to every step forward.
                 </p>
                 <p className="cuyana-about-description">
                   We believe in the power of small improvements, the discipline of showing up, and the confidence that comes from knowing you gave your best.
-                </p>
+                </p> */}
                 <p className="cuyana-about-description">
                   At GYMKHANA, every formulation is part of a bigger journey — one built on ambition, resilience, and the relentless pursuit of personal excellence.
                 </p>
@@ -73,43 +71,41 @@ export function AboutSection({ isStandalone = false }) {
               <p className="cuyana-pillars-eyebrow">OUR CORE VALUES</p>
               <h3 className="cuyana-pillars-title">The Standard We Uphold</h3>
               <p className="cuyana-section-intro">
-                Four non-negotiable principles govern every batch, formulation, and material we produce.
+                Four principles guide everything we do at GYMKHANA, from the products we offer to the experience we create for every fitness enthusiast.
               </p>
 
               <div className="cuyana-pillars-grid">
                 <div className="cuyana-pillar-card">
                   <span className="cuyana-pillar-num">01</span>
-                  <h4 className="cuyana-pillar-name">Radical Transparency</h4>
+                  <h4 className="cuyana-pillar-name">QUALITY THAT MATTERS</h4>
                   <p className="cuyana-pillar-desc">
-                    100% disclosed label architecture. We never use proprietary blends,
-                    hidden dosages, or undisclosed processing aids. Every milligram is verifiable.
+We believe every fitness journey deserves quality products. From nutritional supplements to essential gym accessories, we focus on offering products that meet the needs of your training and everyday routine.
+
+
                   </p>
                 </div>
 
                 <div className="cuyana-pillar-card">
                   <span className="cuyana-pillar-num">02</span>
-                  <h4 className="cuyana-pillar-name">Clinical Efficacy</h4>
+                  <h4 className="cuyana-pillar-name">TRANSPARENCY IN EVERY CHOICE</h4>
                   <p className="cuyana-pillar-desc">
-                    Every active compound is calibrated precisely at clinically validated dosages
-                    backed by peer-reviewed human trials, ensuring verifiable biological bioavailability.
+                    Every product deserves clear and honest information. We make it easy to explore product details, ingredients, specifications, and pricing so you can make informed decisions with confidence.
                   </p>
                 </div>
 
                 <div className="cuyana-pillar-card">
                   <span className="cuyana-pillar-num">03</span>
-                  <h4 className="cuyana-pillar-name">Uncompromised Purity</h4>
+                  <h4 className="cuyana-pillar-name">BUILT AROUND YOUR GOALS</h4>
                   <p className="cuyana-pillar-desc">
-                    Third-party certified free of banned substances, artificial colorants, heavy metals,
-                    and cheap maltodextrin thickeners. Pure nutrition for clean recovery.
+                    Every fitness journey is different. Whether you are building strength, improving endurance, or maintaining an active lifestyle, we bring together essentials that support your individual goals.
                   </p>
                 </div>
 
                 <div className="cuyana-pillar-card">
                   <span className="cuyana-pillar-num">04</span>
-                  <h4 className="cuyana-pillar-name">Timeless Craftsmanship</h4>
+                  <h4 className="cuyana-pillar-name">A BETTER EXPERIENCE, EVERY TIME</h4>
                   <p className="cuyana-pillar-desc">
-                    From our medical-grade stainless steel shakers to heavy-duty waxed canvas carryalls,
-                    we build durable tools engineered for lifetimes of rigorous athletic use.
+                From discovering your next fitness essential to placing your order, we believe every interaction should be simple, reliable, and seamless. We are committed to making your shopping experience as effortless as your next workout is rewarding.
                   </p>
                 </div>
               </div>
