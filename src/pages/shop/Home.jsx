@@ -74,42 +74,53 @@ export default function Home() {
 
   return (
     <main className="home-container">
-      {/* 1. HERO SECTION - STARK PURE MONOCHROME (CUYANA / DAZE) */}
-      <section className="editorial-white-hero" id="home">
-        <div className="editorial-hero-container">
-          <div className="editorial-hero-grid">
-            {/* Left Column: Brand & Editorial Manifesto */}
-            <div className="editorial-hero-text">
-              <p className="editorial-hero-eyebrow">GYMKHANA NUTRITION · EST. 2026</p>
-              <h1 className="editorial-hero-title">GYMKHANA</h1>
-              <p className="editorial-hero-tagline">
-                Precision sports nutrition engineered with zero proprietary fillers.
-              </p>
-              <p className="editorial-hero-desc">
-                We create timeless formulations for the dedicated athlete through carefully selected,
-                third-party verified active compounds, precise clinical dosages, and uncompromising
-                attention to biological purity.
-              </p>
-              <div className="editorial-hero-actions">
-                <Link to="/shop" className="editorial-hero-btn-primary">
-                  Explore The Collection &rarr;
-                </Link>
-                <a href="#bestsellers" className="editorial-hero-link-secondary">
-                  Best Sellers &darr;
-                </a>
-              </div>
+      {/* 1. HERO SECTION - HIGH-FASHION EDITORIAL ATHLETIC STAGING (GAZU PREFERENCE) */}
+      <section className="gazu-hero-section" id="home">
+        <div className="gazu-hero-stage">
+          {/* Top-Left Editorial Micro-Copy */}
+          <div className="gazu-meta-top">
+            <p className="gazu-meta-heading">
+              <span>FUEL YOUR GRIND</span>
+              <span>BUILT YOUR STRENGTH</span>
+              
+            </p>
+            <span className="gazu-meta-line" aria-hidden="true" />
+          </div>
+
+          {/* Central Monumental Typography & Centered Athlete Staging */}
+          <div className="gazu-monumental-stage">
+            <div className="gazu-brand-backdrop" aria-hidden="true">
+              <span className="gazu-letters-left">GYMK</span>
+              <span className="gazu-letters-right">HANA</span>
             </div>
 
-            {/* Right Column: Framed Editorial Staging */}
-            <div className="editorial-hero-image-col">
-              <div className="editorial-hero-image-frame">
-                <img
-                  src={publicAssetUrl("/images/whey-hero.png")}
-                  alt="Gymkhana Nutrition — Whey Formulation"
-                  className="editorial-hero-img"
-                  loading="eager"
-                />
-              </div>
+            <div className="gazu-athlete-frame">
+              <img
+                src={publicAssetUrl("/images/hero-athlete-cutout.png?v=exact")}
+                alt="Gymkhana Athlete"
+                className="gazu-athlete-img"
+                loading="eager"
+              />
+              <div className="gazu-floor-shadow" aria-hidden="true" />
+            </div>
+          </div>
+
+          {/* Bottom Controls Row: Shop Now / Explore on left, Collection tag on right */}
+          <div className="gazu-hero-footer">
+            <div className="gazu-hero-actions">
+              <Link to="/shop" className="gazu-btn-shop">
+                SHOP NOW
+              </Link>
+              <Link to="/shop" className="gazu-link-explore">
+                EXPLORE NEW IN
+              </Link>
+            </div>
+
+            <div className="gazu-meta-bottom">
+              <p className="gazu-meta-bottom-title">NEW</p>
+              <p className="gazu-meta-bottom-title">COLLECTION</p>
+              <p className="gazu-meta-bottom-year">2 0 2 6</p>
+              <span className="gazu-meta-line" aria-hidden="true" />
             </div>
           </div>
         </div>
@@ -149,7 +160,6 @@ export default function Home() {
       <section id="categories" className="home-minimal-editorial-section categories-minimal-section">
         <div className="home-minimal-container">
           <header className="home-minimal-header">
-            <p className="home-minimal-eyebrow">CURATED DISCIPLINES</p>
             <h2 className="home-minimal-title">Shop by Category</h2>
             <p className="home-minimal-subtitle">
               Precision nutritional architectures formulated with intent for every phase of training and biological recovery.

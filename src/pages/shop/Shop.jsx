@@ -23,43 +23,18 @@ export default function Shop() {
 
   const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const search = queryParams.get("search") || "";
-  const category = queryParams.get("category") || "All";
   const [sort, setSort] = useState("default");
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Derived list of all unique categories (always includes All + all database categories)
-  const categories = useMemo(() => {
-    const set = new Set(["All"]);
-    if (Array.isArray(items) && items.length > 0) {
-      items.forEach((p) => {
-        if (p.category) set.add(p.category);
-      });
-    } else {
-      [
-        "Protein",
-        "Creatine",
-        "Pre-Workout",
-        "Weight Gain",
-        "Recovery",
-        "Snacks",
-        "Accessories",
-        "Gym Accessories",
-        "Supplements",
-      ].forEach((c) => set.add(c));
-    }
-    return Array.from(set);
-  }, [items]);
-
   // Filtered & sorted products
   const filteredProducts = useMemo(() => {
     const q = search.trim().toLowerCase();
     const list = items.filter((p) => {
       const matchQ = !q || `${p.name} ${p.description || ""} ${p.category || ""}`.toLowerCase().includes(q);
-      const matchCat = category === "All" || p.category?.toLowerCase() === category.toLowerCase();
-      return matchQ && matchCat;
+      return matchQ;
     });
 
     if (sort === "low-high") list.sort((a, b) => Number(a.price) - Number(b.price));
@@ -67,17 +42,7 @@ export default function Shop() {
     else if (sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
 
     return list;
-  }, [items, search, category, sort]);
-
-  const handleCategorySelect = (cat) => {
-    const params = new URLSearchParams(location.search);
-    if (cat === "All") {
-      params.delete("category");
-    } else {
-      params.set("category", cat);
-    }
-    navigate({ pathname: "/shop", search: params.toString() ? `?${params.toString()}` : "" }, { replace: true });
-  };
+  }, [items, search, sort]);
 
   const handleSearchChange = (e) => {
     const val = e.target.value;
@@ -155,30 +120,13 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* Category Filter Pills (All visible, wrapping cleanly) */}
-      <nav className="shop-categories-wrap" aria-label="Filter by category">
-        {categories.map((cat) => {
-          const isActive = category.toLowerCase() === cat.toLowerCase();
-          return (
-            <button
-              key={cat}
-              type="button"
-              className={`shop-category-pill ${isActive ? "active" : ""}`}
-              onClick={() => handleCategorySelect(cat)}
-            >
-              {cat}
-            </button>
-          );
-        })}
-      </nav>
-
       {/* Meta Bar: Product Count & Active Filters */}
       <div className="shop-meta-row">
         <span className="shop-results-count">
           Showing <strong>{filteredProducts.length}</strong> of {items.length} formulations
         </span>
 
-        {(category !== "All" || search.trim()) && (
+        {search.trim() && (
           <button type="button" onClick={clearFilters} className="shop-reset-btn">
             Clear all filters &times;
           </button>

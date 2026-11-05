@@ -6,14 +6,11 @@ import { Heart, ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 import { toggleWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
+import { formatCurrency } from "../utils/formatters";
 import { publicAssetUrl } from "../utils/publicAssetUrl";
 import "./ProductCard.css";
 
 const TOTAL_SLIDES = 6;
-
-function formatRupee(val) {
-  return "₹ " + Number(val || 0).toLocaleString("en-IN");
-}
 
 function getProductSubtitle(product) {
   if (product?.subtitle) return product.subtitle;
@@ -240,8 +237,8 @@ export default function ProductCard({ product, showBadge = false }) {
 
         {/* Price Row: Current Price + Strikethrough Original Price */}
         <div className="product-card-prices">
-          <span className="product-card-current-price">{formatRupee(currentPrice)}</span>
-          <span className="product-card-original-price">{formatRupee(originalPrice)}</span>
+          <span className="product-card-current-price">{formatCurrency(currentPrice)}</span>
+          <span className="product-card-original-price">{formatCurrency(originalPrice)}</span>
         </div>
 
         {/* Size Variant Selector Pills */}

@@ -1467,244 +1467,6 @@ img {
   }
 }
 
-.wishlist-button {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 1px solid #ebebef;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #121214;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.wishlist-button:hover {
-  transform: scale(1.06);
-  color: #121214;
-  border-color: #121214;
-  background: #ffffff;
-}
-
-.wishlist-button:active {
-  transform: scale(0.94);
-}
-
-.wishlist-button.active {
-  color: #121214;
-  border-color: #121214;
-  background: #f7f7f9;
-}
-
-/* Wishlist styles are modularly managed in Wishlist.css */
-
-/* GYMKHANA split-screen login */
-
-/* Keep the login screen within the viewport. */
-body:has(.auth-page.auth-split-layout) {
-  padding-top: 0;
-  overflow: hidden;
-}
-
-body:has(.auth-page.auth-split-layout) .navbar {
-  display: none;
-}
-
-.auth-page.auth-split-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100vh;
-  height: 100dvh;
-  min-height: 0;
-  padding: 0;
-  gap: 0;
-  align-items: stretch;
-  background: #fff;
-}
-
-.auth-image-panel {
-  position: relative;
-  min-height: 0;
-  overflow: hidden;
-  background: #20211f;
-}
-
-.auth-image-panel > img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.auth-image-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(24px, 4vw, 56px);
-  color: #fff;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.42),
-    rgba(0, 0, 0, 0.08) 35%,
-    rgba(0, 0, 0, 0.78)
-  );
-}
-
-.auth-image-brand {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: 0.22em;
-}
-
-.auth-image-eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  font-weight: 600;
-}
-
-.auth-image-overlay h2 {
-  margin: 12px 0;
-  font-size: clamp(2rem, 3.6vw, 3.8rem);
-  line-height: 1.08;
-  letter-spacing: -0.045em;
-}
-
-.auth-image-description {
-  color: #e0e0e0;
-  font-size: 0.95rem;
-}
-
-.auth-form-panel {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: clamp(24px, 5vw, 80px);
-  min-width: 0;
-  background: #fff;
-}
-
-.auth-form-panel .auth-card {
-  width: 100%;
-  max-width: 420px;
-  margin: 0;
-}
-
-/* Mobile and tablet */
-@media (max-width: 760px) {
-  .auth-page.auth-split-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: 32% 68%;
-  }
-
-  .auth-image-panel {
-    min-height: 0;
-    height: auto;
-    max-height: none;
-  }
-
-  .auth-image-overlay {
-    padding: 24px;
-  }
-
-  .auth-image-overlay h2 {
-    font-size: 2rem;
-  }
-
-  .auth-form-panel {
-    min-height: 0;
-    padding: 20px 24px;
-  }
-
-  .auth-form-panel .auth-subtitle {
-    margin-bottom: 18px;
-  }
-
-  .auth-form-panel .auth-card label {
-    margin-top: 12px;
-  }
-
-  .auth-form-panel .auth-submit {
-    margin-top: 18px;
-  }
-}
-/* Remove the login card appearance */
-.auth-form-panel .auth-card {
-  width: 100%;
-  max-width: 420px;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-/* Keep the login content clean */
-.auth-form-panel {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: clamp(24px, 5vw, 80px);
-  background: #fff;
-}
-/* Login text colors */
-.auth-form-panel .eyebrow {
-  color: #777777;
-  letter-spacing: 0.16em;
-}
-
-.auth-form-panel .auth-card h1 {
-  color: #171717;
-}
-
-.auth-form-panel .auth-subtitle {
-  color: #737373;
-}
-
-.auth-form-panel .auth-card label {
-  color: #292929;
-}
-
-.auth-form-panel .auth-card input {
-  color: #171717;
-  background: #ffffff;
-  border-color: #d9d9d9;
-}
-
-.auth-form-panel .auth-card input::placeholder {
-  color: #a0a0a0;
-}
-
-.auth-form-panel .auth-footer {
-  color: #737373;
-}
-
-.auth-form-panel .auth-footer a {
-  color: #171717;
-  font-weight: 600;
-}
-
-.auth-form-panel .auth-success {
-  color: #247343;
-}
-
-.auth-form-panel .auth-error {
-  color: #c62828;
-}
-
 /* Password input and visibility toggle */
 
 .password-wrapper {
@@ -1780,6 +1542,36 @@ body:has(.auth-page.auth-split-layout) .navbar {
   border-bottom: 1px solid #ebebef;
   background: #ffffff;
   backdrop-filter: none;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Hero Section Navbar - Seamless matching canvas tone (#e1e0dc) */
+.navbar.navbar-hero {
+  background-color: #e1e0dc;
+  border-bottom-color: #d4d3cf;
+}
+
+.navbar.navbar-hero .mobile-menu-toggle {
+  border-color: #c8c7c2;
+  background: transparent;
+}
+
+.navbar.navbar-hero .mobile-menu-toggle:hover {
+  border-color: #0d0d0f;
+  background: #d5d4cf;
+}
+
+.navbar.navbar-hero.mobile-open .navbar-menu {
+  background-color: #e1e0dc;
+  border-bottom-color: #d4d3cf;
+}
+
+.navbar.navbar-hero.mobile-open .navbar-links-left > a,
+.navbar.navbar-hero.mobile-open .navbar-links-right > .navbar-cart-icon-link,
+.navbar.navbar-hero.mobile-open .navbar-links-right > .navbar-wishlist,
+.navbar.navbar-hero.mobile-open .navbar-links-right > .profile-icon,
+.navbar.navbar-hero.mobile-open .navbar-links-right .profile-dropdown {
+  border-bottom-color: #d4d3cf;
 }
 
 .navbar-menu {

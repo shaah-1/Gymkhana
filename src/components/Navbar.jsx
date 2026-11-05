@@ -24,11 +24,37 @@ export default function Navbar() {
 
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
 
   const closeMenus = () => {
     setShowProfile(false);
     setShowMobileMenu(false);
   };
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+
+    const checkScroll = () => {
+      const heroEl = document.getElementById("home");
+      if (heroEl) {
+        const rect = heroEl.getBoundingClientRect();
+        setIsScrolledPastHero(rect.bottom <= 72);
+      } else {
+        setIsScrolledPastHero(window.scrollY >= window.innerHeight - 80);
+      }
+    };
+
+    checkScroll();
+    window.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [location.pathname]);
+
+  const isHeroNavbar = location.pathname === "/" && !isScrolledPastHero;
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -46,7 +72,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`navbar ${showMobileMenu ? "mobile-open" : ""}`}
+      className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isHeroNavbar ? "navbar-hero" : ""}`}
       onMouseLeave={() => {
         if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(false);
       }}
