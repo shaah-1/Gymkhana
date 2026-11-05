@@ -88,7 +88,7 @@ function OrderDetails() {
         <span>/</span>
         <Link to="/admin/orders">Orders</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--eden-black)", fontWeight: 500 }} className="eden-num">
           #{order.id}
         </span>
       </div>
@@ -104,10 +104,10 @@ function OrderDetails() {
       >
         <div>
           <h1 className="eden-page-title" style={{ margin: 0 }}>
-            ORDER #{order.id}
+            ORDER <span className="eden-title-num">#{order.id}</span>
           </h1>
           <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
-            Placed on {orderDate}
+            Placed on <span className="eden-num">{orderDate}</span>
           </p>
         </div>
 
@@ -339,10 +339,10 @@ function OrderDetails() {
                       </span>
                     </div>
                   </td>
-                  <td>{formatCurrency(price)}</td>
-                  <td>{qty}</td>
+                  <td className="eden-num-cell">{formatCurrency(price)}</td>
+                  <td className="eden-num-cell">{qty}</td>
                   <td>
-                    <strong>{formatCurrency(lineTotal)}</strong>
+                    <strong className="eden-num">{formatCurrency(lineTotal)}</strong>
                   </td>
                 </tr>
               );
@@ -369,7 +369,7 @@ function OrderDetails() {
                   borderTop: "1px solid var(--eden-border)",
                 }}
               >
-                <strong style={{ fontSize: "15px", color: "var(--eden-black)" }}>
+                <strong className="eden-num" style={{ fontSize: "15px", color: "var(--eden-black)" }}>
                   {formatCurrency(
                     Number(order.total ?? order.totalAmount ?? 0)
                   )}

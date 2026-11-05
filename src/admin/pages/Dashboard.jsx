@@ -445,7 +445,7 @@ function Dashboard() {
                               y={pt.y - 18}
                               fill="#ffffff"
                               fontSize="10.5"
-                              fontWeight="600"
+                              fontWeight="300"
                               textAnchor="middle"
                             >
                               {pt.val}

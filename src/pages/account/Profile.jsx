@@ -20,7 +20,7 @@ export default function Profile({ defaultTab }) {
   const reduxUser = useSelector((s) => s.auth.user);
   const userId = useSelector((s) => s.auth.userId);
   const products = useSelector((s) => s.products.items);
-  const wishlistItems = useSelector((s) => s.wishlist.items);
+  const wishlistItems = useSelector((s) => s.wishlist?.items || []);
 
   const [user, setUser] = useState(reduxUser);
   const [loading, setLoading] = useState(true);

@@ -1,3 +1,12 @@
+/* Trafalgar font range for all numerical figures in admin (Thin / Light weight) */
+@font-face {
+  font-family: 'AdminNumberFont';
+  src: local('Trafalgar'), local('Trafalgar-Regular'), local('Trafalgar Regular'), local('Trafalgar-Light'), local('Trafalgar Light'), local('Numbers Trafalgar'), local('Numbers-Trafalgar'), local('Numbers_Trafalgar'), local('Baskerville');
+  font-weight: 100 900;
+  font-style: normal;
+  unicode-range: U+0030-0039, U+20B9, U+0024, U+0025, U+002B, U+002D, U+0023, U+002C, U+002E;
+}
+
 :root {
   --eden-bg: #fbfbfb;
   --eden-surface: #ffffff;
@@ -12,7 +21,7 @@
   --eden-light-box: #f5f5f7;
   --eden-serif: "Cormorant Garamond", Didot, "Bodoni MT", "Cinzel", Georgia, serif;
   --eden-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --eden-num: Arial, sans-serif;
+  --eden-num: 'Trafalgar', 'Trafalgar Regular', 'Trafalgar Light', 'Numbers Trafalgar', 'Numbers-Trafalgar', 'Numbers_Trafalgar', 'Baskerville', 'Georgia', serif;
 }
 
 /* ============================================================
@@ -23,9 +32,16 @@
   min-height: 100vh;
   background-color: var(--eden-bg);
   color: var(--eden-text);
-  font-family: var(--eden-sans);
+  font-family: 'AdminNumberFont', var(--eden-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.admin-layout input,
+.admin-layout select,
+.admin-layout textarea,
+.admin-layout button {
+  font-family: 'AdminNumberFont', var(--eden-sans);
 }
 
 /* ============================================================
@@ -97,9 +113,9 @@
 }
 
 .eden-topbar-badge {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 300;
   background: #121214;
   color: #ffffff;
   padding: 1px 6px;
@@ -181,7 +197,7 @@
 }
 
 .eden-page-title {
-  font-family: var(--eden-serif);
+  font-family: 'AdminNumberFont', var(--eden-serif);
   font-size: clamp(34px, 4.5vw, 48px);
   font-weight: 400;
   letter-spacing: 0.08em;
@@ -189,6 +205,14 @@
   color: var(--eden-black);
   margin: 0 0 36px;
   line-height: 1.1;
+}
+
+.eden-page-title .eden-title-num,
+.eden-title-num {
+  font-family: var(--eden-num) !important;
+  font-weight: 300 !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
 }
 
 /* ============================================================
@@ -239,9 +263,9 @@
 }
 
 .eden-section-num {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 300;
   font-variant-numeric: tabular-nums;
 }
 
@@ -354,9 +378,9 @@
 }
 
 .eden-radio-price {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--eden-black);
   font-variant-numeric: tabular-nums;
 }
@@ -478,9 +502,9 @@
 }
 
 .eden-product-box-price {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 9.5px;
-  font-weight: 700;
+  font-weight: 300;
   color: #7b7e86;
   margin-top: 2px;
   font-variant-numeric: tabular-nums;
@@ -535,18 +559,18 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #6e7178;
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-variant-numeric: tabular-nums;
 }
 
 .eden-ledger-row.total {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--eden-black);
   padding-top: 14px;
   border-top: 1px solid var(--eden-border);
   letter-spacing: 0.1em;
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-variant-numeric: tabular-nums;
 }
 
@@ -584,9 +608,9 @@
 }
 
 .eden-metric-val {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--eden-black);
   margin: 0;
   line-height: 1.1;
@@ -594,7 +618,8 @@
 }
 
 .eden-metric-trend {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
+  font-weight: 300;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -642,9 +667,9 @@
 }
 
 .eden-graph-revenue-num {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--eden-black);
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -701,7 +726,7 @@
 }
 
 .eden-graph-svg-wrap svg text {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-variant-numeric: tabular-nums;
 }
 
@@ -713,7 +738,7 @@
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-variant-numeric: tabular-nums;
 }
 
@@ -741,9 +766,9 @@
 }
 
 .eden-submetric-val {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--eden-black);
   letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
@@ -785,7 +810,17 @@
 }
 
 .eden-table td strong {
-  font-family: var(--eden-num, Arial, sans-serif);
+  font-family: var(--eden-num);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+
+.eden-table td.eden-num-cell,
+.eden-table td .eden-num,
+.eden-num-cell,
+.eden-num {
+  font-family: var(--eden-num);
+  font-weight: 300;
   font-variant-numeric: tabular-nums;
 }
 
@@ -804,8 +839,10 @@
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
+  font-family: var(--eden-num);
+  font-variant-numeric: tabular-nums;
   font-size: 9.5px;
-  font-weight: 600;
+  font-weight: 300;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 3px 8px;
@@ -931,8 +968,10 @@
 }
 
 .eden-login-pillar-num {
+  font-family: var(--eden-num);
+  font-variant-numeric: tabular-nums;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 300;
   letter-spacing: 0.1em;
   color: var(--eden-black);
 }

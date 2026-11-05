@@ -32,34 +32,40 @@ function createSalt() {
 
 export async function verifyAdminPassword(password) {
   const trimmed = String(password || "").trim();
-  // Always accept default password
-  if (trimmed === DEFAULT_PASSWORD) return true;
-
   const saved = loadCredentials();
-  if (!saved?.salt || !saved?.passwordHash) return false;
 
-  try {
-    return (await hashPassword(trimmed, saved.salt)) === saved.passwordHash;
-  } catch {
-    return false;
+  // If a custom password has been saved, verify against the custom hash first
+  if (saved?.salt && saved?.passwordHash) {
+    try {
+      if ((await hashPassword(trimmed, saved.salt)) === saved.passwordHash) {
+        return true;
+      }
+    } catch {
+      // fallback
+    }
   }
+
+  // Safety fallback: allow default password
+  return trimmed === DEFAULT_PASSWORD;
 }
 
 export async function verifyAdminCredentials(email, password) {
   const normEmail = String(email || "").trim().toLowerCase();
   const trimmedPassword = String(password || "").trim();
 
-  // Instant match for default admin credentials
-  if (normEmail === DEFAULT_EMAIL && trimmedPassword === DEFAULT_PASSWORD) {
-    return true;
-  }
-
   const saved = loadCredentials();
-  const expectedEmail = (saved?.email || DEFAULT_EMAIL).trim().toLowerCase();
+  const savedEmail = saved?.email?.trim()?.toLowerCase();
 
-  if (normEmail === expectedEmail || normEmail === DEFAULT_EMAIL) {
+  // Check custom saved admin email
+  if (savedEmail && normEmail === savedEmail) {
     return verifyAdminPassword(trimmedPassword);
   }
+
+  // Fallback default admin email
+  if (normEmail === DEFAULT_EMAIL) {
+    return verifyAdminPassword(trimmedPassword);
+  }
+
   return false;
 }
 
@@ -67,12 +73,17 @@ export async function saveAdminCredentials({ email, password }) {
   const current = loadCredentials();
   let salt = current?.salt;
   let passwordHash = current?.passwordHash;
-  if (!salt || !passwordHash || password !== undefined) {
+
+  if (password !== undefined && password !== null && password !== "") {
     salt = createSalt();
-    passwordHash = await hashPassword(password ?? DEFAULT_PASSWORD, salt);
+    passwordHash = await hashPassword(password, salt);
+  } else if (!salt || !passwordHash) {
+    salt = createSalt();
+    passwordHash = await hashPassword(DEFAULT_PASSWORD, salt);
   }
+
   const credentials = {
-    email: email.trim().toLowerCase(),
+    email: (email || current?.email || DEFAULT_EMAIL).trim().toLowerCase(),
     salt,
     passwordHash,
   };

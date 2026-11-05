@@ -435,6 +435,14 @@
       "email": "heisenberg@gmail.com",
       "password": "0987654321",
       "id": "9kppW7VTfzM"
+    },
+    {
+      "id": "admin-1",
+      "name": "Admin",
+      "email": "admin@gmail.com",
+      "password": "shahid123",
+      "role": "admin",
+      "isAdmin": true
     }
   ],
   "orders": [
@@ -730,6 +738,17 @@
       "stock": 7,
       "quantity": 1,
       "id": "0hrJwv3gxqE"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "4",
+      "name": "Whey Protein Isolate",
+      "category": "Protein",
+      "price": 3499,
+      "image": "/products/whey-isolate.png",
+      "stock": 12,
+      "quantity": 1,
+      "id": "wZEFiHzkyNA"
     }
   ],
   "wishlists": [

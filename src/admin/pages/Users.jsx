@@ -23,7 +23,9 @@ function Users() {
     }
   };
 
-  const filteredUsers = users.filter((u) => {
+  const clientUsers = users.filter((u) => u.role !== "admin" && !u.isAdmin);
+
+  const filteredUsers = clientUsers.filter((u) => {
     const q = searchTerm.trim().toLowerCase();
     if (!q) return true;
     const name = (u.name || u.fullName || "").toLowerCase();
@@ -44,7 +46,7 @@ function Users() {
 
       <div style={{ marginBottom: "32px" }}>
         <h1 className="eden-page-title" style={{ margin: 0 }}>
-          CLIENT ACCOUNTS ({users.length})
+          CLIENT ACCOUNTS <span className="eden-title-num">({clientUsers.length})</span>
         </h1>
         <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
           Registered customer accounts, contact directories, and authorization.
@@ -84,9 +86,9 @@ function Users() {
               {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <strong style={{ color: "var(--eden-black)" }}>
+                    <span style={{ color: "var(--eden-black)", fontWeight: 600 }}>
                       {user.name || user.fullName || "Customer"}
-                    </strong>
+                    </span>
                   </td>
                   <td>{user.email}</td>
                   <td>

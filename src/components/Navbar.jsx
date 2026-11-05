@@ -20,6 +20,7 @@ export default function Navbar() {
       s.auth.user?.isAdmin === true
   );
   const cartCount = useSelector((s) => s.cart.items.reduce((t, i) => t + Number(i.quantity || 0), 0));
+  const wishlistCount = useSelector((s) => (s.wishlist?.items || []).length);
 
   const [showProfile, setShowProfile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -114,9 +115,14 @@ export default function Navbar() {
             )}
           </Link>
 
-          <Link to="/wishlist" onClick={closeMenus} className="navbar-wishlist" aria-label="Wishlist" title="Wishlist">
+          <Link to="/wishlist" onClick={closeMenus} className="navbar-wishlist" aria-label={`Wishlist with ${wishlistCount} items`} title="Wishlist">
             <Heart size={18} strokeWidth={1.7} className="navbar-wishlist-icon" aria-hidden="true" />
             <span className="navbar-mobile-label">Wishlist</span>
+            {isAuth && wishlistCount > 0 && (
+              <span className="navbar-item-count" aria-hidden="true">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
 
           {isAuth ? (

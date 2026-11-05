@@ -35,7 +35,14 @@ export const toggleWishlist = createAsyncThunk(
       );
 
       if (existing) {
-        await deleteWishlistItem(existing.id);
+        try {
+          await deleteWishlistItem(existing.id);
+        } catch (delErr) {
+          // If already removed on server (404), gracefully continue and update local state
+          if (delErr.response?.status !== 404) {
+            console.warn("Wishlist item removal issue:", delErr);
+          }
+        }
         return { id: existing.id, productId: prodId, removed: true };
       }
 
@@ -44,7 +51,7 @@ export const toggleWishlist = createAsyncThunk(
         productId: prodId,
         name: product.name,
         category: product.category || "",
-        price: Number(product.price),
+        price: Number(product.price) || 0,
         image: product.image,
         stock: Number(product.stock ?? 0),
       });
@@ -114,6 +121,9 @@ const wishlistSlice = createSlice({
         if (!alreadyAdded) {
           state.items.push(result);
         }
+      })
+      .addCase(toggleWishlist.rejected, (state, action) => {
+        state.error = action.payload || action.error.message;
       })
 
       .addCase(clearWishlist.fulfilled, (state) => {

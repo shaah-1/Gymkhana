@@ -48,7 +48,20 @@ export const loginUser = async (email, password) => {
   const targetEmail = String(email || "").trim().toLowerCase();
   const targetPassword = String(password || "").trim();
 
-  // Instant check for default admin credentials
+  // 1. Check registered users in the database (including updated admin)
+  try {
+    const users = await getUserByEmail(targetEmail);
+    const matched = users.find(
+      (u) => String(u?.password || "").trim() === targetPassword
+    );
+    if (matched) {
+      return matched;
+    }
+  } catch {
+    // If backend is unreachable, proceed to fallback
+  }
+
+  // 2. Safety fallback for default admin credentials
   if (targetEmail === "admin@gymkhana.com" && targetPassword === "admin123") {
     return {
       id: "admin-1",
@@ -59,11 +72,5 @@ export const loginUser = async (email, password) => {
     };
   }
 
-  const users = await getUserByEmail(targetEmail);
-  return (
-    users.find(
-      (u) =>
-        String(u?.password || "").trim() === targetPassword
-    ) || null
-  );
+  return null;
 };

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Camera, KeyRound, Save, ShieldCheck, UserRound } from "lucide-react";
 import { updateAdminProfile } from "../store/slices/adminAuthSlice";
 import { saveAdminCredentials, verifyAdminPassword } from "../utils/adminCredentials";
+import { saveAdminUser } from "../services/userService";
 import "./AdminProfile.css";
 
 function AdminProfile() {
@@ -54,6 +55,16 @@ function AdminProfile() {
       await saveAdminCredentials({ email: normalizedEmail });
       dispatch(updateAdminProfile({ ...profile, email: normalizedEmail }));
       setProfile((current) => ({ ...current, email: normalizedEmail }));
+      try {
+        await saveAdminUser({
+          name: profile.name,
+          email: normalizedEmail,
+          phone: profile.phone,
+          photo: profile.photo,
+        });
+      } catch {
+        // Backend offline; credentials are safe in localStorage
+      }
       setProfileMessage("Profile details saved.");
     } catch {
       setProfileError("Could not save your profile. Check browser storage and try again.");
@@ -79,12 +90,20 @@ function AdminProfile() {
     setIsSavingPassword(true);
     try {
       if (!(await verifyAdminPassword(passwordForm.current))) {
-        setPasswordError("Current password is incorrect. Sign out and sign in again to sync your saved credentials, then retry.");
+        setPasswordError("Current password is incorrect. Please check and try again.");
         return;
       }
       const normalizedEmail = profile.email.trim().toLowerCase();
       await saveAdminCredentials({ email: normalizedEmail, password: passwordForm.next });
       dispatch(updateAdminProfile({ ...profile, email: normalizedEmail }));
+      try {
+        await saveAdminUser({
+          email: normalizedEmail,
+          password: passwordForm.next,
+        });
+      } catch {
+        // Backend offline; credentials are safe in localStorage
+      }
       setPasswordForm({ current: "", next: "", confirm: "" });
       setProfileMessage("");
       setPasswordMessage("Password updated. Use the new password next time you sign in.");

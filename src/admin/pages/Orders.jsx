@@ -42,7 +42,7 @@ function Orders() {
 
       <div style={{ marginBottom: "32px" }}>
         <h1 className="eden-page-title" style={{ margin: 0 }}>
-          FULFILLMENT ({orders.length})
+          FULFILLMENT <span className="eden-title-num">({orders.length})</span>
         </h1>
         <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
           Live customer orders, shipping dispatch, and payment statuses.
@@ -125,13 +125,13 @@ function Orders() {
                 return (
                   <tr key={order.id}>
                     <td>
-                      <strong style={{ color: "var(--eden-black)" }}>
+                      <strong className="eden-num" style={{ color: "var(--eden-black)" }}>
                         #{order.id}
                       </strong>
                     </td>
-                    <td>{dateStr}</td>
+                    <td className="eden-num-cell">{dateStr}</td>
                     <td>{customerName}</td>
-                    <td>
+                    <td className="eden-num-cell">
                       {itemCount} {itemCount === 1 ? "unit" : "units"}
                     </td>
                     <td>
@@ -140,7 +140,7 @@ function Orders() {
                       </span>
                     </td>
                     <td>
-                      <strong>
+                      <strong className="eden-num">
                         {formatCurrency(
                           Number(order.total ?? order.totalAmount ?? 0)
                         )}

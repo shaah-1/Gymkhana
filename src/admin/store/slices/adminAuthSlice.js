@@ -28,10 +28,10 @@ const adminAuthSlice = createSlice({
   },
   reducers: {
     adminLogin: (state, action) => {
-      const { email } = action.payload;
+      const { email, ...rest } = action.payload || {};
 
       const profile = loadSavedProfile() || {};
-      const admin = { ...profile, email: email.trim().toLowerCase() };
+      const admin = { ...profile, ...rest, email: (email || profile.email || "admin@gymkhana.com").trim().toLowerCase() };
       state.admin = admin;
       state.isAuthenticated = true;
       localStorage.setItem("admin", JSON.stringify(admin));

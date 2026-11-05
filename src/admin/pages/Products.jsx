@@ -60,7 +60,7 @@ function Products() {
       >
         <div>
           <h1 className="eden-page-title" style={{ margin: 0 }}>
-            CATALOG ({products.length})
+            CATALOG <span className="eden-title-num">({products.length})</span>
           </h1>
           <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
             Curate specifications, stock availability, and retail pricing.
@@ -148,7 +148,7 @@ function Products() {
                     </td>
                     <td>{product.category || "—"}</td>
                     <td>
-                      <strong>{formatCurrency(Number(product.price || 0))}</strong>
+                      <strong className="eden-num">{formatCurrency(Number(product.price || 0))}</strong>
                     </td>
                     <td>
                       <span
@@ -156,7 +156,7 @@ function Products() {
                           isOutOfStock ? "cancelled" : "delivered"
                         }`}
                       >
-                        {isOutOfStock ? "OUT OF STOCK" : `${stock} IN STOCK`}
+                        {isOutOfStock ? "OUT OF STOCK" : <><span className="eden-num">{stock}</span> IN STOCK</>}
                       </span>
                     </td>
                     <td>

@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
-import { Eye, EyeOff, Search } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../../services/authService";
 import { loginSuccess } from "../../redux/authSlice";
 import { adminLogin } from "../../admin/store/slices/adminAuthSlice";
-import {
-  verifyAdminCredentials,
-  saveAdminCredentials,
-} from "../../admin/utils/adminCredentials";
+import { verifyAdminCredentials } from "../../admin/utils/adminCredentials";
 import { fetchCart } from "../../redux/cartSlice";
 import { fetchWishlist } from "../../redux/wishlistSlice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
@@ -22,16 +19,13 @@ export default function Login() {
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
   const isAdmin = useSelector((s) => s.adminAuth?.isAuthenticated);
-  const cartCount = useSelector(
-    (s) =>
-      s.cart?.items?.reduce((t, i) => t + Number(i.quantity || 0), 0) || 0
-  );
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const passwordInputRef = useRef(null);
 
   // If already authenticated, redirect automatically
   useEffect(() => {
@@ -109,14 +103,6 @@ export default function Login() {
       // If user has admin rights, also log into admin session
       if (isUserAdmin) {
         dispatch(adminLogin({ email: trimmedEmail, ...safeUser }));
-        try {
-          await saveAdminCredentials({
-            email: trimmedEmail,
-            password: trimmedPassword,
-          });
-        } catch {
-          // Ignore localStorage issues
-        }
       }
 
       if (safeUser.id && !isUserAdmin) {
@@ -176,10 +162,6 @@ export default function Login() {
             <span className="editorial-nav-menu-line" />
             <span className="editorial-nav-menu-line" />
           </Link>
-          <Link to="/#products" className="editorial-nav-search-link">
-            <Search size={12} strokeWidth={2} />
-            <span>SEARCH</span>
-          </Link>
         </div>
 
         <Link to="/" className="editorial-nav-brand">
@@ -188,9 +170,6 @@ export default function Login() {
 
         <div className="editorial-nav-right">
           <span className="editorial-nav-link active">LOG IN</span>
-          <Link to="/cart" className="editorial-nav-link">
-            BAG ({cartCount})
-          </Link>
         </div>
       </header>
 
@@ -228,7 +207,19 @@ export default function Login() {
                   type="email"
                   autoComplete="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError("");
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (!password.trim()) {
+                        e.preventDefault();
+                        if (error) setError("");
+                        passwordInputRef.current?.focus();
+                      }
+                    }
+                  }}
                   required
                   className="editorial-underline-input"
                 />
@@ -252,11 +243,15 @@ export default function Login() {
                 </div>
                 <div className="editorial-input-wrapper">
                   <input
+                    ref={passwordInputRef}
                     id="login-password"
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (error) setError("");
+                    }}
                     required
                     className="editorial-underline-input"
                   />

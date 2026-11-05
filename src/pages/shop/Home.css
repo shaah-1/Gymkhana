@@ -57,12 +57,12 @@
 }
 
 .editorial-hero-title {
-  font-family: Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: clamp(42px, 5.8vw, 72px);
-  font-weight: 700;
+  font-weight: 300;
   color: #121214;
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.12em;
   margin: 0 0 16px 0;
 }
 
@@ -204,9 +204,9 @@
 }
 
 .home-section-title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Avenir', 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(30px, 4vw, 44px);
-  font-weight: 600;
+  font-weight: 300;
   color: #121214;
   letter-spacing: -0.02em;
   margin: 0;
@@ -304,9 +304,9 @@
 }
 
 .home-minimal-title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Avenir', 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(30px, 4vw, 46px);
-  font-weight: 600;
+  font-weight: 300;
   color: #121214;
   letter-spacing: -0.02em;
   margin: 0 0 12px 0;

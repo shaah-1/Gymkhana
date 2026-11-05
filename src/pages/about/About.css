@@ -66,9 +66,9 @@
 }
 
 .cuyana-about-title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Avenir', 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(40px, 4.8vw, 56px);
-  font-weight: 600;
+  font-weight: 300;
   color: #121214;
   line-height: 1.12;
   letter-spacing: -0.02em;
