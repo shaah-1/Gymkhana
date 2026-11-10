@@ -43,6 +43,8 @@ function OrderDetails() {
   const statusStr = String(order.status || "pending").toLowerCase();
   const statusKey = statusStr.includes("deliv")
     ? "delivered"
+    : statusStr.includes("ship")
+    ? "shipped"
     : statusStr.includes("process")
     ? "processing"
     : statusStr.includes("cancel")
@@ -52,20 +54,67 @@ function OrderDetails() {
   const statusLabel =
     statusKey === "delivered"
       ? "Delivered"
+      : statusKey === "shipped"
+      ? "Shipped"
       : statusKey === "processing"
       ? "Processing"
       : statusKey === "cancelled"
       ? "Cancelled"
       : "Pending";
 
-  const handleStatusChange = async (e) => {
-    const newStatus = e.target.value;
+  const totalAmount = Number(order.total ?? order.totalAmount ?? 0);
+
+  const STAGES = [
+    { key: "pending", label: "Pending" },
+    { key: "processing", label: "Processing" },
+    { key: "shipped", label: "Shipped" },
+    { key: "delivered", label: "Delivered" },
+  ];
+
+  const currentStageIndex = STAGES.findIndex((s) => s.key === statusKey);
+  const isCancelled = statusKey === "cancelled";
+
+  // Calculate rail fill across 3 segments:
+  // pending (index 0): 0%
+  // processing (index 1): 33.333%
+  // shipped (index 2): 66.666%
+  // delivered (index 3): 100%
+  const stageFillPercent = isCancelled
+    ? 0
+    : currentStageIndex <= 0
+    ? 0
+    : currentStageIndex === 1
+    ? 33.333
+    : currentStageIndex === 2
+    ? 66.666
+    : 100;
+
+  const getPointClass = (st, idx) => {
+    if (isCancelled) {
+      return "pending is-dimmed";
+    }
+
+    if (statusKey === "delivered") {
+      return "completed";
+    }
+
+    if (idx < currentStageIndex) {
+      return "completed";
+    }
+    if (idx === currentStageIndex) {
+      return "in-progress active";
+    }
+    return "pending";
+  };
+
+  const handleSetStatus = async (targetStatus) => {
+    if (updating || targetStatus === statusKey) return;
     setUpdating(true);
     try {
       await dispatch(
         updateAdminOrderStatus({
           id: order.id,
-          status: newStatus,
+          status: targetStatus,
         })
       ).unwrap();
     } finally {
@@ -83,12 +132,12 @@ function OrderDetails() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="eden-breadcrumbs">
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
         <Link to="/admin/orders">Orders</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }} className="eden-num">
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }} className="admin-num">
           #{order.id}
         </span>
       </div>
@@ -103,11 +152,11 @@ function OrderDetails() {
         }}
       >
         <div>
-          <h1 className="eden-page-title" style={{ margin: 0 }}>
-            ORDER <span className="eden-title-num">#{order.id}</span>
+          <h1 className="admin-page-title" style={{ margin: 0 }}>
+            ORDER <span className="admin-title-num">#{order.id}</span>
           </h1>
           <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
-            Placed on <span className="eden-num">{orderDate}</span>
+            Placed on <span className="admin-num">{orderDate}</span>
           </p>
         </div>
 
@@ -130,6 +179,86 @@ function OrderDetails() {
         </Link>
       </div>
 
+      {/* Editorial Order & Fulfillment Status Stepper (Matches Luxury Design) */}
+      <div className={`admin-stepper-panel ${isCancelled ? "is-cancelled" : ""}`}>
+        <div className="admin-stepper-top-bar">
+          <div className="admin-stepper-title-group">
+            <p className="admin-stepper-kicker">Order Fulfillment Status</p>
+            <span className={`admin-status-tag ${statusKey}`}>
+              {statusLabel}
+            </span>
+            {updating && (
+              <span style={{ fontSize: "11px", color: "#6f7177", fontStyle: "italic" }}>
+                Updating status...
+              </span>
+            )}
+          </div>
+          <div className="admin-stepper-badges">
+            {isCancelled ? (
+              <button
+                type="button"
+                onClick={() => handleSetStatus("pending")}
+                disabled={updating}
+                className="admin-restore-order-btn"
+                title="Restore order to pending"
+              >
+                Restore Order
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleSetStatus("cancelled")}
+                disabled={updating}
+                className="admin-cancel-order-btn"
+                title="Cancel this order"
+              >
+                Cancel Order
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* The Exact Minimalist 4-Step Progress Track (Pending -> Processing -> Shipped -> Delivered) */}
+        <div className="admin-stepper-track-wrap">
+          <div className="admin-stepper-rail">
+            <div
+              className="admin-stepper-rail-fill"
+              style={{
+                width: `${stageFillPercent}%`,
+              }}
+            />
+          </div>
+
+          {STAGES.map((st, idx) => {
+            const pointClass = getPointClass(st, idx);
+
+            return (
+              <button
+                key={st.key}
+                type="button"
+                onClick={() => handleSetStatus(st.key)}
+                disabled={updating}
+                className={`admin-stepper-point ${pointClass}`}
+                title={`Click to set status to ${st.label}`}
+              >
+                <span className="admin-stepper-point-label">{st.label}</span>
+                <div className="admin-stepper-point-circle" />
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="admin-stepper-footer-hint">
+          {isCancelled ? (
+            <span>
+              Order is cancelled. Click any stage above or <strong>Restore Order</strong> to reactivate fulfillment.
+            </span>
+          ) : (
+            <span>Click any step above to update fulfillment status.</span>
+          )}
+        </div>
+      </div>
+
       <div
         style={{
           display: "grid",
@@ -141,8 +270,8 @@ function OrderDetails() {
         {/* Customer Information Card */}
         <div
           style={{
-            background: "var(--eden-surface)",
-            border: "1px solid var(--eden-border)",
+            background: "var(--admin-surface)",
+            border: "1px solid var(--admin-border)",
             padding: "24px",
           }}
         >
@@ -158,7 +287,7 @@ function OrderDetails() {
           >
             1 CLIENT & SHIPPING
           </p>
-          <p style={{ margin: "0 0 6px", color: "var(--eden-black)", fontWeight: 600 }}>
+          <p style={{ margin: "0 0 6px", color: "var(--admin-black)", fontWeight: 600 }}>
             {customerName}
           </p>
           <p style={{ margin: "0 0 4px", color: "#6f7177", fontSize: "12px" }}>
@@ -171,7 +300,7 @@ function OrderDetails() {
             <div
               style={{
                 marginTop: "12px",
-                borderTop: "1px solid var(--eden-border)",
+                borderTop: "1px solid var(--admin-border)",
                 paddingTop: "12px",
               }}
             >
@@ -202,11 +331,11 @@ function OrderDetails() {
           )}
         </div>
 
-        {/* Fulfillment & Payment Card */}
+        {/* Order Summary Card */}
         <div
           style={{
-            background: "var(--eden-surface)",
-            border: "1px solid var(--eden-border)",
+            background: "var(--admin-surface)",
+            border: "1px solid var(--admin-border)",
             padding: "24px",
           }}
         >
@@ -220,72 +349,79 @@ function OrderDetails() {
               margin: "0 0 16px",
             }}
           >
-            2 STATUS & PAYMENT
+            2 ORDER SUMMARY
           </p>
-          <div style={{ marginBottom: "16px" }}>
-            <span
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
+            }}
+          >
+            <div
               style={{
-                fontSize: "12px",
-                color: "#6f7177",
-                marginRight: "10px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingBottom: "12px",
+                borderBottom: "1px solid var(--admin-border-light)",
               }}
             >
-              Fulfillment Status:
-            </span>
-            <span className={`eden-status-tag ${statusKey}`}>
-              {statusLabel}
-            </span>
+              <span style={{ color: "#6f7177", fontSize: "12px" }}>
+                Order Reference:
+              </span>
+              <strong className="admin-num" style={{ color: "var(--admin-black)", fontSize: "12.5px" }}>
+                #{order.id}
+              </strong>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingBottom: "12px",
+                borderBottom: "1px solid var(--admin-border-light)",
+              }}
+            >
+              <span style={{ color: "#6f7177", fontSize: "12px" }}>
+                Total Items:
+              </span>
+              <strong className="admin-num" style={{ color: "var(--admin-black)", fontSize: "12.5px" }}>
+                {items.reduce((sum, i) => sum + Number(i.quantity || 1), 0)} units
+              </strong>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingTop: "2px",
+              }}
+            >
+              <span style={{ color: "#6f7177", fontSize: "12px" }}>
+                Payable Amount:
+              </span>
+              <strong
+                className="admin-num"
+                style={{
+                  color: "var(--admin-black)",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                }}
+              >
+                {formatCurrency(totalAmount)}
+              </strong>
+            </div>
           </div>
-
-          <label style={{ display: "block", marginBottom: "16px" }}>
-            <span
-              style={{
-                display: "block",
-                fontSize: "11px",
-                color: "#6f7177",
-                marginBottom: "6px",
-                fontWeight: 600,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-              }}
-            >
-              Update Status:
-            </span>
-            <select
-              value={statusStr}
-              onChange={handleStatusChange}
-              disabled={updating}
-              className="eden-underline-input"
-              style={{ cursor: "pointer" }}
-            >
-              <option value="pending">Pending</option>
-              <option value="processing">Processing</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </label>
-
-          <p style={{ margin: "0 0 6px", color: "#6f7177", fontSize: "12px" }}>
-            Payment Method:{" "}
-            <strong style={{ color: "var(--eden-black)" }}>
-              {String(order.paymentMethod || "COD").toUpperCase()}
-            </strong>
-          </p>
-          <p style={{ margin: 0, color: "#6f7177", fontSize: "12px" }}>
-            Payment Status:{" "}
-            <span style={{ color: "#7a5e24", fontWeight: 600 }}>
-              {String(order.paymentStatus || "Pending")
-                .replace(/_/g, " ")
-                .toUpperCase()}
-            </span>
-          </p>
         </div>
       </div>
 
       {/* Ordered Items Table */}
-      <div className="eden-table-container">
-        <table className="eden-table">
+      <div className="admin-table-container">
+        <table className="admin-table">
           <thead>
             <tr>
               <th>Ordered Formulation</th>
@@ -314,8 +450,8 @@ function OrderDetails() {
                         style={{
                           width: "44px",
                           height: "44px",
-                          background: "var(--eden-light-box)",
-                          border: "1px solid var(--eden-border)",
+                          background: "var(--admin-light-box)",
+                          border: "1px solid var(--admin-border)",
                           display: "grid",
                           placeItems: "center",
                           padding: "4px",
@@ -334,15 +470,15 @@ function OrderDetails() {
                           }}
                         />
                       </div>
-                      <span style={{ fontWeight: 600, color: "var(--eden-black)" }}>
+                      <span style={{ fontWeight: 600, color: "var(--admin-black)" }}>
                         {item.name || item.title || "Product"}
                       </span>
                     </div>
                   </td>
-                  <td className="eden-num-cell">{formatCurrency(price)}</td>
-                  <td className="eden-num-cell">{qty}</td>
+                  <td className="admin-num-cell">{formatCurrency(price)}</td>
+                  <td className="admin-num-cell">{qty}</td>
                   <td>
-                    <strong className="eden-num">{formatCurrency(lineTotal)}</strong>
+                    <strong className="admin-num">{formatCurrency(lineTotal)}</strong>
                   </td>
                 </tr>
               );
@@ -357,7 +493,7 @@ function OrderDetails() {
                   fontWeight: 600,
                   padding: "16px",
                   color: "#6f7177",
-                  borderTop: "1px solid var(--eden-border)",
+                  borderTop: "1px solid var(--admin-border)",
                   letterSpacing: "0.1em",
                 }}
               >
@@ -366,10 +502,10 @@ function OrderDetails() {
               <td
                 style={{
                   padding: "16px",
-                  borderTop: "1px solid var(--eden-border)",
+                  borderTop: "1px solid var(--admin-border)",
                 }}
               >
-                <strong className="eden-num" style={{ fontSize: "15px", color: "var(--eden-black)" }}>
+                <strong className="admin-num" style={{ fontSize: "15px", color: "var(--admin-black)" }}>
                   {formatCurrency(
                     Number(order.total ?? order.totalAmount ?? 0)
                   )}

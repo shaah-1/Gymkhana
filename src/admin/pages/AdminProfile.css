@@ -7,7 +7,7 @@
 
 .admin-profile-heading { margin-bottom: 28px; }
 .admin-profile-heading span { color: #777981; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
-.admin-profile-heading h1 { margin: 7px 0 0; font-family: var(--eden-serif, Georgia, serif); font-size: clamp(28px, 4vw, 40px); font-weight: 400; letter-spacing: .015em; }
+.admin-profile-heading h1 { margin: 7px 0 0; font-family: var(--admin-serif, Georgia, serif); font-size: clamp(28px, 4vw, 40px); font-weight: 400; letter-spacing: .015em; }
 .admin-profile-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 18px; }
 .admin-profile-card { min-width: 0; padding: clamp(20px, 3vw, 30px); border: 1px solid #e4e4e7; background: #fff; }
 .admin-profile-grid > .admin-profile-card { width: 100%; padding: clamp(28px, 5vw, 52px); }

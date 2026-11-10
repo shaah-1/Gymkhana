@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../../services/authService";
 import { loginSuccess } from "../../redux/authSlice";
-import { adminLogin } from "../../admin/store/slices/adminAuthSlice";
+import { adminLogin, adminLogout } from "../../admin/store/slices/adminAuthSlice";
 import { verifyAdminCredentials } from "../../admin/utils/adminCredentials";
 import { fetchCart } from "../../redux/cartSlice";
 import { fetchWishlist } from "../../redux/wishlistSlice";
@@ -21,7 +21,7 @@ export default function Login() {
   const isAdmin = useSelector((s) => s.adminAuth?.isAuthenticated);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(location.state?.registeredEmail || "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -100,9 +100,11 @@ export default function Login() {
       // Log in customer session
       dispatch(loginSuccess(safeUser));
 
-      // If user has admin rights, also log into admin session
+      // If user has admin rights, also log into admin session; otherwise clear any lingering admin session
       if (isUserAdmin) {
         dispatch(adminLogin({ email: trimmedEmail, ...safeUser }));
+      } else {
+        dispatch(adminLogout());
       }
 
       if (safeUser.id && !isUserAdmin) {
@@ -170,6 +172,9 @@ export default function Login() {
 
         <div className="editorial-nav-right">
           <span className="editorial-nav-link active">LOG IN</span>
+          <Link to="/register" className="editorial-nav-link">
+            CREATE ACCOUNT
+          </Link>
         </div>
       </header>
 

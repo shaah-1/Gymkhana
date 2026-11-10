@@ -11,14 +11,9 @@ export default function Navbar() {
   const dispatch = useDispatch();
 
   const profileRef = useRef(null);
+  const headerRef = useRef(null);
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
-  const isAdmin = useSelector(
-    (s) =>
-      s.adminAuth?.isAuthenticated ||
-      s.auth.user?.role === "admin" ||
-      s.auth.user?.isAdmin === true
-  );
   const cartCount = useSelector((s) => s.cart.items.reduce((t, i) => t + Number(i.quantity || 0), 0));
   const wishlistCount = useSelector((s) => (s.wishlist?.items || []).length);
 
@@ -59,6 +54,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) setShowProfile(false);
+      if (headerRef.current && !headerRef.current.contains(e.target)) setShowMobileMenu(false);
     };
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
@@ -72,6 +68,7 @@ export default function Navbar() {
 
   return (
     <header
+      ref={headerRef}
       className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isHeroNavbar ? "navbar-hero" : ""}`}
       onMouseLeave={() => {
         if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(false);
@@ -87,7 +84,7 @@ export default function Navbar() {
           if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(true);
         }}
       >
-        <Menu size={18} strokeWidth={1.8} aria-hidden="true" />
+        <Menu size={20} strokeWidth={1.8} aria-hidden="true" />
       </button>
 
       <Link to="/" className="brand" aria-label="GYMKHANA Nutrition home">
@@ -168,17 +165,6 @@ export default function Navbar() {
               {showProfile && (
                 <div className="profile-dropdown" id="profile-dropdown" onClick={closeMenus}>
                   <p className="profile-title">My Account</p>
-                  {isAdmin && (
-                    <Link
-                      to="/admin"
-                      style={{
-                        fontWeight: 600,
-                        color: "var(--accent, #e53e3e)",
-                      }}
-                    >
-                      Admin Dashboard →
-                    </Link>
-                  )}
                   <Link to="/profile">Profile & Settings</Link>
                   <Link to="/orders">My Orders</Link>
                   <button type="button" onClick={handleLogout}>Logout</button>

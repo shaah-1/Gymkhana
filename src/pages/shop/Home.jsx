@@ -74,53 +74,53 @@ export default function Home() {
 
   return (
     <main className="home-container">
-      {/* 1. HERO SECTION - HIGH-FASHION EDITORIAL ATHLETIC STAGING (GAZU PREFERENCE) */}
-      <section className="gazu-hero-section" id="home">
-        <div className="gazu-hero-stage">
+      {/* 1. HERO SECTION - HIGH-FASHION EDITORIAL ATHLETIC STAGING (GYMKHANA MONUMENTAL) */}
+      <section className="gym-hero-section" id="home">
+        <div className="gym-hero-stage">
           {/* Top-Left Editorial Micro-Copy */}
-          <div className="gazu-meta-top">
-            <p className="gazu-meta-heading">
+          <div className="gym-meta-top">
+            <p className="gym-meta-heading">
               <span>FUEL YOUR GRIND</span>
               <span>BUILT YOUR STRENGTH</span>
               
             </p>
-            <span className="gazu-meta-line" aria-hidden="true" />
+            <span className="gym-meta-line" aria-hidden="true" />
           </div>
 
           {/* Central Monumental Typography & Centered Athlete Staging */}
-          <div className="gazu-monumental-stage">
-            <div className="gazu-brand-backdrop" aria-hidden="true">
-              <span className="gazu-letters-left">GYMK</span>
-              <span className="gazu-letters-right">HANA</span>
+          <div className="gym-monumental-stage">
+            <div className="gym-brand-backdrop" aria-hidden="true">
+              <span className="gym-letters-left">GYMK</span>
+              <span className="gym-letters-right">HANA</span>
             </div>
 
-            <div className="gazu-athlete-frame">
+            <div className="gym-athlete-frame">
               <img
-                src={publicAssetUrl("/images/hero-athlete-cutout.png?v=exact")}
+                src={publicAssetUrl("/images/hero-athlete-cutout.png")}
                 alt="Gymkhana Athlete"
-                className="gazu-athlete-img"
+                className="gym-athlete-img"
                 loading="eager"
               />
-              <div className="gazu-floor-shadow" aria-hidden="true" />
+              <div className="gym-floor-shadow" aria-hidden="true" />
             </div>
           </div>
 
           {/* Bottom Controls Row: Shop Now / Explore on left, Collection tag on right */}
-          <div className="gazu-hero-footer">
-            <div className="gazu-hero-actions">
-              <Link to="/shop" className="gazu-btn-shop">
+          <div className="gym-hero-footer">
+            <div className="gym-hero-actions">
+              <Link to="/shop" className="gym-btn-shop">
                 SHOP NOW
               </Link>
-              <Link to="/shop" className="gazu-link-explore">
+              <Link to="/shop" className="gym-link-explore">
                 EXPLORE NEW IN
               </Link>
             </div>
 
-            <div className="gazu-meta-bottom">
-              <p className="gazu-meta-bottom-title">NEW</p>
-              <p className="gazu-meta-bottom-title">COLLECTION</p>
-              <p className="gazu-meta-bottom-year">2 0 2 6</p>
-              <span className="gazu-meta-line" aria-hidden="true" />
+            <div className="gym-meta-bottom">
+              <p className="gym-meta-bottom-title">NEW</p>
+              <p className="gym-meta-bottom-title">COLLECTION</p>
+              <p className="gym-meta-bottom-year">2 0 2 6</p>
+              <span className="gym-meta-line" aria-hidden="true" />
             </div>
           </div>
         </div>

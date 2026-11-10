@@ -14,9 +14,12 @@ export const fetchAdminOrders = createAsyncThunk(
 
 export const updateAdminOrderStatus = createAsyncThunk(
   "adminOrders/updateStatus",
-  async ({ id, status }, { rejectWithValue }) => {
+  async ({ id, status, paymentStatus, ...rest }, { rejectWithValue }) => {
     try {
-      return await updateOrder(id, { status });
+      const payload = { ...rest };
+      if (status !== undefined) payload.status = status;
+      if (paymentStatus !== undefined) payload.paymentStatus = paymentStatus;
+      return await updateOrder(id, payload);
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message || "Could not update order");
     }

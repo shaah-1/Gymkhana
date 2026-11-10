@@ -14,14 +14,14 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <main className="aesop-cart-page">
-        <div className="aesop-empty-cart">
-          <span className="aesop-eyebrow">YOUR SELECTIONS</span>
-          <h1 className="aesop-empty-title">Your shopping bag is empty.</h1>
-          <p className="aesop-empty-desc">
+      <main className="cart-page">
+        <div className="cart-empty-cart">
+          <span className="cart-eyebrow">YOUR SELECTIONS</span>
+          <h1 className="cart-empty-title">Your shopping bag is empty.</h1>
+          <p className="cart-empty-desc">
             There are currently no items in your bag. Explore our collection of premium sports nutrition, recovery formulas, and gym essentials.
           </p>
-          <Link to="/" className="aesop-btn-primary aesop-empty-cta">
+          <Link to="/" className="cart-btn-primary cart-empty-cta">
             <span>Explore the Collection</span>
             <ArrowRight size={15} strokeWidth={2} />
           </Link>
@@ -31,73 +31,73 @@ export default function Cart() {
   }
 
   return (
-    <main className="aesop-cart-page">
-      <div className="aesop-cart-container">
-        {/* Editorial Aesop Header */}
-        <header className="aesop-cart-header">
+    <main className="cart-page">
+      <div className="cart-container">
+        {/* Editorial Cart Header */}
+        <header className="cart-header">
           <div>
-            <span className="aesop-eyebrow">YOUR SELECTIONS</span>
-            <h1 className="aesop-cart-title">
+            <span className="cart-eyebrow">YOUR SELECTIONS</span>
+            <h1 className="cart-title">
               Shopping Bag
-              <span className="aesop-item-count">
+              <span className="cart-item-count">
                 ({items.length} {items.length === 1 ? "product" : "products"})
               </span>
             </h1>
           </div>
-          <div className="aesop-shipping-badge">
+          <div className="cart-shipping-badge">
             <span className="badge-dot" aria-hidden="true" />
             <span>Complimentary carbon-neutral delivery included</span>
           </div>
         </header>
 
-        <div className="aesop-cart-layout">
+        <div className="cart-layout">
           {/* Products List Section */}
-          <section className="aesop-cart-items-section" aria-label="Selected products">
-            <div className="aesop-items-table-header" aria-hidden="true">
+          <section className="cart-items-section" aria-label="Selected products">
+            <div className="cart-items-table-header" aria-hidden="true">
               <span className="th-product">Item</span>
               <span className="th-qty">Quantity</span>
               <span className="th-total">Total</span>
             </div>
 
-            <div className="aesop-items-list">
+            <div className="cart-items-list">
               {items.map((item) => {
                 const stock = Number(item.stock ?? 0);
                 const lineTotal = Number(item.price) * item.quantity;
                 return (
-                  <article className="aesop-cart-row" key={item.id}>
+                  <article className="cart-row" key={item.id}>
                     {/* Floating Product Image */}
-                    <Link to={`/products/${item.productId || item.id}`} className="aesop-item-image-wrap" tabIndex={-1}>
-                      <img src={publicAssetUrl(item.image)} alt={item.name} className="aesop-item-image" loading="lazy" />
+                    <Link to={`/products/${item.productId || item.id}`} className="cart-item-image-wrap" tabIndex={-1}>
+                      <img src={publicAssetUrl(item.image)} alt={item.name} className="cart-item-image" loading="lazy" />
                     </Link>
 
                     {/* Product Details */}
-                    <div className="aesop-item-details">
-                      <span className="aesop-item-category">{item.category}</span>
-                      <h2 className="aesop-item-name">
+                    <div className="cart-item-details">
+                      <span className="cart-item-category">{item.category}</span>
+                      <h2 className="cart-item-name">
                         <Link to={`/products/${item.productId || item.id}`}>{item.name}</Link>
                       </h2>
-                      <span className="aesop-item-unit-price">{formatCurrency(item.price)} each</span>
+                      <span className="cart-item-unit-price">{formatCurrency(item.price)} each</span>
 
                       {stock > 0 && stock <= 3 && (
-                        <span className="aesop-low-stock">Only {stock} remaining in stock</span>
+                        <span className="cart-low-stock">Only {stock} remaining in stock</span>
                       )}
 
                       {/* Mobile Stepper & Actions */}
-                      <div className="aesop-row-actions-mobile">
-                        <div className="aesop-stepper" role="group" aria-label={`Quantity for ${item.name}`}>
+                      <div className="cart-row-actions-mobile">
+                        <div className="cart-stepper" role="group" aria-label={`Quantity for ${item.name}`}>
                           <button
                             type="button"
-                            className="aesop-stepper-btn"
+                            className="cart-stepper-btn"
                             aria-label={`Decrease ${item.name} quantity`}
                             onClick={() => dispatch(decreaseQuantity(item.id))}
                             disabled={item.quantity <= 1}
                           >
                             −
                           </button>
-                          <span className="aesop-stepper-value">{item.quantity}</span>
+                          <span className="cart-stepper-value">{item.quantity}</span>
                           <button
                             type="button"
-                            className="aesop-stepper-btn"
+                            className="cart-stepper-btn"
                             aria-label={`Increase ${item.name} quantity`}
                             onClick={() => dispatch(increaseQuantity(item.id))}
                             disabled={stock <= 0 || item.quantity >= stock}
@@ -107,7 +107,7 @@ export default function Cart() {
                         </div>
                         <button
                           type="button"
-                          className="aesop-remove-link"
+                          className="cart-remove-link"
                           onClick={() => dispatch(removeFromCart(item.id))}
                         >
                           Remove
@@ -116,21 +116,21 @@ export default function Cart() {
                     </div>
 
                     {/* Desktop Stepper */}
-                    <div className="aesop-row-qty-col">
-                      <div className="aesop-stepper" role="group" aria-label={`Quantity for ${item.name}`}>
+                    <div className="cart-row-qty-col">
+                      <div className="cart-stepper" role="group" aria-label={`Quantity for ${item.name}`}>
                         <button
                           type="button"
-                          className="aesop-stepper-btn"
+                          className="cart-stepper-btn"
                           aria-label={`Decrease ${item.name} quantity`}
                           onClick={() => dispatch(decreaseQuantity(item.id))}
                           disabled={item.quantity <= 1}
                         >
                           −
                         </button>
-                        <span className="aesop-stepper-value">{item.quantity}</span>
+                        <span className="cart-stepper-value">{item.quantity}</span>
                         <button
                           type="button"
-                          className="aesop-stepper-btn"
+                          className="cart-stepper-btn"
                           aria-label={`Increase ${item.name} quantity`}
                           onClick={() => dispatch(increaseQuantity(item.id))}
                           disabled={stock <= 0 || item.quantity >= stock}
@@ -140,7 +140,7 @@ export default function Cart() {
                       </div>
                       <button
                         type="button"
-                        className="aesop-remove-link"
+                        className="cart-remove-link"
                         onClick={() => dispatch(removeFromCart(item.id))}
                       >
                         Remove
@@ -148,16 +148,16 @@ export default function Cart() {
                     </div>
 
                     {/* Line Total */}
-                    <div className="aesop-row-total-col">
-                      <span className="aesop-line-total">{formatCurrency(lineTotal)}</span>
+                    <div className="cart-row-total-col">
+                      <span className="cart-line-total">{formatCurrency(lineTotal)}</span>
                     </div>
                   </article>
                 );
               })}
             </div>
 
-            <div className="aesop-cart-footer-nav">
-              <Link to="/" className="aesop-back-link">
+            <div className="cart-footer-nav">
+              <Link to="/" className="cart-back-link">
                 <ArrowLeft size={14} strokeWidth={2} />
                 <span>Continue Shopping</span>
               </Link>
@@ -165,54 +165,54 @@ export default function Cart() {
           </section>
 
           {/* Right Column: Order Summary Ledger */}
-          <aside className="aesop-cart-summary-section">
-            <div className="aesop-summary-card">
-              <h2 className="aesop-summary-heading">Order Summary</h2>
+          <aside className="cart-summary-section">
+            <div className="cart-summary-card">
+              <h2 className="cart-summary-heading">Order Summary</h2>
 
-              <dl className="aesop-ledger">
-                <div className="aesop-ledger-row">
+              <dl className="cart-ledger">
+                <div className="cart-ledger-row">
                   <dt>Subtotal</dt>
                   <dd>{formatCurrency(subtotal)}</dd>
                 </div>
-                <div className="aesop-ledger-row">
+                <div className="cart-ledger-row">
                   <dt>Delivery</dt>
-                  <dd className="aesop-shipping-highlight">Complimentary</dd>
+                  <dd className="cart-shipping-highlight">Complimentary</dd>
                 </div>
-                <div className="aesop-ledger-row">
+                <div className="cart-ledger-row">
                   <dt>Taxes & GST</dt>
                   <dd>Calculated at checkout</dd>
                 </div>
 
-                <div className="aesop-ledger-divider" />
+                <div className="cart-ledger-divider" />
 
-                <div className="aesop-ledger-row aesop-ledger-total">
+                <div className="cart-ledger-row cart-ledger-total">
                   <dt>Estimated Total</dt>
-                  <dd className="aesop-total-amount">{formatCurrency(subtotal)}</dd>
+                  <dd className="cart-total-amount">{formatCurrency(subtotal)}</dd>
                 </div>
               </dl>
 
-              <Link to="/checkout" className="aesop-btn-primary">
+              <Link to="/checkout" className="cart-btn-primary">
                 <span>Proceed to Checkout</span>
                 <ArrowRight size={15} strokeWidth={2} />
               </Link>
 
-              {/* Aesop Brand Guarantees */}
-              <div className="aesop-pledge">
-                <div className="aesop-pledge-item">
+              {/* Brand Guarantees */}
+              <div className="cart-pledge">
+                <div className="cart-pledge-item">
                   <span className="pledge-icon" aria-hidden="true">✓</span>
                   <div>
                     <strong>Pure Lab-Tested Formulations</strong>
                     <p>100% genuine ingredients without hidden fillers or banned substances.</p>
                   </div>
                 </div>
-                <div className="aesop-pledge-item">
+                <div className="cart-pledge-item">
                   <span className="pledge-icon" aria-hidden="true">✓</span>
                   <div>
                     <strong>Complimentary Express Delivery</strong>
                     <p>Dispatched within 24 hours in discreet, climate-conscious packaging.</p>
                   </div>
                 </div>
-                <div className="aesop-pledge-item">
+                <div className="cart-pledge-item">
                   <span className="pledge-icon" aria-hidden="true">✓</span>
                   <div>
                     <strong>Hassle-Free Returns</strong>

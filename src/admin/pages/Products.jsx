@@ -41,10 +41,10 @@ function Products() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="eden-breadcrumbs">
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
           Products
         </span>
       </div>
@@ -59,15 +59,15 @@ function Products() {
         }}
       >
         <div>
-          <h1 className="eden-page-title" style={{ margin: 0 }}>
-            CATALOG <span className="eden-title-num">({products.length})</span>
+          <h1 className="admin-page-title" style={{ margin: 0 }}>
+            CATALOG <span className="admin-title-num">({products.length})</span>
           </h1>
           <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
             Curate specifications, stock availability, and retail pricing.
           </p>
         </div>
 
-        <Link to="/admin/products/add" className="eden-btn-black">
+        <Link to="/admin/products/add" className="admin-btn-black">
           <span>ADD PRODUCT</span>
           <ArrowRight size={13} />
         </Link>
@@ -77,7 +77,7 @@ function Products() {
       <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
         <input
           type="search"
-          className="eden-underline-input"
+          className="admin-underline-input"
           placeholder="Filter by name or category..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -87,12 +87,12 @@ function Products() {
       {loading && products.length === 0 ? (
         <p style={{ color: "#7a7c82" }}>Loading catalog...</p>
       ) : error ? (
-        <div className="eden-error-notice">{error}</div>
+        <div className="admin-error-notice">{error}</div>
       ) : filteredProducts.length === 0 ? (
         <p style={{ color: "#7a7c82" }}>No products found matching your search.</p>
       ) : (
-        <div className="eden-table-container">
-          <table className="eden-table">
+        <div className="admin-table-container">
+          <table className="admin-table">
             <thead>
               <tr>
                 <th>Product</th>
@@ -106,6 +106,12 @@ function Products() {
               {filteredProducts.map((product) => {
                 const stock = Number(product.stock ?? 0);
                 const isOutOfStock = stock <= 0;
+                const isLowStock = !isOutOfStock && stock <= 5;
+                const statusClass = isOutOfStock
+                  ? "cancelled"
+                  : isLowStock
+                  ? "pending"
+                  : "delivered";
 
                 return (
                   <tr key={product.id}>
@@ -121,8 +127,8 @@ function Products() {
                           style={{
                             width: "44px",
                             height: "44px",
-                            background: "var(--eden-light-box)",
-                            border: "1px solid var(--eden-border)",
+                            background: "var(--admin-light-box)",
+                            border: "1px solid var(--admin-border)",
                             display: "grid",
                             placeItems: "center",
                             padding: "4px",
@@ -141,22 +147,28 @@ function Products() {
                             }}
                           />
                         </div>
-                        <span style={{ fontWeight: 600, color: "var(--eden-black)" }}>
+                        <span style={{ fontWeight: 600, color: "var(--admin-black)" }}>
                           {product.name || product.title}
                         </span>
                       </div>
                     </td>
                     <td>{product.category || "—"}</td>
                     <td>
-                      <strong className="eden-num">{formatCurrency(Number(product.price || 0))}</strong>
+                      <strong className="admin-num">{formatCurrency(Number(product.price || 0))}</strong>
                     </td>
                     <td>
-                      <span
-                        className={`eden-status-tag ${
-                          isOutOfStock ? "cancelled" : "delivered"
-                        }`}
-                      >
-                        {isOutOfStock ? "OUT OF STOCK" : <><span className="eden-num">{stock}</span> IN STOCK</>}
+                      <span className={`admin-status-tag ${statusClass}`}>
+                        {isOutOfStock ? (
+                          "OUT OF STOCK"
+                        ) : isLowStock ? (
+                          <>
+                            <strong className="admin-stock-qty">{stock}</strong> LOW STOCK
+                          </>
+                        ) : (
+                          <>
+                            <strong className="admin-stock-qty">{stock}</strong> IN STOCK
+                          </>
+                        )}
                       </span>
                     </td>
                     <td>
@@ -169,7 +181,7 @@ function Products() {
                       >
                         <Link
                           to={`/admin/products/edit/${product.id}`}
-                          className="eden-action-link"
+                          className="admin-action-link"
                           style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
                         >
                           <Edit2 size={12} />

@@ -1,5 +1,5 @@
 /* ============================================================
-   GYMKHANA SHOP PAGE STYLES - STARK PURE MONOCHROME (CUYANA / DAZE)
+   GYMKHANA SHOP PAGE STYLES - STARK PURE MONOCHROME
    ============================================================ */
 
 .shop-page {
@@ -272,28 +272,59 @@
   opacity: 0.85;
 }
 
+@media (max-width: 768px) {
+  .shop-page {
+    padding: 28px 18px 64px;
+  }
+
+  .shop-header {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+  }
+
+  .shop-title {
+    font-size: clamp(26px, 6vw, 36px);
+  }
+
+  .shop-subtitle {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .shop-meta-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+}
+
 @media (max-width: 680px) {
   .shop-controls-bar {
     flex-direction: column;
     align-items: stretch;
-    gap: 14px;
+    gap: 12px;
+    padding: 14px 0;
   }
+
   .shop-search-wrapper {
     min-width: 100%;
     flex: 1 1 100%;
   }
+
   .shop-filters-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: 12px;
+    gap: 10px;
   }
+
   .shop-sort-wrapper {
-    flex: 1 1 calc(50% - 6px);
+    flex: 1 1 calc(50% - 5px);
     justify-content: space-between;
     min-width: 0;
   }
+
   .shop-sort-select {
     width: 100%;
     min-width: 0;
@@ -306,6 +337,7 @@
     align-items: stretch;
     gap: 10px;
   }
+
   .shop-sort-wrapper {
     flex: 1 1 100%;
     width: 100%;

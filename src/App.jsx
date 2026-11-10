@@ -49,7 +49,8 @@ export default function App() {
 
   const userId = useSelector((state) => state.auth.userId);
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const isLoginPage = location.pathname === "/login";
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/register";
 
   const toastMessage = location.state?.message || "";
 
@@ -89,7 +90,7 @@ export default function App() {
 
   return (
     <>
-      {!isAdminRoute && !isLoginPage && <Navbar />}
+      {!isAdminRoute && !isAuthPage && <Navbar />}
 
       <div key={location.pathname} className="page-transition">
         <Routes>

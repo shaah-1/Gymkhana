@@ -49,6 +49,29 @@ function Dashboard() {
   const totalProductsCount = products.length > 0 ? products.length : 24;
   const totalOrdersCount = orders.length > 0 ? orders.length : 892;
 
+  // Inventory Status calculations
+  const totalUnitsInStock =
+    products.length > 0
+      ? products.reduce((sum, p) => sum + Number(p.stock ?? 0), 0)
+      : 284;
+
+  const inStockCount =
+    products.length > 0
+      ? products.filter((p) => Number(p.stock ?? 0) > 5).length
+      : 21;
+
+  const lowStockCount =
+    products.length > 0
+      ? products.filter(
+          (p) => Number(p.stock ?? 0) > 0 && Number(p.stock ?? 0) <= 5
+        ).length
+      : 2;
+
+  const outOfStockCount =
+    products.length > 0
+      ? products.filter((p) => Number(p.stock ?? 0) <= 0).length
+      : 1;
+
   // Sales Overview Graph dataset per timeRange
   const salesDatasets = {
     "7D": {
@@ -178,7 +201,7 @@ function Dashboard() {
           }))
       : fallbackOrders;
 
-  // Top Showcase Products in Edén portrait framed boxes
+  // Top Showcase Products in Admin portrait framed boxes
   const showcaseProducts = [
     {
       name: "Whey Protein",
@@ -199,33 +222,33 @@ function Dashboard() {
 
   return (
     <section>
-      {/* Breadcrumbs matching Edén aesthetic */}
-      <div className="eden-breadcrumbs">
+      {/* Breadcrumbs matching Admin aesthetic */}
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
           Overview
         </span>
       </div>
 
       {/* Main Luxury Display Title */}
-      <h1 className="eden-page-title">OVERVIEW</h1>
+      <h1 className="admin-page-title">OVERVIEW</h1>
 
-      {/* 2-Column Luxury Layout (Matches Edén Checkout Structure) */}
-      <div className="eden-layout-grid">
+      {/* 2-Column Luxury Layout (Matches Admin Checkout Structure) */}
+      <div className="admin-layout-grid">
         {/* Left Column: Numbered Sections */}
-        <div className="eden-sections-col">
+        <div className="admin-sections-col">
           {/* Section 1: Performance Metrics */}
-          <div className="eden-section-block">
+          <div className="admin-section-block">
             <div
-              className="eden-section-header"
+              className="admin-section-header"
               onClick={() => toggleSection("metrics")}
             >
-              <h2 className="eden-section-title">
-                <span className="eden-section-num">1</span>
+              <h2 className="admin-section-title">
+                <span className="admin-section-num">1</span>
                 <span>PERFORMANCE METRICS</span>
               </h2>
-              <span className="eden-section-toggle">
+              <span className="admin-section-toggle">
                 {openSections.metrics ? (
                   <ChevronUp size={16} />
                 ) : (
@@ -235,39 +258,102 @@ function Dashboard() {
             </div>
 
             {openSections.metrics && (
-              <div className="eden-metrics-grid">
-                <div className="eden-metric-card">
-                  <p className="eden-metric-label">Total Revenue</p>
-                  <p className="eden-metric-val">{totalRevenueFormatted}</p>
-                  <span className="eden-metric-trend">↑ +14.2% THIS PERIOD</span>
+              <div className="admin-metrics-grid">
+                <div className="admin-metric-card">
+                  <p className="admin-metric-label">Total Revenue</p>
+                  <p className="admin-metric-val">{totalRevenueFormatted}</p>
+                  <span className="admin-metric-trend">↑ +14.2% THIS PERIOD</span>
                 </div>
 
-                <div className="eden-metric-card">
-                  <p className="eden-metric-label">Total Orders</p>
-                  <p className="eden-metric-val">{totalOrdersCount}</p>
-                  <span className="eden-metric-trend">ACTIVE FULFILLMENT</span>
+                <div className="admin-metric-card">
+                  <p className="admin-metric-label">Total Orders</p>
+                  <p className="admin-metric-val">{totalOrdersCount}</p>
+                  <span className="admin-metric-trend">ACTIVE FULFILLMENT</span>
                 </div>
 
-                <div className="eden-metric-card">
-                  <p className="eden-metric-label">Products Active</p>
-                  <p className="eden-metric-val">{totalProductsCount}</p>
-                  <span className="eden-metric-trend">100% INVENTORY TRACKED</span>
+                <div className="admin-metric-card">
+                  <p className="admin-metric-label">Products Active</p>
+                  <p className="admin-metric-val">{totalProductsCount}</p>
+                  <span className="admin-metric-trend">100% INVENTORY TRACKED</span>
+                </div>
+
+                <div
+                  className="admin-metric-card"
+                  onClick={() => navigate("/admin/products")}
+                  style={{ cursor: "pointer" }}
+                  title="View full inventory in Catalog"
+                >
+                  <p className="admin-metric-label">Inventory Status</p>
+                  <p className="admin-metric-val">
+                    {totalUnitsInStock}{" "}
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        fontWeight: 400,
+                        color: "#6f7177",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      UNITS
+                    </span>
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      marginTop: "3px",
+                    }}
+                  >
+                    <span
+                      className="admin-status-tag delivered"
+                      style={{ minWidth: "auto", padding: "2px 7px", fontSize: "9px" }}
+                    >
+                      <strong className="admin-stock-qty" style={{ fontSize: "9px" }}>
+                        {inStockCount}
+                      </strong>{" "}
+                      IN STOCK
+                    </span>
+                    {lowStockCount > 0 && (
+                      <span
+                        className="admin-status-tag pending"
+                        style={{ minWidth: "auto", padding: "2px 7px", fontSize: "9px" }}
+                      >
+                        <strong className="admin-stock-qty" style={{ fontSize: "9px" }}>
+                          {lowStockCount}
+                        </strong>{" "}
+                        LOW
+                      </span>
+                    )}
+                    {outOfStockCount > 0 && (
+                      <span
+                        className="admin-status-tag cancelled"
+                        style={{ minWidth: "auto", padding: "2px 7px", fontSize: "9px" }}
+                      >
+                        <strong className="admin-stock-qty" style={{ fontSize: "9px" }}>
+                          {outOfStockCount}
+                        </strong>{" "}
+                        OUT
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
           {/* Section 2: Sales Overview Graph & Revenue Trends */}
-          <div className="eden-section-block">
+          <div className="admin-section-block">
             <div
-              className="eden-section-header"
+              className="admin-section-header"
               onClick={() => toggleSection("sales")}
             >
-              <h2 className="eden-section-title">
-                <span className="eden-section-num">2</span>
+              <h2 className="admin-section-title">
+                <span className="admin-section-num">2</span>
                 <span>SALES OVERVIEW & REVENUE TRENDS</span>
               </h2>
-              <span className="eden-section-toggle">
+              <span className="admin-section-toggle">
                 {openSections.sales ? (
                   <ChevronUp size={16} />
                 ) : (
@@ -277,29 +363,29 @@ function Dashboard() {
             </div>
 
             {openSections.sales && (
-              <div className="eden-sales-graph-panel">
+              <div className="admin-sales-graph-panel">
                 {/* Graph Header: Metrics and Time Selector Tabs */}
-                <div className="eden-graph-top">
+                <div className="admin-graph-top">
                   <div>
-                    <p className="eden-graph-revenue-label">
+                    <p className="admin-graph-revenue-label">
                       Sales Volume ({timeRange})
                     </p>
-                    <div className="eden-graph-revenue-group">
-                      <span className="eden-graph-revenue-num">
+                    <div className="admin-graph-revenue-group">
+                      <span className="admin-graph-revenue-num">
                         {currentDataset.revenue}
                       </span>
-                      <span className="eden-graph-pill-badge">
+                      <span className="admin-graph-pill-badge">
                         {currentDataset.trend}
                       </span>
                     </div>
                   </div>
 
-                  <div className="eden-graph-time-tabs" role="tablist">
+                  <div className="admin-graph-time-tabs" role="tablist">
                     {["7D", "30D", "90D", "1Y"].map((tab) => (
                       <button
                         key={tab}
                         type="button"
-                        className={`eden-graph-time-tab ${
+                        className={`admin-graph-time-tab ${
                           timeRange === tab ? "active" : ""
                         }`}
                         onClick={() => {
@@ -314,7 +400,7 @@ function Dashboard() {
                 </div>
 
                 {/* SVG Area & Bezier Line Graph */}
-                <div className="eden-graph-svg-wrap">
+                <div className="admin-graph-svg-wrap">
                   <svg
                     width="100%"
                     height="100%"
@@ -323,7 +409,7 @@ function Dashboard() {
                   >
                     <defs>
                       <linearGradient
-                        id="edenSalesGrad"
+                        id="adminSalesGrad"
                         x1="0"
                         y1="0"
                         x2="0"
@@ -404,7 +490,7 @@ function Dashboard() {
                     {/* Area fill */}
                     <path
                       d={currentDataset.fill}
-                      fill="url(#edenSalesGrad)"
+                      fill="url(#adminSalesGrad)"
                     />
 
                     {/* Line Stroke */}
@@ -458,31 +544,31 @@ function Dashboard() {
                 </div>
 
                 {/* X Axis Date Labels */}
-                <div className="eden-graph-x-labels">
+                <div className="admin-graph-x-labels">
                   {currentDataset.labels.map((lbl, idx) => (
                     <span key={idx}>{lbl}</span>
                   ))}
                 </div>
 
                 {/* Bottom Sub-metrics */}
-                <div className="eden-graph-submetrics">
-                  <div className="eden-submetric-item">
-                    <span className="eden-submetric-label">
+                <div className="admin-graph-submetrics">
+                  <div className="admin-submetric-item">
+                    <span className="admin-submetric-label">
                       Average Order Value
                     </span>
-                    <span className="eden-submetric-val">₹2,490</span>
+                    <span className="admin-submetric-val">₹2,490</span>
                   </div>
-                  <div className="eden-submetric-item">
-                    <span className="eden-submetric-label">
+                  <div className="admin-submetric-item">
+                    <span className="admin-submetric-label">
                       Top Category Volume
                     </span>
-                    <span className="eden-submetric-val">PROTEIN (58%)</span>
+                    <span className="admin-submetric-val">PROTEIN (58%)</span>
                   </div>
-                  <div className="eden-submetric-item">
-                    <span className="eden-submetric-label">
+                  <div className="admin-submetric-item">
+                    <span className="admin-submetric-label">
                       Checkout Conversion
                     </span>
-                    <span className="eden-submetric-val">3.8%</span>
+                    <span className="admin-submetric-val">3.8%</span>
                   </div>
                 </div>
               </div>
@@ -490,16 +576,16 @@ function Dashboard() {
           </div>
 
           {/* Section 3: Recent Orders & Fulfillment */}
-          <div className="eden-section-block">
+          <div className="admin-section-block">
             <div
-              className="eden-section-header"
+              className="admin-section-header"
               onClick={() => toggleSection("orders")}
             >
-              <h2 className="eden-section-title">
-                <span className="eden-section-num">3</span>
+              <h2 className="admin-section-title">
+                <span className="admin-section-num">3</span>
                 <span>RECENT FULFILLMENT & ORDERS</span>
               </h2>
-              <span className="eden-section-toggle">
+              <span className="admin-section-toggle">
                 {openSections.orders ? (
                   <ChevronUp size={16} />
                 ) : (
@@ -509,8 +595,8 @@ function Dashboard() {
             </div>
 
             {openSections.orders && (
-              <div className="eden-table-container">
-                <table className="eden-table">
+              <div className="admin-table-container">
+                <table className="admin-table">
                   <thead>
                     <tr>
                       <th>Order ID</th>
@@ -518,7 +604,6 @@ function Dashboard() {
                       <th>Date</th>
                       <th>Status</th>
                       <th>Total</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -541,27 +626,24 @@ function Dashboard() {
                           : "Pending";
 
                       return (
-                        <tr key={order.id}>
+                        <tr
+                          key={order.id}
+                          onClick={() => navigate(`/admin/orders/${order.realId || order.id}`)}
+                          className="admin-clickable-row"
+                          title={`Click to open order #${order.id}`}
+                        >
                           <td>
-                            <strong>#{order.id}</strong>
+                            <strong className="admin-order-id-link">#{order.id}</strong>
                           </td>
                           <td>{order.customer}</td>
                           <td>{order.date}</td>
                           <td>
-                            <span className={`eden-status-tag ${statusKey}`}>
+                            <span className={`admin-status-tag ${statusKey}`}>
                               {statusLabel}
                             </span>
                           </td>
                           <td>
                             <strong>{formatCurrency(order.total)}</strong>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/admin/orders/${order.realId || order.id}`}
-                              className="eden-action-link"
-                            >
-                              View →
-                            </Link>
                           </td>
                         </tr>
                       );
@@ -573,16 +655,16 @@ function Dashboard() {
           </div>
 
           {/* Section 4: Operational Quick Controls */}
-          <div className="eden-section-block">
+          <div className="admin-section-block">
             <div
-              className="eden-section-header"
+              className="admin-section-header"
               onClick={() => toggleSection("controls")}
             >
-              <h2 className="eden-section-title">
-                <span className="eden-section-num">4</span>
+              <h2 className="admin-section-title">
+                <span className="admin-section-num">4</span>
                 <span>OPERATIONAL CONTROLS</span>
               </h2>
-              <span className="eden-section-toggle">
+              <span className="admin-section-toggle">
                 {openSections.controls ? (
                   <ChevronUp size={16} />
                 ) : (
@@ -592,9 +674,9 @@ function Dashboard() {
             </div>
 
             {openSections.controls && (
-              <div className="eden-radio-list">
+              <div className="admin-radio-list">
                 <div
-                  className={`eden-radio-item ${
+                  className={`admin-radio-item ${
                     quickFilter === "products" ? "selected" : ""
                   }`}
                   onClick={() => {
@@ -602,17 +684,17 @@ function Dashboard() {
                     navigate("/admin/products");
                   }}
                 >
-                  <div className="eden-radio-label">
-                    <span className="eden-radio-dot" />
+                  <div className="admin-radio-label">
+                    <span className="admin-radio-dot" />
                     <span>Catalog Management & Pricing Updates</span>
                   </div>
-                  <span className="eden-radio-price">
-                    {totalProductsCount} ITEMS
+                  <span className="admin-radio-price">
+                    {totalProductsCount} ITEMS ({totalUnitsInStock} UNITS)
                   </span>
                 </div>
 
                 <div
-                  className={`eden-radio-item ${
+                  className={`admin-radio-item ${
                     quickFilter === "orders" ? "selected" : ""
                   }`}
                   onClick={() => {
@@ -620,15 +702,15 @@ function Dashboard() {
                     navigate("/admin/orders");
                   }}
                 >
-                  <div className="eden-radio-label">
-                    <span className="eden-radio-dot" />
+                  <div className="admin-radio-label">
+                    <span className="admin-radio-dot" />
                     <span>Order Dispatch & Tracking Verification</span>
                   </div>
-                  <span className="eden-radio-price">LIVE QUEUE</span>
+                  <span className="admin-radio-price">LIVE QUEUE</span>
                 </div>
 
                 <div
-                  className={`eden-radio-item ${
+                  className={`admin-radio-item ${
                     quickFilter === "users" ? "selected" : ""
                   }`}
                   onClick={() => {
@@ -636,11 +718,11 @@ function Dashboard() {
                     navigate("/admin/users");
                   }}
                 >
-                  <div className="eden-radio-label">
-                    <span className="eden-radio-dot" />
+                  <div className="admin-radio-label">
+                    <span className="admin-radio-dot" />
                     <span>Customer Accounts & Security Access</span>
                   </div>
-                  <span className="eden-radio-price">
+                  <span className="admin-radio-price">
                     {users.length || 1} ACCOUNTS
                   </span>
                 </div>
@@ -649,17 +731,17 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Right Column: Edén Summary Panel (Matches "YOUR ORDER (14)" from Screenshot) */}
-        <div className="eden-summary-col">
-          <h3 className="eden-summary-heading">STORE SUMMARY</h3>
+        {/* Right Column: Admin Summary Panel (Matches "YOUR ORDER (14)" from Screenshot) */}
+        <div className="admin-summary-col">
+          <h3 className="admin-summary-heading">STORE SUMMARY</h3>
 
           {/* Product Gallery Strip in framed boxes (Matches 3 cosmetic bottles in screenshot) */}
-          <div className="eden-products-strip">
+          <div className="admin-products-strip">
             {showcaseProducts.map((p) => (
-              <div className="eden-product-box" key={p.name}>
+              <div className="admin-product-box" key={p.name}>
                 <img src={publicAssetUrl(p.image)} alt={p.name} />
-                <span className="eden-product-box-name">{p.name}</span>
-                <span className="eden-product-box-price">
+                <span className="admin-product-box-name">{p.name}</span>
+                <span className="admin-product-box-price">
                   {formatCurrency(p.price)}
                 </span>
               </div>
@@ -667,7 +749,7 @@ function Dashboard() {
           </div>
 
           {/* Underline Action Search Field with Arrow */}
-          <div className="eden-promo-line">
+          <div className="admin-promo-line">
             <input
               type="text"
               placeholder="Search product code or SKU..."
@@ -684,17 +766,17 @@ function Dashboard() {
             </button>
           </div>
 
-          {/* Financial Ledger (Exact aesthetic from Edén screenshot) */}
-          <div className="eden-ledger">
-            <div className="eden-ledger-row">
+          {/* Financial Ledger (Exact aesthetic from Admin screenshot) */}
+          <div className="admin-ledger">
+            <div className="admin-ledger-row">
               <span>GROSS MERCHANDISE:</span>
               <span>{totalRevenueFormatted}</span>
             </div>
-            <div className="eden-ledger-row">
+            <div className="admin-ledger-row">
               <span>ESTIMATED FULFILLMENT:</span>
               <span>COMPLIMENTARY</span>
             </div>
-            <div className="eden-ledger-row total">
+            <div className="admin-ledger-row total">
               <span>NET REVENUE:</span>
               <span>{totalRevenueFormatted}</span>
             </div>
@@ -702,12 +784,12 @@ function Dashboard() {
 
           {/* Primary Action Button */}
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <Link to="/admin/products/add" className="eden-btn-black">
+            <Link to="/admin/products/add" className="admin-btn-black">
               <span>ADD PRODUCT</span>
               <ArrowRight size={14} />
             </Link>
 
-            <Link to="/admin/orders" className="eden-btn-outline">
+            <Link to="/admin/orders" className="admin-btn-outline">
               VIEW ALL ORDERS
             </Link>
           </div>

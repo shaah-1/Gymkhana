@@ -58,12 +58,12 @@ function AddProduct() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="eden-breadcrumbs">
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
         <Link to="/admin/products">Products</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
           New
         </span>
       </div>
@@ -78,7 +78,7 @@ function AddProduct() {
         }}
       >
         <div>
-          <h1 className="eden-page-title" style={{ margin: 0 }}>
+          <h1 className="admin-page-title" style={{ margin: 0 }}>
             NEW PRODUCT
           </h1>
           <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
@@ -107,24 +107,24 @@ function AddProduct() {
 
       <div
         style={{
-          background: "var(--eden-surface)",
-          border: "1px solid var(--eden-border)",
+          background: "var(--admin-surface)",
+          border: "1px solid var(--admin-border)",
           padding: "clamp(24px, 4vw, 44px)",
           maxWidth: "840px",
         }}
       >
-        {error && <div className="eden-error-notice">{error}</div>}
+        {error && <div className="admin-error-notice">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <div className="eden-form-grid" style={{ marginBottom: "32px" }}>
-            <div className="eden-field-group">
-              <label htmlFor="p-name" className="eden-field-label">
+          <div className="admin-form-grid" style={{ marginBottom: "32px" }}>
+            <div className="admin-field-group">
+              <label htmlFor="p-name" className="admin-field-label">
                 Product Title
               </label>
               <input
                 id="p-name"
                 name="name"
-                className="eden-underline-input"
+                className="admin-underline-input"
                 value={form.name}
                 onChange={handleChange}
                 placeholder="e.g. Whey Protein Isolate"
@@ -132,22 +132,22 @@ function AddProduct() {
               />
             </div>
 
-            <div className="eden-field-group">
-              <label htmlFor="p-category" className="eden-field-label">
+            <div className="admin-field-group">
+              <label htmlFor="p-category" className="admin-field-label">
                 Category
               </label>
               <input
                 id="p-category"
                 name="category"
-                className="eden-underline-input"
+                className="admin-underline-input"
                 value={form.category}
                 onChange={handleChange}
                 placeholder="e.g. Protein, Creatine, Vitamins"
               />
             </div>
 
-            <div className="eden-field-group">
-              <label htmlFor="p-price" className="eden-field-label">
+            <div className="admin-field-group">
+              <label htmlFor="p-price" className="admin-field-label">
                 Retail Price (₹)
               </label>
               <input
@@ -155,7 +155,7 @@ function AddProduct() {
                 name="price"
                 type="number"
                 min="0"
-                className="eden-underline-input"
+                className="admin-underline-input"
                 value={form.price}
                 onChange={handleChange}
                 placeholder="2499"
@@ -163,8 +163,8 @@ function AddProduct() {
               />
             </div>
 
-            <div className="eden-field-group">
-              <label htmlFor="p-stock" className="eden-field-label">
+            <div className="admin-field-group">
+              <label htmlFor="p-stock" className="admin-field-label">
                 Inventory Units
               </label>
               <input
@@ -172,7 +172,7 @@ function AddProduct() {
                 name="stock"
                 type="number"
                 min="0"
-                className="eden-underline-input"
+                className="admin-underline-input"
                 value={form.stock}
                 onChange={handleChange}
                 placeholder="50"
@@ -180,28 +180,28 @@ function AddProduct() {
               />
             </div>
 
-            <div className="eden-field-group full-width">
-              <label htmlFor="p-image" className="eden-field-label">
+            <div className="admin-field-group full-width">
+              <label htmlFor="p-image" className="admin-field-label">
                 Image Path or URL
               </label>
               <input
                 id="p-image"
                 name="image"
-                className="eden-underline-input"
+                className="admin-underline-input"
                 value={form.image}
                 onChange={handleChange}
                 placeholder="/products/whey-protein.png"
               />
             </div>
 
-            <div className="eden-field-group full-width">
-              <label htmlFor="p-desc" className="eden-field-label">
+            <div className="admin-field-group full-width">
+              <label htmlFor="p-desc" className="admin-field-label">
                 Formulation & Overview
               </label>
               <textarea
                 id="p-desc"
                 name="description"
-                className="eden-underline-input"
+                className="admin-underline-input"
                 value={form.description}
                 onChange={handleChange}
                 placeholder="Describe nutritional profile, key ingredients, and usage guidelines."
@@ -212,11 +212,11 @@ function AddProduct() {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
-            <button type="submit" className="eden-btn-black" disabled={saving}>
+            <button type="submit" className="admin-btn-black" disabled={saving}>
               <span>{saving ? "SAVING..." : "SAVE PRODUCT"}</span>
               <ArrowRight size={13} />
             </button>
-            <Link to="/admin/products" className="eden-btn-outline">
+            <Link to="/admin/products" className="admin-btn-outline">
               CANCEL
             </Link>
           </div>

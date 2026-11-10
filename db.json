@@ -51,7 +51,7 @@
       "name": "Pre Workout",
       "category": "Pre-Workout",
       "price": 1499,
-      "stock": 0,
+      "stock": 1,
       "image": "/products/pre-workout.png",
       "description": "A pre-training supplement for your workout routine.",
       "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
@@ -339,7 +339,7 @@
       "name": "Magnesium",
       "category": "Supplements",
       "price": 699,
-      "stock": 6,
+      "stock": 0,
       "image": "/products/magnesium.png",
       "description": "A magnesium dietary supplement.",
       "detailedDescription": "A supplement providing magnesium in the form and quantity stated on its label.",
@@ -465,9 +465,10 @@
         }
       ],
       "total": 13485,
-      "status": "processing",
+      "status": "delivered",
       "createdAt": "2026-10-26T09:06:10.807Z",
-      "id": "-kImhydZ8n4"
+      "id": "-kImhydZ8n4",
+      "paymentStatus": "pending"
     },
     {
       "userId": "fKCYrWVDxEo",
@@ -488,7 +489,7 @@
         }
       ],
       "total": 4497,
-      "status": "cancelled",
+      "status": "pending",
       "createdAt": "2026-10-26T09:48:11.515Z",
       "id": "JkV3fgoy81I"
     },
@@ -511,7 +512,7 @@
         }
       ],
       "total": 1998,
-      "status": "pending",
+      "status": "delivered",
       "createdAt": "2026-10-26T09:55:47.473Z",
       "id": "va0M9AGtCSU"
     },
@@ -736,7 +737,7 @@
       "price": 2299,
       "image": "/products/casein.png",
       "stock": 7,
-      "quantity": 1,
+      "quantity": 3,
       "id": "0hrJwv3gxqE"
     },
     {
@@ -749,6 +750,17 @@
       "stock": 12,
       "quantity": 1,
       "id": "wZEFiHzkyNA"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "1",
+      "name": "Whey Protein",
+      "category": "Protein",
+      "price": 2499,
+      "image": "/products/whey-protein.png",
+      "stock": 10,
+      "quantity": 10,
+      "id": "Y4ogc4PUQVU"
     }
   ],
   "wishlists": [
@@ -774,14 +786,24 @@
     },
     {
       "userId": "9hbGUx87F2E",
-      "productId": "3",
-      "name": "Pre Workout",
-      "category": "Pre-Workout",
-      "price": 1499,
-      "image": "/products/pre-workout.png",
-      "stock": 13,
-      "id": "j0yvPM-gpUw"
+      "productId": "23",
+      "name": "Casein Protein",
+      "category": "Protein",
+      "price": 2299,
+      "image": "/products/casein.png",
+      "stock": 7,
+      "id": "-wuBHjKTWSs"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "5",
+      "name": "Mass Gainer",
+      "category": "Weight Gain",
+      "price": 2199,
+      "image": "/products/mass-gainer.png",
+      "stock": 8,
+      "id": "jRQg3m6mDu8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
-}
+} 

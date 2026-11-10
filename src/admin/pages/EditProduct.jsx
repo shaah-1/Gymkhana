@@ -53,45 +53,45 @@ function EditProductForm({ product, onSave }) {
   return (
     <div
       style={{
-        background: "var(--eden-surface)",
-        border: "1px solid var(--eden-border)",
+        background: "var(--admin-surface)",
+        border: "1px solid var(--admin-border)",
         padding: "clamp(24px, 4vw, 44px)",
         maxWidth: "840px",
       }}
     >
-      {error && <div className="eden-error-notice">{error}</div>}
+      {error && <div className="admin-error-notice">{error}</div>}
 
       <form onSubmit={handleSubmit}>
-        <div className="eden-form-grid" style={{ marginBottom: "32px" }}>
-          <div className="eden-field-group">
-            <label htmlFor="ep-name" className="eden-field-label">
+        <div className="admin-form-grid" style={{ marginBottom: "32px" }}>
+          <div className="admin-field-group">
+            <label htmlFor="ep-name" className="admin-field-label">
               Product Title
             </label>
             <input
               id="ep-name"
               name="name"
-              className="eden-underline-input"
+              className="admin-underline-input"
               value={form.name}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="eden-field-group">
-            <label htmlFor="ep-category" className="eden-field-label">
+          <div className="admin-field-group">
+            <label htmlFor="ep-category" className="admin-field-label">
               Category
             </label>
             <input
               id="ep-category"
               name="category"
-              className="eden-underline-input"
+              className="admin-underline-input"
               value={form.category}
               onChange={handleChange}
             />
           </div>
 
-          <div className="eden-field-group">
-            <label htmlFor="ep-price" className="eden-field-label">
+          <div className="admin-field-group">
+            <label htmlFor="ep-price" className="admin-field-label">
               Retail Price (₹)
             </label>
             <input
@@ -99,15 +99,15 @@ function EditProductForm({ product, onSave }) {
               name="price"
               type="number"
               min="0"
-              className="eden-underline-input"
+              className="admin-underline-input"
               value={form.price}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="eden-field-group">
-            <label htmlFor="ep-stock" className="eden-field-label">
+          <div className="admin-field-group">
+            <label htmlFor="ep-stock" className="admin-field-label">
               Inventory Units
             </label>
             <input
@@ -115,35 +115,35 @@ function EditProductForm({ product, onSave }) {
               name="stock"
               type="number"
               min="0"
-              className="eden-underline-input"
+              className="admin-underline-input"
               value={form.stock}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="eden-field-group full-width">
-            <label htmlFor="ep-image" className="eden-field-label">
+          <div className="admin-field-group full-width">
+            <label htmlFor="ep-image" className="admin-field-label">
               Image Path or URL
             </label>
             <input
               id="ep-image"
               name="image"
-              className="eden-underline-input"
+              className="admin-underline-input"
               value={form.image}
               onChange={handleChange}
               placeholder="/products/example.png"
             />
           </div>
 
-          <div className="eden-field-group full-width">
-            <label htmlFor="ep-desc" className="eden-field-label">
+          <div className="admin-field-group full-width">
+            <label htmlFor="ep-desc" className="admin-field-label">
               Formulation & Overview
             </label>
             <textarea
               id="ep-desc"
               name="description"
-              className="eden-underline-input"
+              className="admin-underline-input"
               value={form.description}
               onChange={handleChange}
               rows={3}
@@ -153,11 +153,11 @@ function EditProductForm({ product, onSave }) {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
-          <button type="submit" className="eden-btn-black" disabled={saving}>
+          <button type="submit" className="admin-btn-black" disabled={saving}>
             <span>{saving ? "SAVING..." : "UPDATE PRODUCT"}</span>
             <ArrowRight size={13} />
           </button>
-          <Link to="/admin/products" className="eden-btn-outline">
+          <Link to="/admin/products" className="admin-btn-outline">
             CANCEL
           </Link>
         </div>
@@ -187,12 +187,12 @@ function EditProduct() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="eden-breadcrumbs">
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
         <Link to="/admin/products">Products</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
           Edit
         </span>
       </div>
@@ -207,7 +207,7 @@ function EditProduct() {
         }}
       >
         <div>
-          <h1 className="eden-page-title" style={{ margin: 0 }}>
+          <h1 className="admin-page-title" style={{ margin: 0 }}>
             EDIT PRODUCT
           </h1>
           <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>

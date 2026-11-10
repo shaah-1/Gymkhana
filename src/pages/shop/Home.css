@@ -1,5 +1,5 @@
 /* ============================================================
-   GYMKHANA HOMEPAGE STYLES - STARK PURE MONOCHROME (CUYANA / DAZE)
+   GYMKHANA HOMEPAGE STYLES - STARK PURE MONOCHROME
    ============================================================ */
 
 .home-container {
@@ -9,10 +9,10 @@
 }
 
 /* ============================================================
-   1. EDITORIAL MONUMENTAL HERO (GAZU HIGH-FASHION ATHLETIC PREFERENCE)
+   1. EDITORIAL MONUMENTAL HERO (GYMKHANA HIGH-FASHION ATHLETIC STAGING)
    ============================================================ */
 
-.gazu-hero-section {
+.gym-hero-section {
   position: relative;
   width: 100%;
   height: calc(100vh - var(--navbar-height, 72px));
@@ -30,7 +30,7 @@
   border-bottom: 1px solid #d4d3cf;
 }
 
-.gazu-hero-stage {
+.gym-hero-stage {
   position: relative;
   width: 100%;
   height: 100%;
@@ -45,7 +45,7 @@
 }
 
 /* Top-Left Meta */
-.gazu-meta-top {
+.gym-meta-top {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -53,7 +53,7 @@
   flex-shrink: 0;
 }
 
-.gazu-meta-heading {
+.gym-meta-heading {
   display: flex;
   flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -66,7 +66,7 @@
   text-transform: uppercase;
 }
 
-.gazu-meta-line {
+.gym-meta-line {
   display: block;
   width: 28px;
   height: 1.5px;
@@ -75,7 +75,7 @@
 }
 
 /* Central Monumental Typography & Centered Athlete Staging */
-.gazu-monumental-stage {
+.gym-monumental-stage {
   position: relative;
   width: 100%;
   flex: 1;
@@ -88,7 +88,7 @@
   overflow: visible;
 }
 
-.gazu-brand-backdrop {
+.gym-brand-backdrop {
   position: absolute;
   inset: 0;
   display: flex;
@@ -109,19 +109,19 @@
   z-index: 1; /* Typography (K and H) stays in the background behind athlete */
 }
 
-.gazu-letters-left {
+.gym-letters-left {
   display: inline-block;
   text-align: right;
   letter-spacing: clamp(0.01em, 0.4vw, 0.06em);
 }
 
-.gazu-letters-right {
+.gym-letters-right {
   display: inline-block;
   text-align: left;
   letter-spacing: clamp(0.01em, 0.4vw, 0.06em);
 }
 
-.gazu-athlete-frame {
+.gym-athlete-frame {
   position: relative;
   z-index: 2; /* Athlete stands in front of K and H background letters */
   display: flex;
@@ -131,35 +131,32 @@
   height: 100%;
   max-height: 100%;
   width: auto;
-  transform: scale(1.22);
-  transform-origin: center 85%;
+  transform: scale(1.18);
+  transform-origin: center bottom;
   transition: transform 0.25s ease;
 }
 
-.gazu-athlete-img {
+.gym-athlete-img {
   display: block;
   height: 100%;
   max-height: 100%;
   width: auto;
   object-fit: contain;
   object-position: bottom center;
-  filter: contrast(1.06) brightness(1.01);
-  -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
 }
 
-.gazu-floor-shadow {
+.gym-floor-shadow {
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   width: 70%;
-  height: 14px;
+  height: 12px;
   background: radial-gradient(ellipse at center, rgba(13, 13, 15, 0.35) 0%, rgba(13, 13, 15, 0) 72%);
   border-radius: 50%;
   pointer-events: none;
 }
 
 /* Bottom Controls & Meta Footer - Fits cleanly in 100vh viewport */
-.gazu-hero-footer {
+.gym-hero-footer {
   width: 100%;
   display: flex;
   align-items: flex-end;
@@ -170,14 +167,14 @@
   padding-bottom: clamp(14px, 2vh, 26px);
 }
 
-.gazu-hero-actions {
+.gym-hero-actions {
   display: flex;
   align-items: center;
   gap: clamp(16px, 2.5vw, 32px);
   flex-wrap: wrap;
 }
 
-.gazu-btn-shop {
+.gym-btn-shop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -194,11 +191,11 @@
   transition: background 0.18s ease, transform 0.16s ease;
 }
 
-.gazu-btn-shop:hover {
+.gym-btn-shop:hover {
   background: #2b2b32;
 }
 
-.gazu-link-explore {
+.gym-link-explore {
   display: inline-flex;
   align-items: center;
   color: #0d0d0f;
@@ -213,18 +210,18 @@
   transition: opacity 0.18s ease;
 }
 
-.gazu-link-explore:hover {
+.gym-link-explore:hover {
   opacity: 0.6;
 }
 
-.gazu-meta-bottom {
+.gym-meta-bottom {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
 }
 
-.gazu-meta-bottom-title {
+.gym-meta-bottom-title {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.24em;
@@ -234,7 +231,7 @@
   line-height: 1.45;
 }
 
-.gazu-meta-bottom-year {
+.gym-meta-bottom-year {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.32em;
@@ -244,43 +241,121 @@
 
 /* Responsive adjustments */
 @media (max-width: 820px) {
-  .gazu-hero-section {
-    height: calc(100vh - 64px);
-    height: calc(100dvh - 64px);
-    max-height: calc(100vh - 64px);
-    max-height: calc(100dvh - 64px);
-    padding: 16px 20px 26px;
+  .gym-hero-section {
+    height: calc(100vh - var(--navbar-height, 64px));
+    height: calc(100dvh - var(--navbar-height, 64px));
+    max-height: calc(100vh - var(--navbar-height, 64px));
+    max-height: calc(100dvh - var(--navbar-height, 64px));
+    padding: 14px 20px 22px;
   }
 
-  .gazu-monumental-stage {
+  .gym-monumental-stage {
     min-height: 0;
     margin: 4px 0;
   }
 
-  .gazu-athlete-frame {
-    transform: scale(1.16);
-    transform-origin: center 85%;
+  .gym-athlete-frame {
+    transform: scale(1.12);
+    transform-origin: center bottom;
   }
 
-  .gazu-brand-backdrop {
-    font-size: clamp(48px, 14vw, 88px);
+  .gym-brand-backdrop {
+    font-size: clamp(42px, 12.5vw, 80px);
+    gap: clamp(10px, 2vw, 24px);
   }
 
-  .gazu-hero-footer {
+  .gym-hero-footer {
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
     gap: 16px;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
 
-  .gazu-btn-shop {
+  .gym-btn-shop {
     padding: 11px 20px;
     font-size: 10.5px;
   }
 
-  .gazu-link-explore {
+  .gym-link-explore {
     font-size: 10.5px;
+  }
+}
+
+@media (max-width: 540px) {
+  .gym-hero-section {
+    padding: 12px 16px 18px;
+  }
+
+  .gym-meta-heading {
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+  }
+
+  .gym-meta-line {
+    width: 22px;
+    margin-top: 6px;
+  }
+
+  .gym-brand-backdrop {
+    font-size: clamp(30px, 10vw, 46px);
+    gap: 8px;
+  }
+
+  .gym-athlete-frame {
+    transform: scale(1.06);
+    transform-origin: center bottom;
+  }
+
+  .gym-hero-footer {
+    gap: 12px;
+    padding-bottom: 2px;
+  }
+
+  .gym-hero-actions {
+    gap: 12px;
+  }
+
+  .gym-btn-shop {
+    padding: 9px 15px;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
+
+  .gym-link-explore {
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
+
+  .gym-meta-bottom-title {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+
+  .gym-meta-bottom-year {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+  }
+
+  .home-section {
+    padding: 40px 16px;
+  }
+
+  .home-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .best-sellers-footer {
+    margin-top: 36px;
+  }
+
+  .home-cta-button {
+    width: 100%;
+    max-width: 280px;
+    padding: 13px 20px;
   }
 }
 
@@ -550,6 +625,30 @@
 @media (max-width: 580px) {
   .home-minimal-categories-grid {
     grid-template-columns: 1fr;
+  }
+
+  .newsletter-minimal-section {
+    padding: 44px 18px;
+  }
+
+  .home-minimal-heading-italic {
+    font-size: clamp(28px, 8.5vw, 40px);
+    margin-bottom: 12px;
+  }
+
+  .home-minimal-subtitle {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .home-minimal-newsletter-form {
+    margin-top: 24px;
+  }
+
+  .home-minimal-guarantees {
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 9.5px;
   }
 }
 

@@ -2,7 +2,7 @@
    EDITORIAL MINIMALIST PROFILE (WHITE THEME)
    ========================================================================== */
 
-.dunst-profile-page {
+.account-profile-page {
   min-height: calc(100vh - 80px);
   background-color: #ffffff;
   color: #121214;
@@ -11,7 +11,7 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-.dunst-profile-container {
+.account-profile-container {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -20,7 +20,7 @@
    BREADCRUMBS
    ========================================================================== */
 
-.dunst-breadcrumbs {
+.account-breadcrumbs {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -33,21 +33,21 @@
   margin-bottom: 24px;
 }
 
-.dunst-breadcrumbs a {
+.account-breadcrumbs a {
   color: #8b8e96;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-.dunst-breadcrumbs a:hover {
+.account-breadcrumbs a:hover {
   color: #121214;
 }
 
-.dunst-breadcrumb-sep {
+.account-breadcrumb-sep {
   color: #d1d1d6;
 }
 
-.dunst-breadcrumb-active {
+.account-breadcrumb-active {
   color: #121214;
 }
 
@@ -55,7 +55,7 @@
    TOP DOSSIER BOX (HEADER CARD)
    ========================================================================== */
 
-.dunst-dossier-card {
+.account-dossier-card {
   border: 1px solid #ebebef;
   background: #fbfbfd;
   padding: 32px 36px;
@@ -66,7 +66,7 @@
   box-sizing: border-box;
 }
 
-.dunst-avatar-wrap {
+.account-avatar-wrap {
   width: 90px;
   height: 90px;
   border: 1px solid #ebebef;
@@ -79,13 +79,13 @@
   flex-shrink: 0;
 }
 
-.dunst-avatar-image {
+.account-avatar-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.dunst-avatar-fallback {
+.account-avatar-fallback {
   font-family: Arial, sans-serif;
   font-size: 28px;
   font-weight: 700;
@@ -93,21 +93,21 @@
   color: #121214;
 }
 
-.dunst-dossier-grid {
+.account-dossier-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px 32px;
   min-width: 0;
 }
 
-.dunst-field {
+.account-field {
   display: flex;
   flex-direction: column;
   gap: 5px;
   min-width: 0;
 }
 
-.dunst-field-label {
+.account-field-label {
   font-family: Arial, sans-serif;
   font-size: 9.5px;
   font-weight: 700;
@@ -116,7 +116,7 @@
   color: #8b8e96;
 }
 
-.dunst-field-value {
+.account-field-value {
   font-family: Arial, sans-serif;
   font-size: 13.5px;
   font-weight: 600;
@@ -126,11 +126,11 @@
   overflow-wrap: anywhere;
 }
 
-.dunst-dossier-action {
+.account-dossier-action {
   align-self: flex-start;
 }
 
-.dunst-logout-link {
+.account-logout-link {
   background: none;
   border: none;
   font-family: Arial, sans-serif;
@@ -146,7 +146,7 @@
   transition: color 0.15s ease;
 }
 
-.dunst-logout-link:hover {
+.account-logout-link:hover {
   color: #b91c1c;
 }
 
@@ -154,7 +154,7 @@
    HORIZONTAL TAB NAVIGATION
    ========================================================================== */
 
-.dunst-tabs-bar {
+.account-tabs-bar {
   display: flex;
   align-items: center;
   gap: 40px;
@@ -166,11 +166,11 @@
   scrollbar-width: none;
 }
 
-.dunst-tabs-bar::-webkit-scrollbar {
+.account-tabs-bar::-webkit-scrollbar {
   display: none;
 }
 
-.dunst-tab-btn {
+.account-tab-btn {
   background: none;
   border: none;
   font-family: Arial, sans-serif;
@@ -186,16 +186,16 @@
   transition: color 0.15s ease;
 }
 
-.dunst-tab-btn:hover {
+.account-tab-btn:hover {
   color: #121214;
 }
 
-.dunst-tab-btn.active {
+.account-tab-btn.active {
   color: #121214;
   font-weight: 700;
 }
 
-.dunst-tab-btn.active::after {
+.account-tab-btn.active::after {
   content: "";
   position: absolute;
   bottom: -17px;
@@ -205,7 +205,7 @@
   background: #121214;
 }
 
-.dunst-tab-count {
+.account-tab-count {
   font-family: Arial, sans-serif;
   font-size: 10px;
   font-weight: 700;
@@ -218,19 +218,19 @@
    TAB CONTENT VIEW LAYOUT
    ========================================================================== */
 
-.dunst-view-layout {
+.account-view-layout {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr);
   gap: 48px;
   align-items: start;
 }
 
-.dunst-view-sidebar {
+.account-view-sidebar {
   position: sticky;
   top: 90px;
 }
 
-.dunst-section-title {
+.account-section-title {
   font-family: Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
@@ -240,7 +240,7 @@
   margin: 0;
 }
 
-.dunst-view-main {
+.account-view-main {
   min-width: 0;
 }
 
@@ -248,13 +248,13 @@
    MY ORDERS TAB
    ========================================================================== */
 
-.dunst-orders-list {
+.account-orders-list {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.dunst-order-group {
+.account-order-group {
   border: 1px solid #ebebef;
   background: #ffffff;
   margin-bottom: 28px;
@@ -262,11 +262,11 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.dunst-order-group:hover {
+.account-order-group:hover {
   border-color: #121214;
 }
 
-.dunst-order-group-header {
+.account-order-group-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -277,7 +277,7 @@
   gap: 12px;
 }
 
-.dunst-order-id-label {
+.account-order-id-label {
   display: block;
   font-family: Arial, sans-serif;
   font-size: 11.5px;
@@ -288,7 +288,7 @@
   margin-bottom: 4px;
 }
 
-.dunst-order-date-label {
+.account-order-date-label {
   display: block;
   font-family: Arial, sans-serif;
   font-size: 11px;
@@ -296,13 +296,13 @@
   color: #71737d;
 }
 
-.dunst-order-header-right {
+.account-order-header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.dunst-order-total-badge {
+.account-order-total-badge {
   font-family: Arial, sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -311,17 +311,17 @@
   color: #121214;
 }
 
-.dunst-order-group .dunst-order-card {
+.account-order-group .account-order-card {
   border: none;
   background: transparent;
   border-bottom: 1px solid #ebebef;
 }
 
-.dunst-order-group .dunst-order-card:last-child {
+.account-order-group .account-order-card:last-child {
   border-bottom: none;
 }
 
-.dunst-order-card {
+.account-order-card {
   border: 1px solid #ebebef;
   background: #ffffff;
   padding: 28px;
@@ -333,11 +333,11 @@
   transition: border-color 0.2s ease;
 }
 
-.dunst-order-card:hover {
+.account-order-card:hover {
   border-color: #121214;
 }
 
-.dunst-order-thumb-wrap {
+.account-order-thumb-wrap {
   width: 140px;
   height: 175px;
   border: 1px solid #ebebef;
@@ -351,23 +351,23 @@
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.dunst-order-thumb-wrap:hover {
+.account-order-thumb-wrap:hover {
   border-color: #121214;
   background: #f0f0f4;
 }
 
-.dunst-order-thumb {
+.account-order-thumb {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   transition: transform 0.2s ease;
 }
 
-.dunst-order-thumb-wrap:hover .dunst-order-thumb {
+.account-order-thumb-wrap:hover .account-order-thumb {
   transform: scale(1.04);
 }
 
-.dunst-order-details {
+.account-order-details {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -375,7 +375,7 @@
   min-width: 0;
 }
 
-.dunst-order-product-name {
+.account-order-product-name {
   font-family: Arial, sans-serif;
   font-size: 13.5px;
   font-weight: 700;
@@ -386,17 +386,17 @@
   line-height: 1.4;
 }
 
-.dunst-order-product-name a {
+.account-order-product-name a {
   color: #121214;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-.dunst-order-product-name a:hover {
+.account-order-product-name a:hover {
   color: #55575e;
 }
 
-.dunst-specs-table {
+.account-specs-table {
   display: grid;
   grid-template-columns: 140px minmax(0, 1fr);
   row-gap: 8px;
@@ -405,7 +405,7 @@
   margin-bottom: 22px;
 }
 
-.dunst-spec-k {
+.account-spec-k {
   font-family: Arial, sans-serif;
   font-size: 9.5px;
   font-weight: 700;
@@ -414,7 +414,7 @@
   color: #8b8e96;
 }
 
-.dunst-spec-v {
+.account-spec-v {
   font-family: Arial, sans-serif;
   color: #121214;
   font-weight: 600;
@@ -423,7 +423,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.dunst-spec-status {
+.account-spec-status {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -434,44 +434,44 @@
   border-radius: 0;
 }
 
-.dunst-status-dot {
+.account-status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #15803d;
 }
 
-.dunst-status-pending {
+.account-status-pending {
   background: #fefce8;
   border: 1px solid #fef08a;
   color: #854d0e;
 }
 
-.dunst-status-pending .dunst-status-dot {
+.account-status-pending .account-status-dot {
   background: #ca8a04;
 }
 
-.dunst-status-delivered {
+.account-status-delivered {
   background: #f0fdf4;
   border: 1px solid #bbf7d0;
   color: #15803d;
 }
 
-.dunst-status-delivered .dunst-status-dot {
+.account-status-delivered .account-status-dot {
   background: #16a34a;
 }
 
-.dunst-status-cancelled {
+.account-status-cancelled {
   background: #fef2f2;
   border: 1px solid #fecaca;
   color: #991b1b;
 }
 
-.dunst-status-cancelled .dunst-status-dot {
+.account-status-cancelled .account-status-dot {
   background: #dc2626;
 }
 
-.dunst-order-actions {
+.account-order-actions {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -479,7 +479,7 @@
   padding-top: 10px;
 }
 
-.dunst-btn-outline {
+.account-btn-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -498,7 +498,7 @@
   box-sizing: border-box;
 }
 
-.dunst-btn-outline:hover {
+.account-btn-outline:hover {
   border-color: #121214;
   background: #121214;
   color: #ffffff;
@@ -508,13 +508,13 @@
    FAVOURITES TAB (EDITORIAL 3-COLUMN GRID)
    ========================================================================== */
 
-.dunst-favourites-grid {
+.account-favourites-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
 
-.dunst-favourite-card {
+.account-favourite-card {
   border: 1px solid #ebebef;
   background: #ffffff;
   padding: 18px;
@@ -525,11 +525,11 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.dunst-favourite-card:hover {
+.account-favourite-card:hover {
   border-color: #121214;
 }
 
-.dunst-fav-remove-btn {
+.account-fav-remove-btn {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -548,11 +548,11 @@
   transition: color 0.15s ease;
 }
 
-.dunst-fav-remove-btn:hover {
+.account-fav-remove-btn:hover {
   color: #b91c1c;
 }
 
-.dunst-favourite-image-wrap {
+.account-favourite-image-wrap {
   width: 100%;
   aspect-ratio: 3 / 4;
   border: 1px solid #ebebef;
@@ -567,27 +567,27 @@
   transition: border-color 0.2s ease;
 }
 
-.dunst-favourite-image-wrap:hover {
+.account-favourite-image-wrap:hover {
   border-color: #121214;
 }
 
-.dunst-favourite-image {
+.account-favourite-image {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   transition: transform 0.2s ease;
 }
 
-.dunst-favourite-image-wrap:hover .dunst-favourite-image {
+.account-favourite-image-wrap:hover .account-favourite-image {
   transform: scale(1.04);
 }
 
-.dunst-favourite-info {
+.account-favourite-info {
   margin-bottom: 16px;
   flex: 1;
 }
 
-.dunst-favourite-name {
+.account-favourite-name {
   font-family: Arial, sans-serif;
   font-size: 11.5px;
   font-weight: 700;
@@ -598,17 +598,17 @@
   line-height: 1.35;
 }
 
-.dunst-favourite-name a {
+.account-favourite-name a {
   color: #121214;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-.dunst-favourite-name a:hover {
+.account-favourite-name a:hover {
   color: #55575e;
 }
 
-.dunst-favourite-price {
+.account-favourite-price {
   font-family: Arial, sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -618,7 +618,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.dunst-add-cart-btn {
+.account-add-cart-btn {
   width: 100%;
   padding: 12px;
   background: #121214;
@@ -634,13 +634,13 @@
   box-sizing: border-box;
 }
 
-.dunst-add-cart-btn:hover {
+.account-add-cart-btn:hover {
   background: #2b2b30;
   border-color: #2b2b30;
   transform: translateY(-1px);
 }
 
-.dunst-add-cart-btn.added {
+.account-add-cart-btn.added {
   background: #15803d;
   color: #ffffff;
   border-color: #15803d;
@@ -650,21 +650,21 @@
    ACCOUNT DETAILS TAB
    ========================================================================== */
 
-.dunst-details-card {
+.account-details-card {
   border: 1px solid #ebebef;
   background: #fbfbfd;
   padding: 32px;
   box-sizing: border-box;
 }
 
-.dunst-details-grid {
+.account-details-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px 36px;
   margin-bottom: 36px;
 }
 
-.dunst-detail-item {
+.account-detail-item {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -672,7 +672,7 @@
   border-bottom: 1px solid #ebebef;
 }
 
-.dunst-detail-k {
+.account-detail-k {
   font-family: Arial, sans-serif;
   font-size: 9.5px;
   font-weight: 700;
@@ -681,7 +681,7 @@
   color: #8b8e96;
 }
 
-.dunst-detail-v {
+.account-detail-v {
   font-family: Arial, sans-serif;
   font-size: 13.5px;
   font-weight: 600;
@@ -690,7 +690,7 @@
   color: #121214;
 }
 
-.dunst-profile-edit-heading {
+.account-profile-edit-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -701,13 +701,13 @@
   background: #fbfbfd;
 }
 
-.dunst-profile-edit-heading p {
+.account-profile-edit-heading p {
   margin: 7px 0 0;
   color: #55575e;
   font-size: 13px;
 }
 
-.dunst-edit-profile-form {
+.account-edit-profile-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
@@ -717,7 +717,7 @@
   background: #fbfbfd;
 }
 
-.dunst-edit-profile-form label {
+.account-edit-profile-form label {
   display: grid;
   gap: 8px;
   color: #8b8e96;
@@ -728,7 +728,7 @@
   text-transform: uppercase;
 }
 
-.dunst-edit-profile-form input {
+.account-edit-profile-form input {
   width: 100%;
   min-height: 42px;
   padding: 10px 12px;
@@ -745,32 +745,32 @@
   transition: border-color 0.18s ease;
 }
 
-.dunst-edit-profile-form input:focus {
+.account-edit-profile-form input:focus {
   border-color: #121214;
 }
 
-.dunst-edit-profile-actions {
+.account-edit-profile-actions {
   display: flex;
   grid-column: 1 / -1;
   justify-content: flex-end;
 }
 
-.dunst-edit-profile-actions button:disabled {
+.account-edit-profile-actions button:disabled {
   cursor: wait;
   opacity: 0.6;
 }
 
-.dunst-profile-feedback {
+.account-profile-feedback {
   margin: 0 0 14px;
   font-size: 13px;
   font-weight: 500;
 }
 
-.dunst-profile-feedback.success {
+.account-profile-feedback.success {
   color: #15803d;
 }
 
-.dunst-profile-feedback.error {
+.account-profile-feedback.error {
   color: #b91c1c;
 }
 
@@ -778,7 +778,7 @@
    EMPTY STATES & STATUS BOXES
    ========================================================================== */
 
-.dunst-empty-state {
+.account-empty-state {
   border: 1px solid #ebebef;
   background: #fbfbfd;
   padding: 60px 24px;
@@ -786,7 +786,7 @@
   box-sizing: border-box;
 }
 
-.dunst-empty-label {
+.account-empty-label {
   font-family: Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
@@ -796,7 +796,7 @@
   margin-bottom: 8px;
 }
 
-.dunst-empty-desc {
+.account-empty-desc {
   font-size: 13px;
   color: #55575e;
   max-width: 400px;
@@ -804,7 +804,7 @@
   line-height: 1.6;
 }
 
-.dunst-empty-btn {
+.account-empty-btn {
   display: inline-block;
   padding: 12px 24px;
   border: 1px solid #121214;
@@ -819,13 +819,13 @@
   transition: all 0.2s ease;
 }
 
-.dunst-empty-btn:hover {
+.account-empty-btn:hover {
   background: #2b2b30;
   border-color: #2b2b30;
   color: #ffffff;
 }
 
-.dunst-loading-box {
+.account-loading-box {
   padding: 80px 20px;
   text-align: center;
   font-family: Arial, sans-serif;
@@ -841,95 +841,95 @@
    ========================================================================== */
 
 @media (max-width: 992px) {
-  .dunst-dossier-card {
+  .account-dossier-card {
     grid-template-columns: 80px minmax(0, 1fr);
     gap: 24px;
   }
 
-  .dunst-dossier-action {
+  .account-dossier-action {
     grid-column: 1 / -1;
   }
 
-  .dunst-dossier-grid {
+  .account-dossier-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .dunst-view-layout {
+  .account-view-layout {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
   }
 
-  .dunst-view-sidebar {
+  .account-view-sidebar {
     position: static;
   }
 
-  .dunst-favourites-grid {
+  .account-favourites-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 640px) {
-  .dunst-profile-page {
+  .account-profile-page {
     padding: 24px 16px 60px;
   }
 
-  .dunst-dossier-card {
+  .account-dossier-card {
     grid-template-columns: 1fr;
     padding: 20px;
     gap: 20px;
   }
 
-  .dunst-avatar-wrap {
+  .account-avatar-wrap {
     width: 72px;
     height: 72px;
   }
 
-  .dunst-dossier-grid {
+  .account-dossier-grid {
     grid-template-columns: 1fr;
     gap: 14px;
   }
 
-  .dunst-tabs-bar {
+  .account-tabs-bar {
     gap: 24px;
     margin: 24px 0 32px;
   }
 
-  .dunst-order-card {
+  .account-order-card {
     grid-template-columns: 1fr;
     padding: 20px;
     gap: 20px;
   }
 
-  .dunst-order-thumb-wrap {
+  .account-order-thumb-wrap {
     width: 100%;
     height: 190px;
   }
 
-  .dunst-specs-table {
+  .account-specs-table {
     grid-template-columns: 120px minmax(0, 1fr);
   }
 
-  .dunst-favourites-grid {
+  .account-favourites-grid {
     grid-template-columns: 1fr;
   }
 
-  .dunst-profile-edit-heading {
+  .account-profile-edit-heading {
     align-items: flex-start;
     flex-direction: column;
     padding: 18px;
   }
 
-  .dunst-edit-profile-form {
+  .account-edit-profile-form {
     grid-template-columns: 1fr;
     padding: 18px;
   }
 
-  .dunst-edit-profile-actions {
+  .account-edit-profile-actions {
     grid-column: 1;
     justify-content: stretch;
   }
 
-  .dunst-edit-profile-actions button {
+  .account-edit-profile-actions button {
     width: 100%;
   }
 }

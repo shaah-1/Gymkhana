@@ -36,17 +36,17 @@ function Users() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="eden-breadcrumbs">
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
           Users
         </span>
       </div>
 
       <div style={{ marginBottom: "32px" }}>
-        <h1 className="eden-page-title" style={{ margin: 0 }}>
-          CLIENT ACCOUNTS <span className="eden-title-num">({clientUsers.length})</span>
+        <h1 className="admin-page-title" style={{ margin: 0 }}>
+          CLIENT ACCOUNTS <span className="admin-title-num">({clientUsers.length})</span>
         </h1>
         <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
           Registered customer accounts, contact directories, and authorization.
@@ -57,7 +57,7 @@ function Users() {
       <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
         <input
           type="search"
-          className="eden-underline-input"
+          className="admin-underline-input"
           placeholder="Filter by name or email address..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -67,12 +67,12 @@ function Users() {
       {loading && users.length === 0 ? (
         <p style={{ color: "#7a7c82" }}>Loading customer accounts...</p>
       ) : error ? (
-        <div className="eden-error-notice">{error}</div>
+        <div className="admin-error-notice">{error}</div>
       ) : filteredUsers.length === 0 ? (
         <p style={{ color: "#7a7c82" }}>No user accounts found matching your search.</p>
       ) : (
-        <div className="eden-table-container">
-          <table className="eden-table">
+        <div className="admin-table-container">
+          <table className="admin-table">
             <thead>
               <tr>
                 <th>User / Name</th>
@@ -86,7 +86,7 @@ function Users() {
               {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <span style={{ color: "var(--eden-black)", fontWeight: 600 }}>
+                    <span style={{ color: "var(--admin-black)", fontWeight: 600 }}>
                       {user.name || user.fullName || "Customer"}
                     </span>
                   </td>
@@ -98,7 +98,7 @@ function Users() {
                   </td>
                   <td>
                     <span
-                      className={`eden-status-tag ${
+                      className={`admin-status-tag ${
                         user.blocked ? "cancelled" : "delivered"
                       }`}
                     >

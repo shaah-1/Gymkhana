@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminOrders } from "../store/slices/adminOrderSlice";
 import { formatCurrency } from "../../utils/formatters";
 
 function Orders() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { orders, loading, error } = useSelector((state) => state.adminOrders);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -32,20 +33,20 @@ function Orders() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="eden-breadcrumbs">
+      <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
         <span>/</span>
-        <span style={{ color: "var(--eden-black)", fontWeight: 500 }}>
+        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
           Orders
         </span>
       </div>
 
       <div style={{ marginBottom: "32px" }}>
-        <h1 className="eden-page-title" style={{ margin: 0 }}>
-          FULFILLMENT <span className="eden-title-num">({orders.length})</span>
+        <h1 className="admin-page-title" style={{ margin: 0 }}>
+          FULFILLMENT <span className="admin-title-num">({orders.length})</span>
         </h1>
         <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
-          Live customer orders, shipping dispatch, and payment statuses.
+          Live customer orders and shipping fulfillment statuses.
         </p>
       </div>
 
@@ -53,7 +54,7 @@ function Orders() {
       <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
         <input
           type="search"
-          className="eden-underline-input"
+          className="admin-underline-input"
           placeholder="Filter by ID, customer name, or status..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -63,12 +64,12 @@ function Orders() {
       {loading && orders.length === 0 ? (
         <p style={{ color: "#7a7c82" }}>Loading orders queue...</p>
       ) : error ? (
-        <div className="eden-error-notice">{error}</div>
+        <div className="admin-error-notice">{error}</div>
       ) : filteredOrders.length === 0 ? (
         <p style={{ color: "#7a7c82" }}>No orders found matching your search.</p>
       ) : (
-        <div className="eden-table-container">
-          <table className="eden-table">
+        <div className="admin-table-container">
+          <table className="admin-table">
             <thead>
               <tr>
                 <th>Order ID</th>
@@ -77,7 +78,6 @@ function Orders() {
                 <th>Units</th>
                 <th>Fulfillment</th>
                 <th>Gross Total</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -123,36 +123,33 @@ function Orders() {
                   : "—";
 
                 return (
-                  <tr key={order.id}>
+                  <tr
+                    key={order.id}
+                    onClick={() => navigate(`/admin/orders/${order.id}`)}
+                    className="admin-clickable-row"
+                    title={`Click to open order #${order.id}`}
+                  >
                     <td>
-                      <strong className="eden-num" style={{ color: "var(--eden-black)" }}>
+                      <strong className="admin-num admin-order-id-link" style={{ color: "var(--admin-black)" }}>
                         #{order.id}
                       </strong>
                     </td>
-                    <td className="eden-num-cell">{dateStr}</td>
+                    <td className="admin-num-cell">{dateStr}</td>
                     <td>{customerName}</td>
-                    <td className="eden-num-cell">
+                    <td className="admin-num-cell">
                       {itemCount} {itemCount === 1 ? "unit" : "units"}
                     </td>
                     <td>
-                      <span className={`eden-status-tag ${statusKey}`}>
+                      <span className={`admin-status-tag ${statusKey}`}>
                         {statusLabel}
                       </span>
                     </td>
                     <td>
-                      <strong className="eden-num">
+                      <strong className="admin-num">
                         {formatCurrency(
                           Number(order.total ?? order.totalAmount ?? 0)
                         )}
                       </strong>
-                    </td>
-                    <td>
-                      <Link
-                        to={`/admin/orders/${order.id}`}
-                        className="eden-action-link"
-                      >
-                        Inspect →
-                      </Link>
                     </td>
                   </tr>
                 );

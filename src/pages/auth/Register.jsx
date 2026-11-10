@@ -1,65 +1,256 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getUserByEmail, registerUser } from "../../services/authService";
+import { publicAssetUrl } from "../../utils/publicAssetUrl";
+import "./Login.css";
 
 export default function Register() {
   const navigate = useNavigate();
+
+  const isAuth = useSelector((s) => s.auth.isAuthenticated);
+  const isAdmin = useSelector((s) => s.adminAuth?.isAuthenticated);
+
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+
+  // If already authenticated, redirect automatically
+  useEffect(() => {
+    if (isAdmin) {
+      navigate("/admin", { replace: true });
+    } else if (isAuth) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuth, isAdmin, navigate]);
+
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (error) setError("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     const name = form.name.trim();
     const email = form.email.trim().toLowerCase();
+    const password = form.password;
 
-    if (!name || !email || !form.password) return setError("Please fill in all fields.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError("Please enter a valid email address.");
-    if (form.password.length < 8) return setError("Password must contain at least 8 characters.");
+    if (!name || !email || !password) {
+      return setError("Please fill in all fields.");
+    }
+
+    if (name.length < 2) {
+      return setError("Please enter your full name.");
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return setError("Please enter a valid email address.");
+    }
+
+    if (password.length < 8) {
+      return setError("Password must contain at least 8 characters.");
+    }
 
     setLoading(true);
+
     try {
       const existing = await getUserByEmail(email);
-      if (existing.length > 0) return setError("An account with this email already exists.");
+      if (existing.length > 0) {
+        return setError("An account with this email already exists.");
+      }
 
-      await registerUser({ name, email, password: form.password });
-      navigate("/login", { state: { message: "Account created! Please log in." } });
+      await registerUser({
+        name,
+        email,
+        password,
+        role: "customer",
+        blocked: false,
+      });
+
+      navigate("/login", {
+        state: {
+          message: "Account created successfully! Please sign in.",
+          registeredEmail: email,
+        },
+      });
     } catch {
-      setError("Registration failed. Check whether JSON Server is running on port 3000.");
+      setError(
+        "Registration failed. Please check whether JSON server is running on port 3000."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="auth-page">
-      <form className="auth-card" onSubmit={handleSubmit}>
-        <p className="eyebrow">JOIN THE MOVEMENT</p>
-        <h1>Create account</h1>
-        <p className="auth-subtitle">Start your next level with GYMKHANA.</p>
+    <div className="editorial-login-page editorial-register-page">
+      {/* Top Header Bar across the screen */}
+      <header className="editorial-login-nav">
+        <div className="editorial-nav-left">
+          <Link
+            to="/"
+            className="editorial-nav-menu-btn"
+            aria-label="Home"
+            title="Home"
+          >
+            <span className="editorial-nav-menu-line" />
+            <span className="editorial-nav-menu-line" />
+          </Link>
+        </div>
 
-        {error && <p className="auth-error">{error}</p>}
+        <Link to="/" className="editorial-nav-brand">
+          GYMKHANA
+        </Link>
 
-        <label htmlFor="name">Full name</label>
-        <input id="name" name="name" type="text" placeholder="Alex Morgan" value={form.name} onChange={handleChange} required />
+        <div className="editorial-nav-right">
+          <Link to="/login" className="editorial-nav-link">
+            LOG IN
+          </Link>
+          <span className="editorial-nav-link active">CREATE ACCOUNT</span>
+        </div>
+      </header>
 
-        <label htmlFor="email">Email address</label>
-        <input id="email" name="email" type="email" placeholder="you@example.com" value={form.email} onChange={handleChange} required />
+      {/* Main Full-Screen Layout */}
+      <main className="editorial-login-main">
+        <div className="editorial-login-content">
+          {/* Left Column: Framed Editorial Photo */}
+          <section className="editorial-photo-col">
+            <div className="editorial-photo-frame">
+              <img
+                src={publicAssetUrl("/images/login-banner.jpg")}
+                alt="GYMKHANA Training Space"
+              />
+            </div>
+          </section>
 
-        <label htmlFor="password">Password (min. 8 characters)</label>
-        <input id="password" name="password" type="password" placeholder="••••••••" value={form.password} onChange={handleChange} required />
+          {/* Right Column: Register Form */}
+          <section className="editorial-form-col">
+            <h1 className="editorial-login-heading">Create account</h1>
 
-        <button type="submit" className="auth-submit" disabled={loading}>
-          {loading ? "Creating..." : "Create Account →"}
-        </button>
+            {error && (
+              <p className="editorial-error-alert" role="alert">
+                {error}
+              </p>
+            )}
 
-        <p className="auth-footer">
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
-      </form>
-    </main>
+            <form onSubmit={handleSubmit} noValidate>
+              {/* FULL NAME */}
+              <div className="editorial-field-group">
+                <label
+                  htmlFor="register-name"
+                  className="editorial-field-label"
+                >
+                  FULL NAME
+                </label>
+                <input
+                  id="register-name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !form.email.trim()) {
+                      e.preventDefault();
+                      emailInputRef.current?.focus();
+                    }
+                  }}
+                  required
+                  className="editorial-underline-input"
+                />
+              </div>
+
+              {/* EMAIL */}
+              <div className="editorial-field-group">
+                <label
+                  htmlFor="register-email"
+                  className="editorial-field-label"
+                >
+                  EMAIL
+                </label>
+                <input
+                  ref={emailInputRef}
+                  id="register-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !form.password) {
+                      e.preventDefault();
+                      passwordInputRef.current?.focus();
+                    }
+                  }}
+                  required
+                  className="editorial-underline-input"
+                />
+              </div>
+
+              {/* PASSWORD */}
+              <div className="editorial-field-group">
+                <div className="editorial-field-header">
+                  <label
+                    htmlFor="register-password"
+                    className="editorial-field-label"
+                  >
+                    PASSWORD
+                  </label>
+                  <span className="editorial-field-hint">
+                    Min. 8 characters
+                  </span>
+                </div>
+                <div className="editorial-input-wrapper">
+                  <input
+                    ref={passwordInputRef}
+                    id="register-password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    value={form.password}
+                    onChange={handleChange}
+                    required
+                    className="editorial-underline-input"
+                  />
+                  <button
+                    type="button"
+                    className="editorial-password-toggle"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* SUBMIT BUTTON */}
+              <button
+                type="submit"
+                className="editorial-signin-btn"
+                disabled={loading}
+              >
+                {loading ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}
+              </button>
+
+              {/* SIGN IN PROMPT */}
+              <p className="editorial-signup-row">
+                Already have an account?
+                <Link to="/login">Sign in</Link>
+              </p>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
   );
 }

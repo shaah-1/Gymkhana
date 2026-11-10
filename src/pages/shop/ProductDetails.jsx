@@ -61,7 +61,7 @@ export default function ProductDetails() {
 
   return (
     <main className="product-details-page">
-      <Link to="/" className="back-to-shop">← Back to Shop</Link>
+      <Link to="/" className="back-to-shop"> ← Back to Shop</Link>
 
       <section className="product-details-layout">
         <div className="product-details-image-wrap">

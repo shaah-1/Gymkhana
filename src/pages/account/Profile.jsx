@@ -165,9 +165,9 @@ export default function Profile({ defaultTab }) {
 
   if (loading) {
     return (
-      <main className="dunst-profile-page">
-        <div className="dunst-profile-container">
-          <div className="dunst-loading-box">LOADING PROFILE ARCHIVE...</div>
+      <main className="account-profile-page">
+        <div className="account-profile-container">
+          <div className="account-loading-box">LOADING PROFILE ARCHIVE...</div>
         </div>
       </main>
     );
@@ -175,11 +175,11 @@ export default function Profile({ defaultTab }) {
 
   if (error) {
     return (
-      <main className="dunst-profile-page">
-        <div className="dunst-profile-container">
-          <div className="dunst-empty-state">
-            <p className="dunst-empty-label">{error}</p>
-            <button type="button" className="dunst-empty-btn" onClick={() => window.location.reload()}>
+      <main className="account-profile-page">
+        <div className="account-profile-container">
+          <div className="account-empty-state">
+            <p className="account-empty-label">{error}</p>
+            <button type="button" className="account-empty-btn" onClick={() => window.location.reload()}>
               TRY AGAIN
             </button>
           </div>
@@ -201,67 +201,67 @@ export default function Profile({ defaultTab }) {
   const totalSpend = orders.reduce((sum, o) => sum + Number(o.total || o.totalAmount || 0), 0);
 
   return (
-    <main className="dunst-profile-page">
-      <div className="dunst-profile-container">
+    <main className="account-profile-page">
+      <div className="account-profile-container">
         {/* Breadcrumbs */}
-        <nav className="dunst-breadcrumbs" aria-label="Breadcrumb">
+        <nav className="account-breadcrumbs" aria-label="Breadcrumb">
           <Link to="/">HOME</Link>
-          <span className="dunst-breadcrumb-sep">/</span>
+          <span className="account-breadcrumb-sep">/</span>
           <Link to="/login">LOGIN</Link>
-          <span className="dunst-breadcrumb-sep">/</span>
-          <span className="dunst-breadcrumb-active">PROFILE</span>
+          <span className="account-breadcrumb-sep">/</span>
+          <span className="account-breadcrumb-active">PROFILE</span>
         </nav>
 
         {/* Top Profile Dossier Box */}
-        <header className="dunst-dossier-card">
-          <div className="dunst-avatar-wrap" aria-hidden="true">
-            <span className="dunst-avatar-fallback">{initial}</span>
+        <header className="account-dossier-card">
+          <div className="account-avatar-wrap" aria-hidden="true">
+            <span className="account-avatar-fallback">{initial}</span>
           </div>
 
-          <div className="dunst-dossier-grid">
-            <div className="dunst-field">
-              <span className="dunst-field-label">FIRST NAME</span>
-              <span className="dunst-field-value">{firstName}</span>
+          <div className="account-dossier-grid">
+            <div className="account-field">
+              <span className="account-field-label">FIRST NAME</span>
+              <span className="account-field-value">{firstName}</span>
             </div>
 
-            <div className="dunst-field">
-              <span className="dunst-field-label">LAST NAME</span>
-              <span className="dunst-field-value">{lastName}</span>
+            <div className="account-field">
+              <span className="account-field-label">LAST NAME</span>
+              <span className="account-field-value">{lastName}</span>
             </div>
 
-            <div className="dunst-field">
-              <span className="dunst-field-label">COUNTRY</span>
-              <span className="dunst-field-value">{country}</span>
+            <div className="account-field">
+              <span className="account-field-label">COUNTRY</span>
+              <span className="account-field-value">{country}</span>
             </div>
 
-            <div className="dunst-field">
-              <span className="dunst-field-label">CITY</span>
-              <span className="dunst-field-value">{city}</span>
+            <div className="account-field">
+              <span className="account-field-label">CITY</span>
+              <span className="account-field-value">{city}</span>
             </div>
 
-            <div className="dunst-field">
-              <span className="dunst-field-label">E-MAIL</span>
-              <span className="dunst-field-value">{user?.email || "NOT PROVIDED"}</span>
+            <div className="account-field">
+              <span className="account-field-label">E-MAIL</span>
+              <span className="account-field-value">{user?.email || "NOT PROVIDED"}</span>
             </div>
 
-            <div className="dunst-field">
-              <span className="dunst-field-label">CLIENT ID</span>
-              <span className="dunst-field-value">#{user?.id || userId || "000"}</span>
+            <div className="account-field">
+              <span className="account-field-label">CLIENT ID</span>
+              <span className="account-field-value">#{user?.id || userId || "000"}</span>
             </div>
           </div>
 
-          <div className="dunst-dossier-action">
-            <button type="button" className="dunst-logout-link" onClick={handleLogout}>
+          <div className="account-dossier-action">
+            <button type="button" className="account-logout-link" onClick={handleLogout}>
               LOGOUT
             </button>
           </div>
         </header>
 
         {/* Horizontal Navigation Tabs */}
-        <nav className="dunst-tabs-bar" aria-label="Profile Sections">
+        <nav className="account-tabs-bar" aria-label="Profile Sections">
           <button
             type="button"
-            className={`dunst-tab-btn ${activeTab === "details" ? "active" : ""}`}
+            className={`account-tab-btn ${activeTab === "details" ? "active" : ""}`}
             onClick={() => setSelectedTab("details")}
           >
             PERSONAL INFO & SETTINGS
@@ -269,25 +269,25 @@ export default function Profile({ defaultTab }) {
 
           <button
             type="button"
-            className={`dunst-tab-btn ${activeTab === "orders" ? "active" : ""}`}
+            className={`account-tab-btn ${activeTab === "orders" ? "active" : ""}`}
             onClick={() => setSelectedTab("orders")}
           >
-            MY ORDERS <span className="dunst-tab-count">({orders.length})</span>
+            MY ORDERS <span className="account-tab-count">({orders.length})</span>
           </button>
 
           <button
             type="button"
-            className={`dunst-tab-btn ${activeTab === "favourites" ? "active" : ""}`}
+            className={`account-tab-btn ${activeTab === "favourites" ? "active" : ""}`}
             onClick={() => setSelectedTab("favourites")}
           >
-            FAVOURITES <span className="dunst-tab-count">({wishlistItems.length})</span>
+            FAVOURITES <span className="account-tab-count">({wishlistItems.length})</span>
           </button>
         </nav>
 
         {/* Main Tab View */}
-        <div className="dunst-view-layout">
-          <aside className="dunst-view-sidebar">
-            <h2 className="dunst-section-title">
+        <div className="account-view-layout">
+          <aside className="account-view-sidebar">
+            <h2 className="account-section-title">
               {activeTab === "details"
                 ? "PERSONAL INFO & SETTINGS"
                 : activeTab === "orders"
@@ -296,18 +296,18 @@ export default function Profile({ defaultTab }) {
             </h2>
           </aside>
 
-          <div className="dunst-view-main">
+          <div className="account-view-main">
             {/* 1. PERSONAL INFO & SETTINGS TAB */}
             {activeTab === "details" && (
               <section id="details">
-                <div className="dunst-profile-edit-heading">
+                <div className="account-profile-edit-heading">
                   <div>
-                    <span className="dunst-detail-k">PERSONAL INFORMATION & SETTINGS</span>
+                    <span className="account-detail-k">PERSONAL INFORMATION & SETTINGS</span>
                     <p>Manage your personal profile, credentials, and shipping addresses.</p>
                   </div>
                   <button
                     type="button"
-                    className="dunst-btn-outline"
+                    className="account-btn-outline"
                     onClick={() => {
                       setProfileError("");
                       setProfileMessage("");
@@ -327,58 +327,58 @@ export default function Profile({ defaultTab }) {
                   </button>
                 </div>
 
-                {profileMessage && <p className="dunst-profile-feedback success" role="status">{profileMessage}</p>}
-                {profileError && <p className="dunst-profile-feedback error" role="alert">{profileError}</p>}
+                {profileMessage && <p className="account-profile-feedback success" role="status">{profileMessage}</p>}
+                {profileError && <p className="account-profile-feedback error" role="alert">{profileError}</p>}
 
                 {isEditingProfile && (
-                  <form className="dunst-edit-profile-form" onSubmit={handleProfileSave}>
+                  <form className="account-edit-profile-form" onSubmit={handleProfileSave}>
                     <label>Full name<input name="name" value={profileForm.name} onChange={handleProfileFieldChange} autoComplete="name" required /></label>
                     <label>Email address<input name="email" type="email" value={profileForm.email} onChange={handleProfileFieldChange} autoComplete="email" required /></label>
                     <label>Phone number<input name="phone" type="tel" value={profileForm.phone} onChange={handleProfileFieldChange} autoComplete="tel" /></label>
                     <label>City<input name="city" value={profileForm.city} onChange={handleProfileFieldChange} autoComplete="address-level2" /></label>
                     <label>Country<input name="country" value={profileForm.country} onChange={handleProfileFieldChange} autoComplete="country-name" /></label>
-                    <div className="dunst-edit-profile-actions">
-                      <button className="dunst-btn-outline" type="submit" disabled={profileSaving}>
+                    <div className="account-edit-profile-actions">
+                      <button className="account-btn-outline" type="submit" disabled={profileSaving}>
                         {profileSaving ? "SAVING…" : "SAVE CHANGES"}
                       </button>
                     </div>
                   </form>
                 )}
 
-                <article className="dunst-details-card">
-                  <div className="dunst-details-grid">
-                    <div className="dunst-detail-item">
-                      <span className="dunst-detail-k">MEMBERSHIP TIER</span>
-                      <span className="dunst-detail-v">GYMKHANA TIER I · ELITE ATHLETE</span>
+                <article className="account-details-card">
+                  <div className="account-details-grid">
+                    <div className="account-detail-item">
+                      <span className="account-detail-k">MEMBERSHIP TIER</span>
+                      <span className="account-detail-v">GYMKHANA TIER I · ELITE ATHLETE</span>
                     </div>
 
-                    <div className="dunst-detail-item">
-                      <span className="dunst-detail-k">ACCOUNT STATUS</span>
-                      <span className="dunst-detail-v">ACTIVE · VERIFIED</span>
+                    <div className="account-detail-item">
+                      <span className="account-detail-k">ACCOUNT STATUS</span>
+                      <span className="account-detail-v">ACTIVE · VERIFIED</span>
                     </div>
 
-                    <div className="dunst-detail-item">
-                      <span className="dunst-detail-k">REGISTERED EMAIL</span>
-                      <span className="dunst-detail-v">{user?.email || "NOT PROVIDED"}</span>
+                    <div className="account-detail-item">
+                      <span className="account-detail-k">REGISTERED EMAIL</span>
+                      <span className="account-detail-v">{user?.email || "NOT PROVIDED"}</span>
                     </div>
 
-                    <div className="dunst-detail-item">
-                      <span className="dunst-detail-k">DELIVERY LOCATION</span>
-                      <span className="dunst-detail-v">{city}, {country}</span>
+                    <div className="account-detail-item">
+                      <span className="account-detail-k">DELIVERY LOCATION</span>
+                      <span className="account-detail-v">{city}, {country}</span>
                     </div>
 
-                    <div className="dunst-detail-item">
-                      <span className="dunst-detail-k">TOTAL ACQUISITIONS</span>
-                      <span className="dunst-detail-v">{orders.length} {orders.length === 1 ? "ORDER" : "ORDERS"}</span>
+                    <div className="account-detail-item">
+                      <span className="account-detail-k">TOTAL ACQUISITIONS</span>
+                      <span className="account-detail-v">{orders.length} {orders.length === 1 ? "ORDER" : "ORDERS"}</span>
                     </div>
 
-                    <div className="dunst-detail-item">
-                      <span className="dunst-detail-k">LIFETIME VALUE</span>
-                      <span className="dunst-detail-v">{formatCurrency(totalSpend)}</span>
+                    <div className="account-detail-item">
+                      <span className="account-detail-k">LIFETIME VALUE</span>
+                      <span className="account-detail-v">{formatCurrency(totalSpend)}</span>
                     </div>
                   </div>
 
-                  <button type="button" className="dunst-btn-outline" onClick={handleLogout}>
+                  <button type="button" className="account-btn-outline" onClick={handleLogout}>
                     SIGN OUT OF ACCOUNT
                   </button>
                 </article>
@@ -389,34 +389,34 @@ export default function Profile({ defaultTab }) {
             {activeTab === "orders" && (
               <section id="orders">
                 {ordersLoading ? (
-                  <div className="dunst-loading-box">LOADING ORDER ARCHIVE...</div>
+                  <div className="account-loading-box">LOADING ORDER ARCHIVE...</div>
                 ) : ordersError ? (
-                  <div className="dunst-empty-state">
-                    <p className="dunst-empty-label">{ordersError}</p>
-                    <button type="button" className="dunst-empty-btn" onClick={() => window.location.reload()}>
+                  <div className="account-empty-state">
+                    <p className="account-empty-label">{ordersError}</p>
+                    <button type="button" className="account-empty-btn" onClick={() => window.location.reload()}>
                       RETRY
                     </button>
                   </div>
                 ) : orders.length === 0 ? (
-                  <div className="dunst-empty-state">
-                    <p className="dunst-empty-label">NO ORDERS RECORDED</p>
-                    <p className="dunst-empty-desc">
+                  <div className="account-empty-state">
+                    <p className="account-empty-label">NO ORDERS RECORDED</p>
+                    <p className="account-empty-desc">
                       Your purchase records and shipment tracking details will appear here once an order is placed.
                     </p>
-                    <Link to="/shop" className="dunst-empty-btn">
+                    <Link to="/shop" className="account-empty-btn">
                       EXPLORE COLLECTION
                     </Link>
                   </div>
                 ) : (
-                  <div className="dunst-orders-list">
+                  <div className="account-orders-list">
                     {orders.map((order) => {
                       const items = order.items || order.products || [];
                       const status = String(order.status || "SENT").toLowerCase();
                       const statusClass = status.includes("delivered") || status.includes("complete")
-                        ? "dunst-status-delivered"
+                        ? "account-status-delivered"
                         : status.includes("cancel") || status.includes("fail")
-                          ? "dunst-status-cancelled"
-                          : "dunst-status-pending";
+                          ? "account-status-cancelled"
+                          : "account-status-pending";
 
                       const trackingNumber =
                         order.trackingNumber ||
@@ -427,22 +427,22 @@ export default function Profile({ defaultTab }) {
                       const customerCountry = order.customer?.country || country;
 
                       return (
-                        <div key={order.id} className="dunst-order-group">
+                        <div key={order.id} className="account-order-group">
                           {/* Order Header Summary */}
-                          <div className="dunst-order-group-header">
+                          <div className="account-order-group-header">
                             <div>
-                              <span className="dunst-order-id-label">ORDER #{order.id}</span>
-                              <span className="dunst-order-date-label">
+                              <span className="account-order-id-label">ORDER #{order.id}</span>
+                              <span className="account-order-date-label">
                                 Placed on {formatDate(order.createdAt || order.date)}
                               </span>
                             </div>
 
-                            <div className="dunst-order-header-right">
-                              <span className={`dunst-spec-v dunst-spec-status ${statusClass}`}>
-                                <span className="dunst-status-dot" aria-hidden="true" />
+                            <div className="account-order-header-right">
+                              <span className={`account-spec-v account-spec-status ${statusClass}`}>
+                                <span className="account-status-dot" aria-hidden="true" />
                                 {String(order.status || "SENT").toUpperCase()}
                               </span>
-                              <span className="dunst-order-total-badge">{formatCurrency(orderTotal)}</span>
+                              <span className="account-order-total-badge">{formatCurrency(orderTotal)}</span>
                             </div>
                           </div>
 
@@ -453,45 +453,45 @@ export default function Profile({ defaultTab }) {
                             const itemTotal = (Number(item.price) || 0) * (Number(item.quantity) || 1);
 
                             return (
-                              <article className="dunst-order-card" key={`${order.id}-${item.id || idx}`}>
-                                <Link to={`/products/${item.id}`} className="dunst-order-thumb-wrap">
+                              <article className="account-order-card" key={`${order.id}-${item.id || idx}`}>
+                                <Link to={`/products/${item.id}`} className="account-order-thumb-wrap">
                                   <img
                                     src={publicAssetUrl(itemImage)}
                                     alt={item.name}
-                                    className="dunst-order-thumb"
+                                    className="account-order-thumb"
                                     loading="lazy"
                                   />
                                 </Link>
 
-                                <div className="dunst-order-details">
+                                <div className="account-order-details">
                                   <div>
-                                    <h3 className="dunst-order-product-name">
+                                    <h3 className="account-order-product-name">
                                       <Link to={`/products/${item.id}`}>{item.name || item.title || "PRODUCT"}</Link>
                                     </h3>
 
-                                    <div className="dunst-specs-table">
-                                      <span className="dunst-spec-k">SIZE</span>
-                                      <span className="dunst-spec-v">{item.size || "STANDARD"}</span>
+                                    <div className="account-specs-table">
+                                      <span className="account-spec-k">SIZE</span>
+                                      <span className="account-spec-v">{item.size || "STANDARD"}</span>
 
-                                      <span className="dunst-spec-k">QUANTITY</span>
-                                      <span className="dunst-spec-v">{String(item.quantity || 1).padStart(2, "0")}</span>
+                                      <span className="account-spec-k">QUANTITY</span>
+                                      <span className="account-spec-v">{String(item.quantity || 1).padStart(2, "0")}</span>
 
-                                      <span className="dunst-spec-k">AMOUNT</span>
-                                      <span className="dunst-spec-v">{formatCurrency(itemTotal)}</span>
+                                      <span className="account-spec-k">AMOUNT</span>
+                                      <span className="account-spec-v">{formatCurrency(itemTotal)}</span>
 
-                                      <span className="dunst-spec-k">DESTINATION</span>
-                                      <span className="dunst-spec-v">{customerCity}, {customerCountry}</span>
+                                      <span className="account-spec-k">DESTINATION</span>
+                                      <span className="account-spec-v">{customerCity}, {customerCountry}</span>
 
-                                      <span className="dunst-spec-k">TRACKING</span>
-                                      <span className="dunst-spec-v">{trackingNumber}</span>
+                                      <span className="account-spec-k">TRACKING</span>
+                                      <span className="account-spec-v">{trackingNumber}</span>
                                     </div>
                                   </div>
 
-                                  <div className="dunst-order-actions">
-                                    <Link to="/#contact" className="dunst-btn-outline">
+                                  <div className="account-order-actions">
+                                    <Link to="/#contact" className="account-btn-outline">
                                       ASK A QUESTION
                                     </Link>
-                                    <Link to={`/products/${item.id}`} className="dunst-btn-outline">
+                                    <Link to={`/products/${item.id}`} className="account-btn-outline">
                                       VIEW PRODUCT
                                     </Link>
                                   </div>
@@ -511,42 +511,42 @@ export default function Profile({ defaultTab }) {
             {activeTab === "favourites" && (
               <section id="favourites">
                 {wishlistItems.length === 0 ? (
-                  <div className="dunst-empty-state">
-                    <p className="dunst-empty-label">YOUR FAVOURITES LIST IS EMPTY</p>
-                    <p className="dunst-empty-desc">
+                  <div className="account-empty-state">
+                    <p className="account-empty-label">YOUR FAVOURITES LIST IS EMPTY</p>
+                    <p className="account-empty-desc">
                       Add items to your wishlist while browsing our nutrition formulations to view them here.
                     </p>
-                    <Link to="/" className="dunst-empty-btn">
+                    <Link to="/" className="account-empty-btn">
                       EXPLORE COLLECTION
                     </Link>
                   </div>
                 ) : (
-                  <div className="dunst-favourites-grid">
+                  <div className="account-favourites-grid">
                     {wishlistItems.map((product) => (
-                      <article className="dunst-favourite-card" key={product.id}>
+                      <article className="account-favourite-card" key={product.id}>
                         <button
                           type="button"
-                          className="dunst-fav-remove-btn"
+                          className="account-fav-remove-btn"
                           aria-label={`Remove ${product.name} from favourites`}
                           onClick={() => dispatch(toggleWishlist(product))}
                         >
                           ✕
                         </button>
 
-                        <Link to={`/products/${product.productId || product.id}`} className="dunst-favourite-image-wrap">
-                          <img src={publicAssetUrl(product.image)} alt={product.name} className="dunst-favourite-image" loading="lazy" />
+                        <Link to={`/products/${product.productId || product.id}`} className="account-favourite-image-wrap">
+                          <img src={publicAssetUrl(product.image)} alt={product.name} className="account-favourite-image" loading="lazy" />
                         </Link>
 
-                        <div className="dunst-favourite-info">
-                          <h3 className="dunst-favourite-name">
+                        <div className="account-favourite-info">
+                          <h3 className="account-favourite-name">
                             <Link to={`/products/${product.productId || product.id}`}>{product.name}</Link>
                           </h3>
-                          <p className="dunst-favourite-price">{formatCurrency(product.price)}</p>
+                          <p className="account-favourite-price">{formatCurrency(product.price)}</p>
                         </div>
 
                         <button
                           type="button"
-                          className={`dunst-add-cart-btn ${addedItemMap[product.productId || product.id] ? "added" : ""}`}
+                          className={`account-add-cart-btn ${addedItemMap[product.productId || product.id] ? "added" : ""}`}
                           onClick={() => handleAddToCart(product)}
                         >
                           {addedItemMap[product.productId || product.id] ? "ADDED ✓" : "ADD CART"}
