@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../../services/authService";
-import { loginSuccess } from "../../redux/authSlice";
+import { loginSuccess, logout } from "../../redux/authSlice";
 import { adminLogin, adminLogout } from "../../admin/store/slices/adminAuthSlice";
 import { verifyAdminCredentials } from "../../admin/utils/adminCredentials";
 import { fetchCart } from "../../redux/cartSlice";
@@ -18,7 +18,6 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
-  const isAdmin = useSelector((s) => s.adminAuth?.isAuthenticated);
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState(location.state?.registeredEmail || "");
@@ -27,14 +26,12 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const passwordInputRef = useRef(null);
 
-  // If already authenticated, redirect automatically
+  // If customer is already authenticated, redirect to home
   useEffect(() => {
-    if (isAdmin) {
-      navigate("/admin", { replace: true });
-    } else if (isAuth) {
+    if (isAuth) {
       navigate("/", { replace: true });
     }
-  }, [isAuth, isAdmin, navigate]);
+  }, [isAuth, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,19 +94,20 @@ export default function Login() {
       const safeUser = { ...user };
       delete safeUser.password;
 
-      // Log in customer session
-      dispatch(loginSuccess(safeUser));
-
-      // If user has admin rights, also log into admin session; otherwise clear any lingering admin session
+      // Admin and customer sessions are strictly separated:
+      // If user has admin rights, log into admin session only and clear customer session.
+      // If regular customer, log into customer session and clear admin session.
       if (isUserAdmin) {
         dispatch(adminLogin({ email: trimmedEmail, ...safeUser }));
+        dispatch(logout());
       } else {
+        dispatch(loginSuccess(safeUser));
         dispatch(adminLogout());
-      }
 
-      if (safeUser.id && !isUserAdmin) {
-        dispatch(fetchCart(safeUser.id));
-        dispatch(fetchWishlist(safeUser.id));
+        if (safeUser.id) {
+          dispatch(fetchCart(safeUser.id));
+          dispatch(fetchWishlist(safeUser.id));
+        }
       }
 
       const dest = location.state?.from;
@@ -134,9 +132,7 @@ export default function Login() {
       navigate(next, {
         replace: true,
         state: {
-          message: isUserAdmin
-            ? "Welcome to Admin Dashboard!"
-            : "Login successful!",
+          message: "Welcome back.",
         },
       });
     } catch (err) {

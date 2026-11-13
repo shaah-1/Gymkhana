@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { storage as localStorage } from "../utils/storage";
 import { logout } from "./authSlice";
 import {
   getWishlist,

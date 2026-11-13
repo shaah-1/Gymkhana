@@ -51,7 +51,7 @@
       "name": "Pre Workout",
       "category": "Pre-Workout",
       "price": 1499,
-      "stock": 1,
+      "stock": 10,
       "image": "/products/pre-workout.png",
       "description": "A pre-training supplement for your workout routine.",
       "detailedDescription": "Prepare for your training session with GYMKHANA Pre Workout. Pre-workout products are designed to be used before exercise, and their effects depend on the ingredients and quantities in the specific formulation. Pair your routine with appropriate warm-ups, hydration, and recovery.",
@@ -97,7 +97,7 @@
       "name": "Mass Gainer",
       "category": "Weight Gain",
       "price": 2199,
-      "stock": 8,
+      "stock": 7,
       "image": "/products/mass-gainer.png",
       "description": "A calorie-dense supplement to complement a weight-gain diet.",
       "detailedDescription": "Mass Gainer is intended for people who find it difficult to meet their energy needs through regular meals alone. Depending on its formulation, it can provide a combination of calories, carbohydrates, and protein to complement a planned nutrition routine.",
@@ -259,7 +259,7 @@
       "name": "Casein Protein",
       "category": "Protein",
       "price": 2299,
-      "stock": 7,
+      "stock": 6,
       "image": "/products/casein.png",
       "description": "A casein-based protein supplement.",
       "detailedDescription": "Casein is a milk-derived protein commonly used to supplement daily protein intake.",
@@ -339,7 +339,7 @@
       "name": "Magnesium",
       "category": "Supplements",
       "price": 699,
-      "stock": 0,
+      "stock": 10,
       "image": "/products/magnesium.png",
       "description": "A magnesium dietary supplement.",
       "detailedDescription": "A supplement providing magnesium in the form and quantity stated on its label.",
@@ -434,7 +434,8 @@
       "name": "heisenberg",
       "email": "heisenberg@gmail.com",
       "password": "0987654321",
-      "id": "9kppW7VTfzM"
+      "id": "9kppW7VTfzM",
+      "blocked": false
     },
     {
       "id": "admin-1",
@@ -442,7 +443,9 @@
       "email": "admin@gmail.com",
       "password": "shahid123",
       "role": "admin",
-      "isAdmin": true
+      "isAdmin": true,
+      "phone": "",
+      "photo": ""
     }
   ],
   "orders": [
@@ -704,6 +707,56 @@
       "status": "delivered",
       "createdAt": "2026-11-04T11:54:30.852Z",
       "id": "NES1JfiUC1E"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "shahi",
+        "email": "shahi@gmail.com",
+        "phone": "8606717184",
+        "address": "california",
+        "city": "america",
+        "pincode": "000011"
+      },
+      "items": [
+        {
+          "id": "23",
+          "name": "Casein Protein",
+          "price": 2299,
+          "quantity": 1
+        }
+      ],
+      "total": 2299,
+      "paymentMethod": "card",
+      "paymentStatus": "payment_pending",
+      "status": "pending",
+      "createdAt": "2026-11-12T05:51:27.773Z",
+      "id": "dCHqJiK-if4"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "shahi",
+        "email": "shahi@gmail.com",
+        "phone": "8339272331",
+        "address": "irivetty road kavanur mayangathodi house",
+        "city": "Malappuram",
+        "pincode": "673639"
+      },
+      "items": [
+        {
+          "id": "5",
+          "name": "Mass Gainer",
+          "price": 2199,
+          "quantity": 1
+        }
+      ],
+      "total": 2199,
+      "paymentMethod": "netbanking",
+      "paymentStatus": "payment_pending",
+      "status": "pending",
+      "createdAt": "2026-11-12T13:19:40.019Z",
+      "id": "MtVmqtbMZpA"
     }
   ],
   "carts": [
@@ -731,36 +784,36 @@
     },
     {
       "userId": "9hbGUx87F2E",
-      "productId": "23",
-      "name": "Casein Protein",
-      "category": "Protein",
-      "price": 2299,
-      "image": "/products/casein.png",
-      "stock": 7,
-      "quantity": 3,
-      "id": "0hrJwv3gxqE"
-    },
-    {
-      "userId": "9hbGUx87F2E",
-      "productId": "4",
-      "name": "Whey Protein Isolate",
-      "category": "Protein",
-      "price": 3499,
-      "image": "/products/whey-isolate.png",
-      "stock": 12,
-      "quantity": 1,
-      "id": "wZEFiHzkyNA"
-    },
-    {
-      "userId": "9hbGUx87F2E",
       "productId": "1",
       "name": "Whey Protein",
       "category": "Protein",
       "price": 2499,
       "image": "/products/whey-protein.png",
       "stock": 10,
-      "quantity": 10,
-      "id": "Y4ogc4PUQVU"
+      "quantity": 2,
+      "id": "LccUMOAN-pE"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "23",
+      "name": "Casein Protein",
+      "category": "Protein",
+      "price": 2299,
+      "image": "/products/casein.png",
+      "stock": 6,
+      "quantity": 2,
+      "id": "W0vI2gYV_vY"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "5",
+      "name": "Mass Gainer",
+      "category": "Weight Gain",
+      "price": 2199,
+      "image": "/products/mass-gainer.png",
+      "stock": 7,
+      "quantity": 1,
+      "id": "rkru5rUsw9k"
     }
   ],
   "wishlists": [
@@ -786,24 +839,14 @@
     },
     {
       "userId": "9hbGUx87F2E",
-      "productId": "23",
-      "name": "Casein Protein",
-      "category": "Protein",
-      "price": 2299,
-      "image": "/products/casein.png",
-      "stock": 7,
-      "id": "-wuBHjKTWSs"
-    },
-    {
-      "userId": "9hbGUx87F2E",
       "productId": "5",
       "name": "Mass Gainer",
       "category": "Weight Gain",
       "price": 2199,
       "image": "/products/mass-gainer.png",
       "stock": 8,
-      "id": "jRQg3m6mDu8"
+      "id": "d9mLlDTjZwg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
-} 
+}

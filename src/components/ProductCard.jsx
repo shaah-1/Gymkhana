@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { toggleWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
 import { formatCurrency } from "../utils/formatters";
 import { publicAssetUrl } from "../utils/publicAssetUrl";
+import Toast from "./Toast";
 import "./ProductCard.css";
 
 function getProductSubtitle(product) {
@@ -77,6 +78,7 @@ export default function ProductCard({ product, showBadge = false }) {
   const location = useLocation();
 
   const [showPopup, setShowPopup] = useState(false);
+  const [popupKey, setPopupKey] = useState(0);
 
   const availableSizes = useMemo(() => getProductSizes(product), [product]);
   const [selectedSizeState, setSelectedSizeState] = useState(null);
@@ -96,12 +98,6 @@ export default function ProductCard({ product, showBadge = false }) {
       (i) => String(i.productId || i.id) === String(product.id),
     ),
   );
-
-  useEffect(() => {
-    if (!showPopup) return;
-    const t = setTimeout(() => setShowPopup(false), 1000);
-    return () => clearTimeout(t);
-  }, [showPopup]);
 
   const stock = Math.max(0, Number(product.stock) || 0);
   const cartQty = Number(cartItem?.quantity) || 0;
@@ -131,6 +127,7 @@ export default function ProductCard({ product, showBadge = false }) {
     dispatch(
       addToCart({ ...product, size: selectedSize, price: currentPrice }),
     );
+    setPopupKey((k) => k + 1);
     setShowPopup(true);
   };
 
@@ -264,36 +261,19 @@ export default function ProductCard({ product, showBadge = false }) {
         </button>
       </div>
 
-      {/* Cart Added Toast Modal */}
+      {/* Cart Added Toast */}
       {showPopup &&
         createPortal(
-          <div className="popup-overlay">
-            <div
-              className="cart-added-modal"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby={`cart-added-title-${product.id}`}
-            >
-              <button
-                type="button"
-                className="cart-added-close"
-                aria-label="Close"
-                onClick={() => setShowPopup(false)}
-              >
-                ×
-              </button>
-              <div className="cart-added-check" aria-hidden="true">
-                ✓
-              </div>
-              <p className="cart-added-eyebrow">Added to cart</p>
-              <h2 id={`cart-added-title-${product.id}`}>
-                {product.name} ({selectedSize})
-              </h2>
-              <Link to="/cart" className="cart-added-link">
+          <Toast
+            key={popupKey}
+            message="Added to cart."
+            action={
+              <Link to="/cart" className="toast-action-link" onClick={() => setShowPopup(false)}>
                 View cart
               </Link>
-            </div>
-          </div>,
+            }
+            onClose={() => setShowPopup(false)}
+          />,
           document.body,
         )}
     </article>

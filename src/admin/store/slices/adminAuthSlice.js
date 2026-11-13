@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { storage as localStorage } from "../../../utils/storage";
 
 const loadSavedAdmin = () => {
   try {

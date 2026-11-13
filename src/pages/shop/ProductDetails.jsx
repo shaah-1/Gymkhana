@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { getProductById } from "../../services/productService";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
+import Toast from "../../components/Toast";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -20,6 +22,7 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [popupKey, setPopupKey] = useState(0);
 
   const alreadyInCart = cartItem?.quantity || 0;
 
@@ -31,12 +34,6 @@ export default function ProductDetails() {
       .finally(() => active && setLoading(false));
     return () => { active = false; };
   }, [id]);
-
-  useEffect(() => {
-    if (!showPopup) return;
-    const t = setTimeout(() => setShowPopup(false), 1000);
-    return () => clearTimeout(t);
-  }, [showPopup]);
 
   if (loading) return <div className="product-details-status">Loading product...</div>;
   if (error || !product) {
@@ -56,6 +53,7 @@ export default function ProductDetails() {
     if (!isAuth) return navigate("/login", { state: { from: location } });
 
     dispatch(addToCart({ ...product, quantity }));
+    setPopupKey((k) => k + 1);
     setShowPopup(true);
   };
 
@@ -115,13 +113,20 @@ export default function ProductDetails() {
             </button>
           </div>
 
-          {showPopup && (
-            <div className="details-added-message" role="status">
-              ✓ {quantity} {quantity === 1 ? "item" : "items"} added to cart
-              <Link to="/cart">View Cart →</Link>
-              <button type="button" onClick={() => setShowPopup(false)}>×</button>
-            </div>
-          )}
+          {showPopup &&
+            createPortal(
+              <Toast
+                key={popupKey}
+                message="Added to cart."
+                action={
+                  <Link to="/cart" className="toast-action-link" onClick={() => setShowPopup(false)}>
+                    View cart
+                  </Link>
+                }
+                onClose={() => setShowPopup(false)}
+              />,
+              document.body,
+            )}
         </div>
       </section>
     </main>

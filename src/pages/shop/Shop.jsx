@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
 
-import { fetchProducts } from "../../redux/productSlice";
+import { getProducts } from "../../services/productService";
 import ProductCard from "../../components/ProductCard";
 import "./Shop.css";
 
@@ -15,20 +15,18 @@ const SORT_OPTIONS = [
 ];
 
 export default function Shop() {
-  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { items, loading, error } = useSelector((s) => s.products);
+  const { data: items = [], isLoading: loading, error, refetch } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
 
   const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const search = queryParams.get("search") || "";
   const category = queryParams.get("category") || "all";
   const [sort, setSort] = useState("default");
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
 
   // Distinct available categories derived from products with primary disciplines ordered
   const availableCategories = useMemo(() => {
@@ -214,8 +212,8 @@ export default function Shop() {
 
         {error && (
           <div className="shop-state-box error">
-            <p>{error}. Please ensure JSON Server is active.</p>
-            <button type="button" className="shop-retry-btn" onClick={() => dispatch(fetchProducts())}>
+            <p>{error.message || "Unable to load products"}. Please ensure JSON Server is active.</p>
+            <button type="button" className="shop-retry-btn" onClick={() => refetch()}>
               Retry
             </button>
           </div>

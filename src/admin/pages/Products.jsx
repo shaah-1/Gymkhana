@@ -6,7 +6,7 @@ import {
   fetchAdminProducts,
   deleteAdminProduct,
 } from "../store/slices/adminProductSlice";
-import { formatCurrency } from "../../utils/formatters";
+import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 function Products() {
@@ -154,7 +154,9 @@ function Products() {
                     </td>
                     <td>{product.category || "—"}</td>
                     <td>
-                      <strong className="admin-num">{formatCurrency(Number(product.price || 0))}</strong>
+                      <strong className="admin-num">
+                        <AdminPrice amount={product.price} />
+                      </strong>
                     </td>
                     <td>
                       <span className={`admin-status-tag ${statusClass}`}>

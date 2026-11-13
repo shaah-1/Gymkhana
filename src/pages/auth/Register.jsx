@@ -10,7 +10,6 @@ export default function Register() {
   const navigate = useNavigate();
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
-  const isAdmin = useSelector((s) => s.adminAuth?.isAuthenticated);
 
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -20,14 +19,12 @@ export default function Register() {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
-  // If already authenticated, redirect automatically
+  // If customer is already authenticated, redirect to home
   useEffect(() => {
-    if (isAdmin) {
-      navigate("/admin", { replace: true });
-    } else if (isAuth) {
+    if (isAuth) {
       navigate("/", { replace: true });
     }
-  }, [isAuth, isAdmin, navigate]);
+  }, [isAuth, navigate]);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));

@@ -175,9 +175,7 @@ export default function App() {
         </Routes>
       </div>
 
-      {!isAdminRoute && (
-        <Toast message={toastMessage} onClose={handleToastClose} />
-      )}
+      <Toast key={toastMessage} message={toastMessage} onClose={handleToastClose} />
     </>
   );
 }

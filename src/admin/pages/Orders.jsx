@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminOrders } from "../store/slices/adminOrderSlice";
-import { formatCurrency } from "../../utils/formatters";
+import AdminPrice from "../components/AdminPrice";
 
 function Orders() {
   const dispatch = useDispatch();
@@ -146,9 +146,9 @@ function Orders() {
                     </td>
                     <td>
                       <strong className="admin-num">
-                        {formatCurrency(
-                          Number(order.total ?? order.totalAmount ?? 0)
-                        )}
+                        <AdminPrice
+                          amount={order.total ?? order.totalAmount ?? 0}
+                        />
                       </strong>
                     </td>
                   </tr>

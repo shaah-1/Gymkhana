@@ -6,7 +6,7 @@ import {
   fetchAdminOrders,
   updateAdminOrderStatus,
 } from "../store/slices/adminOrderSlice";
-import { formatCurrency } from "../../utils/formatters";
+import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 function OrderDetails() {
@@ -137,7 +137,7 @@ function OrderDetails() {
         <span>/</span>
         <Link to="/admin/orders">Orders</Link>
         <span>/</span>
-        <span style={{ color: "var(--admin-black)", fontWeight: 500 }} className="admin-num">
+        <span style={{ color: "var(--admin-black)" }} className="admin-num">
           #{order.id}
         </span>
       </div>
@@ -409,10 +409,9 @@ function OrderDetails() {
                 style={{
                   color: "var(--admin-black)",
                   fontSize: "14px",
-                  fontWeight: 500,
                 }}
               >
-                {formatCurrency(totalAmount)}
+                <AdminPrice amount={totalAmount} />
               </strong>
             </div>
           </div>
@@ -475,10 +474,14 @@ function OrderDetails() {
                       </span>
                     </div>
                   </td>
-                  <td className="admin-num-cell">{formatCurrency(price)}</td>
+                  <td className="admin-num-cell">
+                    <AdminPrice amount={price} />
+                  </td>
                   <td className="admin-num-cell">{qty}</td>
                   <td>
-                    <strong className="admin-num">{formatCurrency(lineTotal)}</strong>
+                    <strong className="admin-num">
+                      <AdminPrice amount={lineTotal} />
+                    </strong>
                   </td>
                 </tr>
               );
@@ -506,9 +509,9 @@ function OrderDetails() {
                 }}
               >
                 <strong className="admin-num" style={{ fontSize: "15px", color: "var(--admin-black)" }}>
-                  {formatCurrency(
-                    Number(order.total ?? order.totalAmount ?? 0)
-                  )}
+                  <AdminPrice
+                    amount={order.total ?? order.totalAmount ?? 0}
+                  />
                 </strong>
               </td>
             </tr>

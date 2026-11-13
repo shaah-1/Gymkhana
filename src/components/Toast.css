@@ -1,84 +1,131 @@
-
 .login-success-popup {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 24px;
+  right: 24px;
   z-index: 99999;
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 
-  width: min(300px, calc(100vw - 32px));
-  padding: 13px 15px;
+  padding: 10px 14px 10px 12px;
+  min-width: 220px;
+  max-width: min(340px, calc(100vw - 32px));
 
-  background: #111111;
-  color: #f5f5f5;
-  border: 1px solid #303030;
-  border-radius: 8px;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
 
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-  animation: premiumToastIn 0.25s ease-out both;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+
+  animation: subtleToastFadeIn 0.2s ease-out both;
+  transition: opacity 0.2s ease-out;
 }
 
+.login-success-popup.toast-fade-out {
+  opacity: 0;
+}
 
-.login-success-popup .success-icon {
+.toast-icon-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 27px;
-  height: 27px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 
-  background: linear-gradient(145deg, #242424, #111111);
-  border: 1px solid #454545;
+  background: #ffffff;
+  color: #000000;
   border-radius: 50%;
+}
 
-  color: #f5f5f5;
-  font-size: 14px;
+.toast-message {
+  flex: 1;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
   font-weight: 400;
-
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.toast-action {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 2px;
+}
 
-.login-success-popup strong {
-  display: block;
-  color: #f5f5f5;
+.toast-action-link {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  opacity: 0.88;
+  transition: opacity 0.16s ease;
 }
 
-.login-success-popup p {
-  margin: 4px 0 0;
-  color: #999999;
-  font-size: 11px;
-  line-height: 1.4;
+.toast-action-link:hover {
+  opacity: 1;
 }
 
-@keyframes premiumToastIn {
+.toast-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.78);
+  transition: color 0.16s ease, background-color 0.16s ease;
+}
+
+.toast-close-btn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+@keyframes subtleToastFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-6px);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 @media (max-width: 480px) {
   .login-success-popup {
-    top: 14px;
+    top: 16px;
     right: 16px;
-    width: calc(100vw - 32px);
+    left: 16px;
+    margin: 0 auto;
+    width: fit-content;
+    max-width: calc(100vw - 32px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .login-success-popup {
     animation: none;
+    transition: none;
   }
 }

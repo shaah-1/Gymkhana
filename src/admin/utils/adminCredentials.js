@@ -1,3 +1,5 @@
+import { storage as localStorage } from "../../utils/storage";
+
 const CREDENTIALS_KEY = "adminCredentials";
 const DEFAULT_EMAIL = "admin@gymkhana.com";
 const DEFAULT_PASSWORD = "admin123";

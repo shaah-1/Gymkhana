@@ -11,7 +11,7 @@ function AdminLayout() {
   const handleLogout = () => {
     dispatch(adminLogout());
     dispatch(logout());
-    navigate("/login", { replace: true, state: { message: "Logged out successfully." } });
+    navigate("/login", { replace: true, state: { message: "See you soon." } });
   };
 
   return (
@@ -20,15 +20,7 @@ function AdminLayout() {
       <header className="admin-topbar">
         <div className="admin-topbar-inner">
           <div className="admin-brand-row">
-            <span
-              style={{
-                fontSize: "10.5px",
-                letterSpacing: "0.22em",
-                color: "#71737d",
-                textTransform: "uppercase",
-                fontWeight: 600,
-              }}
-            >
+            <span className="admin-brand-sub">
               Store Operations
             </span>
 
@@ -83,7 +75,9 @@ function AdminLayout() {
             </NavLink>
             <NavLink
               to="/admin/profile"
-              className={({ isActive }) => isActive ? "admin-nav-item active" : "admin-nav-item"}
+              className={({ isActive }) =>
+                isActive ? "admin-nav-item active" : "admin-nav-item"
+              }
             >
               Profile
             </NavLink>

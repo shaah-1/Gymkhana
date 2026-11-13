@@ -90,7 +90,7 @@ export default function Profile({ defaultTab }) {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/", { state: { message: "Logged out successfully!" }, replace: true });
+    navigate("/", { state: { message: "See you soon." }, replace: true });
   };
 
   const handleProfileFieldChange = (event) => {

@@ -1,14 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
 /* =========================
-   AVENIR NEXT FONT-FACE
+   AVENIR NEXT & AVENIR FONT-FACE (CROSS-BROWSER)
    ========================= */
 @font-face {
   font-family: 'Avenir Next';
-  src: local('Avenir Next'),
-       local('AvenirNext-Regular'),
+  src: local('Avenir Next Ultra Light'),
+       local('AvenirNext-UltraLight'),
+       local('Avenir Light'),
+       local('Avenir-Light'),
        url('/fonts/AvenirNext-Regular.ttf') format('truetype');
-  font-weight: 300 400;
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: local('Avenir Next Ultra Light'),
+       local('AvenirNext-UltraLight'),
+       local('Avenir Light'),
+       local('Avenir-Light'),
+       url('/fonts/AvenirNext-Regular.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: local('Avenir Next Ultra Light'),
+       local('AvenirNext-UltraLight'),
+       local('Avenir Light'),
+       local('Avenir-Light'),
+       url('/fonts/AvenirNext-Regular.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: local('Avenir Next Regular'),
+       local('AvenirNext-Regular'),
+       local('Avenir Next'),
+       local('Avenir-Roman'),
+       local('Avenir Book'),
+       local('Avenir-Book'),
+       url('/fonts/AvenirNext-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -17,6 +55,8 @@
   font-family: 'Avenir Next';
   src: local('Avenir Next Medium'),
        local('AvenirNext-Medium'),
+       local('Avenir Medium'),
+       local('Avenir-Medium'),
        url('/fonts/AvenirNext-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
@@ -37,8 +77,101 @@
   font-family: 'Avenir Next';
   src: local('Avenir Next Bold'),
        local('AvenirNext-Bold'),
+       local('Avenir Heavy'),
+       local('Avenir-Heavy'),
+       local('Avenir Black'),
+       local('Avenir-Black'),
        url('/fonts/AvenirNext-Bold.ttf') format('truetype');
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: local('Avenir Next Heavy'),
+       local('AvenirNext-Heavy'),
+       local('Avenir Black'),
+       local('Avenir-Black'),
+       url('/fonts/AvenirNext-Bold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================
+   AVENIR FONT-FACE ALIAS
+   ========================= */
+@font-face {
+  font-family: 'Avenir';
+  src: local('Avenir Light'),
+       local('Avenir-Light'),
+       local('Avenir Next Ultra Light'),
+       local('AvenirNext-UltraLight'),
+       url('/fonts/AvenirNext-Regular.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: local('Avenir-Roman'),
+       local('Avenir Book'),
+       local('Avenir-Book'),
+       local('Avenir Next Regular'),
+       local('AvenirNext-Regular'),
+       local('Avenir Next'),
+       url('/fonts/AvenirNext-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: local('Avenir Medium'),
+       local('Avenir-Medium'),
+       local('Avenir Next Medium'),
+       local('AvenirNext-Medium'),
+       url('/fonts/AvenirNext-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: local('Avenir Next Demi Bold'),
+       local('AvenirNext-DemiBold'),
+       url('/fonts/AvenirNext-DemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: local('Avenir Heavy'),
+       local('Avenir-Heavy'),
+       local('Avenir Black'),
+       local('Avenir-Black'),
+       local('Avenir Next Bold'),
+       local('AvenirNext-Bold'),
+       url('/fonts/AvenirNext-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================
+   DIDOT FONT-FACE
+   ========================= */
+@font-face {
+  font-family: 'Didot';
+  src: local('Didot'),
+       local('Didot-Bold');
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
@@ -1315,6 +1448,8 @@ img {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   justify-content: initial;
   gap: 32px;
+  height: var(--navbar-height, 72px);
+  min-height: var(--navbar-height, 72px);
   padding-inline: clamp(24px, 5vw, 88px);
   border-bottom: 1px solid #ebebef;
   background: #ffffff;
@@ -1324,8 +1459,12 @@ img {
 
 /* Hero Section Navbar - Seamless matching canvas tone (#e1e0dc) */
 .navbar.navbar-hero {
+  background-color: #e1e0dc !important;
+  border-bottom-color: #d4d3cf !important;
+}
+
+body:has(.gym-hero-section) {
   background-color: #e1e0dc;
-  border-bottom-color: #d4d3cf;
 }
 
 .navbar.navbar-hero .mobile-menu-toggle {
@@ -1427,6 +1566,19 @@ img {
   border: 1px solid #ebebef;
   border-radius: 0;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  transform-origin: top right;
+  animation: profileDropDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes profileDropDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 .navbar .profile-dropdown a,
 .navbar .profile-dropdown button {
@@ -1438,6 +1590,34 @@ img {
   color: #121214 !important;
 }
 
+/* Desktop Sign In Link - Preserved Clean Minimal Editorial Text Link */
+.navbar .navbar-signin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #121214 !important;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.16s ease;
+}
+.navbar .navbar-signin-link:hover {
+  color: #71737d !important;
+  background: transparent !important;
+}
+
+.navbar-mobile-register-link {
+  display: none;
+}
+
 .mobile-menu-toggle { display: none; }
 
 @media (max-width: 768px) {
@@ -1445,10 +1625,15 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
-    min-height: 64px;
-    padding: 0 18px;
+    height: var(--navbar-height, 64px);
+    min-height: var(--navbar-height, 64px);
+    padding: 0 20px;
     gap: 12px;
+    border-bottom: 1px solid #f0f0f2;
+  }
+  .navbar.navbar-hero {
+    background-color: #e1e0dc !important;
+    border-bottom: 1px solid #d4d3cf !important;
   }
   .navbar > .brand {
     order: 1;
@@ -1464,45 +1649,91 @@ img {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: auto;
-    height: auto;
-    min-width: 0;
-    min-height: 0;
-    padding: 6px 4px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
     border: none !important;
     border-radius: 0 !important;
     background: transparent !important;
-    color: #121214;
+    color: #111113;
     cursor: pointer;
     flex-shrink: 0;
     box-shadow: none !important;
-    transition: opacity 0.16s ease;
+    transition: opacity 0.16s ease, transform 0.2s ease;
   }
   .navbar .mobile-menu-toggle:hover {
-    border: none !important;
-    background: transparent !important;
-    color: #121214;
     opacity: 0.65;
   }
+  .navbar.mobile-open .mobile-menu-toggle {
+    opacity: 1;
+  }
+
+  /* Minimal Luxury Mobile Drawer - Pure Editorial Aesthetic */
   .navbar-menu { display: none; }
   .navbar.mobile-open .navbar-menu {
     position: absolute;
-    top: 64px;
+    top: var(--navbar-height, 64px);
     left: 0;
     right: 0;
     width: 100%;
-    max-height: calc(100vh - 64px);
-    max-height: calc(100dvh - 64px);
+    max-height: calc(100vh - var(--navbar-height, 64px));
+    max-height: calc(100dvh - var(--navbar-height, 64px));
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px 20px 24px;
-    border-bottom: 1px solid #ebebef;
+    padding: 18px 24px 32px;
+    border-bottom: 1px solid #f0f0f2;
     background: #ffffff;
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.05);
     z-index: 999;
+    transform-origin: top center;
+    animation: editorialDropDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
+
+  @keyframes editorialDropDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-8px) scaleY(0.96);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+  }
+
+  @keyframes editorialItemDropDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Staggered Item Animations */
+  .navbar.mobile-open .navbar-links-left > a,
+  .navbar.mobile-open .navbar-links-right > .navbar-cart-icon-link,
+  .navbar.mobile-open .navbar-links-right > .navbar-wishlist,
+  .navbar.mobile-open .navbar-links-right > .profile-container,
+  .navbar.mobile-open .navbar-signin-link,
+  .navbar.mobile-open .navbar-mobile-register-link {
+    animation: editorialItemDropDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .navbar.mobile-open .navbar-links-left > a:nth-child(1) { animation-delay: 0.02s; }
+  .navbar.mobile-open .navbar-links-left > a:nth-child(2) { animation-delay: 0.04s; }
+  .navbar.mobile-open .navbar-links-left > a:nth-child(3) { animation-delay: 0.06s; }
+  .navbar.mobile-open .navbar-links-left > a:nth-child(4) { animation-delay: 0.08s; }
+  .navbar.mobile-open .navbar-links-right > .navbar-cart-icon-link { animation-delay: 0.10s; }
+  .navbar.mobile-open .navbar-links-right > .navbar-wishlist { animation-delay: 0.12s; }
+  .navbar.mobile-open .navbar-signin-link,
+  .navbar.mobile-open .navbar-links-right > .profile-container { animation-delay: 0.14s; }
+  .navbar.mobile-open .navbar-mobile-register-link { animation-delay: 0.16s; }
+
   .navbar.mobile-open .navbar-links {
     display: flex !important;
     position: static;
@@ -1518,61 +1749,150 @@ img {
     background: transparent;
     box-shadow: none;
   }
+
+  /* Primary Menu Links - Editorial Minimal Typography */
   .navbar.mobile-open .navbar-links-left > a {
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 13px 4px;
+    min-height: 44px;
+    padding: 12px 2px;
     border-bottom: 1px solid #f0f0f2;
-    color: #121214;
-    font-size: 12px;
+    color: #111113 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+    transition: opacity 0.15s ease, padding-left 0.15s ease;
   }
 
+  .navbar.mobile-open .navbar-links-left > a:hover,
+  .navbar.mobile-open .navbar-links-left > a:active {
+    opacity: 0.6;
+    padding-left: 4px;
+  }
+
+  /* Secondary Group (Cart & Wishlist) */
   .navbar.mobile-open .navbar-links-right {
     display: flex !important;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
+    margin-top: 2px;
   }
 
   .navbar.mobile-open .navbar-links-right > .navbar-cart-icon-link,
-  .navbar.mobile-open .navbar-links-right > .navbar-wishlist,
-  .navbar.mobile-open .navbar-links-right > .profile-icon {
-    display: flex;
+  .navbar.mobile-open .navbar-links-right > .navbar-wishlist {
+    display: flex !important;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     width: 100%;
     min-height: 44px;
-    padding: 12px 4px;
+    padding: 12px 2px;
     border: 0;
     border-bottom: 1px solid #f0f0f2;
     border-radius: 0;
-    color: #121214;
-    font-size: 12px;
+    color: #111113 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
     text-align: left;
+    transition: opacity 0.15s ease, padding-left 0.15s ease;
+  }
+
+  .navbar.mobile-open .navbar-links-right > .navbar-cart-icon-link:hover,
+  .navbar.mobile-open .navbar-links-right > .navbar-wishlist:hover,
+  .navbar.mobile-open .navbar-links-right > .navbar-cart-icon-link:active,
+  .navbar.mobile-open .navbar-links-right > .navbar-wishlist:active {
+    opacity: 0.6;
+    padding-left: 4px;
   }
 
   .navbar.mobile-open .navbar-links-right .navbar-cart-icon-link svg,
-  .navbar.mobile-open .navbar-links-right .navbar-wishlist-icon,
-  .navbar.mobile-open .navbar-links-right .profile-icon svg {
-    display: none;
+  .navbar.mobile-open .navbar-links-right .navbar-wishlist-icon {
+    display: inline-block !important;
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    stroke: #111113;
+    stroke-width: 1.5;
+    flex-shrink: 0;
   }
 
-  .navbar-mobile-label {
-    display: inline;
-  }
-
-  .navbar.mobile-open .navbar-links-right > .navbar-cart-icon-link {
-    position: relative;
+  .navbar.mobile-open .navbar-mobile-label {
+    display: inline-block;
+    flex: 1;
   }
 
   .navbar.mobile-open .navbar-links-right .navbar-item-count {
     position: static;
-    margin-left: 8px;
+    margin-left: auto;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
+  /* Editorial Sign In Button - Matching Login Page Button */
+  .navbar.mobile-open .navbar-signin-link {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 22px;
+    padding: 14px 18px;
+    background: #121214;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: none;
+    transition: background-color 0.16s ease, opacity 0.16s ease;
+  }
+
+  .navbar.mobile-open .navbar-signin-link:hover,
+  .navbar.mobile-open .navbar-signin-link:active {
+    background: #2a2a30;
+  }
+
+  /* Editorial Register Link - Matching Login Page Footer */
+  .navbar.mobile-open .navbar-mobile-register-link {
+    display: block !important;
+    width: 100%;
+    margin-top: 14px;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8b8e96 !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.16s ease;
+  }
+
+  .navbar.mobile-open .navbar-mobile-register-link:hover {
+    color: #111113 !important;
+  }
+
+  /* Authenticated Account Group */
   .navbar.mobile-open .navbar-links-right > .profile-container {
     display: block;
     width: 100%;
-    margin: 0;
+    margin-top: 4px;
   }
 
   .navbar.mobile-open .navbar-links-right > .profile-container .profile-icon {
@@ -1582,27 +1902,79 @@ img {
     width: 100%;
     height: auto;
     min-height: 44px;
-    padding: 12px 4px;
+    padding: 12px 2px;
     border: 0;
     border-bottom: 1px solid #f0f0f2;
     border-radius: 0;
     background: transparent;
-    color: #121214;
-    font-size: 12px;
+    color: #111113 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: opacity 0.15s ease;
+  }
+
+  .navbar.mobile-open .navbar-links-right .profile-icon svg {
+    display: inline-block !important;
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    stroke: #111113;
+    stroke-width: 1.5;
   }
 
   .navbar.mobile-open .navbar-links-right .profile-dropdown {
     position: static;
     width: 100%;
-    margin: 4px 0 10px;
+    margin: 8px 0 12px;
+    padding: 6px 12px;
+    background: #fafafc;
+    border: 1px solid #f0f0f2;
+    border-radius: 0;
     box-shadow: none;
   }
 
-  .navbar.mobile-open .navbar-links-right .profile-dropdown a {
+  .navbar.mobile-open .navbar-links-right .profile-dropdown .profile-title {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8b8e96;
+    margin: 6px 0 6px 4px;
+  }
+
+  .navbar.mobile-open .navbar-links-right .profile-dropdown a,
+  .navbar.mobile-open .navbar-links-right .profile-dropdown button {
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 10px;
+    min-height: 36px;
+    padding: 8px 4px;
     border: 0;
-    font-size: 14px;
+    border-radius: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #111113 !important;
+    text-align: left;
+    background: transparent;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .navbar.mobile-open .navbar-links-right .profile-dropdown a:hover,
+  .navbar.mobile-open .navbar-links-right .profile-dropdown button:hover {
+    opacity: 0.65;
+    background: transparent;
+  }
+
+  .navbar.mobile-open .navbar-links-right .profile-dropdown button {
+    color: #b91c1c !important;
   }
 }
 
@@ -2062,10 +2434,11 @@ img {
   border-radius: 999px;
   background: #121214;
   color: #ffffff;
-  font-family: Arial, sans-serif;
-  font-size: 9px;
+  font-family: 'DM Sans', Inter, -apple-system, sans-serif;
+  font-size: 10px;
   font-weight: 700;
   line-height: 1;
+  box-shadow: 0 0 0 1.5px #ffffff;
   font-variant-numeric: tabular-nums;
 }
 

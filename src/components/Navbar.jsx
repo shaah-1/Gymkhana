@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Heart, Menu, ShoppingBag, User } from "lucide-react";
+import { Heart, Menu, ShoppingBag, User, X } from "lucide-react";
 import { logout } from "../redux/authSlice";
 import { adminLogout } from "../admin/store/slices/adminAuthSlice";
 
@@ -13,7 +13,15 @@ export default function Navbar() {
   const profileRef = useRef(null);
   const headerRef = useRef(null);
 
-  const isAuth = useSelector((s) => s.auth.isAuthenticated);
+  const isAuth = useSelector(
+    (s) =>
+      Boolean(
+        s.auth.isAuthenticated &&
+          s.auth.user &&
+          s.auth.user.role !== "admin" &&
+          !s.auth.user.isAdmin
+      )
+  );
   const cartCount = useSelector((s) => s.cart.items.reduce((t, i) => t + Number(i.quantity || 0), 0));
   const wishlistCount = useSelector((s) => (s.wishlist?.items || []).length);
 
@@ -21,19 +29,62 @@ export default function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
 
+  const mobileMenuTimerRef = useRef(null);
+  const profileTimerRef = useRef(null);
+
   const closeMenus = () => {
+    if (mobileMenuTimerRef.current) clearTimeout(mobileMenuTimerRef.current);
+    if (profileTimerRef.current) clearTimeout(profileTimerRef.current);
     setShowProfile(false);
     setShowMobileMenu(false);
   };
+
+  const handleMenuEnter = () => {
+    if (mobileMenuTimerRef.current) {
+      clearTimeout(mobileMenuTimerRef.current);
+      mobileMenuTimerRef.current = null;
+    }
+    setShowMobileMenu(true);
+  };
+
+  const handleMenuLeave = () => {
+    if (mobileMenuTimerRef.current) clearTimeout(mobileMenuTimerRef.current);
+    mobileMenuTimerRef.current = setTimeout(() => {
+      setShowMobileMenu(false);
+    }, 220);
+  };
+
+  const handleProfileEnter = () => {
+    if (profileTimerRef.current) {
+      clearTimeout(profileTimerRef.current);
+      profileTimerRef.current = null;
+    }
+    setShowProfile(true);
+  };
+
+  const handleProfileLeave = () => {
+    if (profileTimerRef.current) clearTimeout(profileTimerRef.current);
+    profileTimerRef.current = setTimeout(() => {
+      setShowProfile(false);
+    }, 220);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (mobileMenuTimerRef.current) clearTimeout(mobileMenuTimerRef.current);
+      if (profileTimerRef.current) clearTimeout(profileTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (location.pathname !== "/") return;
 
     const checkScroll = () => {
       const heroEl = document.getElementById("home");
+      const navH = window.innerWidth <= 768 ? 64 : 72;
       if (heroEl) {
         const rect = heroEl.getBoundingClientRect();
-        setIsScrolledPastHero(rect.bottom <= 72);
+        setIsScrolledPastHero(rect.bottom <= navH);
       } else {
         setIsScrolledPastHero(window.scrollY >= window.innerHeight - 80);
       }
@@ -63,16 +114,14 @@ export default function Navbar() {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(adminLogout());
-    navigate("/", { state: { message: "Logged out successfully!" }, replace: true });
+    navigate("/", { state: { message: "See you soon." }, replace: true });
   };
 
   return (
     <header
       ref={headerRef}
       className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isHeroNavbar ? "navbar-hero" : ""}`}
-      onMouseLeave={() => {
-        if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(false);
-      }}
+      onMouseLeave={handleMenuLeave}
     >
       <button
         type="button"
@@ -80,11 +129,14 @@ export default function Navbar() {
         aria-label={showMobileMenu ? "Close menu" : "Open menu"}
         aria-expanded={showMobileMenu}
         onClick={() => setShowMobileMenu((o) => !o)}
-        onMouseEnter={() => {
-          if (window.matchMedia("(max-width: 768px)").matches) setShowMobileMenu(true);
-        }}
+        onMouseEnter={handleMenuEnter}
+        onMouseLeave={handleMenuLeave}
       >
-        <Menu size={20} strokeWidth={1.8} aria-hidden="true" />
+        {showMobileMenu ? (
+          <X size={18} strokeWidth={1.5} aria-hidden="true" />
+        ) : (
+          <Menu size={18} strokeWidth={1.5} aria-hidden="true" />
+        )}
       </button>
 
       <Link to="/" className="brand" aria-label="GYMKHANA Nutrition home">
@@ -92,7 +144,11 @@ export default function Navbar() {
         <small>NUTRITION</small>
       </Link>
 
-      <div className="navbar-menu">
+      <div
+        className="navbar-menu"
+        onMouseEnter={handleMenuEnter}
+        onMouseLeave={handleMenuLeave}
+      >
         <nav className="navbar-links navbar-links-left" aria-label="Main navigation">
           <Link
             to="/"
@@ -149,7 +205,12 @@ export default function Navbar() {
           </Link>
 
           {isAuth ? (
-            <div className="profile-container" ref={profileRef}>
+            <div
+              className="profile-container"
+              ref={profileRef}
+              onMouseEnter={handleProfileEnter}
+              onMouseLeave={handleProfileLeave}
+            >
               <button
                 type="button"
                 className="profile-icon"
@@ -163,7 +224,13 @@ export default function Navbar() {
               </button>
 
               {showProfile && (
-                <div className="profile-dropdown" id="profile-dropdown" onClick={closeMenus}>
+                <div
+                  className="profile-dropdown"
+                  id="profile-dropdown"
+                  onClick={closeMenus}
+                  onMouseEnter={handleProfileEnter}
+                  onMouseLeave={handleProfileLeave}
+                >
                   <p className="profile-title">My Account</p>
                   <Link to="/profile">Profile & Settings</Link>
                   <Link to="/orders">My Orders</Link>
@@ -172,9 +239,14 @@ export default function Navbar() {
               )}
             </div>
           ) : (
-            <Link to="/login" onClick={closeMenus} className="navbar-signin-link">
-              Sign in
-            </Link>
+            <>
+              <Link to="/login" onClick={closeMenus} className="navbar-signin-link">
+                Sign in
+              </Link>
+              <Link to="/register" onClick={closeMenus} className="navbar-mobile-register-link">
+                New customer? Create account
+              </Link>
+            </>
           )}
         </nav>
       </div>

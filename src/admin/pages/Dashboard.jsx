@@ -7,6 +7,7 @@ import { fetchAdminProducts } from "../store/slices/adminProductSlice";
 import { fetchAdminUsers } from "../store/slices/adminUserSlice";
 import { fetchAdminOrders } from "../store/slices/adminOrderSlice";
 import { formatCurrency } from "../../utils/formatters";
+import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
 function Dashboard() {
@@ -261,7 +262,9 @@ function Dashboard() {
               <div className="admin-metrics-grid">
                 <div className="admin-metric-card">
                   <p className="admin-metric-label">Total Revenue</p>
-                  <p className="admin-metric-val">{totalRevenueFormatted}</p>
+                  <p className="admin-metric-val">
+                    <AdminPrice amount={totalRevenue > 0 ? totalRevenue : 54950} />
+                  </p>
                   <span className="admin-metric-trend">↑ +14.2% THIS PERIOD</span>
                 </div>
 
@@ -372,7 +375,7 @@ function Dashboard() {
                     </p>
                     <div className="admin-graph-revenue-group">
                       <span className="admin-graph-revenue-num">
-                        {currentDataset.revenue}
+                        <AdminPrice amount={currentDataset.revenue} />
                       </span>
                       <span className="admin-graph-pill-badge">
                         {currentDataset.trend}
@@ -556,7 +559,9 @@ function Dashboard() {
                     <span className="admin-submetric-label">
                       Average Order Value
                     </span>
-                    <span className="admin-submetric-val">₹2,490</span>
+                    <span className="admin-submetric-val">
+                      <AdminPrice amount={2490} />
+                    </span>
                   </div>
                   <div className="admin-submetric-item">
                     <span className="admin-submetric-label">
@@ -643,7 +648,7 @@ function Dashboard() {
                             </span>
                           </td>
                           <td>
-                            <strong>{formatCurrency(order.total)}</strong>
+                            <strong><AdminPrice amount={order.total} /></strong>
                           </td>
                         </tr>
                       );
@@ -742,7 +747,7 @@ function Dashboard() {
                 <img src={publicAssetUrl(p.image)} alt={p.name} />
                 <span className="admin-product-box-name">{p.name}</span>
                 <span className="admin-product-box-price">
-                  {formatCurrency(p.price)}
+                  <AdminPrice amount={p.price} />
                 </span>
               </div>
             ))}
@@ -770,7 +775,9 @@ function Dashboard() {
           <div className="admin-ledger">
             <div className="admin-ledger-row">
               <span>GROSS MERCHANDISE:</span>
-              <span>{totalRevenueFormatted}</span>
+              <span>
+                <AdminPrice amount={totalRevenue > 0 ? totalRevenue : 54950} />
+              </span>
             </div>
             <div className="admin-ledger-row">
               <span>ESTIMATED FULFILLMENT:</span>
@@ -778,7 +785,9 @@ function Dashboard() {
             </div>
             <div className="admin-ledger-row total">
               <span>NET REVENUE:</span>
-              <span>{totalRevenueFormatted}</span>
+              <span>
+                <AdminPrice amount={totalRevenue > 0 ? totalRevenue : 54950} />
+              </span>
             </div>
           </div>
 
