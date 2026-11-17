@@ -1467,6 +1467,18 @@ body:has(.gym-hero-section) {
   background-color: #e1e0dc;
 }
 
+/* About Page Navbar - Seamless matching canvas tone (#e6e5e3) */
+.navbar.navbar-about,
+body:has(.about-page) .navbar {
+  background-color: #e6e5e3 !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+body:has(.about-page) {
+  background-color: #e6e5e3;
+}
+
 .navbar.navbar-hero .mobile-menu-toggle {
   border: none;
   background: transparent;

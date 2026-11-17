@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 import { getProducts } from "../../services/productService";
 import ProductCard from "../../components/ProductCard";
@@ -102,105 +102,104 @@ export default function Shop() {
 
   return (
     <main className="shop-page">
-      {/* Editorial Catalog Header */}
-      <header className="shop-header">
-        <p className="shop-eyebrow">GYMKHANA APOTHECARY & LAB</p>
-        <h1 className="shop-title">The Complete Collection</h1>
-        <p className="shop-subtitle">
-          Pure, clinical-grade sports nutrition engineered for maximum bioavailability and cellular recovery.
-        </p>
+      {/* Editorial Catalog Header (Matching Reference Design) */}
+      <header className="shop-editorial-header">
+        <h1 className="shop-editorial-title">
+          FORMULATIONS ENGINEERED FOR PURITY.
+          <br />
+          AND BUILT FOR HOW YOU PERFORM.
+        </h1>
+
+        <div className="shop-editorial-manifesto">
+          <p className="shop-editorial-col">
+            GYMKHANA was created for those who refuse the noise of commercial nutrition. This is not synthetic hype &mdash; it is bioavailable fuel in its purest physiological form. Every formulation is engineered from clinical isolates, transparent active dosages, and uncompromised raw compounds, designed to integrate seamlessly into your metabolic rhythm and support cellular output. Unlike commercial blends, GYMKHANA contains zero redundant fillers.
+          </p>
+          <p className="shop-editorial-col">
+            It does not substitute for hard work &mdash; it honors it. A clean, disciplined regimen that works with your body long after the session ends. The collection is structured as an apothecary of physical performance: for morning conditioning, for peak muscular recovery, for sustained focus, and for unbroken consistency. You don&rsquo;t just take a supplement. You commit to your standard.
+          </p>
+        </div>
       </header>
 
-      {/* Control Bar: Search, Category & Sort */}
+      {/* Control Bar: Section Tag & Minimal Inline Controls */}
       <section className="shop-controls-bar" aria-label="Product search and filters">
-        <div className="shop-search-wrapper">
-          <Search size={15} className="shop-search-icon" aria-hidden="true" />
-          <input
-            type="search"
-            value={search}
-            onChange={handleSearchChange}
-            placeholder="Search formulations, ingredients..."
-            aria-label="Search products"
-            className="shop-search-input"
-          />
-          {search && (
-            <button
-              type="button"
-              className="shop-search-clear"
-              aria-label="Clear search"
-              onClick={() => {
-                const params = new URLSearchParams(location.search);
-                params.delete("search");
-                navigate({ pathname: "/shop", search: params.toString() ? `?${params.toString()}` : "" }, { replace: true });
-              }}
-            >
-              <X size={14} />
-            </button>
-          )}
+        <div className="shop-section-tag-wrapper">
+          <h2 className="shop-section-tag">SHOP</h2>
+          <span className="shop-results-meta">
+            ({filteredProducts.length} {filteredProducts.length === 1 ? "FORMULATION" : "FORMULATIONS"})
+          </span>
         </div>
 
-        {/* Filter Controls Group: Category & Sort (matching pill aesthetic) */}
+        {/* Minimal Controls: Search, Category & Sort */}
         <div className="shop-filters-group">
-          {/* Category Dropdown Control */}
-          <div className="shop-sort-wrapper shop-category-wrapper">
-            <label htmlFor="shop-category-select" className="shop-sort-label">
-              <Filter size={13} aria-hidden="true" />
-              <span>Category</span>
-            </label>
+          {/* Minimal Search Input */}
+          <div className="shop-search-wrapper">
+            <Search size={13} className="shop-search-icon" aria-hidden="true" />
+            <input
+              type="search"
+              value={search}
+              onChange={handleSearchChange}
+              placeholder="Search formulations..."
+              aria-label="Search formulations"
+              className="shop-search-input"
+            />
+            {search && (
+              <button
+                type="button"
+                className="shop-search-clear"
+                aria-label="Clear search"
+                onClick={() => {
+                  const params = new URLSearchParams(location.search);
+                  params.delete("search");
+                  navigate({ pathname: "/shop", search: params.toString() ? `?${params.toString()}` : "" }, { replace: true });
+                }}
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
+
+          {/* Category Dropdown */}
+          <div className="shop-filter-item">
             <select
               id="shop-category-select"
               value={category}
               onChange={handleCategoryChange}
-              className="shop-sort-select shop-category-select"
+              className="shop-filter-select"
               aria-label="Filter by category"
             >
-              <option value="all">All Categories</option>
+              <option value="all">ALL CATEGORIES</option>
               {availableCategories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {cat.toUpperCase()}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Sort Dropdown Control */}
-          <div className="shop-sort-wrapper">
-            <label htmlFor="shop-sort-select" className="shop-sort-label">
-              <SlidersHorizontal size={13} aria-hidden="true" />
-              <span>Sort</span>
-            </label>
+          {/* Sort Dropdown */}
+          <div className="shop-filter-item">
             <select
               id="shop-sort-select"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="shop-sort-select"
-              aria-label="Sort products"
+              className="shop-filter-select"
+              aria-label="Sort formulations"
             >
               {SORT_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
-                  {opt.label}
+                  {opt.label.toUpperCase()}
                 </option>
               ))}
             </select>
           </div>
+
+          {(search.trim() || category !== "all" || sort !== "default") && (
+            <button type="button" onClick={clearFilters} className="shop-reset-btn">
+              RESET &times;
+            </button>
+          )}
         </div>
       </section>
-
-      {/* Meta Bar: Product Count & Active Filters */}
-      <div className="shop-meta-row">
-        <span className="shop-results-count">
-          Showing <strong>{filteredProducts.length}</strong> of {items.length} formulations
-          {category !== "all" && (
-            <span className="shop-active-cat-badge"> &middot; {category}</span>
-          )}
-        </span>
-
-        {(search.trim() || category !== "all" || sort !== "default") && (
-          <button type="button" onClick={clearFilters} className="shop-reset-btn">
-            Clear all filters &times;
-          </button>
-        )}
-      </div>
 
       {/* Product Grid Area */}
       <section className="shop-grid-section" aria-live="polite">

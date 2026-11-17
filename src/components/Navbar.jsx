@@ -101,6 +101,7 @@ export default function Navbar() {
   }, [location.pathname]);
 
   const isHeroNavbar = location.pathname === "/" && !isScrolledPastHero;
+  const isAboutNavbar = location.pathname === "/about" && !isScrolledPastHero;
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -120,7 +121,7 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isHeroNavbar ? "navbar-hero" : ""}`}
+      className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isHeroNavbar ? "navbar-hero" : ""} ${isAboutNavbar ? "navbar-about" : ""}`}
       onMouseLeave={handleMenuLeave}
     >
       <button
@@ -168,9 +169,15 @@ export default function Navbar() {
             About
           </Link>
           <Link
-            to="/contact"
+            to="/#contact"
             onClick={() => {
               closeMenus();
+              if (location.pathname === "/") {
+                const el = document.getElementById("contact");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                }
+              }
             }}
           >
             Contact

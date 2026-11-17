@@ -1,0 +1,565 @@
+/* ============================================================
+   STUDIO CONTACT SECTION & EDITORIAL FOOTER
+   (MATCHING TOTEME EDITORIAL REFERENCE media_1794901719620_93a663f2.webp)
+   ============================================================ */
+
+.studio-contact-section {
+  width: 100%;
+  background: #ffffff;
+  color: #121214;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 1. Header */
+.studio-contact-header {
+  width: 100%;
+  text-align: center;
+  padding-top: clamp(64px, 8vw, 120px);
+  padding-bottom: clamp(32px, 4vw, 56px);
+  box-sizing: border-box;
+}
+
+.studio-contact-title {
+  font-family: 'Avenir Next Condensed', 'Impact', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(42px, 6vw, 84px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: #121214;
+  margin: 0;
+}
+
+/* 2. Gallery Stage with Typographic Watermark */
+.studio-gallery-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3.5vw, 64px);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.studio-watermark-top {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Avenir Next Condensed', 'Impact', sans-serif;
+  font-size: clamp(80px, 17vw, 240px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #f1f1f3;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1;
+  line-height: 1;
+}
+
+.studio-gallery-grid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(8px, 1.6vw, 22px);
+  width: 100%;
+}
+
+.studio-gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.studio-card-num {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(9px, 0.95vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #4a4d55;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.studio-card-frame {
+  width: 100%;
+  height: 100%;
+  background: #f4f4f6;
+  border: 1px solid #ebebed;
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.studio-card-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: #d2d4da;
+}
+
+/* Stepped Pyramid Scale */
+.studio-card-1,
+.studio-card-5 {
+  flex: 0 1 clamp(70px, 13vw, 175px);
+}
+.studio-card-1 .studio-card-frame,
+.studio-card-5 .studio-card-frame {
+  aspect-ratio: 81 / 115;
+  padding: clamp(8px, 1.2vw, 14px);
+}
+
+.studio-card-2,
+.studio-card-4 {
+  flex: 0 1 clamp(95px, 18vw, 240px);
+}
+.studio-card-2 .studio-card-frame,
+.studio-card-4 .studio-card-frame {
+  aspect-ratio: 111 / 155;
+  padding: clamp(10px, 1.5vw, 18px);
+}
+
+.studio-card-3 {
+  flex: 0 1 clamp(150px, 28vw, 380px);
+}
+.studio-card-3 .studio-card-frame {
+  aspect-ratio: 175 / 185;
+  padding: clamp(14px, 2vw, 24px);
+}
+
+.studio-card-img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 0;
+  filter: grayscale(100%) contrast(106%) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.09));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.studio-card-frame:hover .studio-card-img {
+  transform: scale(1.06);
+}
+
+/* 3. Lower Contact Form Area */
+.studio-form-stage {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  padding: clamp(64px, 8vw, 120px) 0 clamp(80px, 9vw, 130px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.studio-watermark-bottom {
+  position: absolute;
+  bottom: -20px;
+  left: clamp(20px, 4vw, 72px);
+  font-family: 'Avenir Next Condensed', 'Impact', sans-serif;
+  font-size: clamp(90px, 18vw, 250px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #f3f3f5;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  line-height: 0.85;
+}
+
+.studio-form-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 72px);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+  gap: clamp(40px, 7vw, 120px);
+  align-items: flex-end;
+}
+
+.studio-info-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.studio-micro-dash {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #555861;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.studio-micro-copy {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1.75;
+  color: #4a4d55;
+  text-transform: uppercase;
+  max-width: 330px;
+  margin: 0;
+}
+
+.studio-input-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contact Form - Styled like the Editorial Login Page */
+.studio-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.2vw, 22px);
+  width: 100%;
+  max-width: 500px;
+}
+
+.studio-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.studio-field-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  margin-bottom: 4px;
+}
+
+.studio-underline-input,
+.studio-underline-textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d5d7dc;
+  background: transparent;
+  padding: 9px 0 10px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #121214;
+  outline: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.studio-underline-input:focus,
+.studio-underline-textarea:focus {
+  border-bottom-color: #121214;
+}
+
+.studio-underline-input::placeholder,
+.studio-underline-textarea::placeholder {
+  color: #b0b3ba;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.studio-underline-textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.55;
+}
+
+.studio-actions {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 6px;
+}
+
+.studio-submit-btn {
+  background: #121214;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  padding: 15px 44px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s ease, opacity 0.18s ease;
+}
+
+.studio-submit-btn:hover {
+  background: #2a2a30;
+}
+
+.studio-success-msg {
+  padding: 32px 0;
+  border-bottom: 1.5px solid #121214;
+}
+
+.studio-success-title {
+  font-family: 'Avenir Next Condensed', 'Impact', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #121214;
+  margin: 0 0 8px 0;
+}
+
+.studio-success-desc {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  color: #4a4d55;
+  margin: 0;
+}
+
+/* 4. Black Luxury Studio Footer */
+.studio-black-footer {
+  width: 100%;
+  background: #0f1012;
+  color: #ffffff;
+  padding: clamp(64px, 8vw, 100px) clamp(24px, 5vw, 72px) clamp(40px, 5vw, 64px);
+  box-sizing: border-box;
+}
+
+.studio-footer-top {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.6fr);
+  gap: clamp(48px, 6vw, 96px);
+  padding-bottom: clamp(64px, 8vw, 100px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.studio-footer-heading {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+
+.studio-footer-sub {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+  color: #8b8e96;
+  text-transform: uppercase;
+  max-width: 380px;
+  margin: 0 0 24px 0;
+}
+
+.studio-footer-form {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ffffff;
+  max-width: 380px;
+  padding-bottom: 6px;
+}
+
+.studio-footer-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.studio-footer-input::placeholder {
+  color: #71747d;
+}
+
+.studio-footer-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding-left: 12px;
+  transition: opacity 0.2s ease;
+}
+
+.studio-footer-btn:hover {
+  opacity: 0.7;
+}
+
+.studio-footer-success {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.studio-footer-links-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3.5vw, 48px);
+}
+
+.studio-footer-col-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 18px 0;
+}
+
+.studio-footer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.studio-footer-list a {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.studio-footer-list a:hover {
+  color: #ffffff;
+}
+
+/* Monumental Logo */
+.studio-footer-monument {
+  max-width: 1440px;
+  margin: clamp(40px, 5vw, 64px) auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.studio-monument-brand {
+  font-family: 'Avenir Next Condensed', 'Impact', -apple-system, sans-serif;
+  font-size: clamp(64px, 14vw, 210px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: #ffffff;
+  user-select: none;
+}
+
+.studio-monument-badge {
+  border: 3px solid #ffffff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+.studio-badge-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.studio-badge-symbol {
+  font-family: 'Avenir Next Condensed', 'Impact', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+.studio-badge-sub {
+  font-family: 'Avenir Next Condensed', 'Impact', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .studio-form-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .studio-footer-top {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .studio-footer-links-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .studio-gallery-grid {
+    gap: 6px;
+  }
+
+  .studio-card-num {
+    font-size: 8.5px;
+    margin-bottom: 4px;
+  }
+
+  .studio-footer-links-group {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .studio-footer-monument {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .studio-monument-badge {
+    align-self: flex-start;
+  }
+}

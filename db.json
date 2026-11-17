@@ -801,7 +801,7 @@
       "price": 2299,
       "image": "/products/casein.png",
       "stock": 6,
-      "quantity": 2,
+      "quantity": 3,
       "id": "W0vI2gYV_vY"
     },
     {
@@ -814,6 +814,28 @@
       "stock": 7,
       "quantity": 1,
       "id": "rkru5rUsw9k"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "10",
+      "name": "Gym Bag",
+      "category": "Gym Accessories",
+      "price": 899,
+      "image": "/products/gym-bag.png",
+      "stock": 10,
+      "quantity": 10,
+      "id": "yY-zWD8A_Sk"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "productId": "2",
+      "name": "Creatine Monohydrate",
+      "category": "Creatine",
+      "price": 999,
+      "image": "/products/creatine.png",
+      "stock": 11,
+      "quantity": 1,
+      "id": "c4JVxcTTKM4"
     }
   ],
   "wishlists": [

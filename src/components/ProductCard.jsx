@@ -72,7 +72,11 @@ function getProductSizes(product) {
   return ["50g", "100g"];
 }
 
-export default function ProductCard({ product, showBadge = false }) {
+export default function ProductCard({
+  product,
+  showBadge = false,
+  variant = "default",
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -175,91 +179,117 @@ export default function ProductCard({ product, showBadge = false }) {
             loading="lazy"
           />
         </Link>
-      </div>
 
-      {/* 2. PRODUCT BODY CONTENT */}
-      <div className="product-card-body">
-        {/* Title */}
-        <h3 className="product-card-title">
-          <Link to={`/products/${product.id}`}>{product.name}</Link>
-        </h3>
-
-        {/* Subtitle / Skin-type Descriptor */}
-        <p className="product-card-subtitle" title={subtitleText}>
-          {subtitleText}
-        </p>
-
-        {/* 5-Star Rating (4 filled black stars, 1 empty black outline) */}
-        <div
-          className="product-card-rating"
-          aria-label="Rated 4 out of 5 stars"
-        >
-          {[1, 2, 3, 4, 5].map((starIndex) => {
-            const isFilled = starIndex <= 4;
-            return (
-              <Star
-                key={starIndex}
-                size={15}
-                strokeWidth={1.8}
-                fill={isFilled ? "#111111" : "none"}
-                color="#111111"
-              />
-            );
-          })}
-        </div>
-
-        {/* Price Row: Current Price + Strikethrough Original Price */}
-        <div className="product-card-prices">
-          <span className="product-card-current-price">
-            {formatCurrency(currentPrice)}
-          </span>
-          <span className="product-card-original-price">
-            {formatCurrency(originalPrice)}
-          </span>
-        </div>
-
-        {/* Size Variant Selector Pills */}
-        <div
-          className="product-card-sizes"
-          role="group"
-          aria-label="Select product size"
-        >
-          {availableSizes.map((size) => (
+        {/* Hover Add to Cart Overlay (for imageOnly variant) */}
+        {variant === "imageOnly" && (
+          <div className="product-card-hover-overlay">
+            <div className="product-card-hover-info">
+              <p className="product-card-hover-title">{product.name}</p>
+              <p className="product-card-hover-price">
+                {formatCurrency(currentPrice)}
+              </p>
+            </div>
             <button
-              key={size}
               type="button"
-              className={`product-size-pill ${selectedSize === size ? "active" : ""}`}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setSelectedSizeState(size);
-              }}
+              className="product-card-hover-add-btn"
+              onClick={handleAddToCart}
+              disabled={availableToAdd <= 0}
             >
-              {size}
+              {stock === 0
+                ? "Out of stock"
+                : availableToAdd === 0
+                  ? "Stock limit reached"
+                  : "Add to cart"}
             </button>
-          ))}
-        </div>
-
-        {stock > 0 && availableToAdd === 0 && (
-          <p className="product-card-limit-msg">
-            Maximum available quantity added
-          </p>
+          </div>
         )}
-
-        {/* Full-width Black "Add to cart" Button */}
-        <button
-          type="button"
-          className="product-card-add-btn"
-          onClick={handleAddToCart}
-          disabled={availableToAdd <= 0}
-        >
-          {stock === 0
-            ? "Out of stock"
-            : availableToAdd === 0
-              ? "Stock limit reached"
-              : "Add to cart"}
-        </button>
       </div>
+
+      {/* 2. PRODUCT BODY CONTENT (Hidden in imageOnly mode) */}
+      {variant !== "imageOnly" && (
+        <div className="product-card-body">
+          {/* Title */}
+          <h3 className="product-card-title">
+            <Link to={`/products/${product.id}`}>{product.name}</Link>
+          </h3>
+
+          {/* Subtitle / Skin-type Descriptor */}
+          <p className="product-card-subtitle" title={subtitleText}>
+            {subtitleText}
+          </p>
+
+          {/* 5-Star Rating (4 filled black stars, 1 empty black outline) */}
+          <div
+            className="product-card-rating"
+            aria-label="Rated 4 out of 5 stars"
+          >
+            {[1, 2, 3, 4, 5].map((starIndex) => {
+              const isFilled = starIndex <= 4;
+              return (
+                <Star
+                  key={starIndex}
+                  size={15}
+                  strokeWidth={1.8}
+                  fill={isFilled ? "#111111" : "none"}
+                  color="#111111"
+                />
+              );
+            })}
+          </div>
+
+          {/* Price Row: Current Price + Strikethrough Original Price */}
+          <div className="product-card-prices">
+            <span className="product-card-current-price">
+              {formatCurrency(currentPrice)}
+            </span>
+            <span className="product-card-original-price">
+              {formatCurrency(originalPrice)}
+            </span>
+          </div>
+
+          {/* Size Variant Selector Pills */}
+          <div
+            className="product-card-sizes"
+            role="group"
+            aria-label="Select product size"
+          >
+            {availableSizes.map((size) => (
+              <button
+                key={size}
+                type="button"
+                className={`product-size-pill ${selectedSize === size ? "active" : ""}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setSelectedSizeState(size);
+                }}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+
+          {stock > 0 && availableToAdd === 0 && (
+            <p className="product-card-limit-msg">
+              Maximum available quantity added
+            </p>
+          )}
+
+          {/* Full-width Black "Add to cart" Button */}
+          <button
+            type="button"
+            className="product-card-add-btn"
+            onClick={handleAddToCart}
+            disabled={availableToAdd <= 0}
+          >
+            {stock === 0
+              ? "Out of stock"
+              : availableToAdd === 0
+                ? "Stock limit reached"
+                : "Add to cart"}
+          </button>
+        </div>
+      )}
 
       {/* Cart Added Toast */}
       {showPopup &&

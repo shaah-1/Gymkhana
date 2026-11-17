@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { fetchProducts } from "../../redux/productSlice";
 import ProductCard from "../../components/ProductCard";
 import { AboutSection } from "../about/About";
+import StudioContact from "../../components/StudioContact";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
+import api from "../../services/api";
 import "./Home.css";
 
 const FEATURED_CATEGORIES = [
@@ -43,34 +45,59 @@ export default function Home() {
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((s) => s.products);
 
-  // Newsletter state
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterStatus, setNewsletterStatus] = useState("idle"); // idle | subscribed | error
+  // Real store orders to determine actual most selling products
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Curate top best seller products (prefer in-stock products with images, up to 4 items)
+  useEffect(() => {
+    let isMounted = true;
+    api
+      .get("/orders")
+      .then((res) => {
+        if (isMounted && Array.isArray(res.data)) {
+          setOrders(res.data);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Determine top 4 most selling products dynamically based on verified sales volume
   const bestSellers = useMemo(() => {
     if (!items || !items.length) return [];
-    // Prioritize high-stock items and diverse categories
-    const sorted = [...items].sort((a, b) => {
-      const stockDiff = (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0);
-      if (stockDiff !== 0) return stockDiff;
-      return Number(b.price) - Number(a.price);
-    });
-    return sorted.slice(0, 4);
-  }, [items]);
 
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    if (!newsletterEmail || !newsletterEmail.includes("@")) {
-      setNewsletterStatus("error");
-      return;
-    }
-    setNewsletterStatus("subscribed");
-  };
+    // Calculate total units sold per product ID from all recorded orders
+    const salesMap = {};
+    (orders || []).forEach((order) => {
+      (order.items || []).forEach((it) => {
+        const pid = String(it.productId || it.id || "");
+        if (pid) {
+          salesMap[pid] = (salesMap[pid] || 0) + Number(it.quantity || 1);
+        }
+      });
+    });
+
+    // Sort products by sales volume descending (most sold first)
+    const sorted = [...items].sort((a, b) => {
+      const soldA = salesMap[String(a.id)] || 0;
+      const soldB = salesMap[String(b.id)] || 0;
+      if (soldB !== soldA) return soldB - soldA;
+
+      // In-stock products prioritized
+      const stockA = Number(a.stock) > 0 ? 1 : 0;
+      const stockB = Number(b.stock) > 0 ? 1 : 0;
+      if (stockB !== stockA) return stockB - stockA;
+
+      return Number(b.price || 0) - Number(a.price || 0);
+    });
+
+    return sorted.slice(0, 4);
+  }, [items, orders]);
 
   return (
     <main className="home-container">
@@ -131,7 +158,7 @@ export default function Home() {
         <div className="home-section-header">
           <div>
             <p className="home-section-eyebrow">THE ESSENTIAL FORMULATIONS</p>
-            <h2 className="home-section-title">Best Sellers</h2>
+            <h2 className="home-section-title">BEST OF GYMKHANA</h2>
           </div>
           <Link to="/shop" className="home-section-more-link">
             View All Products &rarr;
@@ -144,7 +171,12 @@ export default function Home() {
         {!loading && !error && (
           <div className="product-grid">
             {bestSellers.map((product) => (
-              <ProductCard key={product.id} product={product} showBadge={true} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                showBadge={false}
+                variant="imageOnly"
+              />
             ))}
           </div>
         )}
@@ -157,39 +189,43 @@ export default function Home() {
       </section>
 
       {/* 3. CATEGORIES SECTION - MINIMAL EDITORIAL */}
-      <section id="categories" className="home-minimal-editorial-section categories-minimal-section">
-        <div className="home-minimal-container">
-          <header className="home-minimal-header">
-            <h2 className="home-minimal-title">Shop by Category</h2>
-            <p className="home-minimal-subtitle">
-              Precision nutritional architectures formulated with intent for every phase of training and biological recovery.
-            </p>
-          </header>
+      <section id="categories" className="home-categories-section">
+        <div className="home-categories-container">
+          <div className="home-minimal-editorial-section categories-minimal-section">
+            <div className="home-minimal-container">
+              <header className="home-minimal-header">
+                <h2 className="home-minimal-title">Shop by Category</h2>
+                <p className="home-minimal-subtitle">
+                  Precision nutritional architectures formulated with intent for every phase of training and biological recovery.
+                </p>
+              </header>
 
-          <div className="home-minimal-categories-grid">
-            {FEATURED_CATEGORIES.map((cat, idx) => (
-              <Link
-                key={cat.id}
-                to={`/shop?category=${encodeURIComponent(cat.slug)}`}
-                className="home-minimal-category-card"
-              >
-                <div className="home-minimal-cat-top">
-                  <span className="home-minimal-cat-num">0{idx + 1}</span>
-                  <span className="home-minimal-cat-badge">{cat.badge}</span>
-                </div>
+              <div className="home-minimal-categories-grid">
+                {FEATURED_CATEGORIES.map((cat, idx) => (
+                  <Link
+                    key={cat.id}
+                    to={`/shop?category=${encodeURIComponent(cat.slug)}`}
+                    className="home-minimal-category-card"
+                  >
+                    <div className="home-minimal-cat-top">
+                      <span className="home-minimal-cat-num">0{idx + 1}</span>
+                      <span className="home-minimal-cat-badge">{cat.badge}</span>
+                    </div>
 
-                <div className="home-minimal-cat-body">
-                  <h3 className="home-minimal-cat-name">{cat.name}</h3>
-                  <p className="home-minimal-cat-desc">{cat.desc}</p>
-                </div>
+                    <div className="home-minimal-cat-body">
+                      <h3 className="home-minimal-cat-name">{cat.name}</h3>
+                      <p className="home-minimal-cat-desc">{cat.desc}</p>
+                    </div>
 
-                <div className="home-minimal-cat-footer">
-                  <span className="home-minimal-cat-link">
-                    Explore Formulations &rarr;
-                  </span>
-                </div>
-              </Link>
-            ))}
+                    <div className="home-minimal-cat-footer">
+                      <span className="home-minimal-cat-link">
+                        Explore Formulations &rarr;
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -199,64 +235,8 @@ export default function Home() {
         <AboutSection isStandalone={false} />
       </section>
 
-      {/* 5. NEWSLETTER SECTION - MINIMAL EDITORIAL */}
-      <section id="newsletter" className="home-minimal-editorial-section newsletter-minimal-section">
-        <div className="home-minimal-newsletter-box">
-          <p className="home-minimal-eyebrow">THE GYMKHANA JOURNAL</p>
-          <h2 className="home-minimal-heading-italic">Stay in the know</h2>
-          <p className="home-minimal-subtitle">
-            Subscribe for priority batch allocations, private laboratory releases, and athletic training philosophy.
-          </p>
-
-          {newsletterStatus === "subscribed" ? (
-            <div className="home-minimal-success-box" role="status">
-              <p className="home-minimal-success-title">You are now on the private list.</p>
-              <p className="home-minimal-success-desc">
-                We’ve reserved your priority allocation for upcoming formulation releases.
-              </p>
-            </div>
-          ) : (
-            <form className="home-minimal-newsletter-form" onSubmit={handleNewsletterSubmit}>
-              <div className="home-minimal-field-group">
-                <label htmlFor="newsletter-email" className="home-minimal-field-label">
-                  EMAIL ADDRESS
-                </label>
-                <input
-                  id="newsletter-email"
-                  type="email"
-                  value={newsletterEmail}
-                  onChange={(e) => {
-                    setNewsletterEmail(e.target.value);
-                    if (newsletterStatus === "error") setNewsletterStatus("idle");
-                  }}
-                  placeholder="name@example.com"
-                  aria-label="Email address for newsletter"
-                  required
-                  className="home-minimal-underline-input"
-                />
-              </div>
-
-              <button type="submit" className="home-minimal-submit-btn">
-                SIGN UP
-              </button>
-            </form>
-          )}
-
-          {newsletterStatus === "error" && (
-            <p className="home-minimal-error-msg" role="alert">
-              Please enter a valid email address.
-            </p>
-          )}
-
-          <div className="home-minimal-guarantees">
-            <span>Clinical Transparency</span>
-            <span className="dot">&bull;</span>
-            <span>Zero Spam</span>
-            <span className="dot">&bull;</span>
-            <span>Unsubscribe Anytime</span>
-          </div>
-        </div>
-      </section>
+      {/* 5. CONTACT & EDITORIAL STUDIO FOOTER */}
+      <StudioContact />
     </main>
   );
 }
