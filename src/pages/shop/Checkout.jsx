@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Smartphone, CreditCard, Landmark, Wallet, Banknote } from "lucide-react";
 
 import { clearCart } from "../../redux/cartSlice";
+import { logout } from "../../redux/authSlice";
 import { getUserById } from "../../services/authService";
 import { getProductById, updateProductStock } from "../../services/productService";
 import { createOrder } from "../../services/orderService";
@@ -47,6 +48,17 @@ export default function Checkout() {
     getUserById(userId)
       .then((u) => {
         if (!u) return;
+        if (u.blocked) {
+          dispatch(logout());
+          navigate("/login", {
+            replace: true,
+            state: {
+              error: "Your account has been suspended by an administrator.",
+              message: "Your account has been suspended by an administrator.",
+            },
+          });
+          return;
+        }
         setForm((prev) => ({
           ...prev,
           fullName: prev.fullName || u.name || u.fullName || "",
@@ -54,7 +66,7 @@ export default function Checkout() {
         }));
       })
       .catch(() => {});
-  }, []);
+  }, [dispatch, navigate]);
 
   const total = items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
 
@@ -71,6 +83,18 @@ export default function Checkout() {
     setEmailCheck({ status: "checking", message: "Checking your account…" });
     try {
       const user = await getUserById(userId);
+      if (user?.blocked) {
+        dispatch(logout());
+        navigate("/login", {
+          replace: true,
+          state: {
+            error: "Your account has been suspended by an administrator.",
+            message: "Your account has been suspended by an administrator.",
+          },
+        });
+        return { valid: false, message: "Your account has been suspended by an administrator." };
+      }
+
       const registered = String(user?.email || "").trim().toLowerCase();
       if (!registered || registered !== normalized) {
         const msg = "This email does not match your account. Use your registered email to continue.";
@@ -127,8 +151,10 @@ export default function Checkout() {
 
       const verifiedItems = checked.map(({ cartItem, product }) => ({
         id: product.id,
+        productId: product.id,
         name: product.name,
         price: Number(product.price),
+        image: product.image || cartItem.image || "",
         quantity: Number(cartItem.quantity),
       }));
 

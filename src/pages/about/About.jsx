@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./About.css";
 
@@ -8,31 +7,25 @@ const BUILT_DISCIPLINE_SLIDES = [
   {
     src: "/images/about-runner-bg.jpg",
     alt: "GYMKHANA — Athletic Movement and Formulation",
+    label: "Runner in Mist",
   },
   {
     src: "/images/built-discipline-boxer.jpg",
     alt: "GYMKHANA — Heavy Bag Combat Training and Discipline",
+    label: "Boxer Training",
   },
   {
     src: "/images/built-discipline-gym.jpg",
     alt: "GYMKHANA — Iron Strength Standard and Gym Training",
+    label: "Olympic Gym Barbell",
   },
 ];
 
-// 2-Way Infinite buffer: [last, first, second, third, first]
-const EXTENDED_SLIDES = [
-  BUILT_DISCIPLINE_SLIDES[2],
-  BUILT_DISCIPLINE_SLIDES[0],
-  BUILT_DISCIPLINE_SLIDES[1],
-  BUILT_DISCIPLINE_SLIDES[2],
-  BUILT_DISCIPLINE_SLIDES[0],
-];
-
 export function AboutSection({ isStandalone = false }) {
-  // Start at index 1 (which is BUILT_DISCIPLINE_SLIDES[0])
-  const [slideIndex, setSlideIndex] = useState(1);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
+  const navigate = useNavigate();
+  // Clean 1:1 Indexing: 0 = Slide 1, 1 = Slide 2, 2 = Slide 3
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Swipe / Drag tracking
   const touchStartXRef = useRef(null);
@@ -40,51 +33,28 @@ export function AboutSection({ isStandalone = false }) {
   const isDraggingRef = useRef(false);
   const wasDraggedRef = useRef(false);
 
-  // Auto-slide effect with faster, responsive cadence
+  // Slide when cursor is on the banner (and for touch devices)
   useEffect(() => {
-    if (isStandalone || isPaused) return;
+    if (isStandalone) return;
+    const isTouch =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(hover: none)").matches;
+
+    // Only slide if cursor is on the banner (or on touch screens without hover)
+    if (!isHovered && !isTouch) return;
+
     const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setSlideIndex((prev) => prev + 1);
-    }, 3200);
+      setSlideIndex((prev) => (prev + 1) % BUILT_DISCIPLINE_SLIDES.length);
+    }, 2000);
 
     return () => clearInterval(interval);
-  }, [isStandalone, isPaused]);
-
-  // Seamless 2-way wrap-around
-  const handleTransitionEnd = () => {
-    if (slideIndex >= 4) {
-      setIsTransitioning(false);
-      setSlideIndex(1);
-    } else if (slideIndex <= 0) {
-      setIsTransitioning(false);
-      setSlideIndex(3);
-    }
-  };
-
-  const nextSlide = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setIsTransitioning(true);
-    setSlideIndex((prev) => prev + 1);
-  };
-
-  const prevSlide = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setIsTransitioning(true);
-    setSlideIndex((prev) => prev - 1);
-  };
+  }, [isStandalone, isHovered]);
 
   const handleDotClick = (idx, e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsTransitioning(true);
-    setSlideIndex(idx + 1);
+    setSlideIndex(idx);
   };
 
   // Touch Swipe Handlers
@@ -101,9 +71,11 @@ export function AboutSection({ isStandalone = false }) {
     if (touchStartXRef.current === null || touchEndXRef.current === null) return;
     const distance = touchStartXRef.current - touchEndXRef.current;
     if (distance > 40) {
-      nextSlide();
+      setSlideIndex((prev) => (prev + 1) % BUILT_DISCIPLINE_SLIDES.length);
     } else if (distance < -40) {
-      prevSlide();
+      setSlideIndex(
+        (prev) => (prev - 1 + BUILT_DISCIPLINE_SLIDES.length) % BUILT_DISCIPLINE_SLIDES.length
+      );
     }
     touchStartXRef.current = null;
     touchEndXRef.current = null;
@@ -111,7 +83,8 @@ export function AboutSection({ isStandalone = false }) {
 
   // Mouse Drag Handlers
   const handleMouseDown = (e) => {
-    if (e.button !== 0) return; // Only primary button
+    if (e.button !== 0) return;
+    if (e.target.closest(".about-veilance-slider-dots")) return;
     isDraggingRef.current = true;
     wasDraggedRef.current = false;
     touchEndXRef.current = null;
@@ -126,18 +99,18 @@ export function AboutSection({ isStandalone = false }) {
     }
   };
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp = () => {
     if (!isDraggingRef.current) return;
     isDraggingRef.current = false;
     if (touchStartXRef.current !== null && touchEndXRef.current !== null) {
       const distance = touchStartXRef.current - touchEndXRef.current;
       if (Math.abs(distance) > 40) {
-        e.preventDefault();
-        e.stopPropagation();
         if (distance > 0) {
-          nextSlide();
+          setSlideIndex((prev) => (prev + 1) % BUILT_DISCIPLINE_SLIDES.length);
         } else {
-          prevSlide();
+          setSlideIndex(
+            (prev) => (prev - 1 + BUILT_DISCIPLINE_SLIDES.length) % BUILT_DISCIPLINE_SLIDES.length
+          );
         }
       }
     }
@@ -145,16 +118,13 @@ export function AboutSection({ isStandalone = false }) {
     touchEndXRef.current = null;
   };
 
-  const handleLinkClick = (e) => {
-    if (wasDraggedRef.current) {
-      e.preventDefault();
-      wasDraggedRef.current = false;
+  const handleFrameClick = (e) => {
+    // If user clicked the slide lines or dragged, do not navigate
+    if (e.target.closest(".about-veilance-slider-dots") || wasDraggedRef.current) {
+      return;
     }
+    navigate("/about");
   };
-
-  // Active dot mapped from 5-item buffer to 3 indicators (0, 1, 2)
-  const activeDotIndex =
-    (slideIndex - 1 + BUILT_DISCIPLINE_SLIDES.length) % BUILT_DISCIPLINE_SLIDES.length;
 
   if (!isStandalone) {
     return (
@@ -201,15 +171,18 @@ export function AboutSection({ isStandalone = false }) {
             </div>
           </div>
 
-          {/* Framed Hero Architectural Image Slider with Drag, Swipe & Navigation Arrows */}
-          <Link
-            to="/about"
+          {/* Framed Hero Architectural Image Slider with 3 Interactive Slide Lines */}
+          <div
             className="about-veilance-image-frame"
-            aria-label="Learn more about Gymkhana"
-            onClick={handleLinkClick}
-            onMouseEnter={() => setIsPaused(true)}
+            role="region"
+            aria-label="Gymkhana Built Discipline Slideshow"
+            onClick={handleFrameClick}
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setSlideIndex((prev) => (prev + 1) % BUILT_DISCIPLINE_SLIDES.length);
+            }}
             onMouseLeave={() => {
-              setIsPaused(false);
+              setIsHovered(false);
               if (isDraggingRef.current) isDraggingRef.current = false;
             }}
             onTouchStart={handleTouchStart}
@@ -221,24 +194,21 @@ export function AboutSection({ isStandalone = false }) {
           >
             <div
               className="about-veilance-slider-track"
-              onTransitionEnd={handleTransitionEnd}
               style={{
                 transform: `translateX(-${slideIndex * 100}%)`,
-                transition: isTransitioning
-                  ? "transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)"
-                  : "none",
+                transition: "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)",
               }}
             >
-              {EXTENDED_SLIDES.map((slide, idx) => (
+              {BUILT_DISCIPLINE_SLIDES.map((slide, idx) => (
                 <div
-                  key={`${slide.src}-${idx}`}
+                  key={slide.src}
                   className="about-veilance-slide"
                 >
                   <img
                     src={publicAssetUrl(slide.src)}
                     alt={slide.alt}
                     className="about-veilance-image"
-                    loading={idx === 1 ? "eager" : "lazy"}
+                    loading={idx === 0 ? "eager" : "lazy"}
                     draggable="false"
                   />
                 </div>
@@ -249,42 +219,24 @@ export function AboutSection({ isStandalone = false }) {
               <h3 className="about-veilance-image-title">BUILT DISCIPLINE</h3>
             </div>
 
-            {/* Left & Right Interactive Navigation Arrows */}
-            <button
-              type="button"
-              className="about-veilance-slider-arrow about-veilance-arrow-prev"
-              onClick={prevSlide}
-              aria-label="Previous slide"
-            >
-              <ChevronLeft size={20} strokeWidth={1.6} />
-            </button>
-            <button
-              type="button"
-              className="about-veilance-slider-arrow about-veilance-arrow-next"
-              onClick={nextSlide}
-              aria-label="Next slide"
-            >
-              <ChevronRight size={20} strokeWidth={1.6} />
-            </button>
-
-            {/* Subtle Minimal Indicator Dots */}
+            {/* Below Slide Lines - Click Any of the 3 to Instantly Slide */}
             <div
               className="about-veilance-slider-dots"
               aria-label="Slide indicators"
             >
-              {BUILT_DISCIPLINE_SLIDES.map((_, idx) => (
+              {BUILT_DISCIPLINE_SLIDES.map((slide, idx) => (
                 <button
-                  key={idx}
+                  key={slide.src}
                   type="button"
                   className={`about-veilance-dot ${
-                    activeDotIndex === idx ? "active" : ""
+                    slideIndex === idx ? "active" : ""
                   }`}
                   onClick={(e) => handleDotClick(idx, e)}
-                  aria-label={`Go to slide ${idx + 1}`}
+                  aria-label={`Slide to ${slide.label}`}
                 />
               ))}
             </div>
-          </Link>
+          </div>
         </div>
       </section>
     );

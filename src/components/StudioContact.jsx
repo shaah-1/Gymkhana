@@ -1,50 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { publicAssetUrl } from "../utils/publicAssetUrl";
 import "./StudioContact.css";
-
-const GALLERY_CARDS = [
-  {
-    id: 1,
-    num: "01",
-    name: "BCAA Powder",
-    img: "/products/bcaa-powder.png",
-    link: "/products/6",
-    alt: "GYMKHANA BCAA Powder",
-  },
-  {
-    id: 2,
-    num: "02",
-    name: "Creatine Monohydrate",
-    img: "/products/creatine.png",
-    link: "/products/2",
-    alt: "GYMKHANA Creatine Monohydrate",
-  },
-  {
-    id: 3,
-    num: "03",
-    name: "Whey Protein",
-    img: "/products/whey-protein.png",
-    link: "/products/1",
-    alt: "GYMKHANA Whey Protein - Flagship Centerpiece",
-  },
-  {
-    id: 4,
-    num: "04",
-    name: "Pre Workout",
-    img: "/products/pre-workout.png",
-    link: "/products/3",
-    alt: "GYMKHANA Pre Workout",
-  },
-  {
-    id: 5,
-    num: "05",
-    name: "Whey Protein Isolate",
-    img: "/products/whey-isolate.png",
-    link: "/products/4",
-    alt: "GYMKHANA Whey Protein Isolate",
-  },
-];
 
 export default function StudioContact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -75,43 +31,14 @@ export default function StudioContact() {
 
   return (
     <section id="contact" className="studio-contact-section">
-      {/* 1. SECTION TITLE */}
+      {/* 1. MINIMAL SECTION TITLE */}
       <div className="studio-contact-header">
         <h2 className="studio-contact-title">
-          YOUR NEXT MOVE
+          LET&apos;S TALK
         </h2>
       </div>
 
-      {/* 2. GALLERY STAGE WITH FAINT BACKGROUND WATERMARK */}
-      <div className="studio-gallery-stage">
-        {/* Giant Typographic Background Watermark */}
-        <div className="studio-watermark-top" aria-hidden="true">
-          GYMKHANA
-        </div>
-
-        {/* Stepped 5-Card Pyramid Gallery */}
-        <div className="studio-gallery-grid">
-          {GALLERY_CARDS.map((card) => (
-            <div key={card.id} className={`studio-gallery-card studio-card-${card.id}`}>
-              <Link
-                to={card.link}
-                className="studio-card-frame"
-                title={`${card.name} · View Formulation`}
-                aria-label={card.name}
-              >
-                <img
-                  src={publicAssetUrl(card.img)}
-                  alt={card.alt}
-                  className="studio-card-img"
-                  loading="lazy"
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 3. LOWER CONTACT FORM AREA */}
+      {/* 2. LOWER CONTACT FORM AREA */}
       <div className="studio-form-stage">
         {/* Faint Watermark on Left */}
         <div className="studio-watermark-bottom" aria-hidden="true">
@@ -199,7 +126,7 @@ export default function StudioContact() {
         </div>
       </div>
 
-      {/* 4. BLACK LUXURY STUDIO FOOTER */}
+      {/* 3. BLACK LUXURY STUDIO FOOTER */}
       <footer className="studio-black-footer">
         <div className="studio-footer-top">
           {/* Newsletter Column */}

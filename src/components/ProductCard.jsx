@@ -51,25 +51,100 @@ function getProductSizes(product) {
   if (Array.isArray(product?.sizes) && product.sizes.length > 0) {
     return product.sizes;
   }
+  const name = String(product?.name || "").toLowerCase();
   const cat = String(product?.category || "").toLowerCase();
-  if (cat.includes("protein") || cat.includes("gainer")) {
-    return ["1kg", "2kg"];
-  }
+
+  // Hand grips, gloves, wrist straps, lifting belts
   if (
-    cat.includes("creatine") ||
-    cat.includes("pre-workout") ||
-    cat.includes("recovery")
+    name.includes("grip") ||
+    name.includes("glove") ||
+    name.includes("strap") ||
+    name.includes("belt")
   ) {
-    return ["250g", "500g"];
+    return ["S / M", "L / XL"];
   }
+
+  // Bags, duffels, backpacks
   if (
+    name.includes("bag") ||
+    name.includes("duffel") ||
+    name.includes("backpack")
+  ) {
+    return ["Standard", "Large"];
+  }
+
+  // Shakers, bottles, sippers
+  if (
+    name.includes("shaker") ||
+    name.includes("bottle") ||
+    name.includes("sipper")
+  ) {
+    return ["500ml", "750ml"];
+  }
+
+  // Bars, cookies, snacks
+  if (
+    name.includes("bar") ||
+    name.includes("snack") ||
+    name.includes("cookie") ||
+    cat.includes("snack")
+  ) {
+    return ["Pack of 6", "Pack of 12"];
+  }
+
+  // Softgels, capsules, tablets (Fish Oil, Multivitamins, Zinc, Magnesium, D3)
+  if (
+    name.includes("fish oil") ||
+    name.includes("omega") ||
+    name.includes("vitamin") ||
+    name.includes("multi") ||
+    name.includes("magnesium") ||
+    name.includes("zinc") ||
+    name.includes("capsule") ||
+    name.includes("tablet") ||
+    name.includes("softgel") ||
     cat.includes("vitamin") ||
-    cat.includes("oil") ||
-    cat.includes("capsule")
+    cat.includes("capsule") ||
+    (cat.includes("supplement") &&
+      !name.includes("powder") &&
+      !name.includes("glutamine") &&
+      !name.includes("electrolyte"))
   ) {
     return ["60 Caps", "120 Caps"];
   }
-  return ["50g", "100g"];
+
+  // Protein & Mass Gainers
+  if (
+    cat.includes("protein") ||
+    cat.includes("gainer") ||
+    name.includes("protein") ||
+    name.includes("gainer")
+  ) {
+    return ["1kg", "2kg"];
+  }
+
+  // Creatine, Pre-workout, BCAA, Electrolyte powder, Glutamine
+  if (
+    cat.includes("creatine") ||
+    cat.includes("pre-workout") ||
+    cat.includes("recovery") ||
+    name.includes("creatine") ||
+    name.includes("pre-workout") ||
+    name.includes("pre workout") ||
+    name.includes("bcaa") ||
+    name.includes("electrolyte") ||
+    name.includes("glutamine") ||
+    name.includes("powder")
+  ) {
+    return ["250g", "500g"];
+  }
+
+  // Accessories fallback
+  if (cat.includes("accessor")) {
+    return ["Standard", "Large"];
+  }
+
+  return ["Standard", "Large"];
 }
 
 export default function ProductCard({
@@ -89,7 +164,7 @@ export default function ProductCard({
   const selectedSize =
     selectedSizeState && availableSizes.includes(selectedSizeState)
       ? selectedSizeState
-      : availableSizes[0] || "50g";
+      : availableSizes[0] || "Standard";
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
   const cartItem = useSelector((s) =>
@@ -109,10 +184,19 @@ export default function ProductCard({
 
   // Scaled pricing according to size variant
   const basePrice = Number(product.price) || 0;
+  const isFitSize = availableSizes.some(
+    (s) =>
+      s.includes("S / M") ||
+      s.includes("L / XL") ||
+      s === "S" ||
+      s === "M" ||
+      s === "L",
+  );
   const isSecondSize = selectedSize === availableSizes[1];
-  const currentPrice = isSecondSize ? Math.round(basePrice * 1.8) : basePrice;
+  const currentPrice =
+    isSecondSize && !isFitSize ? Math.round(basePrice * 1.8) : basePrice;
   const originalPrice = product.originalPrice
-    ? isSecondSize
+    ? isSecondSize && !isFitSize
       ? Math.round(Number(product.originalPrice) * 1.8)
       : Number(product.originalPrice)
     : Math.round(currentPrice * 1.15);

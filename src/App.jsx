@@ -14,8 +14,10 @@ import Toast from "./components/Toast";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminProtectedRoute from "./admin/routes/AdminProtectedRoute";
 
+import { logout } from "./redux/authSlice";
 import { fetchCart } from "./redux/cartSlice";
 import { fetchWishlist } from "./redux/wishlistSlice";
+import api from "./services/api";
 
 import Home from "./pages/shop/Home";
 import Shop from "./pages/shop/Shop";
@@ -68,6 +70,65 @@ export default function App() {
       dispatch(fetchWishlist(userId));
     }
   }, [dispatch, userId]);
+
+  // Real-time access & block monitor:
+  // Automatically detects if an admin blocks this account from another browser/window
+  // and exits the user immediately to the login page.
+  useEffect(() => {
+    if (!userId || isAdminRoute) return;
+
+    let isMounted = true;
+
+    const verifyCustomerAccess = async () => {
+      try {
+        const res = await api.get(`/users/${encodeURIComponent(userId)}`);
+        if (!isMounted) return;
+        const freshUser = res.data;
+
+        if (freshUser && freshUser.blocked) {
+          dispatch(logout());
+          navigate("/login", {
+            replace: true,
+            state: {
+              error: "Your account has been suspended by an administrator.",
+              message: "Your account has been suspended by an administrator.",
+            },
+          });
+        }
+      } catch (err) {
+        if (!isMounted) return;
+        // If account was deleted by admin (404), exit immediately
+        if (err.response?.status === 404) {
+          dispatch(logout());
+          navigate("/login", {
+            replace: true,
+            state: {
+              error: "Account session expired. Please sign in again.",
+              message: "Account session expired. Please sign in again.",
+            },
+          });
+        }
+      }
+    };
+
+    // Run verification immediately
+    verifyCustomerAccess();
+
+    // Poll every 1.5s for instant multi-browser cross-sync
+    const pollInterval = setInterval(verifyCustomerAccess, 1500);
+
+    // Also check immediately when window gains focus or tab becomes visible
+    const handleFocusSync = () => verifyCustomerAccess();
+    window.addEventListener("focus", handleFocusSync);
+    document.addEventListener("visibilitychange", handleFocusSync);
+
+    return () => {
+      isMounted = false;
+      clearInterval(pollInterval);
+      window.removeEventListener("focus", handleFocusSync);
+      document.removeEventListener("visibilitychange", handleFocusSync);
+    };
+  }, [userId, isAdminRoute, dispatch, navigate, location.pathname]);
 
   // Scroll on customer-page navigation, but not inside the admin panel.
   useEffect(() => {

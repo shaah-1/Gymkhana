@@ -5,7 +5,7 @@
       "name": "Whey Protein",
       "category": "Protein",
       "price": 2499,
-      "stock": 10,
+      "stock": 6,
       "image": "/products/whey-protein.png",
       "description": "A convenient protein supplement for everyday nutrition.",
       "detailedDescription": "Make protein a convenient part of your daily routine with GYMKHANA Whey Protein. Designed for people who train regularly and want an easy way to supplement their dietary protein intake, it fits into a balanced diet alongside whole-food protein sources.",
@@ -21,14 +21,18 @@
         "Easy to incorporate into everyday nutrition"
       ],
       "howToUse": "Mix according to the serving size and preparation instructions on the product label. Use water or another suitable beverage as directed.",
-      "additionalInfo": "Check the actual product label for protein per serving, ingredients, allergens, and serving size. This product is currently out of stock."
+      "additionalInfo": "Check the actual product label for protein per serving, ingredients, allergens, and serving size. This product is currently out of stock.",
+      "sizes": [
+        "1kg",
+        "2kg"
+      ]
     },
     {
       "id": "2",
       "name": "Creatine Monohydrate",
       "category": "Creatine",
       "price": 999,
-      "stock": 11,
+      "stock": 10,
       "image": "/products/creatine.png",
       "description": "Creatine monohydrate for high-intensity training support.",
       "detailedDescription": "Creatine Monohydrate is a popular sports nutrition supplement used by people who participate in strength training and repeated high-intensity exercise. When used consistently as directed, creatine can help support performance during repeated short bursts of intense activity.",
@@ -44,7 +48,11 @@
         "Convenient powdered format"
       ],
       "howToUse": "Follow the serving instructions on the product label. Mix and consume as directed, and maintain adequate hydration.",
-      "additionalInfo": "Check the ingredient list and serving information on the package. If you have a medical condition or take medication, consult a healthcare professional before use."
+      "additionalInfo": "Check the ingredient list and serving information on the package. If you have a medical condition or take medication, consult a healthcare professional before use.",
+      "sizes": [
+        "250g",
+        "500g"
+      ]
     },
     {
       "id": "3",
@@ -67,7 +75,11 @@
         "Suitable for planned workout routines"
       ],
       "howToUse": "Follow the product label for serving size and timing. Check the caffeine content and do not exceed the recommended serving.",
-      "additionalInfo": "Ingredient profiles vary between products. Avoid combining multiple stimulant-containing supplements without checking their combined caffeine content. Not intended to replace sleep, food, or hydration."
+      "additionalInfo": "Ingredient profiles vary between products. Avoid combining multiple stimulant-containing supplements without checking their combined caffeine content. Not intended to replace sleep, food, or hydration.",
+      "sizes": [
+        "250g",
+        "500g"
+      ]
     },
     {
       "id": "4",
@@ -90,14 +102,18 @@
         "Useful for supplementing protein intake"
       ],
       "howToUse": "Prepare according to the package directions and recommended serving size. Mix with the beverage specified or preferred where suitable.",
-      "additionalInfo": "Whey is milk-derived and is not suitable for people with a milk protein allergy. Check the label for protein content, lactose information, ingredients, and allergens."
+      "additionalInfo": "Whey is milk-derived and is not suitable for people with a milk protein allergy. Check the label for protein content, lactose information, ingredients, and allergens.",
+      "sizes": [
+        "1kg",
+        "2kg"
+      ]
     },
     {
       "id": "5",
       "name": "Mass Gainer",
       "category": "Weight Gain",
       "price": 2199,
-      "stock": 7,
+      "stock": 6,
       "image": "/products/mass-gainer.png",
       "description": "A calorie-dense supplement to complement a weight-gain diet.",
       "detailedDescription": "Mass Gainer is intended for people who find it difficult to meet their energy needs through regular meals alone. Depending on its formulation, it can provide a combination of calories, carbohydrates, and protein to complement a planned nutrition routine.",
@@ -113,7 +129,11 @@
         "Convenient option between meals when appropriate"
       ],
       "howToUse": "Follow the package serving size and preparation instructions. Consider your overall daily food intake when deciding how it fits into your diet.",
-      "additionalInfo": "Check calories per serving, sugar content, protein content, and allergens on the actual label. Weight changes depend on overall energy intake, activity, and individual needs."
+      "additionalInfo": "Check calories per serving, sugar content, protein content, and allergens on the actual label. Weight changes depend on overall energy intake, activity, and individual needs.",
+      "sizes": [
+        "1kg",
+        "2kg"
+      ]
     },
     {
       "id": "6",
@@ -123,7 +143,7 @@
       "stock": 15,
       "image": "/products/bcaa-powder.png",
       "description": "A branched-chain amino acid supplement.",
-      "detailedDescription": "BCAA Powder contains branched-chain amino acids—leucine, isoleucine, and valine. These amino acids are found in protein-rich foods and are involved in normal protein metabolism. The usefulness of supplementation depends on your overall diet and training needs.",
+      "detailedDescription": "BCAA Powder contains branched-chain amino acids\u2014leucine, isoleucine, and valine. These amino acids are found in protein-rich foods and are involved in normal protein metabolism. The usefulness of supplementation depends on your overall diet and training needs.",
       "benefits": [
         "Provides branched-chain amino acids as listed on the label",
         "Can complement an established sports nutrition routine",
@@ -136,7 +156,11 @@
         "Designed to complement nutrition and exercise routines"
       ],
       "howToUse": "Follow the serving size, mixing instructions, and usage guidance on the product label.",
-      "additionalInfo": "BCAA supplements are not a substitute for complete dietary protein. Review the ingredient list and consult a qualified professional if you have specific dietary or medical concerns."
+      "additionalInfo": "BCAA supplements are not a substitute for complete dietary protein. Review the ingredient list and consult a qualified professional if you have specific dietary or medical concerns.",
+      "sizes": [
+        "250g",
+        "500g"
+      ]
     },
     {
       "id": "7",
@@ -159,7 +183,11 @@
         "Suitable for convenient snacking"
       ],
       "howToUse": "Enjoy according to the package serving information as part of your normal diet.",
-      "additionalInfo": "Check the label for protein per bar, calories, added sugar, allergens, and storage instructions. Actual nutritional values vary by flavour and formulation."
+      "additionalInfo": "Check the label for protein per bar, calories, added sugar, allergens, and storage instructions. Actual nutritional values vary by flavour and formulation.",
+      "sizes": [
+        "Pack of 6",
+        "Pack of 12"
+      ]
     },
     {
       "id": "8",
@@ -182,7 +210,11 @@
         "Designed for workout and everyday use"
       ],
       "howToUse": "Add the appropriate liquid and powder according to their instructions, secure the lid, and shake as needed. Wash thoroughly after use.",
-      "additionalInfo": "Check the actual product for capacity, material, dishwasher suitability, and leak-resistance instructions. Do not use with hot liquids unless the manufacturer specifically permits it."
+      "additionalInfo": "Check the actual product for capacity, material, dishwasher suitability, and leak-resistance instructions. Do not use with hot liquids unless the manufacturer specifically permits it.",
+      "sizes": [
+        "500ml",
+        "750ml"
+      ]
     },
     {
       "id": "9",
@@ -205,14 +237,18 @@
         "Portable and easy to store with workout equipment"
       ],
       "howToUse": "Position the grips according to their design and the manufacturer's instructions. Check that they are secure before beginning an exercise.",
-      "additionalInfo": "Check the material, sizing, fit, and care instructions for the actual item. Grips do not replace correct lifting technique or a secure hold on equipment."
+      "additionalInfo": "Check the material, sizing, fit, and care instructions for the actual item. Grips do not replace correct lifting technique or a secure hold on equipment.",
+      "sizes": [
+        "S / M",
+        "L / XL"
+      ]
     },
     {
       "id": "10",
       "name": "Gym Bag",
       "category": "Gym Accessories",
       "price": 899,
-      "stock": 10,
+      "stock": 0,
       "image": "/products/gym-bag.png",
       "description": "A practical bag for carrying everyday workout essentials.",
       "detailedDescription": "The GYMKHANA Gym Bag helps organise the essentials you take to a workout, such as training clothes, a towel, accessories, and personal items. Its best use depends on the actual bag's dimensions, compartments, and construction.",
@@ -228,7 +264,11 @@
         "Portable bag format"
       ],
       "howToUse": "Pack items according to the available space and compartments. Avoid exceeding the bag's recommended carrying capacity.",
-      "additionalInfo": "Check the actual product for dimensions, material, pocket layout, closure type, and cleaning instructions. Do not assume waterproofing unless specified by the manufacturer."
+      "additionalInfo": "Check the actual product for dimensions, material, pocket layout, closure type, and cleaning instructions. Do not assume waterproofing unless specified by the manufacturer.",
+      "sizes": [
+        "Standard",
+        "Large"
+      ]
     },
     {
       "id": "11",
@@ -252,14 +292,18 @@
         "60 softgels per bottle"
       ],
       "howToUse": "Follow the serving instructions provided on the product label. Take with food if directed by the manufacturer.",
-      "additionalInfo": "Check the actual product label for EPA and DHA quantities, fish source, allergens, serving size, expiry date, and storage instructions. Not suitable for people with fish allergies unless confirmed safe by a healthcare professional."
+      "additionalInfo": "Check the actual product label for EPA and DHA quantities, fish source, allergens, serving size, expiry date, and storage instructions. Not suitable for people with fish allergies unless confirmed safe by a healthcare professional.",
+      "sizes": [
+        "60 Softgels",
+        "120 Softgels"
+      ]
     },
     {
       "id": "23",
       "name": "Casein Protein",
       "category": "Protein",
       "price": 2299,
-      "stock": 6,
+      "stock": 3,
       "image": "/products/casein.png",
       "description": "A casein-based protein supplement.",
       "detailedDescription": "Casein is a milk-derived protein commonly used to supplement daily protein intake.",
@@ -272,7 +316,11 @@
         "Mixable powder"
       ],
       "howToUse": "Follow the serving and preparation instructions on the label.",
-      "additionalInfo": "Contains milk-derived protein. Check allergens and nutritional information."
+      "additionalInfo": "Contains milk-derived protein. Check allergens and nutritional information.",
+      "sizes": [
+        "1kg",
+        "2kg"
+      ]
     },
     {
       "id": "25",
@@ -292,7 +340,11 @@
         "Mixes with water"
       ],
       "howToUse": "Mix according to the package instructions.",
-      "additionalInfo": "Check sodium, sugar and other electrolyte quantities on the label."
+      "additionalInfo": "Check sodium, sugar and other electrolyte quantities on the label.",
+      "sizes": [
+        "250g",
+        "500g"
+      ]
     },
     {
       "id": "26",
@@ -312,7 +364,11 @@
         "Daily supplement format"
       ],
       "howToUse": "Follow the serving instructions on the package.",
-      "additionalInfo": "Check ingredient quantities and avoid exceeding recommended intake."
+      "additionalInfo": "Check ingredient quantities and avoid exceeding recommended intake.",
+      "sizes": [
+        "60 Caps",
+        "120 Caps"
+      ]
     },
     {
       "id": "27",
@@ -332,7 +388,11 @@
         "Packaged supplement"
       ],
       "howToUse": "Use only according to the product label or professional advice.",
-      "additionalInfo": "Check the dosage carefully. Avoid excessive vitamin D intake."
+      "additionalInfo": "Check the dosage carefully. Avoid excessive vitamin D intake.",
+      "sizes": [
+        "60 Caps",
+        "120 Caps"
+      ]
     },
     {
       "id": "28",
@@ -352,7 +412,11 @@
         "Convenient format"
       ],
       "howToUse": "Follow the product label and recommended serving.",
-      "additionalInfo": "Check the magnesium form and quantity per serving."
+      "additionalInfo": "Check the magnesium form and quantity per serving.",
+      "sizes": [
+        "60 Caps",
+        "120 Caps"
+      ]
     },
     {
       "id": "29",
@@ -372,7 +436,11 @@
         "Packaged for everyday use"
       ],
       "howToUse": "Follow the package serving instructions.",
-      "additionalInfo": "Check the quantity per serving and avoid excessive intake."
+      "additionalInfo": "Check the quantity per serving and avoid excessive intake.",
+      "sizes": [
+        "60 Caps",
+        "120 Caps"
+      ]
     },
     {
       "id": "30",
@@ -392,7 +460,11 @@
         "Suitable for plant-based diets when ingredients allow"
       ],
       "howToUse": "Follow the serving and preparation instructions on the label.",
-      "additionalInfo": "Check protein quantity, source and allergen information."
+      "additionalInfo": "Check protein quantity, source and allergen information.",
+      "sizes": [
+        "1kg",
+        "2kg"
+      ]
     },
     {
       "id": "31",
@@ -412,7 +484,11 @@
         "Mixable powder"
       ],
       "howToUse": "Follow the product label for serving and preparation instructions.",
-      "additionalInfo": "Check ingredients and consult a qualified professional if needed."
+      "additionalInfo": "Check ingredients and consult a qualified professional if needed.",
+      "sizes": [
+        "250g",
+        "500g"
+      ]
     }
   ],
   "users": [
@@ -428,7 +504,8 @@
       "email": "shahi@gmail.com",
       "password": "12345678",
       "id": "9hbGUx87F2E",
-      "blocked": false
+      "blocked": false,
+      "photo": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4QBiRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAAITAAMAAAABAAEAAAAAAAAAAABIAAAAAQAAAEgAAAAB/9sAQwAGBAUGBQQGBgUGBwcGCAoQCgoJCQoUDg8MEBcUGBgXFBYWGh0lHxobIxwWFiAsICMmJykqKRkfLTAtKDAlKCko/9sAQwEHBwcKCAoTCgoTKBoWGigoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo/8IAEQgCowSuAwEiAAIRAQMRAf/EABwAAQACAgMBAAAAAAAAAAAAAAAGBwQFAQMIAv/EABkBAQADAQEAAAAAAAAAAAAAAAABAgQDBf/aAAwDAQACEAMQAAABrsZvRAAAAAAAAAAAATGHXbPPficoDr7B5369/oK7QSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOTeXfDJnbKDmABWUAt+oI1BHQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABm4VizWw+wnGAABhUD6LoaO+sEdwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGw14nGFn2hbhSmFfSI88dXozGT58XvhJpVbmGtV6w8JMJSrCidE2GGnrCfu+qztu2cHEAABU1swV0q0V1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJVFSPQvfSFxWy5oUAAAcchxyMXC25OHmCAAAAGl3XCfOvFt4caawWFhJhSUYcTo2diJ+DlPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGz1gvbbefrgtmkIcgAAAAAAAAAAAAAHHIw8LckxrCmRMAwrMLVNhXMTRmF6A08Wo35kccjsCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHb1C3Zf50sy2efhxAAAAAAAAAAAAAAAAHBzjxOtHWYwT4R3CLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATyzvOssnjcDq7ZzgAAAAAAAAAAAAAGLXC03q7QfMaAjoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABv7h8/7SeV8NVtZzggAAAAAAAAAAaJO8hMI0LvmYZXsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABl3FSVjzysUTmAAAAAAAAHyfWJEK3dZdCflXQCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADngAAAAAAAAAAAAAAAAAA7L7rK2rZwcQAAAAAAANTUln0tGjgR2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3+ZGvQM8vPCfQGLgsAAAAAAAAAAAAAAAN+iz98WxggAAAAAAADq89+iaRjtoRGgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADm7KSsueVgwecJ4edvi5qijTjCLgAAAAAAAAAAAAALbrK+7cfsM4AAAAAAAACsbOiC9RCusAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABKYtko9Bvn6tiajbk0NrPQFQRojwjqAAAAAAAAAAAAOwsOxcPMtjBUAAA11Yr2fsPOtnrzsOIAADX7AnzpxsddXYCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALw3kBn1sgKOvsFSw30XXcaK4c8R2AAAAAAAAAAATOGXfPPeicoAAiyZLAIXqnfu6SvYCwLL86TC3G3HX2M4AAFRw+z6wjWEXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAllwefvQE5+RPEACHVT6Hj8dqTZmHGgAAAAAAAAADf3bDZlbKDmOo7dZC6/dpNFeFe4JAAAkVwefdtPK9mt2U5wQBoqQ9E+fI0dIjsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvSi7RnlOxOYAADW07emO6ee0njFdIJAAAAAAAZ+BZE1sH7JxmprFecVlrEaAi4AAAAAGbcVId809CorKpyghSt1Vq616K6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEwh+dNb+cczjAAAA+avtIt5zWfWUavkRYAAAAADsvys5TbhKK8huvi3Z1kdQAAAAAAAAPq0asTX0YrWyZy8xWVYh5+c8V2AAAG64V0wWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvfawmbWxgqAAAAisqJ89495U7GrXiLgAAAAZ+AAAAAAAAAAAAACZQ0j0R2UtcFstJambQmNIRYACUWFCbYtm86cTSF10AkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACaWxQt9WzA5AAAAAMbJHnMV3AAAAAAAAAAAAAAAAAAANxpyLErv7+JgIsABYFmV/YFsuHRHoOBpq8V0gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL8oO2p5TITmAAAAAA85iu4AAAAAAAAAAAAAAAAAAAAAAAclrzSLSm2N8/RWjtJdlKRr4EXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATeEbVW9xbGAAAAAB5zFdwAAAAAAAAAAAAAAAAAAAAAADngXfvdfsLYgQqi18Nfz+ysWusAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABzwL+zohL7YwVAAAAA85iu4AAAAAAAAAAAAAAAAAAAAAABzxkF/d3PFsIAEFq30VSLRoxXsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABO7Roy87ZgcgAAAAPOYruAAAAAAAAAAAAAAAAAAAAAAAbXVSFF1i2IABoN+T504m8IrsBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHPoDz/b88ZYJzgAAAAecxXcAAAAAAAAAAAAAAAAAAAAAAAlkTnE0tQTkAAAxKI9BQZ1qwV0gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ9Ad7NbvE4wAAAAPOYruAAAAAAAAAAAAAAAAAAAAAAAWLXVoTzngnKAAA45FI6G76SjX8iLgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPv45PQeRF5RbECAAAAPOYruAAAAAAAAAAAAAAAAAAAAAAAW5Ud0TykgnMAAAAqy08Rfz8y8SusAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw7JpS67ZgcgAAAPOYruAAAAAAAAAAAAAAAAAAAAAAAXrRXoGeOWJzgAAAAQiqvRdJtGgFewAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHZ6D88XRPGSCc4AAAHnMV3AAAAAAAAAAAAAAAAAAAAAAAfXomgb/ngE8AAAAAGj3hPnX5nUFjWEWAAAAAAAAAAAAAOfo+G8kE1gfNuSBSlMu4aTNaI6gAAAAAAAAAAAAAAAALGrmSTS6BOQAAADzmK7gAAAAAAAAAAAAAAAAAAAAAANzedM3NOcJ4gAAAAAYtE+gIS61SK6QAAAAAAAABsEa9MJDNav77p3SlNyCxU841vu8oCHR20+vg6MrqBIAAAAAAAAAAAAAAAADt6h6I7I9IbYgQAAB5zFdwAAAAAAAAAAAAAAAAAAAAAAEytqsbOtlBzAAAAAAccik4/eNIRq+RHQAAAcnDu3yI3zYchmlObi6clSrZBMk012xFAQAAAICtrYGV1AsAAAAAAAAAAAAAAAAAABZNh1FbtsoOYAAHnMV3AAAAAAAAAAAAAAAAAAAAAAAWVYUJm1sgKAAAAAAAKvtDGW8+M3Drr4beQzEHWxIVKUkFvFIFIN6tz+foioAAAAAAA0CcGoe3pjUEXAAAAAAAAAAAAAAAAAAEgRop7Mt1bh09w4gAAAecxXcAAAAAAAAAAAAAAAAAAAAAAOS4ZVod9bGCoAAAAAAAGqy8okEAAAAAAAAAADFMeksnUxqCOgAAAAAAAAAAAAAAAAA5OMqVWZPKJzflPAFQAAAAPOYruAAAAAAAAAAAAAAAAAAAAAAc8C+tl1dtsQIAAAAAAAAAAAAAAAAAAAHB8U1sIZGkI6gAAAAAAAAAAAAAAAAHbYc1htp7/snODmAAAAAAB5zFdwAAAAAAAAAAAAAAAAAAAABs5ArDMizJDNNtyTmAAAAAAAAAAAAAAAAAAAAVxsaqjvwI7gAAAAAAAAAAAAAAADPMCUTWX24azZjiCAAAAAAAAPOYruAAAAAAAAAAAAAAAAGQY6TSGaVx9XJv1KXkFnppEJDnFAVAAAAAAAAAAAAAAAAAAAAARrNpR16fgrpAAAAAAAAAAAAAAAAfW7tKaQuychOYFQAAAAAAAAAPOYruAAAAAAAAAAAAPrcI0qdSGaVJsbr2ClSSCdpppNz9FAQAAAAAAAAAAAAAAAAAAAAAAAAwe+lnTE1xXUAAAAAAAAAAAAAAAJgiL2TLc62f5+hyAAAAAAAAAAAA85iu4AAAAAAAAzpBNYis6QKUvvrl+1K3kEoTTHyBQAAAAAAAAAAAAAAAAAAAAAAAAAAAB8/VXLa6KldYJAAAAAAAAAAAAAHYdezmNhzyjkoJzggAAAAAAAAAAAADzmK7gAAAAAMmXwffTWdSGPy+c33yKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACJJ11Y/XzGsIsAAAAAAAAAAAAAZlmzWFWlteZzAoAAAAAAAAAAAAAAB5zFdwAAAAAADNwhYk4oP7nl6JVFOZ4yRxyoAAAAAAAAAAAAAAAAAAAAAAAAAAAANYnDpfvw41BFwAAAAAAAAAAABukaabzSQW4YuUOIAAAAAAAAAAAAAAAAHnMV3AAAAAAAAAAbmdVYmnobu8+TaeVmtZs3IEAAAAAAAAAAAAAAAAAAAAAAAADrOmk82ORpCOoAAAAAAAAAAADvkloTziM9+k5wVAAAAAAAAAAAAAAAAAA85iu4AAAAAAAAAAAD6lEVK3JJ/Om0tzvhApo45IVAAAAAAAAAAAAAAAAAAAAAAQac9C3npsNfXYAAAAAAAAAAAfc+msQs+S905wcwAAAAAAAAAAAAAAAAAAAPOYruAAAAAAAAAAAAAAdwXPvy2MFQAAAAAAAAAAAAAAAAAAAAAK9rUjUEdAAAAAAAAAALcmBbICgAAAAAAAAAAAAAAAAAAAAH//xAArEAABBAECBgICAwEBAQAAAAADAQIEBQAGUBESEzBAYBQgECEiJHAjMRX/2gAIAQEAAQUC8vTMXrTfqRvUG9vI/wDw6ki/Fr/tei6Vr/htLF+VYffVouBv8N0xF6UP76mF1Kz/AAyGBZMkbUGz7zRdeJ/hmlIv77NkLoT/AHeEEcgrtOScfQzm4+onMx0GU3HMe3vMar3Qo6RYvZ1SLksPeKa5UOIqOT8vAJ+Pr4b8dSwHY7T8NcdpsOP00uO05JTHUU5MdUzm4+HJZiscn50zF603tasFzRfeae2fCUJWGH3F/eLHC7H1sN+RowYrO1ci61Z71V2JYBIkkcsPkqnFH6eiLj9Nix2mn47TsvHUc5uPqpzMdEkNxWq33SDMLCNXThTg7Bwx0YD8fWQnY6kgLjtOxFx2mx4/TRMdp2WmOo56Y6smtx8U7MVFT2qMckY1VZjnM2mfYAhNsrU832sb3DfT27ZabMcwwDsb9z8c5XO9sT9LS3XPstjehBkqUaUT3CluVFiKipsFhZR4SWNrIm+6U9s6GoiMKPzZBxRx2N+8mKquX3WrsiwCRZApQfKVeCWN8IOSZJZJPeIE0sI1fNFOD5FhZx4SWFpImr73FkEjGqrIc5niyZAow7K+IXFXivvulIviKqIljfjHkg5ZBPfmNV74YEjRfCsprYEefZSJq+tUnIthb1L4S7JpiL1Znh34urVethf0ioqEHc0ij2Sli/Fr/DKxCCe1WO9boi9ary5pUPjmq12wUkX5Vh4t4Lo2nreki/8AP8W1UOc2QEkcvn6Zi9GF4urBcJHremy9K0/NjAFOFOhFhG82EBZUpjUYzxdTi5671uOTonReKfmVHFKDa1hYL/M0pF7iTI6ye1PF1oXrlKXrVf0IxpGXFM6L5bGq98MCRo3ZmTAQ2WN2eTiKqLS3KF7dgLozfW9JF4g+1zSeVpiL1ZnYe9o2WOoETCkeV/5pbrk7WqBclj63pkvTs/vcU7ZWEY4b/HpYvxa/72NyCJk6cea/7U9u6Io3tIz76sFxj+txC9CUn7T72lYKcyVHJFN4tJF+VYfabNBDZY3R5XaqrMkF8Y45Ivtdi61Z65UG69b2J0MU0NjALBL4mmYvRhfQpGCZY6gwj3Ef26+cWCWDMFND9XtR7CsUZfW9Jl5ovZOEZxW9USC7woUdZUtjUY382N0CLk2aeY/vRJJYpquxFPH9b8XStfW9MF5LHtORHNuKVQ+FpSL+vxOnghNsbk8vwgkeElPbMmp9NWi/n63BL0JncuKRCYqKi94bFI+IBI0YxWBHZX6rj3Oe7w2qrVpblDfTUoupV+uVZuvX9y3qWTUMJ4Cd3TEXqzLG8DGyZLNLf49Ldcv5li60XsU7EJZ2sNYUz1LSpuaF3bKvFOHNiFhm7iSitjeVTXDouMe0jMtRdGx++m281rdwfmw/UtLG5J/eMER02iptCQXxzjkC1ULlnffSreNhmpIPQkeo1xehO3iunlglvDCn1n30in/bJkdsqNIC6Of1GvN14O8I5UT76Rb/AMfxqeD1Beo6WLz1/oGlW8IH4VEcltDWFM9Q0oblm+gabThVfm6hfNh+oVZuhYegUictV9NSwegf1CEXrxN/gN5IP0lgZKjyQvjn9P0wbqV2/InFRJwF9dTQeqH0/SZuWVvwE5j/AGVOKW8L4Uz06oN0LLfqtvPY/e6hfNh/+enIvBYpOtG32hbzW3Y1LB6J/TtNF6lZvumU42nYlAbJjyQPjH9N0mbgbfdJt/u9nU0Hqh9NpTdCz33SLf32VTilxC+FM9MaqtdHIhQb5pJv9btXML5sNU4L6ZpwvVq980unCs7epoPSN6ZpIv8APfNPN5antygMkglAfGkel0Jejab5UN5Kzuamg9YHpbHKx4noQW9xE5Ync/8AcuYXwpnpeni9Wr3pqcXInBO7cQvmw1Tguxhgyj5KrTRAbLpI29wm88zv6mg9IvnNarlDVTTYDThVwFBEZgIccGTJI4gJ8sk2RsunzdK03qnbzWnfkhZIBLA+LI8kQSFwFJNLgdN4GlhCwYhiT8mIwIrae+efZhPUZBuR7N504nG38DUsHrA8UMOSfAaflvwOnAtwNXCDiIifdVRqXlmswu0UJetV7zpVvGy8G6hfCmd9EVcBWTDYDTh3YDT8RmAhRgdzUNp1V2nSRf47zpJv9jwbeEk2G5FavaGN5MDSzS4HTa4CjhDwQBB7+obTpptWmep/9HedIt/h4Wp4PTL9gxTnwNBMfgdNiTA1MIONRG+Fe2fxBqvFdoa1XOraBzsEJgR7zpRP6HhSAskAmR3xZCfvAV0w+A07IdgNPRWYCBFB41vYNgAK9xSbRXVZ5q19cCC3e9NN4VXhyoEaUUMcIfJnyxwo8uQSUfZ44CyCVtCMWJ+k3yiby1O2STjjBspr50jZ62iKfI0YUUe/Vqctftb3tGy5sXTjbNAgHmurakEL0ETeUW131p8p+yjG4r63T+Ma1jfQAN5jbXqG02atpzy8hQQQmb+CDKPgNPSn4DToG5HrYgNrv7T47dkiRTSyVtIGNvrUV2AqppsDpwq4CghswESODbrqySCFzle7YkRVWtoXkwARgHvIgkKoaSaTAabwNJCFgxDFuNnOZBjyDPkG2KvrDzVr6yPCTdwQpJ8Bp+W/AacC3AVcIONRGpucySOICdLJMkbCAJDkraBg8RERNzROOBrJhsBpw7sBp+IzAQowN4MVgRW0986RsNbRmk5EihiD3EY3kUNLOLgdNrgaOEPBBEFN6cqNS8s1ml2CFCPMfW04Im4BiSD4CgmEwGnBJgKmEHGNaxN+1BadZfPYxz3Vun8GNgmbYALzkBp2Q7AaeiswEGKD0PUNp008+tqTzcgwAQm7fDtZUXId/HLjHtI30G9s/hjX9r5saMWUStohA3SNJNGdD1EuRZgJTd+t7BsABSOKTzE/eVtCQ2R44o492a5WrDvpIch3EWTvlhMHCjy5BJR/Mr64811dVAhb5DspUTIeoQkwRWFZu8k7IwbKa+dI8sQnmJW0DW41Ea3fgHKB8PUT25EnRpabo97RsubF043l1tKeVkOGCGP0JF4LDu5UfId3FkYi8U3HVSG+L5UOGeY+tpQxfSIk+TEyHqIbsAYR2beYbTCnxnQ5XjtarnVtA52CGwI/ShFeF1IckiBt+rWpyePpoAmwdt//xAAlEQABBAAGAgMBAQAAAAAAAAABAAIDERIgMDFAUCFBEBNRMmD/2gAIAQMBAT8B1ZDQyDz/AIeQ2ckZ8f4ZxoXliPeue5q+0r7V9wX2hfYFiCsfEp9ZYz570i09mHPeYeF9rVjasQ7x8dcGysZX2FfaUJSUO2fH7HDbGTug0DuHx35HAa0uTYw3u3x2ttQC02L976QCr02xk7oADv5T60ogKvrnnCbQcDwSaRN6UR9ddKPCDiNk1+LgSn1psNHriLHwDSZJeu42crWFydHXaPFH5ZJ6OrIaGQAlNirf5fH7GWM23rph5vIySvGpIbPy2P8AUBW2V8d5Ij666UeMrH4UDei40L+GsLk1gboPZiRFfER89c4WMzXFqa4O0JLcaCbFW+m5ocnNLU00cuLzXVOFHMDSY++IRaczCmmxkeacgbF9TKPPM3TRXjJJ/SidRrqZR46F2/wx2IdQ4WOhO/wx2E9S4Uejid66iUeee7bIDSBsX08o8c9/85Y3Ua6d4sc+TbMx2IdORR50u2ZjsJ6eUeedNnid66aUeL50ucGk02L4BeAjKE1xdw3ixzpd9CN1GtQyAIy/iMhRJPwxuJAVxCK5su+jG7EMxcAjKEZfxGQnM1uJAUK4sm/Nk30WuwlWi4BGUIylF5OiBaa3DxCaTpfznO30r1WMw8R0lbIuJ5540bK8nhlwbunSE88uARlHGjZ7PDdL+c0vaEZgjKUXE8eNl8Jzw1OcXcm0ZAEZvxGQlXfKYzFwSQN06S+OXAIyhGU+kXk85rcRQFcB0tbK734zr9J2L30IF+E1uEa7nhqc8u5RiB2RYRzt0xuHWuk6X85xYCjEeZGytZ0gCLi7foSAd0YvxFpG/IBo3qlwG6dIT0x35Ee2o/fj/wD/xAAdEQACAgMBAQEAAAAAAAAAAAABEVBgAEBwMCAQ/9oACAECAQE/AawKeZ5YsX0Pk0xYqgsWKXem+JukugDyNLMcNIcacsNAfr8jHDdPRRBGJHOjECli1CliNG8Psww3hsqSHgfVYpUaCxYtwbo9FzRUlbyxUZYo1bCxcUcerY7KYP8A/8QARBAAAgEBAQwGCAUCBQUBAAAAAQIDABEEEiEiIzFBUFFSYHEwMkBCYYETIDNikaGxwRAUU3LRcIIkQ2OTojRzg5Ky8P/aAAgBAQAGPwLtfpW6sWHz9ZkOZhZTKc4Nn9D0BGO+M3rz7GN98f6HRqeouM3QQS7Re/0OMzDGl+nQFv02Dfb+hscK942UqL1VFg6CaPeUj+hsl0t+xfv0U8exzZxxeSTCInMSMFYssR+IrAqNyasNzt5EGsa5pv8A0NYysOY6YKuFjgFRwjujolk0SLxyILrNsWh92gQbQfUx4kbmtYbmi8lsr2FnJjX+aOTVizyDmLaxLpHmlYssJ+NYEQ/3iv8Ap3PLDWPc8o/trCrfD8fSsMWLD59HFLuNZ8eOvRyWvc+zd5UskbBlOYjpcOGsMMZ/sFY1zR/CisCBFJtwdHdC6b2+Hlx3gxoj1koSQtav07VYaxTKvnWJdEnmBWLdK+a1ivCfOvZhuTVhuZ/rWNBKP7DWMCOfGl/Eea6DV/GbGHWXSNQ5qxoYzzWsNzR+Qsr2RHJzWBph51i3Qw5rWJdCnmtlYHhbzr2QPJxWG5pPIW1jwSrzWsIPFQkha9YVZ1ZhnX+NVZVsfQgz1e9SLdHFYeNirDMRQinsWf5Nqe/mcIu00UuMXi75z0SxJJ0ni3BQguw4/dk289SlLmysm3uir+dyx+nGIgus2x9192rRhGoco1sm4uer0m8i3F40EctrQf8AzQeNgyHMR26/mcIvjRS48mm+c5okm0njbBjRHrJQkha+U/LtdpopcuVfe7oq/ncs3HN/EcGlTmNX8Rw95dI7TY5vpNxasc3se4vHgkha9YVuzDOn8dmv53CLRS5bY03u8atOfj6S6W/Yv37ISTYBRS5Mo++cwq/mcu3jx+FXrE2Co4V7o7H6V1LWmwAbayjXse4ubhtI5QGjltQg0ZIrXg26V56lMzDFi+vZJtq4/DiOO6batzhhRmuMWppj2ctSRqeu2M3ZHQ5mFlFTnBs4chOlReny/AzXIAsuldDUVYWEaDqFFPUXGbs040E3w8+HJ4dhDfjfriT723nRjmUq40ag9Mwxpfp2aGXeW9+HDiDRICvqXsgsYdVxnFXkw5NoPbo4V7xoKosUCwdmv/02t4cjkHcYGrRmPqGOZb5TVvWhOZv57bJdLD3F+/SegEq+l3ejnj3kPDsDaQL34eqUcBlOcGjLc9rQaRpXtaqvWJsFRwr3R0V9O9mwaTRSHJReGc1aDhoQXWbJND73Rzx7rnhyeLda++Prme4l/dH/AB2ozMMWL69CWdgqjSaKXELf9Q/ai8rFmOk+osF2HFzLJs59Ff8A6i28OBdEilegMtz2LP8AJqKSKVYZwe0Rqeu2M3QFUysuwZhVsz4NCjMPXEU9rQfNaDoQynMR0EMu616eHIpR3GBrBm6DdmGZ6Mcy2MPn2ZFIxFxm9e+nezYNJopHkotgznorOtCc6/xQkha+U+vONIF8PLh2B9N7YfLobyYcm0ir2TCh6r7ey+lYY0uHy9UvIwVRpNFLhH/kP2ovIxZjpPSX8eFT1l0GvSQnmukesVOYiynQ51NnDksW41vx6IxzKGQ6Kv0x4D3tnPsccI7x+VBVFigWD1CkWVl2DMKvp3t2DQOnEkLWN9axcWUdZPWm2Pj8OXmiRbOjIYWg6KM1yC2LSm72KS6WHuL9/wAbZnxtCjOaKrkot0aexLJExVhmIr0cmJPs3uXq3PNtBXhyGTdYdK01xix85Tbyog4COnVF6zGwVHCvcFlF5WCqNJopcQsH6h+1FnJZjpPZAVNhGmhDdRsl0Nveox3CG4dgk0lcPSmSOxJ9u9zoxyqVcaD0xmbqxfWikGWl+Qq+ne+2DQO0CC7Gwd2T+fxli3lI6G51YWgnDTR9w4UPhwm8W4316ax8DjquNFejmFmw6D0voEa9jzmzvc+1iG6LWg0HStBkIZTmI/C6E963oI/AE0b0ZVMK/wAcJtHokX6dOBMiuBt1TenGgOddnKhJC18hpJNDp9OgY7EP4enjGTlz+DcJQSbG1zfR4VPWTQaiuiA9RrGGlbegug+6B+DwyZmHwp4pBjKbOEoJN5RbrkgHAc/QXQ3vAfj+ajGMnX5cJNHpjbgF23n/ABIOEGmT/LOFD4cIyRaHX5jgGPxYn1CFGVTCn8cIwPovrDwDc37fV/MRjJyZ/BuEYZd5QeAIF9weq8MmZhTxSdZTZwheaY2s4AQbFHrfmoxjp1uXCEsW+tvw1/GNrD17DhFMg9m2FOXB8D6L6w6/uYf6g6AqParhSsPB1tRSbyg6+g8Db0P5mMYknW8G4PC6Yze6+B2IeheGTqsKeKTrKbODpod4Xw19Mdkf36L8zGMePreI4OgbQTenz19dLch0VhzUVHs2wpy4NDDOMNRyDMyg69nba/RlR7RcKVYc/BqDTGb3XvOQ/bpPzMYxJOt4Hg2eHaL4a9g8bT8+keKTqsKeGTrKeDIdjYp89e3MPcB6X8zGMePreI4MVlzg2ikcZmFuvIV2IB8ulw0VHsmwpwZFtTE12BVg6ZkHtFwpzqw4DqTJQOw22V6S6WRCcyW2k6mnh5OP/wB8NdwLtcD59g/MxjEfreB7fYoJPhWLAwG1sFZaZE8Fw1j38h8TWShRfGymllOAfOjLJ5DYNTRbHxNd3N++3sDxSdVhZTwydZT2rJRs/wC0W1hjEY981l7o8kFeyvz75tqyNFXkPUaSQ3qrhJq3NEvUXU6uM6m2lcZmFuuofC36dh/MRjKR5/FezZKCRhtsrKXkfM21lpnf9uCsW51J2thrALPXJOACvRxH/Drm97x1TDtXFOumOyM/bsRC+yfCnYMAt5ViQPZtbBWWlROWGsoXkPibBWSgjHjZ0hua5zkx12He1VPDssYa6uhtigdiZP8AMGFD40QcBHR5NGbkLa9leD3zZWXn8kFYYzIffNZKNE5Dpzctztj99ho8NV2qpKXpDHZrq6W8QOx/moxivgfwPr5KF28QKx7yP9xrLTs37RZWLApO1sNYoA5di9FCcu3/ABq059UgKCSdAoPduKP0xn86CRKFUaBrqU7ZPsOxvFIMVhZTwyZ1+dYKydzvZtOAVlZEj5YTWVZ5D8BWTgjB22Wns22VuotM8htZsJOqbQLyLfNZJbX0uc+vEO8xPZFkniDsBZWSiROQ7SZZP7RtNNLKbWPy1ReQoXbwoPddkj7vdFYNe3Pyt1a0spsVaMj4F7q7NUB7ptij2d41eQIFX66/uYbIxqws5AUYSTWLggXqj76nshXF0ucwoN7SbeP24BRdg1Z6CA5Bc53jqYJGpZjoFB7u/wBsfegqAKozAcAxrtYDVjXLc5/7jD6amDNkod46eVWQph0sc54AyUEh8bLKyrRxj4mstK78sFAxwJaNJwnVZueA5Y9Y7o1LeQIWPyFB57JZfkNe4oJ5ViwMBtbBWWmRf2i2se/kPibKyUMa+IGrr1MM7dUbPGizG1jhJ1HYMJoPdlqLuaTQSFAijQNdZONm5CsMd4PeNZe6PJBXs78++aySKnIWaxv2wuequ2mlla+dtR4gvY99s1YgvpN859cZKB28qyl5GPE21lpnfwGCsWBSdrYasUADw1o0spwD50ZZfIbBqIJChdjoFB7sx23BmqwCwa0wViXO9m1sFZaVE5YayheTmbKyUCKdtmuGkkNiLhJq+OCJeouog89sUXzNXkCBR8zrKyNGY+Ar2V4PfNlZa6PJBWFDIffNZKNE/aLNdkk2AV6OM5Bc3veOobIUwaWOYUHfKTbx0ctYZKF25Cse8jHiay8zN4KLKxYATtbDViAAeGvzc1znJjrtvagCoCzHQKD3b/tj70EjUKo0DVoSOy+O02VlZI05YayrSSfKslAgO2zgM3Lc5x++w0eGoA3s4d8/arIVxtLnOdYWJJfJuthFWTgwt8RV8jBl2jgL0UJ/xDf8atOft15AhY/Sg902SybO6NaX0EjJyoLdcdvvJ/FWwSK3hp1/bnmbqLTPIb5mwk9twUHuu2NN3vGryFAi+Gt7VJB2irJcsnjnqy/9G+6+vDLJ/au000sptY/LtuTWxNLnNVoF/LvtrzJSG93WwigLpUxNtGEVfROrrtB1w0spsVaMj4F7q7B2wJEpZjoFB7txj+mM3nQCgADQNf30Lsh8KAuqO/G8uA1kZQTu5jrUu5sUYSaxcEC9UfftgeXJRbTnNXsCWbTpPAdoz0A59Mmx/wCaAZvRPsf+atGbWSFDkbccfTtd7Alu06BQeTKy7TmHBGRlIG6cIqy6kvDvLhFX0Lq6+B1g0cgtVhYaeF9GY7R2gKoJJ0Cg924o/TGfzoJEoVRoHBYaJ2RtopHma+bbrC5nsxrSLe0JMEHpWOFtXf/EACwQAQABAQUGBwEBAQEAAAAAAAERACExQVFhUGBxgZGhIDBAscHR8OEQcPH/2gAIAQEAAT8h9XNlZ8zu+Xp4hvCHwSKc1Cl/w+y+604dI8cULgeSf+HQSlOUeRCNzvkz8/8ADrKxrOG7yIxLeQf+v+G3nh8Bi0NMADQ8iwWUzjFn/DZArv6vKs2ggNG07O/GaYlpyWbKJ3t+CvyH8Yq9l+CxqbgBjYV33Q84L1IBi1lW65uL18qMCwvMsfjfmdm6a10OZ7UZYUiXPg7EQ17Jz2VhBaH5q5+W/JTe0n0oN45Xste5CPiuzD8lXz+lhXdzdXGuKpsv/wAkbJw47vl5eXCxbL4D7DfoDKHi1fSgJHOI8zhQhFhrbXeK+ivYjD2qcOAZvLxkHMWt+8UzaN+pk1JGr81k6+qBLQSGuxrP3pd046ojN0X7oD1BnxV3cNV7BY9jV3tm/RXagRvocs7fXOtZuQb3612BNQbx0rt3rVzv9rqNsbn9iuxKfkp3bh+qB3e+TRfSGfFXD+oxq/x+F1d7hKuAcTep9ndaOlXfGv79dGyr3Oov6pVTl4/Fx3rXwcotKeId2HB102OuJcWp9riK3wMKtszKSu9qQUiWiUMZLiXadWuxGwluqMJdfYxrKTZhwGG+MrdytrodKNKISJc7BgeVW38Uo6iLHi476T5tux1n1QLhm4PrkR7ir+GdRabh7FlTlkSqyu+1+D7R7mTRjuoWSZ+rBkALVcKjCXMvw031quOBhvzebNI61YxC9vfUusjtbzyplke6557+Jv7oyah5BL7vo9MuLM73gY1Bu5y/BSIiq1XHf6435tfHpDZAlVgKiWXHsWdOnXFXcMt/z3kQa1d6Rrm4vo+PRmQm1wuqN5BYf1u3BKFxLSp4D/B9ti3GHJx3ffpLOEwjk29p3cW9R9LRRBKReIlSG3hWurRpsSKEdScOnpCTlrOJV4flxN3JSf8ABMSwXfAyabE6EIR2DBWenGHNj00Jke7HvO7krMB52fH+uIQLMGn7VejVWwJi0cnDd8vpojxFzWe+7ko/+lPbwfj5B00q61bq509de2RrkYvShnBAYB6aLF48jY7uLeroLQEkhIngEP1Q5lXiOsztkfWwH7G15kquNx7cdPL0sB71x3cnpmS7PjwgLOASNNGvV59pr6s+5EGrVx5G6uL5URk7m3gFWyHshWWrQFgGRG2ahbuWsOLXyuN1I5+E7uSy3A5I+O/ibS2peMD7/SkRRsT1N1pycd3k30angKthlyNnJ91eseWXwLI2+L9GjWhEERG5PJgxEDzFju5LL3Bee3kR6xRdxcnWl8HALT1EUoDnPkWcxx+o1LMnJcrxvPcxv4OmlB7OUWJ5EdlrJo3e27iXk7rSAVKufImTBLI7OZTzukGZp6a2q6eYc3xxsJubeEVbIfE6j5U/y6/u11UN3FGGjr441J5kte07u2xXHGsfHkvOFr3MqPGALv609LMWzhobvnt4bwnywV0kh9n3Vrg5WV8yeuIbn71oroWvcnxXg6XBsok4S+Tu5KbbD4D+eVfLVVIJFWYtP29HNLdqYYnpUF4gyDwWYDsk6zUjALmzgHnwpq8wGTpUpsG0bTUzPFZAuBzLe87uT6YTzFp5YhBQokSpvL4rXgzPRQXu/q9v9vqGa5VTTVxbeJ9EpB5wFAYRODV9PDGTEeVp7u7iB4rvRDddh5kSty7DXkdKNtRCOHnhTIA1auvRTm4tXkXlislaht5MKtWoKSvpFKKkDCVC9dPYaHJ8ENlvxvzu7ITITiLPNjpJwaPtV/YXziI1nZx3dqsoBZY9Zx5VL/yHAPULaq6mGn2oRJGT/JK+9KbL7/IPtYpxIatkc6fxunNTbOGn9ed1/wDH2KZdmXM823ElGyrV6tllxvP40Q0ZRIn+WMQDHBtPfyJV/wCfUQ73581JDDfulMbHc2j589y5SBudk2iGfeoT24p7OtR2R1Sv6eR+Hz/kdES5zOt/XdK32A54Nj71wu2xN7FD+XWp8jOMBc848j8vW/5gaac2DUUCc3StJl5pjtltAMAx8jiLsP8AYCyUAxz8t0pQbSBo2+87g6/PY/0ywEI4lGmebMnLdGSGJZqn0u4P7xT4DxELXHmpEUSE3QtngFNGx7O4Mazn3fDCxFsn4t+90Lqt8lc44952/g1pF7c+ETLtOTg0KcTmuu6Fs21R0bT52/AGbFaVjt4oiwMExz8t0JDbIPH+F2/GeA703vHxEwiEI40xBvr2ctz5iYtrRsdvyLc+55AlcW1y50ikEJYm5yALy0oyWbc1i3vt7j06TyY6A9g/Fu589sp5Lzb2u17R5JaXLhk0R8Smuu50zNghqfzb0n4kPKhrJRHq8tzpgY5UsfW3uFfnfjygQBViONMWxr2ctzb1FBxKROeqTbsGUDof3ywLl9a5c6RAQMI4bmzmyh/Hbbs45nt5iDtFBPzbubG5uC4WPxt3UUzq+vMA6YTprRKRC45O5krWGfad427+RDb8+bCWCsH5s3MdKDJqVdp88E25+64eagEEjYlOVb20y5bmWuZVXK7sm24IxYoAuCw84CBfXs50zigwjhsO9gvqIeDE60aREe1Vmxr7ch2dtv2/D0EbEWCdXn6/QzQmoyQ6PvUOkYhP6qHeXR0KCLOwW+rbUZa7MVkUot9h3ZRsaLLernd3jbcR0dFvoBemc01oTLlOZg+qThLVpDOYIaKx/BxajlWcnZRgeZR4BBikYVKc2TIM3XY6GwE8quWYeDbtqUZH3nz6GLmjd/FnpuUQOOtWmj4rtVvJZAPzXfKPvRMENCPGxICVcKkQF5mb42TOlkHlfyNtakTuPQoIiSODTlsS0xOXoGYZZCah0S0PVqAQ8Qr+qhXjYOR91DSJdavVt8y99oxDLhsqVze9k/G2p/6Uf56IEh/GOdCWohHB8teGdakUxvJClkRPxtag3Okp0ogIDLO/n3pWzCcmuyyQ+hizJO2os90U/fo4C1UB1efjjotxMdbqtsjxXoVbLeRCu9Cfeh4N0R6IYgnZpz45UiIqtVx2S2ZoAlalW3otriwq6i8MG2o8SvoyYBOfdAZbROTBoKgK6VCWlcPeahU7KX1d6hHJ0+1b3qGjGLuG300tss3yOlLFdIxdkjs9nZyMavYJFrX1tz9QTHx6SEEJKlmsUKWViY9fUuLbdi5VdtsRkbINuuGDjUyr2H8NAAABYBt2AZvqV2bAT1uuhrVjAWTWHY5a2VbPNv4WUVxqi/icdv6Kvtswhr4AFQuTePq2Pc8sjzqGU0O7gw3BAi4TtstYJbCpi0n4sNjWVDgZWgJUt4vu+qs24AgNwf8A0yGggDLZctz3ey/OxoVqYNvAqIYWY4zuBCQrdYurZUE6ie0fdQyniWP3SYZpLI5uy7vNsf1Oxc8APuNWbjbaW+hjt1SEMhNWpwc+9R6bkj+KhXPrN2qFnTAz12dNAHwOamtNkXrsMkKlgF7WeNh72XvWA0o20EG3Pau9zou1Bf8Ag4tW0vOV+qMgbT9m0W0Vgzn1SQkSuwyzm/sM6JOa+2y2wgW1c2Tq2VBqdqDkVALGIx+6hU5qe9aICEbUjbXRisimUtbBuyjYVw0oKkUX5ceOdEhBYAQG1EcBXIqOgLAj3qER8iv4qFW8SB2qBinF61hGG1yXkkVaosmQZuuwrYbttOmYc6zQw+47SHIWDNXxrg7KvxHE92rfzZL7RUYM0dtgLAlW4KkCH5mb42DOsjIcZqJAWDZwPnaDATebHWoBKtdORUKr4wnW+oZDYs60SUIO237xmgMWXDYFk3ACVpGXBeLbzfFXQDggNmmmrgH3VCpuUn8VCKuNse1QkG1HrRYQWGRuFelrMJya7Alk0G/gxq/5ZnaFFoL9l5Ufni+7hRV2uWR3CGAI9OfGkoiq1XH1xXGuLuJwrO2z4GPOrtpy0mMrHiXUb8axpzMRA5bfjiL4e7pSRVSMX1oUAVbgqQV7D+CiZrhi457XDkdyQ1Fx8qedR9p6HRu25aON2JlV2Q5GRp6250uDH3QZnkLeWW3EAUf0YV+hxOZ3oMwZo2xBb0uuhrVhSWYXrK6i8EtTrL8SxxY0ORoAgNv6i5cT91FN+sLmuKKrHltUhZ5FwVC5J4+rX1loh7YOifNRCTvbeI7hoSILkwqOUOIcKTbNwOVABBVyY7SSpjZM8Tp6ucyN7ZxGrDOWdI3IQ1raHKol/wCkLytVUTR9bQlkMGlYsH2B9Q2NoAlakU3otriwq7i8MG5eZUDFTZm+Ae20LOE06ImPUSgaLxj42d//2gAMAwEAAgADAAAAEPvvvvvvvvvvvvqQww//AL777777777777777777777777777777777777777777777777777777777777777777776EMMP3777777777777777777777777777777777777777777777777777777777777777777776gMMMMf777777777777777777777777777777777777777777777777777777777777wJfHzzff7kMMMNb77777777777777777777777777777777777777777777777777777777777760MMMNNMMMMMMMJLPPvr777777777777777777777777777777777777777777777777777777766QMMMMMMMMMMMMMMOPMEDDZf777777777777777777777777777777777777777777777777777660MMMMMMMMMMMMMMMMMcw377777777777777777777777777777777777777777777777777777758MMMMMMMMMMMMMMMs/wC+++++++++++++++++++++++++++++++++++++++++++++++++++++++++bKDDDDDDDDDDDCUe++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++rDDDDDDDDDHdu+++++++++++++++++++++++++++++++++++++++++++2++++++++++++++++++BDDDDDDDDD2+++++++++++++++++++++++++++++++++++++++++++++O/wDvvvvvvvvvvvvvvvuogwwwwwwww0/vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvjwk/vvvvvvvvvvvvvvoQwwwwwwwwwxfvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvui0m/vvvvvvvvvvvvvowwwwzaAwww0l/vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvqAw/vvvvvvvvvvvvuAwwx1XvuAwww3PvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvqgwwxvvvvvvvvvvvqQwyHvvvvjygw8vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvrQwww8NvvvvvvvvrAybfvvvvvvugw1PvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvSwwwww/PvvvvvvqfnvvvvvvvvvrBxtvvvt/vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvogwwww01vvvvvvvvvvvvvvvvvvvrqVfvvsXvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvqQwwwww0/vvvvvvvvvvvvvvvvvvvr/AH776pX7777777777777777777777777777777777777776oMMMMMMP7777777777777777777777774kNT7777777777777777777777777777777777777778MMMMMMP7777777777777777777777766sNTb777777777777777777777777777777777777764IMMMMMP777777777777777777777777qMMPz777777777777777777777777777777777777774EMMMMMP777777777777777777777776oMMNPb777777777777777777777777777777777777768MMMMMP7777777777777777777777760MMMNX77777777777777777777777777777777777777gMMMMMP7777777777777777777777760MMMMNL7777777777777777777777777777777777776qsMMMMP7777777777777777777777778MMMMMbb7777777777777777777777777777777777774AMMMMP777777777777777777777776sMMMMMND7777777777777777777777777777777777774sMMMMP777777777777777777777776oMMMMMNJX77777777777777ryZL777777777777777776kMMMMP777777777777777777777776IMMMMMMOX7777777777vyrFMNz/wC++++++++++++++++++jDDDD++++++++++++++++++++++++hDDDDDDDTf++++6+6CSiDDDDGf++++++++++++++++++++JDDDD++++++++++++++++++++++++LDDDDDDDDH356SBDDDDDDDDGX+++++++++++++++++++6ZDDDDD+++++++++++++++++++++++6jDDDDDDDDDiDDDDDDDDDDDHO++++++++++++++++++6/CDDDDDD+++++++++++++++++++++++uiDDDDDDDDDDDDDDDDDDDDHm++++++++++++++++++5pDDDDDDDD++++++++++++++++++++++3ijDDDDDDDDDDDDDDDDDDDDK+++++++++++++++++6pCDDDDDDDDD+++++++++++++++++6x7AiDDDDDDDDDDDDDDDDDDDDDDN+++++++++++++++++mhDDDDDDDDDDD+++++++++++++3/jQyDDDDDDDDDDDDDDDDDDDDDDDDDA++++++++++++++++6hjDDDDDDDDDDDD+++++++++9/jRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDT++++++++++++++++6jDDDDDDDDDDDDDD+++++++49jDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDHV++++++++++++++45DDDDDDDDDDDDDDDD++++++++u7FLDDDDDDDDDDDDDDDDDDDDDDDDDDDDCe+++++++++++++7pDDDDDDDDDDDDDDDDDD+++++++++++coCDDDDDDDDDDDDDDDDDDDDDDDDDHm+++++++++++++uCDDDDDDDDDDDDDDDDDDD+++++++++++++PoGDDDDDDDDDDDDDDDDDDDDDDDW+++++++++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"
     },
     {
       "name": "heisenberg",
@@ -468,7 +545,7 @@
         }
       ],
       "total": 13485,
-      "status": "delivered",
+      "status": "cancelled",
       "createdAt": "2026-10-26T09:06:10.807Z",
       "id": "-kImhydZ8n4",
       "paymentStatus": "pending"
@@ -538,7 +615,7 @@
         }
       ],
       "total": 999,
-      "status": "delivered",
+      "status": "cancelled",
       "createdAt": "2026-10-27T11:44:12.988Z",
       "id": "0nJH8eMxdE8"
     },
@@ -586,7 +663,7 @@
       "total": 2199,
       "paymentMethod": "upi",
       "paymentStatus": "payment_pending",
-      "status": "shipped",
+      "status": "delivered",
       "createdAt": "2026-10-31T06:43:51.707Z",
       "id": "4WA6W8J4Q5I"
     },
@@ -757,6 +834,55 @@
       "status": "pending",
       "createdAt": "2026-11-12T13:19:40.019Z",
       "id": "MtVmqtbMZpA"
+    },
+    {
+      "userId": "9hbGUx87F2E",
+      "customer": {
+        "fullName": "shahi",
+        "email": "shahi@gmail.com",
+        "phone": "8606717171",
+        "address": "NATIONAL HIGHWAY 66, NEAR CALICUT UNIVERSITY, KAKK",
+        "city": "malappuram",
+        "pincode": "673634"
+      },
+      "items": [
+        {
+          "id": "1",
+          "name": "Whey Protein",
+          "price": 2499,
+          "quantity": 4
+        },
+        {
+          "id": "23",
+          "name": "Casein Protein",
+          "price": 2299,
+          "quantity": 3
+        },
+        {
+          "id": "5",
+          "name": "Mass Gainer",
+          "price": 2199,
+          "quantity": 1
+        },
+        {
+          "id": "10",
+          "name": "Gym Bag",
+          "price": 899,
+          "quantity": 10
+        },
+        {
+          "id": "2",
+          "name": "Creatine Monohydrate",
+          "price": 999,
+          "quantity": 1
+        }
+      ],
+      "total": 29081,
+      "paymentMethod": "upi",
+      "paymentStatus": "payment_pending",
+      "status": "pending",
+      "createdAt": "2026-11-17T11:54:53.404Z",
+      "id": "QHxVmyKZ-Aw"
     }
   ],
   "carts": [
@@ -789,53 +915,9 @@
       "category": "Protein",
       "price": 2499,
       "image": "/products/whey-protein.png",
-      "stock": 10,
-      "quantity": 2,
-      "id": "LccUMOAN-pE"
-    },
-    {
-      "userId": "9hbGUx87F2E",
-      "productId": "23",
-      "name": "Casein Protein",
-      "category": "Protein",
-      "price": 2299,
-      "image": "/products/casein.png",
       "stock": 6,
-      "quantity": 3,
-      "id": "W0vI2gYV_vY"
-    },
-    {
-      "userId": "9hbGUx87F2E",
-      "productId": "5",
-      "name": "Mass Gainer",
-      "category": "Weight Gain",
-      "price": 2199,
-      "image": "/products/mass-gainer.png",
-      "stock": 7,
       "quantity": 1,
-      "id": "rkru5rUsw9k"
-    },
-    {
-      "userId": "9hbGUx87F2E",
-      "productId": "10",
-      "name": "Gym Bag",
-      "category": "Gym Accessories",
-      "price": 899,
-      "image": "/products/gym-bag.png",
-      "stock": 10,
-      "quantity": 10,
-      "id": "yY-zWD8A_Sk"
-    },
-    {
-      "userId": "9hbGUx87F2E",
-      "productId": "2",
-      "name": "Creatine Monohydrate",
-      "category": "Creatine",
-      "price": 999,
-      "image": "/products/creatine.png",
-      "stock": 11,
-      "quantity": 1,
-      "id": "c4JVxcTTKM4"
+      "id": "bZWQx01K9_w"
     }
   ],
   "wishlists": [

@@ -41,13 +41,13 @@
 .admin-profile-security-row > div { display: grid; gap: 5px; }
 .admin-profile-security-row strong { color: #25262a; font-size: 12px; font-weight: 600; }
 .admin-profile-security-row span { color: #777981; font-size: 10px; }
-.admin-profile-password-trigger { display: inline-flex; min-height: 36px; align-items: center; justify-content: center; gap: 8px; padding: 0 15px; border: 1px solid #d9d9dd; border-radius: 999px; background: #fff; color: #292a2f; cursor: pointer; font: inherit; font-size: 10px; font-weight: 600; transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease; }
+.admin-profile-password-trigger { display: inline-flex; min-height: 36px; align-items: center; justify-content: center; gap: 8px; padding: 0 15px; border: 1px solid #d9d9dd; border-radius: 0; background: #fff; color: #292a2f; cursor: pointer; font: inherit; font-size: 10px; font-weight: 600; transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease; }
 .admin-profile-password-trigger:hover { transform: translateY(-1px); border-color: #151518; background: #151518; color: #fff; }
 .admin-password-modal-backdrop { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 20px; background: rgb(15 15 18 / 46%); }
 .admin-password-modal { width: min(100%, 440px); max-height: min(90vh, 700px); overflow-y: auto; padding: 26px; border: 1px solid #e4e4e7; background: #fff; box-shadow: 0 20px 70px rgb(0 0 0 / 18%); }
 .admin-password-modal .admin-profile-card-heading h3 { margin: 0 0 4px; color: #17171a; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
 .admin-password-modal .admin-profile-card-footer { justify-content: flex-end; }
-.admin-password-modal .admin-secondary-button { border-radius: 999px; }
+.admin-password-modal .admin-secondary-button { border-radius: 0; }
 
 @media (max-width: 760px) {
   .admin-profile-page { padding: 24px 18px; }

@@ -309,32 +309,23 @@ function Dashboard() {
                       marginTop: "3px",
                     }}
                   >
-                    <span
-                      className="admin-status-tag delivered"
-                      style={{ minWidth: "auto", padding: "2px 7px", fontSize: "9px" }}
-                    >
-                      <strong className="admin-stock-qty" style={{ fontSize: "9px" }}>
+                    <span className="admin-status-tag delivered">
+                      <strong className="admin-stock-qty">
                         {inStockCount}
                       </strong>{" "}
                       IN STOCK
                     </span>
                     {lowStockCount > 0 && (
-                      <span
-                        className="admin-status-tag pending"
-                        style={{ minWidth: "auto", padding: "2px 7px", fontSize: "9px" }}
-                      >
-                        <strong className="admin-stock-qty" style={{ fontSize: "9px" }}>
+                      <span className="admin-status-tag pending">
+                        <strong className="admin-stock-qty">
                           {lowStockCount}
                         </strong>{" "}
                         LOW
                       </span>
                     )}
                     {outOfStockCount > 0 && (
-                      <span
-                        className="admin-status-tag cancelled"
-                        style={{ minWidth: "auto", padding: "2px 7px", fontSize: "9px" }}
-                      >
-                        <strong className="admin-stock-qty" style={{ fontSize: "9px" }}>
+                      <span className="admin-status-tag cancelled">
+                        <strong className="admin-stock-qty">
                           {outOfStockCount}
                         </strong>{" "}
                         OUT
@@ -615,6 +606,8 @@ function Dashboard() {
                     {recentOrders.map((order) => {
                       const statusKey = order.status.includes("deliv")
                         ? "delivered"
+                        : order.status.includes("ship")
+                        ? "shipped"
                         : order.status.includes("process")
                         ? "processing"
                         : order.status.includes("cancel")
@@ -624,6 +617,8 @@ function Dashboard() {
                       const statusLabel =
                         statusKey === "delivered"
                           ? "Delivered"
+                          : statusKey === "shipped"
+                          ? "Shipped"
                           : statusKey === "processing"
                           ? "Processing"
                           : statusKey === "cancelled"

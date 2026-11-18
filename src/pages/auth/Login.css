@@ -30,10 +30,13 @@ body:has(.editorial-register-page) .navbar {
 
 /* Top Navigation Bar across the screen */
 .editorial-login-nav {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(12px, 1.6vh, 18px) clamp(24px, 4vw, 56px);
+  height: var(--navbar-height, 72px);
+  min-height: var(--navbar-height, 72px);
+  padding: 0 clamp(24px, 4vw, 56px);
   border-bottom: 1px solid #f0f0f2;
   background: #ffffff;
   width: 100%;
@@ -45,6 +48,7 @@ body:has(.editorial-register-page) .navbar {
   display: flex;
   align-items: center;
   gap: 18px;
+  z-index: 1;
 }
 
 .editorial-nav-menu-btn {
@@ -83,20 +87,31 @@ body:has(.editorial-register-page) .navbar {
 }
 
 .editorial-nav-brand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin: 0;
+  padding: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   font-weight: 300;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: #111113;
   text-decoration: none;
-  padding-left: 0.28em;
+  z-index: 2;
+  pointer-events: auto;
+  white-space: nowrap;
 }
 
 .editorial-nav-right {
   display: flex;
   align-items: center;
   gap: 24px;
+  margin-left: auto;
+  z-index: 1;
 }
 
 .editorial-nav-link {
@@ -386,5 +401,55 @@ body:has(.editorial-register-page) .navbar {
     min-height: 100dvh;
     max-height: none;
     overflow-y: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .editorial-login-nav {
+    height: var(--navbar-height, 64px);
+    min-height: var(--navbar-height, 64px);
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .editorial-login-nav {
+    padding: 0 16px;
+  }
+
+  .editorial-nav-brand {
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    padding: 0;
+  }
+
+  .editorial-nav-right {
+    gap: 14px;
+  }
+
+  .editorial-nav-link {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-width: 440px) {
+  .editorial-login-nav {
+    padding: 0 12px;
+  }
+
+  .editorial-nav-brand {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    padding: 0;
+  }
+
+  /* On ultra-compact screens, hide current page indicator link to avoid crowding the centered brand */
+  .editorial-login-nav .editorial-nav-link.active {
+    display: none;
+  }
+
+  .editorial-nav-right {
+    gap: 0;
   }
 }

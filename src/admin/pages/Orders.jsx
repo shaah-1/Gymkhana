@@ -99,6 +99,8 @@ function Orders() {
                 const statusStr = String(order.status || "pending").toLowerCase();
                 const statusKey = statusStr.includes("deliv")
                   ? "delivered"
+                  : statusStr.includes("ship")
+                  ? "shipped"
                   : statusStr.includes("process")
                   ? "processing"
                   : statusStr.includes("cancel")
@@ -108,6 +110,8 @@ function Orders() {
                 const statusLabel =
                   statusKey === "delivered"
                     ? "Delivered"
+                    : statusKey === "shipped"
+                    ? "Shipped"
                     : statusKey === "processing"
                     ? "Processing"
                     : statusKey === "cancelled"

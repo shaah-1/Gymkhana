@@ -66,6 +66,15 @@
   box-sizing: border-box;
 }
 
+.account-avatar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 90px;
+  flex-shrink: 0;
+}
+
 .account-avatar-wrap {
   width: 90px;
   height: 90px;
@@ -83,6 +92,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .account-avatar-fallback {
@@ -91,6 +101,65 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   color: #121214;
+}
+
+.account-avatar-edit-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 18, 20, 0.72);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.account-avatar-wrap:hover .account-avatar-edit-overlay,
+.account-avatar-edit-overlay:focus-within {
+  opacity: 1;
+}
+
+.account-avatar-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.account-avatar-remove-btn {
+  background: none;
+  border: none;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.15s ease;
+}
+
+.account-avatar-remove-btn:hover {
+  color: #b91c1c;
+}
+
+.account-avatar-remove-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
 }
 
 .account-dossier-grid {
@@ -127,7 +196,17 @@
 }
 
 .account-dossier-action {
-  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  align-self: center;
+}
+
+.account-dossier-edit-btn {
+  padding: 8px 16px;
+  font-size: 9.5px;
+  white-space: nowrap;
 }
 
 .account-logout-link {
@@ -753,11 +832,126 @@
   display: flex;
   grid-column: 1 / -1;
   justify-content: flex-end;
+  gap: 12px;
 }
 
 .account-edit-profile-actions button:disabled {
   cursor: wait;
   opacity: 0.6;
+}
+
+.account-form-full-width {
+  grid-column: 1 / -1;
+}
+
+.account-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 1px solid #121214;
+  background: #121214;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+.account-btn-solid:hover {
+  background: #ffffff;
+  color: #121214;
+}
+
+.account-btn-solid:disabled,
+.account-btn-outline:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.account-security-heading {
+  margin-top: 36px;
+}
+
+.account-password-form {
+  margin-top: 16px;
+}
+
+.account-password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.account-password-input-wrap input {
+  padding-right: 42px !important;
+}
+
+.account-pwd-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #8b8e96;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.account-pwd-toggle-btn:hover {
+  color: #121214;
+}
+
+.account-alert-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border: 1px solid #ebebef;
+  margin-bottom: 24px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.account-alert-banner.success {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.account-alert-banner.error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.account-alert-banner button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.account-alert-banner button:hover {
+  opacity: 1;
 }
 
 .account-profile-feedback {
@@ -879,9 +1073,19 @@
     gap: 20px;
   }
 
+  .account-avatar-col {
+    width: 72px;
+  }
+
   .account-avatar-wrap {
     width: 72px;
     height: 72px;
+  }
+
+  .account-dossier-action {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 16px;
   }
 
   .account-dossier-grid {

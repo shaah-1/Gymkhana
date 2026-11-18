@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Camera, Eye, EyeOff } from "lucide-react";
 
 import { logout, setUser as setReduxUser } from "../../redux/authSlice";
 import { addToCart } from "../../redux/cartSlice";
@@ -30,11 +31,36 @@ export default function Profile({ defaultTab }) {
   const [ordersError, setOrdersError] = useState("");
   const [selectedTab, setSelectedTab] = useState(null);
   const [addedItemMap, setAddedItemMap] = useState({});
+
+  // Profile details edit state
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [profileForm, setProfileForm] = useState({ name: "", email: "", phone: "", city: "", country: "" });
+  const [profileForm, setProfileForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    country: "",
+  });
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
   const [profileError, setProfileError] = useState("");
+
+  // Photo management state
+  const [photoLoading, setPhotoLoading] = useState(false);
+
+  // Password & Security change state
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ current: "", next: "", confirm: "" });
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNextPassword, setShowNextPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
 
   const activeTab =
     selectedTab ||
@@ -44,6 +70,22 @@ export default function Profile({ defaultTab }) {
       : location.hash === "#favourites"
         ? "favourites"
         : "details");
+
+  const populateProfileForm = (safe) => {
+    const rawName = (safe?.name || safe?.fullName || "").trim();
+    const parts = rawName.split(" ");
+    setProfileForm({
+      firstName: safe.firstName || parts[0] || "",
+      lastName: safe.lastName !== undefined ? safe.lastName : parts.slice(1).join(" ") || "",
+      email: safe.email || "",
+      phone: safe.phone || "",
+      address: safe.address || "",
+      city: safe.city || "",
+      state: safe.state || "",
+      pincode: safe.pincode || "",
+      country: safe.country || "",
+    });
+  };
 
   useEffect(() => {
     if (!products.length) {
@@ -58,16 +100,21 @@ export default function Profile({ defaultTab }) {
     getUserById(userId)
       .then((data) => {
         if (!active) return;
+        if (data.blocked) {
+          dispatch(logout());
+          navigate("/login", {
+            replace: true,
+            state: {
+              error: "Your account has been suspended by an administrator.",
+              message: "Your account has been suspended by an administrator.",
+            },
+          });
+          return;
+        }
         const safe = { ...data };
         delete safe.password;
         setUser(safe);
-        setProfileForm({
-          name: safe.name || safe.fullName || "",
-          email: safe.email || "",
-          phone: safe.phone || "",
-          city: safe.city || "",
-          country: safe.country || "",
-        });
+        populateProfileForm(safe);
         dispatch(setReduxUser(safe));
       })
       .catch(() => active && setError("Unable to load profile. Please check connection."))
@@ -98,16 +145,84 @@ export default function Profile({ defaultTab }) {
     setProfileForm((current) => ({ ...current, [name]: value }));
   };
 
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setProfileError("");
+    setProfileMessage("");
+
+    if (!file.type.startsWith("image/")) {
+      setProfileError("Please select a valid image file (JPEG, PNG, WebP).");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setProfileError("Profile photo must be less than 2MB.");
+      return;
+    }
+
+    setPhotoLoading(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const photoData = String(reader.result || "");
+        const updated = await updateUserById(userId, { photo: photoData });
+        const safe = { ...updated };
+        delete safe.password;
+        setUser(safe);
+        populateProfileForm(safe);
+        dispatch(setReduxUser(safe));
+        setProfileMessage("Profile photo updated successfully.");
+      } catch {
+        setProfileError("Could not update profile photo. Check your connection.");
+      } finally {
+        setPhotoLoading(false);
+      }
+    };
+    reader.onerror = () => {
+      setProfileError("Error reading image file. Please try another image.");
+      setPhotoLoading(false);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handlePhotoRemove = async () => {
+    setProfileError("");
+    setProfileMessage("");
+    setPhotoLoading(true);
+    try {
+      const updated = await updateUserById(userId, { photo: "" });
+      const safe = { ...updated };
+      delete safe.password;
+      setUser(safe);
+      populateProfileForm(safe);
+      dispatch(setReduxUser(safe));
+      setProfileMessage("Profile photo removed.");
+    } catch {
+      setProfileError("Could not remove profile photo.");
+    } finally {
+      setPhotoLoading(false);
+    }
+  };
+
   const handleProfileSave = async (event) => {
     event.preventDefault();
     setProfileError("");
     setProfileMessage("");
     setProfileSaving(true);
 
-    const name = profileForm.name.trim();
+    const firstNameVal = profileForm.firstName.trim();
+    const lastNameVal = profileForm.lastName.trim();
+    const fullName = [firstNameVal, lastNameVal].filter(Boolean).join(" ");
     const email = profileForm.email.trim().toLowerCase();
-    if (!name || !email) {
-      setProfileError("Name and email are required.");
+
+    if (!firstNameVal || !email) {
+      setProfileError("First name and email are required.");
+      setProfileSaving(false);
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setProfileError("Please enter a valid email address.");
       setProfileSaving(false);
       return;
     }
@@ -116,33 +231,71 @@ export default function Profile({ defaultTab }) {
       const matches = await getUserByEmail(email);
       if (matches.some((match) => String(match.id) !== String(userId))) {
         setProfileError("That email address is already used by another account.");
+        setProfileSaving(false);
         return;
       }
 
       const updated = await updateUserById(userId, {
-        name,
+        name: fullName,
+        firstName: firstNameVal,
+        lastName: lastNameVal,
         email,
         phone: profileForm.phone.trim(),
+        address: profileForm.address.trim(),
         city: profileForm.city.trim(),
+        state: profileForm.state.trim(),
+        pincode: profileForm.pincode.trim(),
         country: profileForm.country.trim(),
       });
       const safe = { ...updated };
       delete safe.password;
       setUser(safe);
-      setProfileForm({
-        name: safe.name || safe.fullName || "",
-        email: safe.email || "",
-        phone: safe.phone || "",
-        city: safe.city || "",
-        country: safe.country || "",
-      });
+      populateProfileForm(safe);
       dispatch(setReduxUser(safe));
       setIsEditingProfile(false);
-      setProfileMessage("Profile details saved.");
+      setProfileMessage("Profile details saved successfully.");
     } catch {
       setProfileError("Unable to save profile details. Check your connection and try again.");
     } finally {
       setProfileSaving(false);
+    }
+  };
+
+  const handlePasswordChange = async (event) => {
+    event.preventDefault();
+    setPasswordError("");
+    setPasswordMessage("");
+
+    if (!passwordForm.current) {
+      setPasswordError("Please enter your current password.");
+      return;
+    }
+    if (passwordForm.next.length < 8) {
+      setPasswordError("Your new password must be at least 8 characters.");
+      return;
+    }
+    if (passwordForm.next !== passwordForm.confirm) {
+      setPasswordError("The new passwords do not match.");
+      return;
+    }
+
+    setPasswordSaving(true);
+    try {
+      const freshUser = await getUserById(userId);
+      if (String(freshUser?.password || "") !== String(passwordForm.current)) {
+        setPasswordError("Current password is incorrect. Please check and try again.");
+        setPasswordSaving(false);
+        return;
+      }
+
+      await updateUserById(userId, { password: passwordForm.next });
+      setPasswordMessage("Password updated successfully. Use your new password next time you sign in.");
+      setPasswordForm({ current: "", next: "", confirm: "" });
+      setIsChangingPassword(false);
+    } catch {
+      setPasswordError("Could not update password. Please check your connection and try again.");
+    } finally {
+      setPasswordSaving(false);
     }
   };
 
@@ -188,15 +341,20 @@ export default function Profile({ defaultTab }) {
     );
   }
 
-  const displayName = user?.name || user?.fullName || "GYMKHANA ATHLETE";
-  const nameParts = displayName.trim().split(" ");
-  const firstName = nameParts[0] || "CLIENT";
-  const lastName = nameParts.slice(1).join(" ") || "MEMBER";
+  const firstName =
+    user?.firstName ||
+    (user?.name || user?.fullName || "ATHLETE").trim().split(" ")[0] ||
+    "CLIENT";
+  const lastName =
+    user?.lastName !== undefined && user?.lastName !== null
+      ? user.lastName
+      : (user?.name || user?.fullName || "").trim().split(" ").slice(1).join(" ") || "MEMBER";
+  const displayName = [firstName, lastName].filter(Boolean).join(" ") || "GYMKHANA ATHLETE";
 
   const latestOrder = orders[0];
   const city = user?.city || latestOrder?.customer?.city || "MUMBAI";
   const country = user?.country || latestOrder?.customer?.country || "INDIA";
-  const initial = firstName.charAt(0).toUpperCase();
+  const initial = (firstName || displayName || "A").trim().charAt(0).toUpperCase();
 
   const totalSpend = orders.reduce((sum, o) => sum + Number(o.total || o.totalAmount || 0), 0);
 
@@ -212,10 +370,52 @@ export default function Profile({ defaultTab }) {
           <span className="account-breadcrumb-active">PROFILE</span>
         </nav>
 
+        {/* Global Feedback Banners */}
+        {profileMessage && (
+          <div className="account-alert-banner success" role="status">
+            <span>{profileMessage}</span>
+            <button type="button" onClick={() => setProfileMessage("")} aria-label="Dismiss">✕</button>
+          </div>
+        )}
+        {profileError && (
+          <div className="account-alert-banner error" role="alert">
+            <span>{profileError}</span>
+            <button type="button" onClick={() => setProfileError("")} aria-label="Dismiss">✕</button>
+          </div>
+        )}
+
         {/* Top Profile Dossier Box */}
         <header className="account-dossier-card">
-          <div className="account-avatar-wrap" aria-hidden="true">
-            <span className="account-avatar-fallback">{initial}</span>
+          <div className="account-avatar-col">
+            <div className="account-avatar-wrap">
+              {user?.photo ? (
+                <img src={user.photo} alt={displayName} className="account-avatar-image" />
+              ) : (
+                <span className="account-avatar-fallback">{initial}</span>
+              )}
+              <label className="account-avatar-edit-overlay" title="Upload profile photo">
+                <Camera size={18} strokeWidth={1.8} />
+                <span>PHOTO</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="account-avatar-file-input"
+                  onChange={handlePhotoUpload}
+                  disabled={photoLoading}
+                />
+              </label>
+            </div>
+            {user?.photo && (
+              <button
+                type="button"
+                className="account-avatar-remove-btn"
+                onClick={handlePhotoRemove}
+                disabled={photoLoading}
+                title="Remove profile photo"
+              >
+                REMOVE
+              </button>
+            )}
           </div>
 
           <div className="account-dossier-grid">
@@ -251,6 +451,22 @@ export default function Profile({ defaultTab }) {
           </div>
 
           <div className="account-dossier-action">
+            <button
+              type="button"
+              className="account-btn-outline account-dossier-edit-btn"
+              onClick={() => {
+                setSelectedTab("details");
+                setIsEditingProfile(true);
+                setProfileError("");
+                setProfileMessage("");
+                setTimeout(() => {
+                  const el = document.getElementById("details");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }, 50);
+              }}
+            >
+              EDIT PROFILE
+            </button>
             <button type="button" className="account-logout-link" onClick={handleLogout}>
               LOGOUT
             </button>
@@ -312,13 +528,7 @@ export default function Profile({ defaultTab }) {
                       setProfileError("");
                       setProfileMessage("");
                       if (isEditingProfile) {
-                        setProfileForm({
-                          name: user?.name || user?.fullName || "",
-                          email: user?.email || "",
-                          phone: user?.phone || "",
-                          city: user?.city || "",
-                          country: user?.country || "",
-                        });
+                        populateProfileForm(user || {});
                       }
                       setIsEditingProfile((editing) => !editing);
                     }}
@@ -327,18 +537,115 @@ export default function Profile({ defaultTab }) {
                   </button>
                 </div>
 
-                {profileMessage && <p className="account-profile-feedback success" role="status">{profileMessage}</p>}
-                {profileError && <p className="account-profile-feedback error" role="alert">{profileError}</p>}
-
                 {isEditingProfile && (
                   <form className="account-edit-profile-form" onSubmit={handleProfileSave}>
-                    <label>Full name<input name="name" value={profileForm.name} onChange={handleProfileFieldChange} autoComplete="name" required /></label>
-                    <label>Email address<input name="email" type="email" value={profileForm.email} onChange={handleProfileFieldChange} autoComplete="email" required /></label>
-                    <label>Phone number<input name="phone" type="tel" value={profileForm.phone} onChange={handleProfileFieldChange} autoComplete="tel" /></label>
-                    <label>City<input name="city" value={profileForm.city} onChange={handleProfileFieldChange} autoComplete="address-level2" /></label>
-                    <label>Country<input name="country" value={profileForm.country} onChange={handleProfileFieldChange} autoComplete="country-name" /></label>
+                    <label>
+                      First Name
+                      <input
+                        name="firstName"
+                        value={profileForm.firstName}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="given-name"
+                        placeholder="First name"
+                        required
+                      />
+                    </label>
+                    <label>
+                      Last Name
+                      <input
+                        name="lastName"
+                        value={profileForm.lastName}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="family-name"
+                        placeholder="Last name"
+                      />
+                    </label>
+                    <label>
+                      Email address
+                      <input
+                        name="email"
+                        type="email"
+                        value={profileForm.email}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="email"
+                        placeholder="name@example.com"
+                        required
+                      />
+                    </label>
+                    <label>
+                      Phone number
+                      <input
+                        name="phone"
+                        type="tel"
+                        value={profileForm.phone}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="tel"
+                        placeholder="10-digit phone number"
+                      />
+                    </label>
+                    <label className="account-form-full-width">
+                      Street Address
+                      <input
+                        name="address"
+                        value={profileForm.address}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="street-address"
+                        placeholder="Flat, building, street, area"
+                      />
+                    </label>
+                    <label>
+                      City
+                      <input
+                        name="city"
+                        value={profileForm.city}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="address-level2"
+                        placeholder="City"
+                      />
+                    </label>
+                    <label>
+                      State
+                      <input
+                        name="state"
+                        value={profileForm.state}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="address-level1"
+                        placeholder="State"
+                      />
+                    </label>
+                    <label>
+                      Pincode / Postal Code
+                      <input
+                        name="pincode"
+                        value={profileForm.pincode}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="postal-code"
+                        placeholder="Postal code"
+                      />
+                    </label>
+                    <label>
+                      Country
+                      <input
+                        name="country"
+                        value={profileForm.country}
+                        onChange={handleProfileFieldChange}
+                        autoComplete="country-name"
+                        placeholder="Country"
+                      />
+                    </label>
                     <div className="account-edit-profile-actions">
-                      <button className="account-btn-outline" type="submit" disabled={profileSaving}>
+                      <button
+                        type="button"
+                        className="account-btn-outline"
+                        onClick={() => {
+                          populateProfileForm(user || {});
+                          setIsEditingProfile(false);
+                          setProfileError("");
+                        }}
+                      >
+                        CANCEL
+                      </button>
+                      <button className="account-btn-solid" type="submit" disabled={profileSaving}>
                         {profileSaving ? "SAVING…" : "SAVE CHANGES"}
                       </button>
                     </div>
@@ -363,8 +670,17 @@ export default function Profile({ defaultTab }) {
                     </div>
 
                     <div className="account-detail-item">
+                      <span className="account-detail-k">PHONE NUMBER</span>
+                      <span className="account-detail-v">{user?.phone || "NOT PROVIDED"}</span>
+                    </div>
+
+                    <div className="account-detail-item">
                       <span className="account-detail-k">DELIVERY LOCATION</span>
-                      <span className="account-detail-v">{city}, {country}</span>
+                      <span className="account-detail-v">
+                        {user?.address ? `${user.address}, ` : ""}
+                        {city}, {country}
+                        {user?.pincode ? ` - ${user.pincode}` : ""}
+                      </span>
                     </div>
 
                     <div className="account-detail-item">
@@ -382,6 +698,126 @@ export default function Profile({ defaultTab }) {
                     SIGN OUT OF ACCOUNT
                   </button>
                 </article>
+
+                {/* Security & Password Card */}
+                <div className="account-profile-edit-heading account-security-heading">
+                  <div>
+                    <span className="account-detail-k">SECURITY & PASSWORD</span>
+                    <p>Update your login credentials and secure your account.</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="account-btn-outline"
+                    onClick={() => {
+                      setPasswordError("");
+                      setPasswordMessage("");
+                      setPasswordForm({ current: "", next: "", confirm: "" });
+                      setIsChangingPassword((c) => !c);
+                    }}
+                  >
+                    {isChangingPassword ? "CANCEL" : "CHANGE PASSWORD"}
+                  </button>
+                </div>
+
+                {passwordMessage && (
+                  <div className="account-alert-banner success" role="status">
+                    <span>{passwordMessage}</span>
+                    <button type="button" onClick={() => setPasswordMessage("")} aria-label="Dismiss">✕</button>
+                  </div>
+                )}
+                {passwordError && (
+                  <div className="account-alert-banner error" role="alert">
+                    <span>{passwordError}</span>
+                    <button type="button" onClick={() => setPasswordError("")} aria-label="Dismiss">✕</button>
+                  </div>
+                )}
+
+                {isChangingPassword && (
+                  <form className="account-edit-profile-form account-password-form" onSubmit={handlePasswordChange}>
+                    <label className="account-form-full-width">
+                      Current Password
+                      <div className="account-password-input-wrap">
+                        <input
+                          type={showCurrentPassword ? "text" : "password"}
+                          value={passwordForm.current}
+                          onChange={(e) => setPasswordForm((p) => ({ ...p, current: e.target.value }))}
+                          autoComplete="current-password"
+                          required
+                          placeholder="Enter current password"
+                        />
+                        <button
+                          type="button"
+                          className="account-pwd-toggle-btn"
+                          onClick={() => setShowCurrentPassword((s) => !s)}
+                          aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+                        >
+                          {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                    </label>
+
+                    <label>
+                      New Password (min 8 chars)
+                      <div className="account-password-input-wrap">
+                        <input
+                          type={showNextPassword ? "text" : "password"}
+                          value={passwordForm.next}
+                          onChange={(e) => setPasswordForm((p) => ({ ...p, next: e.target.value }))}
+                          autoComplete="new-password"
+                          required
+                          placeholder="Enter new password"
+                        />
+                        <button
+                          type="button"
+                          className="account-pwd-toggle-btn"
+                          onClick={() => setShowNextPassword((s) => !s)}
+                          aria-label={showNextPassword ? "Hide password" : "Show password"}
+                        >
+                          {showNextPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                    </label>
+
+                    <label>
+                      Confirm New Password
+                      <div className="account-password-input-wrap">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          value={passwordForm.confirm}
+                          onChange={(e) => setPasswordForm((p) => ({ ...p, confirm: e.target.value }))}
+                          autoComplete="new-password"
+                          required
+                          placeholder="Confirm new password"
+                        />
+                        <button
+                          type="button"
+                          className="account-pwd-toggle-btn"
+                          onClick={() => setShowConfirmPassword((s) => !s)}
+                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        >
+                          {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                    </label>
+
+                    <div className="account-edit-profile-actions">
+                      <button
+                        type="button"
+                        className="account-btn-outline"
+                        onClick={() => {
+                          setIsChangingPassword(false);
+                          setPasswordForm({ current: "", next: "", confirm: "" });
+                          setPasswordError("");
+                        }}
+                      >
+                        CANCEL
+                      </button>
+                      <button className="account-btn-solid" type="submit" disabled={passwordSaving}>
+                        {passwordSaving ? "UPDATING PASSWORD…" : "UPDATE PASSWORD"}
+                      </button>
+                    </div>
+                  </form>
+                )}
               </section>
             )}
 
@@ -448,8 +884,15 @@ export default function Profile({ defaultTab }) {
 
                           {/* Order Items Breakdown */}
                           {items.map((item, idx) => {
-                            const matchedProduct = products.find((p) => String(p.id) === String(item.id));
-                            const itemImage = matchedProduct?.image || item.image || "/products/whey-protein.png";
+                            const matchedProduct = products.find(
+                              (p) =>
+                                String(p.id) === String(item.productId || item.id) ||
+                                String(p.name || "").trim().toLowerCase() === String(item.name || item.title || "").trim().toLowerCase()
+                            );
+                            const itemImage =
+                              item.image ||
+                              matchedProduct?.image ||
+                              "/products/whey-protein.png";
                             const itemTotal = (Number(item.price) || 0) * (Number(item.quantity) || 1);
 
                             return (

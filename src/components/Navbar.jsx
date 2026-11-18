@@ -13,6 +13,7 @@ export default function Navbar() {
   const profileRef = useRef(null);
   const headerRef = useRef(null);
 
+  const authUser = useSelector((s) => s.auth.user);
   const isAuth = useSelector(
     (s) =>
       Boolean(
@@ -226,7 +227,15 @@ export default function Navbar() {
                 aria-controls="profile-dropdown"
                 onClick={() => setShowProfile((o) => !o)}
               >
-                <User size={18} strokeWidth={1.7} aria-hidden="true" />
+                {authUser?.photo ? (
+                  <img
+                    src={authUser.photo}
+                    alt={authUser.name || "Profile"}
+                    className="navbar-avatar-img"
+                  />
+                ) : (
+                  <User size={18} strokeWidth={1.7} aria-hidden="true" />
+                )}
                 <span className="navbar-mobile-label">Profile</span>
               </button>
 

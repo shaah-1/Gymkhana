@@ -6,6 +6,7 @@ import {
   fetchAdminOrders,
   updateAdminOrderStatus,
 } from "../store/slices/adminOrderSlice";
+import { fetchAdminProducts } from "../store/slices/adminProductSlice";
 import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
@@ -17,10 +18,12 @@ function OrderDetails() {
   const order = useSelector((state) =>
     state.adminOrders.orders.find((item) => String(item.id) === String(id))
   );
+  const products = useSelector((state) => state.adminProducts?.products || []);
 
   useEffect(() => {
     if (!order) dispatch(fetchAdminOrders());
-  }, [dispatch, order]);
+    if (!products.length) dispatch(fetchAdminProducts());
+  }, [dispatch, order, products.length]);
 
   if (!order) {
     return (
@@ -434,6 +437,15 @@ function OrderDetails() {
               const qty = Number(item.quantity || 1);
               const price = Number(item.price || 0);
               const lineTotal = price * qty;
+              const matchedProduct = products.find(
+                (p) =>
+                  String(p.id) === String(item.productId || item.id) ||
+                  String(p.name || "").trim().toLowerCase() === String(item.name || item.title || "").trim().toLowerCase()
+              );
+              const itemImage =
+                item.image ||
+                matchedProduct?.image ||
+                "/products/whey-protein.png";
 
               return (
                 <tr key={item.id || item.productId || idx}>
@@ -458,9 +470,7 @@ function OrderDetails() {
                         }}
                       >
                         <img
-                          src={publicAssetUrl(
-                            item.image || "/products/whey-protein.png"
-                          )}
+                          src={publicAssetUrl(itemImage)}
                           alt={item.name}
                           style={{
                             maxWidth: "100%",

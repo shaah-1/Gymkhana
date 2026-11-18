@@ -1444,10 +1444,16 @@ img {
 
 /* Minimal centered-brand navigation */
 .navbar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  justify-content: initial;
-  gap: 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
   height: var(--navbar-height, 72px);
   min-height: var(--navbar-height, 72px);
   padding-inline: clamp(24px, 5vw, 88px);
@@ -1521,30 +1527,65 @@ body:has(.about-page) {
   text-transform: uppercase;
 }
 
-.navbar .navbar-links-left { grid-column: 1; justify-content: flex-start; gap: clamp(36px, 4vw, 64px); }
-.navbar > .brand { grid-column: 2; grid-row: 1; justify-self: center; text-align: center; }
-.navbar .navbar-links-right { grid-column: 3; justify-content: flex-end; gap: 14px; }
-.navbar-links-left,
-.navbar > .brand,
-.navbar-links-right { grid-row: 1; align-self: center; }
+.navbar .navbar-links-left {
+  justify-content: flex-start;
+  gap: clamp(18px, 2.5vw, 44px);
+  z-index: 1;
+}
+
+.navbar > .brand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  z-index: 2;
+  pointer-events: auto;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar .navbar-links-right {
+  justify-content: flex-end;
+  gap: 14px;
+  margin-left: auto;
+  z-index: 1;
+}
+
 .navbar .navbar-search-desktop { flex: 0 1 190px; width: 190px; max-width: none; }
 
-.navbar .brand,
+.navbar .brand {
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
 .navbar .brand span {
+  display: block;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #111113;
   font-size: 15px;
   font-weight: 300;
   letter-spacing: .28em;
+  padding: 0;
+  margin: 0;
 }
 
 .navbar .brand small {
+  display: block;
   font-family: Arial, sans-serif;
   margin-top: 4px;
   color: #8b8e96;
   font-size: 7.5px;
   font-weight: 700;
   letter-spacing: .3em;
+  padding: 0;
+  margin: 4px 0 0;
 }
 
 .navbar-links a,
@@ -1572,6 +1613,13 @@ body:has(.about-page) {
   border-color: #121214;
   background: #f7f7f9;
   color: #121214;
+}
+.navbar-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 .navbar .profile-dropdown {
   background: #ffffff;
@@ -1634,6 +1682,12 @@ body:has(.about-page) {
 
 @media (max-width: 768px) {
   .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1648,16 +1702,22 @@ body:has(.about-page) {
     border-bottom: 1px solid #d4d3cf !important;
   }
   .navbar > .brand {
-    order: 1;
-    text-align: left;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
     margin: 0;
+    padding: 0;
+    z-index: 2;
   }
   .navbar .navbar-search-desktop,
   .navbar .navbar-search-mobile {
     display: none !important;
   }
   .navbar .mobile-menu-toggle {
-    order: 2;
+    margin-left: auto;
+    z-index: 3;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
