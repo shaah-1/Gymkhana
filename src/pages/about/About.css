@@ -10,36 +10,6 @@
   box-sizing: border-box;
 }
 
-/* Standalone page breadcrumbs */
-.about-breadcrumbs {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 clamp(24px, 5vw, 72px);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #8b8e96;
-  background: transparent;
-}
-
-.about-breadcrumbs a {
-  color: #8b8e96;
-  text-decoration: none;
-  transition: color 0.16s ease;
-}
-
-.about-breadcrumbs a:hover {
-  color: #121214;
-}
-
-.about-breadcrumbs span {
-  color: #121214;
-  font-weight: 500;
-}
-
 /* Section Container (both standalone and embedded on home) */
 .about-section {
   width: 100%;
@@ -368,66 +338,7 @@
   background: transparent;
 }
 
-/* Header: Centered "Our Philosophy" + Subtitle */
-.about-header {
-  text-align: center;
-  margin-bottom: clamp(32px, 4.5vw, 56px);
-}
-
-.about-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: #121214;
-  line-height: 1.2;
-  margin: 0 0 10px 0;
-}
-
-.about-subtitle {
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: #6a6d75;
-  margin: 0;
-}
-
-/* Two-column layout */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: clamp(40px, 6vw, 96px);
-  align-items: center;
-}
-
-/* Left Column: Narrative */
-.about-text-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.about-heading {
-  font-family: inherit;
-  font-size: clamp(22px, 2.3vw, 28px);
-  font-weight: 600;
-  color: #121214;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin: 0 0 22px 0;
-}
-
-.about-description {
-  font-family: inherit;
-  font-size: 15.5px;
-  line-height: 1.85;
-  color: #4a4d55;
-  margin: 0 0 20px 0;
-  max-width: 440px;
-}
-
+/* Philosophy Quote */
 .about-quote {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-style: italic;
@@ -437,73 +348,6 @@
   border-left: 2px solid #121214;
   padding-left: 18px;
   margin: 24px 0 0;
-}
-
-.about-story-links {
-  margin-top: 28px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 24px;
-}
-
-.about-story-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #121214;
-  text-decoration: none;
-  border-bottom: 1.5px solid #121214;
-  padding-bottom: 4px;
-  transition: opacity 0.2s ease;
-}
-
-.about-story-link:hover {
-  opacity: 0.65;
-}
-
-.about-story-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #71737d;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.about-story-more:hover {
-  color: #121214;
-}
-
-/* Right Column: Editorial Photograph */
-.about-image-col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.about-image-wrapper {
-  width: 100%;
-  aspect-ratio: 557 / 545;
-  overflow: hidden;
-  background: #f5f5f7;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
-}
-
-.about-image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
 }
 
 /* Principles / Pillars Section */
@@ -667,24 +511,6 @@
     padding: 44px 20px 60px;
   }
 
-  .about-header {
-    margin-bottom: 36px;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-
-  .about-description {
-    max-width: none;
-  }
-
-  .about-image-wrapper {
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
   .about-pillars-grid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -692,51 +518,14 @@
 }
 
 @media (max-width: 540px) {
-  .about-breadcrumbs {
-    padding: 16px 18px 0;
-    font-size: 10.5px;
-    gap: 6px;
-  }
-
   .about-container {
     padding: 32px 18px 48px;
-  }
-
-  .about-title {
-    font-size: 12px;
-    letter-spacing: 0.24em;
-    margin-bottom: 8px;
-  }
-
-  .about-subtitle {
-    font-size: 12px;
-    line-height: 1.5;
-  }
-
-  .about-header {
-    margin-bottom: 24px;
-  }
-
-  .about-heading {
-    font-size: 20px;
-    margin-bottom: 16px;
-  }
-
-  .about-description {
-    font-size: 14.5px;
-    line-height: 1.7;
-    margin-bottom: 16px;
   }
 
   .about-quote {
     font-size: 17px;
     padding-left: 14px;
     margin: 18px 0 0;
-  }
-
-  .about-story-links {
-    gap: 16px;
-    margin-top: 22px;
   }
 
   .about-pillars-section {

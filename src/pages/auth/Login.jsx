@@ -40,8 +40,17 @@ export default function Login() {
     const trimmedEmail = email.trim().toLowerCase();
     const trimmedPassword = password.trim();
 
-    if (!trimmedEmail || !trimmedPassword) {
-      return setError("Please enter your email and password.");
+    if (!trimmedEmail) {
+      return setError("Please enter your email address.");
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(trimmedEmail)) {
+      return setError("Please enter a valid email address.");
+    }
+
+    if (!trimmedPassword) {
+      return setError("Please enter your password.");
     }
 
     setLoading(true);

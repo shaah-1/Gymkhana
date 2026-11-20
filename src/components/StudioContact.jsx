@@ -34,17 +34,14 @@ export default function StudioContact() {
       {/* 1. MINIMAL SECTION TITLE */}
       <div className="studio-contact-header">
         <h2 className="studio-contact-title">
-          LET&apos;S TALK
+          We'd Love to
+          <br />
+          Hear From You
         </h2>
       </div>
 
       {/* 2. LOWER CONTACT FORM AREA */}
       <div className="studio-form-stage">
-        {/* Faint Watermark on Left */}
-        <div className="studio-watermark-bottom" aria-hidden="true">
-          GYMKHANA
-        </div>
-
         <div className="studio-form-container">
           {/* Left Column: Studio Micro-Copy */}
           <div className="studio-info-col">
@@ -160,7 +157,7 @@ export default function StudioContact() {
             <div className="studio-footer-col">
               <h4 className="studio-footer-col-title">CUSTOMER CARE</h4>
               <ul className="studio-footer-list">
-                <li><Link to="/shipping">SHIPPING &amp; RETURNS</Link></li>
+                <li><Link to="/contact">SHIPPING &amp; RETURNS</Link></li>
                 <li><Link to="/orders">ORDER TRACKING</Link></li>
                 <li><Link to="/shop">SIZE GUIDE</Link></li>
                 <li><Link to="/about">ABOUT US</Link></li>
