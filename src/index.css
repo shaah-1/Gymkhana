@@ -1052,6 +1052,17 @@ body:has(.about-page) {
 .navbar-wishlist { font-size: inherit; letter-spacing: inherit; }
 .navbar-wishlist .navbar-wishlist-icon { width: 15px; height: 15px; stroke: #121214; }
 
+/* ==========================================================================
+   NAVBAR PROFILE & ACCOUNT MENU (DESKTOP)
+   ========================================================================== */
+
+.navbar .profile-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .navbar .profile-icon {
   width: 36px;
   height: 36px;
@@ -1067,13 +1078,16 @@ body:has(.about-page) {
   align-items: center;
   justify-content: center;
   aspect-ratio: 1 / 1;
+  cursor: pointer;
   transition: border-color 0.16s ease, background 0.16s ease;
 }
+
 .navbar .profile-icon:hover {
   border-color: #121214;
   background: #f7f7f9;
   color: #121214;
 }
+
 .navbar-avatar-img {
   width: 100%;
   height: 100%;
@@ -1082,13 +1096,34 @@ body:has(.about-page) {
   display: block;
   aspect-ratio: 1 / 1;
 }
+
 .navbar .profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 200px;
+  min-width: 190px;
   background: #ffffff;
   border: 1px solid #ebebef;
   border-radius: 0;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  padding: 6px 0;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   transform-origin: top right;
   animation: profileDropDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hover bridge so moving mouse between icon and dropdown doesn't flicker/close */
+.navbar .profile-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
 }
 
 @keyframes profileDropDown {
@@ -1101,14 +1136,59 @@ body:has(.about-page) {
     transform: translateY(0) scale(1);
   }
 }
+
+.navbar .profile-dropdown .profile-title {
+  margin: 0;
+  padding: 8px 16px 6px;
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8b8e96;
+  border-bottom: 1px solid #f0f0f3;
+  margin-bottom: 4px;
+  pointer-events: none;
+}
+
 .navbar .profile-dropdown a,
 .navbar .profile-dropdown button {
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
   color: #121214 !important;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.14s ease, color 0.14s ease;
 }
+
 .navbar .profile-dropdown a:hover,
 .navbar .profile-dropdown button:hover {
   background: #f7f7f9;
   color: #121214 !important;
+}
+
+.navbar .profile-dropdown button {
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f3;
+  color: #b91c1c !important;
+}
+
+.navbar .profile-dropdown button:hover {
+  background: #fef2f2;
+  color: #dc2626 !important;
 }
 
 /* Desktop Sign In Link - Preserved Clean Minimal Editorial Text Link */
@@ -1417,11 +1497,12 @@ body:has(.about-page) {
     color: #111113 !important;
   }
 
-  /* Authenticated Account Group */
+  /* Authenticated Account Group in Mobile Navigation */
   .navbar.mobile-open .navbar-links-right > .profile-container {
     display: block;
     width: 100%;
     margin-top: 4px;
+    position: static;
   }
 
   .navbar.mobile-open .navbar-links-right > .profile-container .profile-icon {
@@ -1433,7 +1514,7 @@ body:has(.about-page) {
     min-height: 44px;
     padding: 12px 2px;
     border: 0;
-    border-bottom: 1px solid #f0f0f2;
+    border-bottom: 1px solid #ededef;
     border-radius: 0;
     background: transparent;
     color: #111113 !important;
@@ -1442,16 +1523,31 @@ body:has(.about-page) {
     font-weight: 400;
     letter-spacing: 0.2em;
     text-transform: uppercase;
+    cursor: pointer;
     transition: opacity 0.15s ease;
+  }
+
+  .navbar.mobile-open .navbar-links-right .profile-icon .navbar-avatar-img {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    min-height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid #ebebef;
+    display: inline-block;
+    flex-shrink: 0;
   }
 
   .navbar.mobile-open .navbar-links-right .profile-icon svg {
     display: inline-block !important;
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
     margin-right: 10px;
     stroke: #111113;
     stroke-width: 1.5;
+    flex-shrink: 0;
   }
 
   .navbar.mobile-open .navbar-links-right .profile-dropdown {
@@ -1463,6 +1559,11 @@ body:has(.about-page) {
     border: 1px solid #f0f0f2;
     border-radius: 0;
     box-shadow: none;
+    animation: none;
+  }
+
+  .navbar.mobile-open .navbar-links-right .profile-dropdown::before {
+    display: none;
   }
 
   .navbar.mobile-open .navbar-links-right .profile-dropdown .profile-title {
@@ -1473,6 +1574,8 @@ body:has(.about-page) {
     text-transform: uppercase;
     color: #8b8e96;
     margin: 6px 0 6px 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ededef;
   }
 
   .navbar.mobile-open .navbar-links-right .profile-dropdown a,
@@ -1480,9 +1583,10 @@ body:has(.about-page) {
     display: flex;
     align-items: center;
     width: 100%;
-    min-height: 36px;
+    min-height: 38px;
     padding: 8px 4px;
     border: 0;
+    border-bottom: 1px solid #f0f0f4;
     border-radius: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 11px;
@@ -1503,6 +1607,7 @@ body:has(.about-page) {
   }
 
   .navbar.mobile-open .navbar-links-right .profile-dropdown button {
+    border-bottom: none;
     color: #b91c1c !important;
   }
 }

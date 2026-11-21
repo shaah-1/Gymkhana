@@ -153,7 +153,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. BEST SELLERS SECTION */}
+      {/* 2. CATEGORIES SECTION - BLACK LUXURY EDITORIAL */}
+      <section id="categories" className="home-categories-section">
+        <div className="home-categories-container">
+          <div className="home-minimal-categories-grid">
+            {FEATURED_CATEGORIES.map((cat, idx) => (
+              <Link
+                key={cat.id}
+                to={`/shop?category=${encodeURIComponent(cat.slug)}`}
+                className="home-minimal-category-card"
+              >
+                <div className="home-minimal-cat-top">
+                  <span className="home-minimal-cat-num">0{idx + 1}</span>
+                  <span className="home-minimal-cat-badge">{cat.badge}</span>
+                </div>
+
+                <div className="home-minimal-cat-body">
+                  <h3 className="home-minimal-cat-name">{cat.name}</h3>
+                  <p className="home-minimal-cat-desc">{cat.desc}</p>
+                </div>
+
+                <div className="home-minimal-cat-footer">
+                  <span className="home-minimal-cat-link">
+                    Explore Formulations &rarr;
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. BEST SELLERS SECTION */}
       <section id="bestsellers" className="home-section best-sellers-section">
         <div className="home-section-header">
           <div>
@@ -180,54 +211,6 @@ export default function Home() {
             ))}
           </div>
         )}
-
-        <div className="best-sellers-footer">
-          <Link to="/shop" className="home-cta-button">
-            Explore All Formulations ({items.length}) &rarr;
-          </Link>
-        </div>
-      </section>
-
-      {/* 3. CATEGORIES SECTION - MINIMAL EDITORIAL */}
-      <section id="categories" className="home-categories-section">
-        <div className="home-categories-container">
-          <div className="home-minimal-editorial-section categories-minimal-section">
-            <div className="home-minimal-container">
-              <header className="home-minimal-header">
-                <h2 className="home-minimal-title">Shop by Category</h2>
-                <p className="home-minimal-subtitle">
-                  Precision nutritional architectures formulated with intent for every phase of training and biological recovery.
-                </p>
-              </header>
-
-              <div className="home-minimal-categories-grid">
-                {FEATURED_CATEGORIES.map((cat, idx) => (
-                  <Link
-                    key={cat.id}
-                    to={`/shop?category=${encodeURIComponent(cat.slug)}`}
-                    className="home-minimal-category-card"
-                  >
-                    <div className="home-minimal-cat-top">
-                      <span className="home-minimal-cat-num">0{idx + 1}</span>
-                      <span className="home-minimal-cat-badge">{cat.badge}</span>
-                    </div>
-
-                    <div className="home-minimal-cat-body">
-                      <h3 className="home-minimal-cat-name">{cat.name}</h3>
-                      <p className="home-minimal-cat-desc">{cat.desc}</p>
-                    </div>
-
-                    <div className="home-minimal-cat-footer">
-                      <span className="home-minimal-cat-link">
-                        Explore Formulations &rarr;
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* 4. ABOUT PREVIEW SECTION */}
