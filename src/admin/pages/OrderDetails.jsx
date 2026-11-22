@@ -84,7 +84,7 @@ function OrderDetails() {
   // delivered (index 3): 100%
   const stageFillPercent = isCancelled
     ? 0
-    : currentStageIndex <= 0
+    : currentStageIndex <=  0
     ? 0
     : currentStageIndex === 1
     ? 33.333
