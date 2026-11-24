@@ -30,32 +30,16 @@ export default function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
 
-  const mobileMenuTimerRef = useRef(null);
   const profileTimerRef = useRef(null);
 
   const closeMenus = () => {
-    if (mobileMenuTimerRef.current) clearTimeout(mobileMenuTimerRef.current);
     if (profileTimerRef.current) clearTimeout(profileTimerRef.current);
     setShowProfile(false);
     setShowMobileMenu(false);
   };
 
-  const handleMenuEnter = () => {
-    if (mobileMenuTimerRef.current) {
-      clearTimeout(mobileMenuTimerRef.current);
-      mobileMenuTimerRef.current = null;
-    }
-    setShowMobileMenu(true);
-  };
-
-  const handleMenuLeave = () => {
-    if (mobileMenuTimerRef.current) clearTimeout(mobileMenuTimerRef.current);
-    mobileMenuTimerRef.current = setTimeout(() => {
-      setShowMobileMenu(false);
-    }, 220);
-  };
-
   const handleProfileEnter = () => {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) return;
     if (profileTimerRef.current) {
       clearTimeout(profileTimerRef.current);
       profileTimerRef.current = null;
@@ -64,6 +48,7 @@ export default function Navbar() {
   };
 
   const handleProfileLeave = () => {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) return;
     if (profileTimerRef.current) clearTimeout(profileTimerRef.current);
     profileTimerRef.current = setTimeout(() => {
       setShowProfile(false);
@@ -72,7 +57,6 @@ export default function Navbar() {
 
   useEffect(() => {
     return () => {
-      if (mobileMenuTimerRef.current) clearTimeout(mobileMenuTimerRef.current);
       if (profileTimerRef.current) clearTimeout(profileTimerRef.current);
     };
   }, []);
@@ -110,7 +94,11 @@ export default function Navbar() {
       if (headerRef.current && !headerRef.current.contains(e.target)) setShowMobileMenu(false);
     };
     document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -123,7 +111,6 @@ export default function Navbar() {
     <header
       ref={headerRef}
       className={`navbar ${showMobileMenu ? "mobile-open" : ""} ${isHeroNavbar ? "navbar-hero" : ""} ${isAboutNavbar ? "navbar-about" : ""}`}
-      onMouseLeave={handleMenuLeave}
     >
       <button
         type="button"
@@ -131,8 +118,6 @@ export default function Navbar() {
         aria-label={showMobileMenu ? "Close menu" : "Open menu"}
         aria-expanded={showMobileMenu}
         onClick={() => setShowMobileMenu((o) => !o)}
-        onMouseEnter={handleMenuEnter}
-        onMouseLeave={handleMenuLeave}
       >
         {showMobileMenu ? (
           <X size={18} strokeWidth={1.5} aria-hidden="true" />
@@ -146,11 +131,7 @@ export default function Navbar() {
         <small>NUTRITION</small>
       </Link>
 
-      <div
-        className="navbar-menu"
-        onMouseEnter={handleMenuEnter}
-        onMouseLeave={handleMenuLeave}
-      >
+      <div className="navbar-menu">
         <nav className="navbar-links navbar-links-left" aria-label="Main navigation">
           <Link
             to="/"

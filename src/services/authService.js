@@ -61,12 +61,19 @@ export const loginUser = async (email, password) => {
     // If backend is unreachable, proceed to fallback
   }
 
-  // 2. Safety fallback for default admin credentials
-  if (targetEmail === "admin@gymkhana.com" && targetPassword === "admin123") {
+  // 2. Safety fallback for default admin credentials (supports both admin@gmail.com and admin@gymkhana.com)
+  const isDefaultAdminEmail =
+    targetEmail === "admin@gmail.com" ||
+    targetEmail === "admin@gymkhana.com" ||
+    targetEmail === "admin";
+  const isDefaultAdminPass =
+    targetPassword === "shahid123" || targetPassword === "admin123";
+
+  if (isDefaultAdminEmail && isDefaultAdminPass) {
     return {
       id: "admin-1",
       name: "Admin",
-      email: "admin@gymkhana.com",
+      email: targetEmail.includes("@") ? targetEmail : "admin@gmail.com",
       role: "admin",
       isAdmin: true,
     };

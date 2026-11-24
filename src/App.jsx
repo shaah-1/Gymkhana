@@ -41,6 +41,7 @@ import AdminUsers from "./admin/pages/Users";
 import AdminOrders from "./admin/pages/Orders";
 import OrderDetails from "./admin/pages/OrderDetails";
 import AdminProfile from "./admin/pages/AdminProfile";
+import Categories from "./admin/pages/Categories.jsx"
 
 import "./index.css";
 
@@ -55,6 +56,18 @@ export default function App() {
     location.pathname === "/login" || location.pathname === "/register";
 
   const toastMessage = location.state?.message || "";
+
+  // Remove storefront navbar top-padding from body when in admin panel
+  useEffect(() => {
+    if (isAdminRoute) {
+      document.body.classList.add("admin-body");
+    } else {
+      document.body.classList.remove("admin-body");
+    }
+    return () => {
+      document.body.classList.remove("admin-body");
+    };
+  }, [isAdminRoute]);
 
   const handleToastClose = () => {
     navigate(location.pathname + location.search + location.hash, {
@@ -84,14 +97,13 @@ export default function App() {
         const res = await api.get(`/users/${encodeURIComponent(userId)}`);
         if (!isMounted) return;
         const freshUser = res.data;
-
-        if (freshUser && freshUser.blocked) {
+        if (freshUser?.blocked) {
           dispatch(logout());
           navigate("/login", {
             replace: true,
             state: {
-              error: "Your account has been suspended by an administrator.",
-              message: "Your account has been suspended by an administrator.",
+              error: "Your account has been deactivated by an administrator.",
+              message: "Your account has been deactivated by an administrator.",
             },
           });
         }
@@ -153,7 +165,10 @@ export default function App() {
     <>
       {!isAdminRoute && !isAuthPage && <Navbar />}
 
-      <div key={location.pathname} className="page-transition">
+      <div
+        key={location.pathname}
+        className={isAdminRoute ? "admin-page-wrapper" : "page-transition"}
+      >
         <Routes>
           {/* Customer routes */}
           <Route path="/" element={<Home />} />
@@ -166,6 +181,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/Categories" element={<Categories/>}/>
 
           <Route
             path="/wishlist"

@@ -139,12 +139,23 @@ function AdminProfile() {
   const updateProfileField = (event) => {
     const { name, value } = event.target;
     setProfile((current) => ({ ...current, [name]: value }));
+    if (profileMessage) setProfileMessage("");
+    if (profileError) setProfileError("");
   };
 
   const updatePasswordField = (event) => {
     const { name, value } = event.target;
     setPasswordForm((current) => ({ ...current, [name]: value }));
+    if (passwordMessage) setPasswordMessage("");
+    if (passwordError) setPasswordError("");
   };
+
+  const hasChanges =
+    (profile.name || "").trim() !== (admin?.name || "").trim() ||
+    (profile.email || "").trim().toLowerCase() !==
+      (admin?.email || "").trim().toLowerCase() ||
+    (profile.phone || "").trim() !== (admin?.phone || "").trim() ||
+    (profile.photo || "") !== (admin?.photo || "");
 
   const initials = (profile.name || profile.email || "A")
     .trim()
@@ -201,9 +212,11 @@ function AdminProfile() {
                     <button
                       type="button"
                       className="admin-profile-remove-photo"
-                      onClick={() =>
-                        setProfile((current) => ({ ...current, photo: "" }))
-                      }
+                      onClick={() => {
+                        setProfile((current) => ({ ...current, photo: "" }));
+                        if (profileMessage) setProfileMessage("");
+                        if (profileError) setProfileError("");
+                      }}
                     >
                       Remove photo
                     </button>
@@ -288,14 +301,31 @@ function AdminProfile() {
           <div className="admin-profile-card-footer">
             <span>
               <ShieldCheck size={14} /> Admin account
+              {hasChanges && (
+                <span className="admin-profile-unsaved-badge">
+                  • Unsaved changes
+                </span>
+              )}
             </span>
-            <button
-              className="admin-profile-primary-button"
-              type="submit"
-              disabled={isSavingProfile}
-            >
-              <Save size={14} /> {isSavingProfile ? "Saving…" : "Save profile"}
-            </button>
+
+            {(hasChanges || isSavingProfile) && (
+              <button
+                className="admin-profile-primary-button has-changes"
+                type="submit"
+                disabled={isSavingProfile}
+                title="Save changes to your administrator profile"
+              >
+                <Save
+                  size={14}
+                  className={
+                    isSavingProfile
+                      ? "admin-save-icon is-spinning"
+                      : "admin-save-icon"
+                  }
+                />
+                <span>{isSavingProfile ? "Saving…" : "Save profile"}</span>
+              </button>
+            )}
           </div>
         </form>
       </div>

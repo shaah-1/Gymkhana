@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowRight, Trash2, Edit2 } from "lucide-react";
+import { ArrowRight, Trash2, Edit2, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   fetchAdminProducts,
   deleteAdminProduct,
@@ -15,6 +15,12 @@ function Products() {
     (state) => state.adminProducts
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
+  const categories = [...new Set(products.map((p) => p.category).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b));
 
   useEffect(() => {
     dispatch(fetchAdminProducts());
@@ -32,11 +38,25 @@ function Products() {
 
   const filteredProducts = products.filter((p) => {
     const q = searchTerm.trim().toLowerCase();
-    if (!q) return true;
     const name = (p.name || p.title || "").toLowerCase();
     const category = (p.category || "").toLowerCase();
-    return name.includes(q) || category.includes(q);
+    const matchesSearch = !q || name.includes(q) || category.includes(q);
+    const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
+    return matchesSearch && matchesCategory;
   });
+
+  const pageCount = Math.ceil(filteredProducts.length / pageSize) || 1;
+  const pageProducts = filteredProducts.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+  const firstVisibleProduct = filteredProducts.length
+    ? (currentPage - 1) * pageSize + 1
+    : 0;
+  const lastVisibleProduct = Math.min(
+    currentPage * pageSize,
+    filteredProducts.length
+  );
 
   return (
     <section>
@@ -74,14 +94,40 @@ function Products() {
       </div>
 
       {/* Filter line */}
-      <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
-        <input
-          type="search"
-          className="admin-underline-input"
-          placeholder="Filter by name or category..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="admin-product-filters">
+        <div style={{ maxWidth: "340px", width: "100%" }}>
+          <input
+            type="search"
+            className="admin-underline-input"
+            placeholder="Filter by name or category..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+
+        <div className="admin-filter-dropdown-wrap">
+          <select
+            id="admin-category-select"
+            className="admin-filter-dropdown"
+            value={categoryFilter}
+            onChange={(e) => {
+              setCategoryFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+            aria-label="Filter by category"
+          >
+            <option value="all">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+          <ChevronDown size={13} className="admin-dropdown-chevron" />
+        </div>
       </div>
 
       {loading && products.length === 0 ? (
@@ -103,7 +149,7 @@ function Products() {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map((product) => {
+              {pageProducts.map((product) => {
                 const stock = Number(product.stock ?? 0);
                 const isOutOfStock = stock <= 0;
                 const isLowStock = !isOutOfStock && stock <= 5;
@@ -217,6 +263,41 @@ function Products() {
               })}
             </tbody>
           </table>
+        </div>
+      )}
+      {filteredProducts.length > 0 && !loading && !error && (
+        <div className="admin-pagination-minimal" aria-label="Pagination">
+          <span className="admin-pagination-count">
+            Showing {firstVisibleProduct}–{lastVisibleProduct} of {filteredProducts.length} products
+          </span>
+
+          <div className="admin-pagination-controls">
+            <button
+              type="button"
+              className="admin-pagination-btn"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              aria-label="Previous page"
+            >
+              <ChevronLeft size={13} />
+              <span>Prev</span>
+            </button>
+
+            <span className="admin-pagination-current">
+              {currentPage} <span className="admin-pagination-slash">/</span> {pageCount}
+            </span>
+
+            <button
+              type="button"
+              className="admin-pagination-btn"
+              onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
+              disabled={currentPage >= pageCount}
+              aria-label="Next page"
+            >
+              <span>Next</span>
+              <ChevronRight size={13} />
+            </button>
+          </div>
         </div>
       )}
     </section>

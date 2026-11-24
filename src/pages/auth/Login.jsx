@@ -18,6 +18,7 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
+  const isAdminAuth = useSelector((s) => s.adminAuth.isAuthenticated);
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState(location.state?.registeredEmail || "");
@@ -26,19 +27,26 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const passwordInputRef = useRef(null);
 
-  // If customer is already authenticated, redirect to home
+  // If already authenticated, redirect to appropriate landing page
   useEffect(() => {
-    if (isAuth) {
+    if (isAdminAuth) {
+      navigate("/admin", { replace: true });
+    } else if (isAuth) {
       navigate("/", { replace: true });
     }
-  }, [isAuth, navigate]);
+  }, [isAdminAuth, isAuth, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    const trimmedEmail = email.trim().toLowerCase();
+    let trimmedEmail = email.trim().toLowerCase();
     const trimmedPassword = password.trim();
+
+    // Allow typing "admin" directly as a convenience alias
+    if (trimmedEmail === "admin") {
+      trimmedEmail = "admin@gmail.com";
+    }
 
     if (!trimmedEmail) {
       return setError("Please enter your email address.");
@@ -122,20 +130,34 @@ export default function Login() {
       const dest = location.state?.from;
       let next;
 
-      if (dest?.pathname?.startsWith("/") && !dest.pathname.startsWith("//")) {
-        // If regular user was trying to access /admin, redirect to home
-        if (!isUserAdmin && dest.pathname.startsWith("/admin")) {
-          next = "/";
-        } else {
+      if (isUserAdmin) {
+        // Administrators MUST always land in the admin dashboard.
+        // If specifically navigating to an admin sub-path (e.g. /admin/orders or /admin/products), restore it.
+        // NEVER route an admin to customer protected routes like /cart or /checkout, which would bounce back to /login.
+        if (dest?.pathname?.startsWith("/admin")) {
           next = {
             pathname: dest.pathname,
             search: dest.search || "",
             hash: dest.hash || "",
           };
+        } else {
+          next = "/admin";
         }
       } else {
-        // Admin default landing is /admin; customer default landing is /
-        next = isUserAdmin ? "/admin" : "/";
+        // Regular customers go to their intended customer route, or "/" by default.
+        if (
+          dest?.pathname?.startsWith("/") &&
+          !dest.pathname.startsWith("//") &&
+          !dest.pathname.startsWith("/admin")
+        ) {
+          next = {
+            pathname: dest.pathname,
+            search: dest.search || "",
+            hash: dest.hash || "",
+          };
+        } else {
+          next = "/";
+        }
       }
 
       navigate(next, {

@@ -445,7 +445,7 @@ function Dashboard() {
                       x2="630"
                       y2="105"
                       stroke="#f0f0f3"
-                      strokeWidth="1"
+        f              strokeWidth="1"
                     />
                     <line
                       x1="45"
