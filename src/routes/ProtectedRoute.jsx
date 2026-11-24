@@ -3,8 +3,13 @@ import { useSelector } from "react-redux";
 
 export default function ProtectedRoute({ children }) {
   const location = useLocation();
+  const initialized = useSelector((s) => s.auth.initialized);
   const isAuth = useSelector((s) => s.auth.isAuthenticated);
   const user = useSelector((s) => s.auth.user);
+
+  if (!initialized) {
+    return <p role="status">Checking your session…</p>;
+  }
 
   if (!isAuth || user?.blocked) {
     return (

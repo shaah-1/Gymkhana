@@ -10,13 +10,103 @@ import { formatCurrency } from "../../utils/formatters";
 import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function getSalesDataset(orders, range) {
+  const daysByRange = { "7D": 7, "30D": 30, "90D": 90, "1Y": 365 };
+  const bucketCounts = { "7D": 7, "30D": 5, "90D": 3, "1Y": 12 };
+  const days = daysByRange[range];
+  const bucketCount = bucketCounts[range];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const rangeStart = today.getTime() - (days - 1) * DAY_MS;
+  const rangeEnd = today.getTime() + DAY_MS;
+  const previousStart = rangeStart - days * DAY_MS;
+  const validOrders = orders
+    .filter((order) => String(order.status).toLowerCase() !== "cancelled")
+    .map((order) => ({
+      date: new Date(order.createdAt).getTime(),
+      total: Number(order.total ?? order.totalAmount ?? 0),
+    }))
+    .filter((order) => Number.isFinite(order.date));
+  const previousRevenue = validOrders
+    .filter((order) => order.date >= previousStart && order.date < rangeStart)
+    .reduce((sum, order) => sum + order.total, 0);
+  const bucketWidth = (rangeEnd - rangeStart) / bucketCount;
+  const buckets = Array.from({ length: bucketCount }, (_, index) => {
+    const start = rangeStart + index * bucketWidth;
+    const end = start + bucketWidth;
+    const date = new Date(start);
+    const revenue = validOrders
+      .filter((order) => order.date >= start && order.date < end)
+      .reduce((sum, order) => sum + order.total, 0);
+    const labelOptions =
+      range === "7D"
+        ? { weekday: "short" }
+        : range === "1Y"
+          ? { month: "short" }
+          : { month: "short", day: "numeric" };
+    return {
+      date: date.toLocaleDateString("en-IN", labelOptions),
+      revenue,
+    };
+  });
+  const totalRevenue = buckets.reduce((sum, bucket) => sum + bucket.revenue, 0);
+  const maxRevenue = Math.max(...buckets.map((bucket) => bucket.revenue), 0);
+  const axisMaximum = Math.max(1000, Math.ceil(maxRevenue / 1000) * 1000);
+  const compactCurrency = new Intl.NumberFormat("en-IN", {
+    notation: "compact",
+    maximumFractionDigits: 0,
+  });
+  const points = buckets.map((bucket, index) => ({
+    x: 50 + (index * 540) / Math.max(bucketCount - 1, 1),
+    y: 160 - (bucket.revenue / axisMaximum) * 130,
+    val: formatCurrency(bucket.revenue),
+    date: bucket.date,
+  }));
+  const path = points
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
+    .join(" ");
+  const currentOrders = validOrders.filter(
+    (order) => order.date >= rangeStart && order.date < rangeEnd
+  );
+  const trend =
+    previousRevenue === 0
+      ? totalRevenue > 0
+        ? "NEW SALES IN THIS PERIOD"
+        : "NO SALES IN THIS PERIOD"
+      : `${totalRevenue >= previousRevenue ? "↑ +" : "↓ -"}${Math.abs(
+          ((totalRevenue - previousRevenue) / previousRevenue) * 100
+        ).toFixed(1)}% VS PREVIOUS PERIOD`;
+
+  return {
+    revenue: totalRevenue,
+    trend,
+    labels: buckets.map((bucket) => bucket.date),
+    points,
+    path,
+    fill: `${path} L 590 180 L 50 180 Z`,
+    axisLabels: [1, 0.75, 0.5, 0.25, 0].map((fraction) =>
+      compactCurrency.format(axisMaximum * fraction)
+    ),
+    orderCount: currentOrders.length,
+    averageOrderValue: currentOrders.length
+      ? totalRevenue / currentOrders.length
+      : 0,
+  };
+}
+
 function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const products = useSelector((state) => state.adminProducts.products);
+  const productsError = useSelector((state) => state.adminProducts.error);
   const users = useSelector((state) => state.adminUsers.users);
+  const usersError = useSelector((state) => state.adminUsers.error);
   const orders = useSelector((state) => state.adminOrders.orders);
+  const ordersError = useSelector((state) => state.adminOrders.error);
+  const dataErrors = [productsError, usersError, ordersError].filter(Boolean);
 
   const [openSections, setOpenSections] = useState({
     metrics: true,
@@ -39,190 +129,61 @@ function Dashboard() {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const totalRevenue = orders.reduce(
-    (sum, o) => sum + Number(o.total ?? o.totalAmount ?? 0),
+  const totalRevenue = orders
+    .filter((order) => String(order.status).toLowerCase() !== "cancelled")
+    .reduce((sum, order) => sum + Number(order.total ?? order.totalAmount ?? 0), 0);
+  const totalProductsCount = products.length;
+  const totalOrdersCount = orders.length;
+  const totalUnitsInStock = products.reduce(
+    (sum, product) => sum + Number(product.stock ?? 0),
     0
   );
-
-  const totalRevenueFormatted =
-    totalRevenue > 0 ? formatCurrency(totalRevenue) : "₹54,950";
-
-  const totalProductsCount = products.length > 0 ? products.length : 24;
-  const totalOrdersCount = orders.length > 0 ? orders.length : 892;
-
-  // Inventory Status calculations
-  const totalUnitsInStock =
-    products.length > 0
-      ? products.reduce((sum, p) => sum + Number(p.stock ?? 0), 0)
-      : 284;
-
-  const inStockCount =
-    products.length > 0
-      ? products.filter((p) => Number(p.stock ?? 0) > 5).length
-      : 21;
-
-  const lowStockCount =
-    products.length > 0
-      ? products.filter(
-          (p) => Number(p.stock ?? 0) > 0 && Number(p.stock ?? 0) <= 5
-        ).length
-      : 2;
-
-  const outOfStockCount =
-    products.length > 0
-      ? products.filter((p) => Number(p.stock ?? 0) <= 0).length
-      : 1;
-
-  // Sales Overview Graph dataset per timeRange
-  const salesDatasets = {
-    "7D": {
-      revenue: "₹18,420",
-      trend: "↑ +9.4% VS PREVIOUS 7 DAYS",
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      points: [
-        { x: 50, y: 145, val: "₹1,800", date: "Mon" },
-        { x: 140, y: 120, val: "₹2,600", date: "Tue" },
-        { x: 230, y: 130, val: "₹2,200", date: "Wed" },
-        { x: 320, y: 90, val: "₹3,400", date: "Thu" },
-        { x: 410, y: 70, val: "₹4,100", date: "Fri" },
-        { x: 500, y: 40, val: "₹5,200", date: "Sat" },
-        { x: 590, y: 60, val: "₹4,600", date: "Sun" },
-      ],
-      path: "M 50 145 C 95 135, 110 120, 140 120 C 185 120, 200 130, 230 130 C 275 130, 290 90, 320 90 C 365 90, 380 70, 410 70 C 455 70, 470 40, 500 40 C 545 40, 560 60, 590 60",
-      fill: "M 50 145 C 95 135, 110 120, 140 120 C 185 120, 200 130, 230 130 C 275 130, 290 90, 320 90 C 365 90, 380 70, 410 70 C 455 70, 470 40, 500 40 C 545 40, 560 60, 590 60 L 590 180 L 50 180 Z",
-    },
-    "30D": {
-      revenue: totalRevenueFormatted,
-      trend: "↑ +14.2% THIS MONTH",
-      labels: ["Nov 1", "Nov 7", "Nov 14", "Nov 21", "Nov 30"],
-      points: [
-        { x: 50, y: 145, val: "₹8,400", date: "Nov 1" },
-        { x: 185, y: 115, val: "₹14,200", date: "Nov 7" },
-        { x: 320, y: 95, val: "₹22,800", date: "Nov 14" },
-        { x: 455, y: 35, val: "₹44,600", date: "Nov 21" },
-        { x: 590, y: 75, val: totalRevenueFormatted, date: "Nov 30" },
-      ],
-      path: "M 50 145 C 117 130, 150 115, 185 115 C 252 115, 285 95, 320 95 C 387 95, 420 35, 455 35 C 522 35, 555 75, 590 75",
-      fill: "M 50 145 C 117 130, 150 115, 185 115 C 252 115, 285 95, 320 95 C 387 95, 420 35, 455 35 C 522 35, 555 75, 590 75 L 590 180 L 50 180 Z",
-    },
-    "90D": {
-      revenue: "₹168,240",
-      trend: "↑ +18.7% QUARTERLY",
-      labels: ["Sep", "Oct", "Nov"],
-      points: [
-        { x: 50, y: 140, val: "₹45,000", date: "Sep 1" },
-        { x: 185, y: 120, val: "₹52,000", date: "Sep 30" },
-        { x: 320, y: 85, val: "₹78,000", date: "Oct 15" },
-        { x: 455, y: 55, val: "₹120,000", date: "Nov 1" },
-        { x: 590, y: 30, val: "₹168,240", date: "Nov 30" },
-      ],
-      path: "M 50 140 C 117 130, 150 120, 185 120 C 252 120, 285 85, 320 85 C 387 85, 420 55, 455 55 C 522 55, 555 30, 590 30",
-      fill: "M 50 140 C 117 130, 150 120, 185 120 C 252 120, 285 85, 320 85 C 387 85, 420 55, 455 55 C 522 55, 555 30, 590 30 L 590 180 L 50 180 Z",
-    },
-    "1Y": {
-      revenue: "₹642,800",
-      trend: "↑ +24.1% ANNUAL",
-      labels: ["Q1", "Q2", "Q3", "Q4"],
-      points: [
-        { x: 50, y: 140, val: "₹110k", date: "Q1" },
-        { x: 230, y: 100, val: "₹240k", date: "Q2" },
-        { x: 410, y: 65, val: "₹420k", date: "Q3" },
-        { x: 590, y: 25, val: "₹642k", date: "Q4" },
-      ],
-      path: "M 50 140 C 140 120, 170 100, 230 100 C 320 100, 350 65, 410 65 C 500 65, 530 25, 590 25",
-      fill: "M 50 140 C 140 120, 170 100, 230 100 C 320 100, 350 65, 410 65 C 500 65, 530 25, 590 25 L 590 180 L 50 180 Z",
-    },
-  };
-
-  const currentDataset = salesDatasets[timeRange] || salesDatasets["30D"];
-
-  // Default mock fallback orders if database has fewer items
-  const fallbackOrders = [
-    {
-      id: "ORD1089",
-      customer: "Rahul Sharma",
-      total: 2499,
-      status: "delivered",
-      date: "03 Nov 2026",
-    },
-    {
-      id: "ORD1088",
-      customer: "Sneha Reddy",
-      total: 1799,
-      status: "processing",
-      date: "03 Nov 2026",
-    },
-    {
-      id: "ORD1087",
-      customer: "Arjun Nair",
-      total: 3299,
-      status: "pending",
-      date: "02 Nov 2026",
-    },
-    {
-      id: "ORD1086",
-      customer: "Diya Menon",
-      total: 1499,
-      status: "delivered",
-      date: "02 Nov 2026",
-    },
-    {
-      id: "ORD1085",
-      customer: "Rohan Das",
-      total: 2199,
-      status: "delivered",
-      date: "01 Nov 2026",
-    },
-  ];
+  const inStockCount = products.filter(
+    (product) => Number(product.stock ?? 0) > 5
+  ).length;
+  const lowStockCount = products.filter(
+    (product) => Number(product.stock ?? 0) > 0 && Number(product.stock ?? 0) <= 5
+  ).length;
+  const outOfStockCount = products.filter(
+    (product) => Number(product.stock ?? 0) <= 0
+  ).length;
+  const currentDataset = getSalesDataset(orders, timeRange);
 
   const recentOrders =
-    orders.length > 0
-      ? [...orders]
-          .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-          .slice(0, 5)
-          .map((o) => ({
-            id: String(o.id).startsWith("ORD") ? o.id : `ORD${o.id}`,
-            realId: o.id,
-            customer:
-              o.customer?.fullName ||
-              o.customer?.name ||
-              o.fullName ||
-              o.name ||
-              o.email ||
-              "Customer",
-            total: Number(o.total ?? o.totalAmount ?? 0),
-            status: String(o.status || "delivered").toLowerCase(),
-            date: o.createdAt
-              ? new Date(o.createdAt).toLocaleDateString("en-IN", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })
-              : "03 Nov 2026",
-          }))
-      : fallbackOrders;
+    [...orders]
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .slice(0, 5)
+      .map((o) => ({
+        id: String(o.id).startsWith("ORD") ? o.id : `ORD${o.id}`,
+        realId: o.id,
+        customer:
+          o.customer?.fullName ||
+          o.customer?.name ||
+          o.fullName ||
+          o.name ||
+          o.email ||
+          "Customer",
+        total: Number(o.total ?? o.totalAmount ?? 0),
+        status: String(o.status || "pending").toLowerCase(),
+        date: o.createdAt
+          ? new Date(o.createdAt).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : "—",
+      }));
 
   // Top Showcase Products in Admin portrait framed boxes
-  const showcaseProducts = [
-    {
-      name: "Whey Protein",
-      price: 2499,
-      image: "/products/whey-protein.png",
-    },
-    {
-      name: "Gym Bag",
-      price: 1499,
-      image: "/products/gym-bag.png",
-    },
-    {
-      name: "Creatine",
-      price: 999,
-      image: "/products/creatine.png",
-    },
-  ];
+  const showcaseProducts = products.slice(0, 3);
 
   return (
     <section>
+      {dataErrors.map((error) => (
+        <div className="admin-error-notice" key={error}>
+          {error}
+        </div>
+      ))}
       {/* Breadcrumbs matching Admin aesthetic */}
       <div className="admin-breadcrumbs">
         <Link to="/admin">Administration</Link>
@@ -261,17 +222,17 @@ function Dashboard() {
             {openSections.metrics && (
               <div className="admin-metrics-grid">
                 <div className="admin-metric-card">
-                  <p className="admin-metric-label">Total Revenue</p>
+                  <p className="admin-metric-label">Order value (excl. cancelled)</p>
                   <p className="admin-metric-val">
-                    <AdminPrice amount={totalRevenue > 0 ? totalRevenue : 54950} />
+                    <AdminPrice amount={totalRevenue} />
                   </p>
-                  <span className="admin-metric-trend">↑ +14.2% THIS PERIOD</span>
+                  <span className="admin-metric-trend">ALL RECORDED ORDERS</span>
                 </div>
 
                 <div className="admin-metric-card">
                   <p className="admin-metric-label">Total Orders</p>
                   <p className="admin-metric-val">{totalOrdersCount}</p>
-                  <span className="admin-metric-trend">ACTIVE FULFILLMENT</span>
+                  <span className="admin-metric-trend">ORDERS ON RECORD</span>
                 </div>
 
                 <div className="admin-metric-card">
@@ -362,7 +323,7 @@ function Dashboard() {
                 <div className="admin-graph-top">
                   <div>
                     <p className="admin-graph-revenue-label">
-                      Sales Volume ({timeRange})
+                      Order value ({timeRange})
                     </p>
                     <div className="admin-graph-revenue-group">
                       <span className="admin-graph-revenue-num">
@@ -466,19 +427,19 @@ function Dashboard() {
 
                     {/* Y Axis Legend */}
                     <text x="10" y="29" fill="#9da0a8" fontSize="10">
-                      60k
+                      {currentDataset.axisLabels[0]}
                     </text>
                     <text x="10" y="69" fill="#9da0a8" fontSize="10">
-                      45k
+                      {currentDataset.axisLabels[1]}
                     </text>
                     <text x="10" y="109" fill="#9da0a8" fontSize="10">
-                      30k
+                      {currentDataset.axisLabels[2]}
                     </text>
                     <text x="10" y="149" fill="#9da0a8" fontSize="10">
-                      15k
+                      {currentDataset.axisLabels[3]}
                     </text>
                     <text x="18" y="183" fill="#9da0a8" fontSize="10">
-                      0
+                      {currentDataset.axisLabels[4]}
                     </text>
 
                     {/* Area fill */}
@@ -551,20 +512,22 @@ function Dashboard() {
                       Average Order Value
                     </span>
                     <span className="admin-submetric-val">
-                      <AdminPrice amount={2490} />
+                      <AdminPrice amount={currentDataset.averageOrderValue} />
                     </span>
                   </div>
                   <div className="admin-submetric-item">
                     <span className="admin-submetric-label">
-                      Top Category Volume
+                      Orders in period
                     </span>
-                    <span className="admin-submetric-val">PROTEIN (58%)</span>
+                    <span className="admin-submetric-val">{currentDataset.orderCount}</span>
                   </div>
                   <div className="admin-submetric-item">
                     <span className="admin-submetric-label">
-                      Checkout Conversion
+                      Cancelled orders
                     </span>
-                    <span className="admin-submetric-val">3.8%</span>
+                    <span className="admin-submetric-val">
+                      {orders.filter((order) => String(order.status).toLowerCase() === "cancelled").length}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -603,6 +566,11 @@ function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
+                    {recentOrders.length === 0 && (
+                      <tr>
+                        <td colSpan={5}>No orders yet.</td>
+                      </tr>
+                    )}
                     {recentOrders.map((order) => {
                       const statusKey = order.status.includes("deliv")
                         ? "delivered"
@@ -723,7 +691,7 @@ function Dashboard() {
                     <span>Customer Accounts & Security Access</span>
                   </div>
                   <span className="admin-radio-price">
-                    {users.length || 1} ACCOUNTS
+                    {users.length} ACCOUNTS
                   </span>
                 </div>
               </div>
@@ -737,6 +705,9 @@ function Dashboard() {
 
           {/* Product Gallery Strip in framed boxes (Matches 3 cosmetic bottles in screenshot) */}
           <div className="admin-products-strip">
+            {showcaseProducts.length === 0 && (
+              <p>No products have been added yet.</p>
+            )}
             {showcaseProducts.map((p) => (
               <div className="admin-product-box" key={p.name}>
                 <img src={publicAssetUrl(p.image)} alt={p.name} />
@@ -769,9 +740,9 @@ function Dashboard() {
           {/* Financial Ledger (Exact aesthetic from Admin screenshot) */}
           <div className="admin-ledger">
             <div className="admin-ledger-row">
-              <span>GROSS MERCHANDISE:</span>
+              <span>GROSS ORDER VALUE:</span>
               <span>
-                <AdminPrice amount={totalRevenue > 0 ? totalRevenue : 54950} />
+                <AdminPrice amount={totalRevenue} />
               </span>
             </div>
             <div className="admin-ledger-row">
@@ -779,9 +750,9 @@ function Dashboard() {
               <span>COMPLIMENTARY</span>
             </div>
             <div className="admin-ledger-row total">
-              <span>NET REVENUE:</span>
+              <span>TOTAL ORDER VALUE:</span>
               <span>
-                <AdminPrice amount={totalRevenue > 0 ? totalRevenue : 54950} />
+                <AdminPrice amount={totalRevenue} />
               </span>
             </div>
           </div>

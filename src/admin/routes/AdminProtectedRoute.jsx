@@ -9,9 +9,13 @@ function AdminProtectedRoute() {
   const isCustomerAuthenticated = useSelector(
     (state) => state.auth.isAuthenticated
   );
+  const authInitialized = useSelector((state) => state.auth.initialized);
 
   if (isAdminAuthenticated) {
     return <Outlet />;
+  }
+  if (!authInitialized) {
+    return <p role="status">Checking your session…</p>;
   }
 
   // If already signed in as a regular customer without admin access

@@ -2,22 +2,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storage as localStorage } from "../../utils/storage";
 import { Link, useNavigate } from "react-router-dom";
-import { Smartphone, CreditCard, Landmark, Wallet, Banknote } from "lucide-react";
+import { Banknote } from "lucide-react";
 
 import { clearCart } from "../../redux/cartSlice";
 import { logout } from "../../redux/authSlice";
-import { getUserById } from "../../services/authService";
-import { getProductById, updateProductStock } from "../../services/productService";
+import { getUserById, signOutUser } from "../../services/authService";
+import { getProductById } from "../../services/productService";
 import { createOrder } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./Checkout.css";
 
 const PAYMENT_METHODS = [
-  { id: "upi", label: "UPI", detail: "Pay using any UPI app", Icon: Smartphone },
-  { id: "card", label: "Credit / Debit Card", detail: "Visa, Mastercard and RuPay", Icon: CreditCard },
-  { id: "netbanking", label: "Net Banking", detail: "Pay through your bank", Icon: Landmark },
-  { id: "wallet", label: "Wallet", detail: "Use a supported digital wallet", Icon: Wallet },
   { id: "cod", label: "Cash on Delivery", detail: "Pay when your order arrives", Icon: Banknote },
 ];
 
@@ -47,29 +43,21 @@ export default function Checkout() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [orderId, setOrderId] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("upi");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const [emailCheck, setEmailCheck] = useState({ status: "idle", message: "" });
-  const [cardDetails, setCardDetails] = useState({
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardName: "",
-    saveCard: true,
-  });
-  const [upiDetails, setUpiDetails] = useState({
-    upiId: "",
-    selectedApp: "gpay",
-  });
-  const [netbankingBank, setNetbankingBank] = useState("HDFC");
-  const [selectedWallet, setSelectedWallet] = useState("PhonePe Wallet");
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
     getUserById(userId)
-      .then((u) => {
+      .then(async (u) => {
         if (!u) return;
         if (u.blocked) {
+          try {
+            await signOutUser();
+          } catch (signOutError) {
+            console.error("Could not sign out a blocked account:", signOutError);
+          }
           dispatch(logout());
           navigate("/login", {
             replace: true,
@@ -86,7 +74,9 @@ export default function Checkout() {
           email: prev.email || u.email || "",
         }));
       })
-      .catch(() => {});
+      .catch((profileError) => {
+        setError(profileError.message || "Unable to verify your account.");
+      });
   }, [dispatch, navigate]);
 
   const total = items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
@@ -105,6 +95,11 @@ export default function Checkout() {
     try {
       const user = await getUserById(userId);
       if (user?.blocked) {
+        try {
+          await signOutUser();
+        } catch (signOutError) {
+          console.error("Could not sign out a blocked account:", signOutError);
+        }
         dispatch(logout());
         navigate("/login", {
           replace: true,
@@ -129,34 +124,6 @@ export default function Checkout() {
       setEmailCheck({ status: "invalid", message: msg });
       return { valid: false, message: msg };
     }
-  };
-
-  const handleCardNumberChange = (e) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 16);
-    const formatted = raw.replace(/(\d{4})(?=\d)/g, "$1 ");
-    setCardDetails((prev) => ({ ...prev, cardNumber: formatted }));
-  };
-
-  const handleExpiryChange = (e) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
-    if (raw.length >= 3) {
-      setCardDetails((prev) => ({ ...prev, expiryDate: `${raw.slice(0, 2)} / ${raw.slice(2)}` }));
-    } else {
-      setCardDetails((prev) => ({ ...prev, expiryDate: raw }));
-    }
-  };
-
-  const handleCvvChange = (e) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
-    setCardDetails((prev) => ({ ...prev, cvv: raw }));
-  };
-
-  const handleUpiChange = (e) => {
-    setUpiDetails((prev) => ({ ...prev, upiId: e.target.value.trim().toLowerCase() }));
-  };
-
-  const handleSelectUpiApp = (appId) => {
-    setUpiDetails((prev) => ({ ...prev, selectedApp: appId }));
   };
 
   const handleNextFromContact = async () => {
@@ -227,36 +194,6 @@ export default function Checkout() {
       return;
     }
 
-    if (paymentMethod === "card") {
-      const cleanNum = cardDetails.cardNumber.replace(/\s/g, "");
-      if (cleanNum.length < 15) {
-        setError("Please enter a valid 16-digit card number.");
-        setLoading(false);
-        return;
-      }
-      if (!cardDetails.expiryDate.includes("/") || cardDetails.expiryDate.replace(/\D/g, "").length < 4) {
-        setError("Please enter a valid expiry date (MM / YY).");
-        setLoading(false);
-        return;
-      }
-      if (cardDetails.cvv.length < 3) {
-        setError("Please enter a valid 3 or 4 digit CVV.");
-        setLoading(false);
-        return;
-      }
-    }
-
-    if (paymentMethod === "upi") {
-      if (!upiDetails.upiId.trim() || !upiDetails.upiId.includes("@")) {
-        setError("Please enter a valid UPI ID (e.g. username@bank or mobile@upi).");
-        setLoading(false);
-        return;
-      }
-    }
-
-    const updatedProducts = [];
-    let orderSaved = false;
-
     try {
       const checked = await Promise.all(
         items.map(async (cartItem) => ({
@@ -272,12 +209,6 @@ export default function Checkout() {
         if (qty > stock) throw new Error(`${product.name}: only ${stock} item(s) available. Please update your cart.`);
       }
 
-      for (const { cartItem, product } of checked) {
-        const oldStock = Number(product.stock ?? 0);
-        const updated = await updateProductStock(product.id, oldStock - Number(cartItem.quantity));
-        updatedProducts.push({ id: product.id, stock: oldStock, updatedStock: updated.stock });
-      }
-
       const verifiedItems = checked.map(({ cartItem, product }) => ({
         id: product.id,
         productId: product.id,
@@ -287,56 +218,23 @@ export default function Checkout() {
         quantity: Number(cartItem.quantity),
       }));
 
-      const verifiedTotal = verifiedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-
       const saved = await createOrder({
-        userId: String(userId),
         customer: form,
         items: verifiedItems,
-        total: verifiedTotal,
         paymentMethod,
-        paymentDetails:
-          paymentMethod === "card"
-            ? {
-                cardLast4: cardDetails.cardNumber.replace(/\s/g, "").slice(-4),
-                cardholderName: cardDetails.cardName || form.fullName,
-                expiry: cardDetails.expiryDate,
-              }
-            : paymentMethod === "upi"
-              ? {
-                  upiId: upiDetails.upiId,
-                  upiApp: upiDetails.selectedApp,
-                }
-              : paymentMethod === "netbanking"
-                ? { bank: netbankingBank }
-                : paymentMethod === "wallet"
-                  ? { wallet: selectedWallet }
-                  : null,
-        paymentStatus: paymentMethod === "cod" ? "pay_on_delivery" : "paid",
-        status: "pending",
-        createdAt: new Date().toISOString(),
       });
 
-      orderSaved = true;
       setOrderId(saved.id);
       dispatch(clearCart());
       setSuccess(true);
     } catch (err) {
       console.error("Checkout error:", err);
-      if (!orderSaved) {
-        for (const item of [...updatedProducts].reverse()) {
-          try {
-            const cur = await getProductById(item.id);
-            if (Number(cur.stock) === Number(item.updatedStock)) await updateProductStock(item.id, item.stock);
-          } catch (rErr) {
-            console.error("Rollback failed:", rErr);
-          }
-        }
-      }
       setError(
-        err.response?.status === 404
+        err.status === 404
           ? "A product could not be found. Please refresh your cart."
-          : err.message?.includes("available") || err.message?.includes("Invalid quantity")
+          : err.message?.includes("stock") ||
+              err.message?.includes("available") ||
+              err.message?.includes("Invalid quantity")
             ? err.message
             : "Unable to complete your order. Please check your connection and try again."
       );
@@ -616,178 +514,9 @@ export default function Checkout() {
                   ))}
                 </div>
 
-                {/* Credit / Debit Card Credentials */}
-                {paymentMethod === "card" && (
-                  <div className="payment-credentials-box">
-                    <label>
-                      Card Number
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="1234 5678 9012 3456"
-                        value={cardDetails.cardNumber}
-                        onChange={handleCardNumberChange}
-                        autoComplete="cc-number"
-                        maxLength={19}
-                        required
-                      />
-                    </label>
-                    <div className="checkout-fields-row">
-                      <label>
-                        Expiry Date
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="MM / YY"
-                          value={cardDetails.expiryDate}
-                          onChange={handleExpiryChange}
-                          autoComplete="cc-exp"
-                          maxLength={7}
-                          required
-                        />
-                      </label>
-                      <label>
-                        CVV
-                        <input
-                          type="password"
-                          inputMode="numeric"
-                          placeholder="•••"
-                          value={cardDetails.cvv}
-                          onChange={handleCvvChange}
-                          autoComplete="cc-csc"
-                          maxLength={4}
-                          required
-                        />
-                      </label>
-                    </div>
-                    <label>
-                      Name on Card
-                      <input
-                        type="text"
-                        placeholder="Cardholder Full Name"
-                        value={cardDetails.cardName}
-                        onChange={(e) => setCardDetails((prev) => ({ ...prev, cardName: e.target.value }))}
-                        autoComplete="cc-name"
-                      />
-                    </label>
-                    <label className="checkout-checkbox-label">
-                      <input
-                        type="checkbox"
-                        checked={cardDetails.saveCard}
-                        onChange={(e) => setCardDetails((prev) => ({ ...prev, saveCard: e.target.checked }))}
-                      />
-                      <span>Save this card for future faster checkout</span>
-                    </label>
-                  </div>
-                )}
-
-                {/* UPI Credentials and Methods */}
-                {paymentMethod === "upi" && (
-                  <div className="payment-credentials-box">
-                    <div className="upi-app-options">
-                      {[
-                        { id: "gpay", name: "Google Pay" },
-                        { id: "phonepe", name: "PhonePe" },
-                        { id: "paytm", name: "Paytm" },
-                        { id: "bhim", name: "BHIM" },
-                        { id: "other", name: "Other UPI ID" },
-                      ].map((app) => (
-                        <button
-                          key={app.id}
-                          type="button"
-                          className={`upi-app-pill ${upiDetails.selectedApp === app.id ? "selected" : ""}`}
-                          onClick={() => handleSelectUpiApp(app.id)}
-                        >
-                          {app.name}
-                        </button>
-                      ))}
-                    </div>
-
-                    <label>
-                      UPI ID / VPA
-                      <input
-                        type="text"
-                        placeholder="e.g. mobile@upi or username@okhdfcbank"
-                        value={upiDetails.upiId}
-                        onChange={handleUpiChange}
-                        autoComplete="off"
-                        required={paymentMethod === "upi"}
-                      />
-                    </label>
-
-                    <div className="upi-handles-row">
-                      <span>Quick handles:</span>
-                      {["@okhdfcbank", "@okaxis", "@ybl", "@paytm"].map((handle) => (
-                        <button
-                          key={handle}
-                          type="button"
-                          className="upi-handle-btn"
-                          onClick={() => {
-                            const prefix = upiDetails.upiId.split("@")[0] || (form.phone || "user");
-                            setUpiDetails((prev) => ({ ...prev, upiId: `${prefix}${handle}` }));
-                          }}
-                        >
-                          {handle}
-                        </button>
-                      ))}
-                    </div>
-                    <p className="upi-verify-hint">
-                      A payment request will be sent to your {upiDetails.selectedApp === "other" ? "UPI" : upiDetails.selectedApp.toUpperCase()} app once you place the order.
-                    </p>
-                  </div>
-                )}
-
-                {/* Net Banking Bank Selector */}
-                {paymentMethod === "netbanking" && (
-                  <div className="payment-credentials-box">
-                    <label>
-                      Select Bank
-                      <select
-                        className="checkout-bank-select"
-                        value={netbankingBank}
-                        onChange={(e) => setNetbankingBank(e.target.value)}
-                      >
-                        <option value="HDFC">HDFC Bank</option>
-                        <option value="SBI">State Bank of India</option>
-                        <option value="ICICI">ICICI Bank</option>
-                        <option value="AXIS">Axis Bank</option>
-                        <option value="KOTAK">Kotak Mahindra Bank</option>
-                        <option value="PNB">Punjab National Bank</option>
-                      </select>
-                    </label>
-                    <p className="checkout-payment-note" style={{ marginTop: "10px" }}>
-                      You will be securely redirected to {netbankingBank} Bank to authorize the payment.
-                    </p>
-                  </div>
-                )}
-
-                {/* Wallet Selector */}
-                {paymentMethod === "wallet" && (
-                  <div className="payment-credentials-box">
-                    <div className="upi-app-options">
-                      {["PhonePe Wallet", "Paytm Wallet", "Amazon Pay", "Mobikwik"].map((w) => (
-                        <button
-                          key={w}
-                          type="button"
-                          className={`upi-app-pill ${selectedWallet === w ? "selected" : ""}`}
-                          onClick={() => setSelectedWallet(w)}
-                        >
-                          {w}
-                        </button>
-                      ))}
-                    </div>
-                    <p className="checkout-payment-note" style={{ marginTop: "10px" }}>
-                      Selected Wallet: <strong>{selectedWallet}</strong>. You will be prompted to authenticate your wallet.
-                    </p>
-                  </div>
-                )}
-
-                {/* Cash on Delivery Note */}
-                {paymentMethod === "cod" && (
-                  <p className="checkout-payment-note">
-                    Pay the order total using cash or scan the courier&apos;s UPI QR code when your delivery arrives.
-                  </p>
-                )}
+                <p className="checkout-payment-note">
+                  Online payments are not connected yet. Only cash on delivery is available; this checkout will not collect card or UPI details.
+                </p>
 
                 {error && <p className="checkout-error" role="alert">{error}</p>}
 

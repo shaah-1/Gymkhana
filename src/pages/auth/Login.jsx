@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../services/authService";
 import { loginSuccess, logout } from "../../redux/authSlice";
 import { adminLogin, adminLogout } from "../../admin/store/slices/adminAuthSlice";
-import { verifyAdminCredentials } from "../../admin/utils/adminCredentials";
 import { fetchCart } from "../../redux/cartSlice";
 import { fetchWishlist } from "../../redux/wishlistSlice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
@@ -40,13 +39,8 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    let trimmedEmail = email.trim().toLowerCase();
+    const trimmedEmail = email.trim().toLowerCase();
     const trimmedPassword = password.trim();
-
-    // Allow typing "admin" directly as a convenience alias
-    if (trimmedEmail === "admin") {
-      trimmedEmail = "admin@gmail.com";
-    }
 
     if (!trimmedEmail) {
       return setError("Please enter your email address.");
@@ -64,49 +58,13 @@ export default function Login() {
     setLoading(true);
 
     try {
-      let user = null;
-      let fetchError = null;
-
-      try {
-        user = await loginUser(trimmedEmail, trimmedPassword);
-      } catch (err) {
-        fetchError = err;
-      }
-
-      // Check admin credentials (either via saved admin hash / default credentials)
-      const isCredentialAdmin = await verifyAdminCredentials(
-        trimmedEmail,
-        trimmedPassword
-      );
-
-      // Synthesize user object if matched via admin credentials
-      if (!user && isCredentialAdmin) {
-        user = {
-          id: "admin-1",
-          name: "Admin",
-          email: trimmedEmail,
-          role: "admin",
-          isAdmin: true,
-        };
-      }
-
-      if (!user) {
-        if (fetchError && !fetchError.response) {
-          return setError(
-            "Cannot connect to the server. Please ensure JSON server is running on port 3000."
-          );
-        }
-        return setError("Invalid email or password.");
-      }
+      const user = await loginUser(trimmedEmail, trimmedPassword);
 
       if (user.blocked) {
-        return setError(
-          "Your account has been suspended. Please contact support."
-        );
+        return setError("Your account has been suspended. Please contact support.");
       }
 
-      const isUserAdmin =
-        user.role === "admin" || user.isAdmin === true || isCredentialAdmin;
+      const isUserAdmin = user.role === "admin";
 
       const safeUser = { ...user };
       delete safeUser.password;
@@ -167,11 +125,10 @@ export default function Login() {
         },
       });
     } catch (err) {
-      setError(
-        err.response
-          ? "Unable to log in. Please check your credentials and try again."
-          : "Login failed. Check server connection."
-      );
+      const message = err.message || "";
+      setError(message.includes("Invalid login credentials")
+        ? "Invalid email or password."
+        : message || "Unable to log in. Check your connection and try again.");
     } finally {
       setLoading(false);
     }

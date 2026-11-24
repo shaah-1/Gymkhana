@@ -7,7 +7,12 @@ import { logout, setUser as setReduxUser } from "../../redux/authSlice";
 import { addToCart } from "../../redux/cartSlice";
 import { toggleWishlist } from "../../redux/wishlistSlice";
 import { fetchProducts } from "../../redux/productSlice";
-import { getUserByEmail, getUserById, updateUserById } from "../../services/authService";
+import {
+  getUserById,
+  signOutUser,
+  updatePassword,
+  updateUserById,
+} from "../../services/authService";
 import { getOrdersByUserId } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
@@ -98,9 +103,14 @@ export default function Profile({ defaultTab }) {
     let active = true;
 
     getUserById(userId)
-      .then((data) => {
+      .then(async (data) => {
         if (!active) return;
         if (data.blocked) {
+          try {
+            await signOutUser();
+          } catch (signOutError) {
+            console.error("Could not sign out a blocked account:", signOutError);
+          }
           dispatch(logout());
           navigate("/login", {
             replace: true,
@@ -135,8 +145,14 @@ export default function Profile({ defaultTab }) {
     return () => { active = false; };
   }, [userId]);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    try {
+      await signOutUser();
+      dispatch(logout());
+    } catch (logoutError) {
+      setError(logoutError.message || "Unable to sign out. Please try again.");
+      return;
+    }
     navigate("/", { state: { message: "See you soon." }, replace: true });
   };
 
@@ -228,13 +244,6 @@ export default function Profile({ defaultTab }) {
     }
 
     try {
-      const matches = await getUserByEmail(email);
-      if (matches.some((match) => String(match.id) !== String(userId))) {
-        setProfileError("That email address is already used by another account.");
-        setProfileSaving(false);
-        return;
-      }
-
       const updated = await updateUserById(userId, {
         name: fullName,
         firstName: firstNameVal,
@@ -251,11 +260,18 @@ export default function Profile({ defaultTab }) {
       delete safe.password;
       setUser(safe);
       populateProfileForm(safe);
+      if (email !== user?.email) {
+        setProfileForm((current) => ({ ...current, email }));
+      }
       dispatch(setReduxUser(safe));
       setIsEditingProfile(false);
-      setProfileMessage("Profile details saved successfully.");
-    } catch {
-      setProfileError("Unable to save profile details. Check your connection and try again.");
+      setProfileMessage(
+        email !== user?.email
+          ? "Profile saved. Confirm the email change using the link sent to your new address."
+          : "Profile details saved successfully.",
+      );
+    } catch (updateError) {
+      setProfileError(updateError.message || "Unable to save profile details.");
     } finally {
       setProfileSaving(false);
     }
@@ -281,19 +297,12 @@ export default function Profile({ defaultTab }) {
 
     setPasswordSaving(true);
     try {
-      const freshUser = await getUserById(userId);
-      if (String(freshUser?.password || "") !== String(passwordForm.current)) {
-        setPasswordError("Current password is incorrect. Please check and try again.");
-        setPasswordSaving(false);
-        return;
-      }
-
-      await updateUserById(userId, { password: passwordForm.next });
+      await updatePassword(passwordForm.current, passwordForm.next);
       setPasswordMessage("Password updated successfully. Use your new password next time you sign in.");
       setPasswordForm({ current: "", next: "", confirm: "" });
       setIsChangingPassword(false);
-    } catch {
-      setPasswordError("Could not update password. Please check your connection and try again.");
+    } catch (passwordUpdateError) {
+      setPasswordError(passwordUpdateError.message || "Could not update password.");
     } finally {
       setPasswordSaving(false);
     }

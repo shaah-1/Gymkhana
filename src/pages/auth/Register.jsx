@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUserByEmail, registerUser } from "../../services/authService";
+import { registerUser } from "../../services/authService";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./Login.css";
 
@@ -58,29 +58,17 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const existing = await getUserByEmail(email);
-      if (existing.length > 0) {
-        return setError("An account with this email already exists.");
-      }
-
-      await registerUser({
-        name,
-        email,
-        password,
-        role: "customer",
-        blocked: false,
-      });
-
-      navigate("/login", {
+      const result = await registerUser({ name, email, password });
+      navigate(result.session ? "/" : "/login", {
         state: {
-          message: "Account created successfully! Please sign in.",
+          message: result.session
+            ? "Account created successfully."
+            : "Account created. Check your email to confirm your account, then sign in.",
           registeredEmail: email,
         },
       });
-    } catch {
-      setError(
-        "Registration failed. Please check whether JSON server is running on port 3000."
-      );
+    } catch (err) {
+      setError(err.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }

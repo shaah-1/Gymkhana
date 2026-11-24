@@ -36,14 +36,7 @@ export const toggleWishlist = createAsyncThunk(
       );
 
       if (existing) {
-        try {
-          await deleteWishlistItem(existing.id);
-        } catch (delErr) {
-          // If already removed on server (404), gracefully continue and update local state
-          if (delErr.response?.status !== 404) {
-            console.warn("Wishlist item removal issue:", delErr);
-          }
-        }
+        await deleteWishlistItem(existing.id);
         return { id: existing.id, productId: prodId, removed: true };
       }
 

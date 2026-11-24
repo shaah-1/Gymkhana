@@ -1,14 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { sendPasswordReset } from "../../services/authService";
 import "./ForgotPassword.css";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("Password reset functionality will be connected soon.");
+    setError("");
+    setMessage("");
+    setLoading(true);
+    try {
+      await sendPasswordReset(email);
+      setMessage("If an account exists for that email, a password reset link has been sent.");
+    } catch (err) {
+      setError(err.message || "Could not send the password reset email.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -29,7 +42,8 @@ export default function ForgotPassword() {
         />
 
         {message && <p role="status">{message}</p>}
-        <button type="submit">Continue →</button>
+        {error && <p role="alert">{error}</p>}
+        <button type="submit" disabled={loading}>{loading ? "Sending..." : "Continue →"}</button>
         <Link to="/login">← Back to login</Link>
       </form>
     </main>

@@ -2,11 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Camera, KeyRound, Save, ShieldCheck, UserRound } from "lucide-react";
 import { updateAdminProfile } from "../store/slices/adminAuthSlice";
-import {
-  saveAdminCredentials,
-  verifyAdminPassword,
-} from "../utils/adminCredentials";
 import { saveAdminUser } from "../services/userService";
+import { updatePassword } from "../../services/authService";
 import "./AdminProfile.css";
 
 function AdminProfile() {
@@ -64,24 +61,21 @@ function AdminProfile() {
     setIsSavingProfile(true);
     try {
       const normalizedEmail = profile.email.trim().toLowerCase();
-      await saveAdminCredentials({ email: normalizedEmail });
-      dispatch(updateAdminProfile({ ...profile, email: normalizedEmail }));
-      setProfile((current) => ({ ...current, email: normalizedEmail }));
-      try {
-        await saveAdminUser({
-          name: profile.name,
-          email: normalizedEmail,
-          phone: profile.phone,
-          photo: profile.photo,
-        });
-      } catch {
-        // Backend offline; credentials are safe in localStorage
-      }
-      setProfileMessage("Profile details saved.");
-    } catch {
-      setProfileError(
-        "Could not save your profile. Check browser storage and try again.",
+      const saved = await saveAdminUser({
+        name: profile.name,
+        email: normalizedEmail,
+        phone: profile.phone,
+        photo: profile.photo,
+      });
+      dispatch(updateAdminProfile({ ...saved, email: normalizedEmail }));
+      setProfile((current) => ({ ...current, ...saved, email: normalizedEmail }));
+      setProfileMessage(
+        normalizedEmail !== admin?.email
+          ? "Profile saved. Confirm the email change using the link sent to your new address."
+          : "Profile details saved.",
       );
+    } catch (error) {
+      setProfileError(error.message || "Could not save your profile.");
     } finally {
       setIsSavingProfile(false);
     }
@@ -103,34 +97,13 @@ function AdminProfile() {
 
     setIsSavingPassword(true);
     try {
-      if (!(await verifyAdminPassword(passwordForm.current))) {
-        setPasswordError(
-          "Current password is incorrect. Please check and try again.",
-        );
-        return;
-      }
-      const normalizedEmail = profile.email.trim().toLowerCase();
-      await saveAdminCredentials({
-        email: normalizedEmail,
-        password: passwordForm.next,
-      });
-      dispatch(updateAdminProfile({ ...profile, email: normalizedEmail }));
-      try {
-        await saveAdminUser({
-          email: normalizedEmail,
-          password: passwordForm.next,
-        });
-      } catch {
-        // Backend offline; credentials are safe in localStorage
-      }
+      await updatePassword(passwordForm.current, passwordForm.next);
       setPasswordForm({ current: "", next: "", confirm: "" });
       setProfileMessage("");
-      setPasswordMessage(
-        "Password updated. Use the new password next time you sign in.",
-      );
+      setPasswordMessage("Password updated successfully.");
       setIsChangingPassword(false);
-    } catch {
-      setPasswordError("Could not update your password in this browser.");
+    } catch (error) {
+      setPasswordError(error.message || "Could not update your password.");
     } finally {
       setIsSavingPassword(false);
     }

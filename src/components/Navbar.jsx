@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Heart, Menu, ShoppingBag, User, X } from "lucide-react";
 import { logout } from "../redux/authSlice";
 import { adminLogout } from "../admin/store/slices/adminAuthSlice";
+import { signOutUser } from "../services/authService";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -101,7 +102,13 @@ export default function Navbar() {
     };
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOutUser();
+    } catch (error) {
+      console.error("Could not sign out:", error);
+      return;
+    }
     dispatch(logout());
     dispatch(adminLogout());
     navigate("/", { state: { message: "See you soon." }, replace: true });

@@ -14,10 +14,16 @@ import Toast from "./components/Toast";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminProtectedRoute from "./admin/routes/AdminProtectedRoute";
 
-import { logout } from "./redux/authSlice";
+import { authInitialized, loginSuccess, logout } from "./redux/authSlice";
 import { fetchCart } from "./redux/cartSlice";
 import { fetchWishlist } from "./redux/wishlistSlice";
-import api from "./services/api";
+import { adminLogin, adminLogout } from "./admin/store/slices/adminAuthSlice";
+import {
+  getCurrentProfile,
+  getUserById,
+  signOutUser,
+} from "./services/authService";
+import { isSupabaseConfigured, supabase } from "./services/supabase";
 
 import Home from "./pages/shop/Home";
 import Shop from "./pages/shop/Shop";
@@ -29,6 +35,7 @@ import Profile from "./pages/account/Profile";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import UpdatePassword from "./pages/auth/UpdatePassword";
 import Contact from "./pages/contact/Contact";
 import About from "./pages/about/About";
 
@@ -52,10 +59,101 @@ export default function App() {
 
   const userId = useSelector((state) => state.auth.userId);
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const isAuthPage =
-    location.pathname === "/login" || location.pathname === "/register";
+  const isAuthPage = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/update-password",
+  ].includes(location.pathname);
 
   const toastMessage = location.state?.message || "";
+
+  useEffect(() => {
+    let active = true;
+    let sessionVersion = 0;
+
+    const clearSession = () => {
+      sessionVersion += 1;
+      dispatch(logout());
+      dispatch(adminLogout());
+      dispatch(authInitialized());
+    };
+
+    const restoreSession = async (session) => {
+      const version = ++sessionVersion;
+      if (!session) {
+        clearSession();
+        return;
+      }
+
+      try {
+        const profile = await getCurrentProfile(session.user.id);
+        if (!active || version !== sessionVersion) return;
+        if (profile.blocked) {
+          await signOutUser();
+          clearSession();
+          navigate("/login", {
+            replace: true,
+            state: {
+              error: "Your account has been suspended by an administrator.",
+              message: "Your account has been suspended by an administrator.",
+            },
+          });
+          return;
+        }
+
+        dispatch(logout());
+        dispatch(adminLogout());
+        if (profile.role === "admin") {
+          dispatch(adminLogin({ ...profile, email: session.user.email }));
+        } else {
+          dispatch(loginSuccess({ ...profile, email: session.user.email }));
+        }
+        dispatch(authInitialized());
+      } catch (error) {
+        console.error("Could not restore the signed-in profile:", error);
+        if (active && version === sessionVersion) clearSession();
+      }
+    };
+
+    if (!isSupabaseConfigured || !supabase) {
+      clearSession();
+      return () => {
+        active = false;
+      };
+    }
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        clearSession();
+        return;
+      }
+      if (event !== "INITIAL_SESSION") {
+        queueMicrotask(() => {
+          if (active) void restoreSession(session);
+        });
+      }
+    });
+
+    supabase.auth
+      .getSession()
+      .then(({ data, error }) => {
+        if (error) throw error;
+        if (active) return restoreSession(data.session);
+        return undefined;
+      })
+      .catch((error) => {
+        console.error("Could not check the Supabase session:", error);
+        if (active) clearSession();
+      });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, [dispatch, navigate]);
 
   // Remove storefront navbar top-padding from body when in admin panel
   useEffect(() => {
@@ -94,11 +192,16 @@ export default function App() {
 
     const verifyCustomerAccess = async () => {
       try {
-        const res = await api.get(`/users/${encodeURIComponent(userId)}`);
+        const freshUser = await getUserById(userId);
         if (!isMounted) return;
-        const freshUser = res.data;
         if (freshUser?.blocked) {
+          try {
+            await signOutUser();
+          } catch (signOutError) {
+            console.error("Could not sign out a blocked account:", signOutError);
+          }
           dispatch(logout());
+          dispatch(adminLogout());
           navigate("/login", {
             replace: true,
             state: {
@@ -109,9 +212,14 @@ export default function App() {
         }
       } catch (err) {
         if (!isMounted) return;
-        // If account was deleted by admin (404), exit immediately
-        if (err.response?.status === 404) {
+        if (err.code === "PGRST116") {
+          try {
+            await signOutUser();
+          } catch (signOutError) {
+            console.error("Could not sign out a missing account:", signOutError);
+          }
           dispatch(logout());
+          dispatch(adminLogout());
           navigate("/login", {
             replace: true,
             state: {
@@ -119,6 +227,8 @@ export default function App() {
               message: "Account session expired. Please sign in again.",
             },
           });
+        } else {
+          console.error("Could not verify account access:", err);
         }
       }
     };
@@ -181,6 +291,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
           <Route path="/Categories" element={<Categories/>}/>
 
           <Route

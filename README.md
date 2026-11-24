@@ -4,7 +4,7 @@
 
 The application features a customer-facing storefront and a dedicated admin dashboard for managing products, users, and orders.
 
-Built with React, Redux Toolkit, and JSON Server, the project focuses on responsive UI, centralized state management, API integration, and practical ecommerce functionality.
+Built with React, Redux Toolkit, and Supabase, the project focuses on responsive UI, centralized state management, secure authentication, and practical ecommerce functionality.
 
 ---
 
@@ -37,7 +37,7 @@ GYMKHANA provides two separate experiences:
 
 ### Admin Dashboard
 
-- Separate admin authentication
+- Role-protected administrator access
 - Protected admin routes
 - Dashboard overview
 - Product management (Create, Read, Update, Delete)
@@ -60,8 +60,7 @@ GYMKHANA provides two separate experiences:
 | Redux Toolkit | Centralized state management |
 | React Redux | Connecting React with Redux |
 | React Router | Client-side routing |
-| Axios | API communication |
-| JSON Server | REST API and data storage |
+| Supabase | Database, authentication, and row-level access control |
 | Lucide React | Icons |
 | CSS3 | Styling and responsive layouts |
 
@@ -83,10 +82,10 @@ The project follows a component-based architecture with centralized state manage
 - Async Thunks
 - Centralized application state
 
-**API Layer**
-- Axios services
-- JSON Server
-- REST API operations
+**Data Layer**
+- Supabase Auth
+- PostgreSQL tables protected by row-level security
+- Transactional order and inventory operations
 
 ---
 
@@ -112,21 +111,40 @@ cd Gymkhana
 npm install
 ```
 
-### 4. Start the JSON Server
+### 4. Create and configure Supabase
 
-Open a terminal and run:
+1. Create a Supabase project.
+2. In the Supabase SQL Editor, run [`supabase/schema.sql`](./supabase/schema.sql).
+3. Copy `.env.example` to `.env.local` and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`.
+4. Import the existing product catalog using the one-time instructions below.
+5. In Supabase Authentication settings, configure the site URL and redirect URLs for your local Vite URL and deployed Vercel URL.
+6. Create an account through the app. In the SQL Editor, promote that account to admin:
+
+   ```sql
+   update public.profiles
+   set role = 'admin'
+   where email = 'your-admin-email@example.com';
+   ```
+
+   Do not add a service-role key to the frontend or to a `VITE_` variable.
+
+### 5. Import existing products once
+
+Run this locally with the Supabase project URL and **service-role key** set only in your terminal environment. The hidden `read` keeps the key out of the command history; never commit or publish it:
 
 ```bash
-npm run server
+export SUPABASE_URL="https://your-project.supabase.co"
+printf "Paste the Supabase service-role key: "
+read -s SUPABASE_SERVICE_ROLE_KEY
+printf "\n"
+export SUPABASE_SERVICE_ROLE_KEY
+npm run import:products
+unset SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY
 ```
 
-The API server will run at:
+This upserts products from `db.json` by product ID. It does not migrate accounts, passwords, carts, or orders. Customers must create new Supabase Auth accounts; existing order history stays in the old local JSON file. Do not copy that file wholesale because it contains account and order information.
 
-```text
-http://localhost:3000
-```
-
-### 5. Start the development server
+### 6. Start the development server
 
 Open another terminal in the project directory:
 
@@ -147,24 +165,16 @@ http://localhost:5173
 | Command | Description |
 |---|---|
 | `npm run dev` | Start development server |
-| `npm run server` | Start JSON Server |
+| `npm run import:products` | Import the existing catalog into Supabase (one time) |
 | `npm run build` | Create production build |
 | `npm run preview` | Preview production build |
 | `npm run lint` | Run ESLint |
 
 ---
 
-## API Resources
+## Deployment
 
-The application uses JSON Server to provide REST API functionality.
-
-Main resources include:
-
-- `/products`
-- `/users`
-- `/orders`
-
-Additional resources used by the application include cart and wishlist data.
+Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to the Vercel project's Environment Variables for each deployment environment, then redeploy. The publishable key is intended for browser use; database access is controlled by the policies in `supabase/schema.sql`.
 
 ---
 
@@ -189,24 +199,21 @@ Through this project, I explored and implemented:
 
 - Component-based architecture using React
 - Centralized state management with Redux Toolkit
-- REST API integration using Axios
+- Supabase PostgreSQL queries and row-level security
 - Authentication and protected routing
 - CRUD operations
 - Ecommerce cart and wishlist functionality
 - User and admin role separation
 - Responsive UI development
-- Frontend and API integration
+- Frontend and Supabase integration
 
 ---
 
 ## Future Improvements
 
 - Online payment gateway integration
-- Advanced sales analytics
 - Enhanced inventory reporting
 - Email notifications
-- Improved authentication security
-- Production backend integration
 
 ---
 

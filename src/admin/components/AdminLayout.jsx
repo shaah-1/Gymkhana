@@ -2,13 +2,20 @@ import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { adminLogout } from "../store/slices/adminAuthSlice";
 import { logout } from "../../redux/authSlice";
+import { signOutUser } from "../../services/authService";
 import "../admin.css";
 
 function AdminLayout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOutUser();
+    } catch (error) {
+      console.error("Could not sign out:", error);
+      return;
+    }
     dispatch(adminLogout());
     dispatch(logout());
     navigate("/login", { replace: true, state: { message: "See you soon." } });

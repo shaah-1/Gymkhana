@@ -7,7 +7,7 @@ import ProductCard from "../../components/ProductCard";
 import { AboutSection } from "../about/About";
 import StudioContact from "../../components/StudioContact";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import api from "../../services/api";
+import { getProductSales } from "../../services/productService";
 import "./Home.css";
 
 const FEATURED_CATEGORIES = [
@@ -46,7 +46,8 @@ export default function Home() {
   const { items, loading, error } = useSelector((s) => s.products);
 
   // Real store orders to determine actual most selling products
-  const [orders, setOrders] = useState([]);
+  const [sales, setSales] = useState([]);
+  const [salesError, setSalesError] = useState("");
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -54,14 +55,15 @@ export default function Home() {
 
   useEffect(() => {
     let isMounted = true;
-    api
-      .get("/orders")
-      .then((res) => {
-        if (isMounted && Array.isArray(res.data)) {
-          setOrders(res.data);
-        }
+    getProductSales()
+      .then((result) => {
+        if (isMounted) setSales(Array.isArray(result) ? result : []);
       })
-      .catch(() => {});
+      .catch((requestError) => {
+        if (isMounted) {
+          setSalesError(requestError.message || "Unable to load sales data.");
+        }
+      });
     return () => {
       isMounted = false;
     };
@@ -71,18 +73,11 @@ export default function Home() {
   const bestSellers = useMemo(() => {
     if (!items || !items.length) return [];
 
-    // Calculate total units sold per product ID from all recorded orders
     const salesMap = {};
-    (orders || []).forEach((order) => {
-      (order.items || []).forEach((it) => {
-        const pid = String(it.productId || it.id || "");
-        if (pid) {
-          salesMap[pid] = (salesMap[pid] || 0) + Number(it.quantity || 1);
-        }
-      });
+    sales.forEach(({ product_id, sold }) => {
+      if (product_id) salesMap[String(product_id)] = Number(sold) || 0;
     });
 
-    // Sort products by sales volume descending (most sold first)
     const sorted = [...items].sort((a, b) => {
       const soldA = salesMap[String(a.id)] || 0;
       const soldB = salesMap[String(b.id)] || 0;
@@ -97,7 +92,7 @@ export default function Home() {
     });
 
     return sorted.slice(0, 4);
-  }, [items, orders]);
+  }, [items, sales]);
 
   return (
     <main className="home-container">
@@ -198,6 +193,7 @@ export default function Home() {
 
         {loading && <p className="home-status-msg">Loading best seller formulations...</p>}
         {error && <p className="home-status-msg error">{error}</p>}
+        {salesError && <p className="home-status-msg error">{salesError}</p>}
 
         {!loading && !error && (
           <div className="product-grid">

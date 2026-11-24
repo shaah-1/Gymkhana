@@ -211,7 +211,7 @@ export default function Shop() {
 
         {error && (
           <div className="shop-state-box error">
-            <p>{error.message || "Unable to load products"}. Please ensure JSON Server is active.</p>
+            <p>{error.message || "Unable to load products"}. Check the Supabase project configuration and database setup.</p>
             <button type="button" className="shop-retry-btn" onClick={() => refetch()}>
               Retry
             </button>

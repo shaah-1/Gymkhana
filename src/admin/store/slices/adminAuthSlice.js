@@ -1,56 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { storage as localStorage } from "../../../utils/storage";
 
-const loadSavedAdmin = () => {
-  try {
-    const saved = localStorage.getItem("admin");
-    return saved ? JSON.parse(saved) : null;
-  } catch {
-    return null;
-  }
-};
-
-const loadSavedProfile = () => {
-  try {
-    const saved = localStorage.getItem("adminProfile");
-    return saved ? JSON.parse(saved) : null;
-  } catch {
-    return null;
-  }
-};
-
-const savedAdmin = loadSavedAdmin();
-
 const adminAuthSlice = createSlice({
   name: "adminAuth",
   initialState: {
-    admin: savedAdmin,
-    isAuthenticated: Boolean(savedAdmin),
+    admin: null,
+    isAuthenticated: false,
   },
   reducers: {
     adminLogin: (state, action) => {
-      const { email, ...rest } = action.payload || {};
-
-      const profile = loadSavedProfile() || {};
-      const admin = { ...profile, ...rest, email: (email || profile.email || "admin@gymkhana.com").trim().toLowerCase() };
-      state.admin = admin;
-      state.isAuthenticated = true;
-      localStorage.setItem("admin", JSON.stringify(admin));
+      state.admin = action.payload || null;
+      state.isAuthenticated = Boolean(action.payload?.role === "admin");
     },
-
     updateAdminProfile: (state, action) => {
       state.admin = { ...state.admin, ...action.payload };
-      localStorage.setItem("adminProfile", JSON.stringify(state.admin));
-      localStorage.setItem("admin", JSON.stringify(state.admin));
     },
-
     adminLogout: (state) => {
       state.admin = null;
       state.isAuthenticated = false;
       localStorage.removeItem("admin");
+      localStorage.removeItem("adminProfile");
+      localStorage.removeItem("adminCredentials");
     },
   },
 });
 
-export const { adminLogin, adminLogout, updateAdminProfile } = adminAuthSlice.actions;
+export const { adminLogin, adminLogout, updateAdminProfile } =
+  adminAuthSlice.actions;
 export default adminAuthSlice.reducer;

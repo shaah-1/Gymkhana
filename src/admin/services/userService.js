@@ -1,26 +1,56 @@
-import api from "../../services/api";
+import { getSupabaseClient } from "../../services/supabase";
+import { mapProfile, toProfileRow } from "../../services/supabaseMappers";
 
-export const getUsers = () =>
-  api.get("/users").then((r) => (Array.isArray(r.data) ? r.data : []));
+export async function getUsers() {
+  const { data, error } = await getSupabaseClient()
+    .from("profiles")
+    .select("*")
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return data.map(mapProfile);
+}
 
-export const updateUser = (id, changes) =>
-  api.patch(`/users/${encodeURIComponent(id)}`, changes).then((r) => r.data);
+export async function updateUser(id, changes) {
+  const { data, error } = await getSupabaseClient()
+    .from("profiles")
+    .update(toProfileRow(changes))
+    .eq("id", String(id))
+    .select("*")
+    .single();
+  if (error) throw error;
+  return mapProfile(data);
+}
 
-export const saveAdminUser = async (changes) => {
-  try {
-    return await api.patch("/users/admin-1", changes).then((r) => r.data);
-  } catch (err) {
-    if (err.response?.status === 404) {
-      return await api
-        .post("/users", {
-          id: "admin-1",
-          name: "Admin",
-          role: "admin",
-          isAdmin: true,
-          ...changes,
-        })
-        .then((r) => r.data);
-    }
-    throw err;
+export async function saveAdminUser(changes) {
+  const client = getSupabaseClient();
+  const { data: authData, error: authError } = await client.auth.getUser();
+  if (authError) throw authError;
+  if (!authData.user) throw new Error("Sign in again before updating your profile.");
+
+  const { email, ...profileChanges } = changes;
+  let emailChangeRequested = false;
+  if (email && email.trim().toLowerCase() !== authData.user.email?.toLowerCase()) {
+    const { error } = await client.auth.updateUser({
+      email: email.trim().toLowerCase(),
+    });
+    if (error) throw error;
+    emailChangeRequested = true;
   }
-};
+  if (Object.keys(profileChanges).length > 0) {
+    const { error } = await client
+      .from("profiles")
+      .update(toProfileRow(profileChanges))
+      .eq("id", authData.user.id);
+    if (error) throw error;
+  }
+  const { data, error } = await client
+    .from("profiles")
+    .select("*")
+    .eq("id", authData.user.id)
+    .single();
+  if (error) throw error;
+  return {
+    ...mapProfile(data),
+    ...(emailChangeRequested ? { pendingEmail: email.trim().toLowerCase() } : {}),
+  };
+}
