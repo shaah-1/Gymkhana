@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -18,7 +19,14 @@ export default function Cart() {
   const loading = useSelector((s) => s.cart.loading);
   const loaded = useSelector((s) => s.cart.loaded);
   const error = useSelector((s) => s.cart.error);
+  const isAuthenticated = useSelector((s) => s.auth.isAuthenticated);
   const subtotal = items.reduce((sum, i) => sum + Number(i.price) * i.quantity, 0);
+
+  useEffect(() => {
+    if (isAuthenticated && !loading && !loaded) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, isAuthenticated, loaded, loading]);
 
   if (loading || !loaded) {
     return (

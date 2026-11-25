@@ -31,7 +31,7 @@ export default function Checkout() {
   const cartLoading = useSelector((s) => s.cart.loading);
   const cartLoaded = useSelector((s) => s.cart.loaded);
   const cartError = useSelector((s) => s.cart.error);
-  const cartUserId = useSelector((s) => s.auth.userId);
+  const isAuthenticated = useSelector((s) => s.auth.isAuthenticated);
   const authUser = useSelector((s) => s.auth.user);
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -51,10 +51,10 @@ export default function Checkout() {
   const [emailCheck, setEmailCheck] = useState({ status: "idle", message: "" });
 
   useEffect(() => {
-    if (cartUserId && !cartLoaded && !cartLoading) {
-      dispatch(fetchCart(cartUserId));
+    if (isAuthenticated && !cartLoaded && !cartLoading) {
+      dispatch(fetchCart());
     }
-  }, [cartLoaded, cartLoading, cartUserId, dispatch]);
+  }, [cartLoaded, cartLoading, dispatch, isAuthenticated]);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
