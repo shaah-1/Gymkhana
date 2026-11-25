@@ -16,13 +16,7 @@ export default function Navbar() {
 
   const authUser = useSelector((s) => s.auth.user);
   const isAuth = useSelector(
-    (s) =>
-      Boolean(
-        s.auth.isAuthenticated &&
-          s.auth.user &&
-          s.auth.user.role !== "admin" &&
-          !s.auth.user.isAdmin
-      )
+    (s) => Boolean(s.auth.isAuthenticated && s.auth.user)
   );
   const cartCount = useSelector((s) => s.cart.items.reduce((t, i) => t + Number(i.quantity || 0), 0));
   const wishlistCount = useSelector((s) => (s.wishlist?.items || []).length);
@@ -238,6 +232,7 @@ export default function Navbar() {
                   <p className="profile-title">My Account</p>
                   <Link to="/profile">Profile & Settings</Link>
                   <Link to="/orders">My Orders</Link>
+                  {authUser?.role === "admin" && <Link to="/admin">Store Admin</Link>}
                   <button type="button" onClick={handleLogout}>Logout</button>
                 </div>
               )}

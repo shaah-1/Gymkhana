@@ -105,7 +105,9 @@ export default function App() {
         dispatch(logout());
         dispatch(adminLogout());
         if (profile.role === "admin") {
-          dispatch(adminLogin({ ...profile, email: session.user.email }));
+          const admin = { ...profile, email: session.user.email };
+          dispatch(loginSuccess(admin));
+          dispatch(adminLogin(admin));
         } else {
           dispatch(loginSuccess({ ...profile, email: session.user.email }));
         }

@@ -4,7 +4,7 @@ import { storage as localStorage } from "../../utils/storage";
 import { Link, useNavigate } from "react-router-dom";
 import { Banknote } from "lucide-react";
 
-import { clearCart } from "../../redux/cartSlice";
+import { clearCart, fetchCart } from "../../redux/cartSlice";
 import { logout } from "../../redux/authSlice";
 import { getUserById, signOutUser } from "../../services/authService";
 import { getProductById } from "../../services/productService";
@@ -28,6 +28,10 @@ export default function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const items = useSelector((s) => s.cart.items);
+  const cartLoading = useSelector((s) => s.cart.loading);
+  const cartLoaded = useSelector((s) => s.cart.loaded);
+  const cartError = useSelector((s) => s.cart.error);
+  const cartUserId = useSelector((s) => s.auth.userId);
   const authUser = useSelector((s) => s.auth.user);
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -45,6 +49,12 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [emailCheck, setEmailCheck] = useState({ status: "idle", message: "" });
+
+  useEffect(() => {
+    if (cartUserId && !cartLoaded && !cartLoading) {
+      dispatch(fetchCart(cartUserId));
+    }
+  }, [cartLoaded, cartLoading, cartUserId, dispatch]);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -251,6 +261,24 @@ export default function Checkout() {
         <p>Thank you for shopping with GYMKHANA Nutrition.</p>
         <p>Order ID: {orderId}</p>
         <button type="button" onClick={() => navigate("/")}>Continue Shopping</button>
+      </div>
+    );
+  }
+
+  if (cartLoading || !cartLoaded) {
+    return (
+      <div className="checkout-empty" role="status">
+        <h2>Loading your cart…</h2>
+      </div>
+    );
+  }
+
+  if (cartError && items.length === 0) {
+    return (
+      <div className="checkout-empty">
+        <h2>Your cart couldn’t be loaded</h2>
+        <p className="checkout-error" role="alert">{cartError}</p>
+        <button type="button" onClick={() => dispatch(fetchCart())}>Try Again</button>
       </div>
     );
   }

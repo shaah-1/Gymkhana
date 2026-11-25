@@ -716,6 +716,13 @@ img {
   cursor: not-allowed;
 }
 
+.details-cart-error {
+  margin: 10px 0 0;
+  color: #b91c1c;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .details-added-message {
   display: flex;
   align-items: center;

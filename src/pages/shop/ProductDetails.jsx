@@ -21,6 +21,8 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [cartError, setCartError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [popupKey, setPopupKey] = useState(0);
 
@@ -48,13 +50,25 @@ export default function ProductDetails() {
   const stock = Math.max(0, Number(product.stock) || 0);
   const remaining = Math.max(0, stock - alreadyInCart);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (quantity < 1 || quantity > remaining) return;
     if (!isAuth) return navigate("/login", { state: { from: location } });
 
-    dispatch(addToCart({ ...product, quantity }));
-    setPopupKey((k) => k + 1);
-    setShowPopup(true);
+    setAddingToCart(true);
+    setCartError("");
+    try {
+      await dispatch(addToCart({ ...product, quantity })).unwrap();
+      setPopupKey((k) => k + 1);
+      setShowPopup(true);
+    } catch (error) {
+      setCartError(
+        typeof error === "string"
+          ? error
+          : error?.message || "Unable to add this product to your cart.",
+      );
+    } finally {
+      setAddingToCart(false);
+    }
   };
 
   return (
@@ -108,10 +122,12 @@ export default function ProductDetails() {
               <button type="button" aria-label="Increase quantity" onClick={() => setQuantity((q) => Math.min(remaining, q + 1))} disabled={quantity >= remaining}>+</button>
             </div>
 
-            <button type="button" className="add-to-cart-btn details-add-btn" onClick={handleAddToCart} disabled={remaining <= 0 || quantity > remaining}>
-              {remaining <= 0 ? "Out of Stock" : "Add to Cart"}
+            <button type="button" className="add-to-cart-btn details-add-btn" onClick={handleAddToCart} disabled={remaining <= 0 || quantity > remaining || addingToCart}>
+              {addingToCart ? "Adding…" : remaining <= 0 ? "Out of Stock" : "Add to Cart"}
             </button>
           </div>
+
+          {cartError && <p className="details-cart-error" role="alert">{cartError}</p>}
 
           {showPopup &&
             createPortal(

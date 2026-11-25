@@ -256,6 +256,13 @@
   margin: 0 0 8px 0;
 }
 
+.product-card-cart-error {
+  margin: 8px 0 0;
+  color: #b91c1c;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
   .product-card-title { font-size: 15.5px; }

@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Camera, Eye, EyeOff } from "lucide-react";
 
 import { logout, setUser as setReduxUser } from "../../redux/authSlice";
+import { adminLogout } from "../../admin/store/slices/adminAuthSlice";
 import { addToCart } from "../../redux/cartSlice";
 import { toggleWishlist } from "../../redux/wishlistSlice";
 import { fetchProducts } from "../../redux/productSlice";
@@ -149,6 +150,7 @@ export default function Profile({ defaultTab }) {
     try {
       await signOutUser();
       dispatch(logout());
+      dispatch(adminLogout());
     } catch (logoutError) {
       setError(logoutError.message || "Unable to sign out. Please try again.");
       return;

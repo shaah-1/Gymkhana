@@ -126,6 +126,7 @@ npm install
    where email = 'your-admin-email@example.com';
    ```
 
+   The same account can use both the storefront and admin dashboard. Sign out and back in after changing its role.
    Do not add a service-role key to the frontend or to a `VITE_` variable.
 
 ### 5. Import existing products once

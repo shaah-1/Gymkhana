@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../../services/authService";
-import { loginSuccess, logout } from "../../redux/authSlice";
+import { loginSuccess } from "../../redux/authSlice";
 import { adminLogin, adminLogout } from "../../admin/store/slices/adminAuthSlice";
 import { fetchCart } from "../../redux/cartSlice";
 import { fetchWishlist } from "../../redux/wishlistSlice";
@@ -69,29 +69,23 @@ export default function Login() {
       const safeUser = { ...user };
       delete safeUser.password;
 
-      // Admin and customer sessions are strictly separated:
-      // If user has admin rights, log into admin session only and clear customer session.
-      // If regular customer, log into customer session and clear admin session.
+      dispatch(loginSuccess(safeUser));
       if (isUserAdmin) {
         dispatch(adminLogin({ email: trimmedEmail, ...safeUser }));
-        dispatch(logout());
       } else {
-        dispatch(loginSuccess(safeUser));
         dispatch(adminLogout());
+      }
 
-        if (safeUser.id) {
-          dispatch(fetchCart(safeUser.id));
-          dispatch(fetchWishlist(safeUser.id));
-        }
+      if (safeUser.id) {
+        dispatch(fetchCart(safeUser.id));
+        dispatch(fetchWishlist(safeUser.id));
       }
 
       const dest = location.state?.from;
       let next;
 
       if (isUserAdmin) {
-        // Administrators MUST always land in the admin dashboard.
-        // If specifically navigating to an admin sub-path (e.g. /admin/orders or /admin/products), restore it.
-        // NEVER route an admin to customer protected routes like /cart or /checkout, which would bounce back to /login.
+        // Administrators land in the dashboard unless they requested an admin sub-path.
         if (dest?.pathname?.startsWith("/admin")) {
           next = {
             pathname: dest.pathname,

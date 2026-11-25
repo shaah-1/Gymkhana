@@ -158,6 +158,8 @@ export default function ProductCard({
 
   const [showPopup, setShowPopup] = useState(false);
   const [popupKey, setPopupKey] = useState(0);
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [cartError, setCartError] = useState("");
 
   const availableSizes = useMemo(() => getProductSizes(product), [product]);
   const [selectedSizeState, setSelectedSizeState] = useState(null);
@@ -208,15 +210,27 @@ export default function ProductCard({
     dispatch(toggleWishlist(product));
   };
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.stopPropagation();
     if (availableToAdd <= 0) return;
     if (!isAuth) return navigate("/login", { state: { from: location } });
-    dispatch(
-      addToCart({ ...product, size: selectedSize, price: currentPrice }),
-    );
-    setPopupKey((k) => k + 1);
-    setShowPopup(true);
+    setAddingToCart(true);
+    setCartError("");
+    try {
+      await dispatch(
+        addToCart({ ...product, size: selectedSize, price: currentPrice }),
+      ).unwrap();
+      setPopupKey((k) => k + 1);
+      setShowPopup(true);
+    } catch (error) {
+      setCartError(
+        typeof error === "string"
+          ? error
+          : error?.message || "Unable to add this product to your cart.",
+      );
+    } finally {
+      setAddingToCart(false);
+    }
   };
 
   const subtitleText = getProductSubtitle(product);
@@ -277,9 +291,11 @@ export default function ProductCard({
               type="button"
               className="product-card-hover-add-btn"
               onClick={handleAddToCart}
-              disabled={availableToAdd <= 0}
+              disabled={availableToAdd <= 0 || addingToCart}
             >
-              {stock === 0
+              {addingToCart
+                ? "Adding…"
+                : stock === 0
                 ? "Out of stock"
                 : availableToAdd === 0
                   ? "Stock limit reached"
@@ -364,9 +380,11 @@ export default function ProductCard({
             type="button"
             className="product-card-add-btn"
             onClick={handleAddToCart}
-            disabled={availableToAdd <= 0}
+            disabled={availableToAdd <= 0 || addingToCart}
           >
-            {stock === 0
+            {addingToCart
+              ? "Adding…"
+              : stock === 0
               ? "Out of stock"
               : availableToAdd === 0
                 ? "Stock limit reached"
@@ -374,6 +392,8 @@ export default function ProductCard({
           </button>
         </div>
       )}
+
+      {cartError && <p className="product-card-cart-error" role="alert">{cartError}</p>}
 
       {/* Cart Added Toast */}
       {showPopup &&

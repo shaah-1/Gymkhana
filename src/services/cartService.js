@@ -1,12 +1,14 @@
 import { getSupabaseClient } from "./supabase";
 import { mapCartItem } from "./supabaseMappers";
 
-export async function getCart(userId) {
-  const { data, error } = await getSupabaseClient()
+export async function getCart(userId, signal) {
+  let query = getSupabaseClient()
     .from("carts")
     .select("*")
     .eq("user_id", String(userId))
     .order("created_at", { ascending: true });
+  if (signal) query = query.abortSignal(signal);
+  const { data, error } = await query;
   if (error) throw error;
   return data.map(mapCartItem);
 }

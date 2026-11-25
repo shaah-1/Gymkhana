@@ -1,0 +1,9 @@
+.env
+.env.*
+*.local
+db.json
+**/db.json
+node_modules
+dist
+.vercel
+.git

@@ -10,14 +10,37 @@ import {
 
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async (userId, { getState, rejectWithValue }) => {
+  async (userId, { getState, rejectWithValue, signal }) => {
+    const uid = userId || getState().auth.userId || localStorage.getItem("userId");
+    if (!uid) return [];
+
+    const controller = new AbortController();
+    const abortRequest = () => controller.abort();
+    let timedOut = false;
+    let timeoutId;
+
+    signal.addEventListener("abort", abortRequest, { once: true });
     try {
-      const uid = userId || getState().auth.userId || localStorage.getItem("userId");
-      if (!uid) return [];
-      return await getCart(uid);
+      timeoutId = setTimeout(() => {
+        timedOut = true;
+        controller.abort();
+      }, 15000);
+      return await getCart(uid, controller.signal);
     } catch (err) {
+      if (signal.aborted) throw err;
+      if (timedOut) {
+        return rejectWithValue(
+          "Loading your cart timed out. Check your connection and try again.",
+        );
+      }
       return rejectWithValue(err.response?.data?.message || err.message || "Failed to fetch cart");
+    } finally {
+      clearTimeout(timeoutId);
+      signal.removeEventListener("abort", abortRequest);
     }
+  },
+  {
+    condition: (_, { getState }) => !getState().cart.loading,
   }
 );
 
@@ -159,6 +182,7 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     loading: false,
+    loaded: false,
     error: null,
   },
   reducers: {},
@@ -170,10 +194,12 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.items = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.error = action.payload || action.error.message;
       })
 
@@ -225,10 +251,13 @@ const cartSlice = createSlice({
 
       .addCase(clearCart.fulfilled, (state) => {
         state.items = [];
+        state.loaded = true;
       })
 
       .addCase(logout, (state) => {
         state.items = [];
+        state.loading = false;
+        state.loaded = false;
         state.error = null;
       });
   },

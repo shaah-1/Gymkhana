@@ -14,7 +14,6 @@ const authSlice = createSlice({
       state.initialized = true;
     },
     loginSuccess: (state, { payload: user }) => {
-      if (user?.role === "admin" || user?.isAdmin) return;
       state.user = user;
       state.userId = String(user.id);
       state.isAuthenticated = true;
@@ -31,7 +30,6 @@ const authSlice = createSlice({
       localStorage.removeItem("user");
     },
     setUser: (state, { payload: user }) => {
-      if (user?.role === "admin" || user?.isAdmin) return;
       state.user = user;
       state.userId = String(user.id);
       state.isAuthenticated = true;

@@ -2,7 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { increaseQuantity, decreaseQuantity, removeFromCart } from "../../redux/cartSlice";
+import {
+  decreaseQuantity,
+  fetchCart,
+  increaseQuantity,
+  removeFromCart,
+} from "../../redux/cartSlice";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import "./Cart.css";
@@ -10,7 +15,40 @@ import "./Cart.css";
 export default function Cart() {
   const dispatch = useDispatch();
   const items = useSelector((s) => s.cart.items);
+  const loading = useSelector((s) => s.cart.loading);
+  const loaded = useSelector((s) => s.cart.loaded);
+  const error = useSelector((s) => s.cart.error);
   const subtotal = items.reduce((sum, i) => sum + Number(i.price) * i.quantity, 0);
+
+  if (loading || !loaded) {
+    return (
+      <main className="cart-page">
+        <div className="cart-empty-cart" role="status">
+          <span className="cart-eyebrow">YOUR SELECTIONS</span>
+          <h1 className="cart-empty-title">Loading your shopping bag…</h1>
+        </div>
+      </main>
+    );
+  }
+
+  if (error && items.length === 0) {
+    return (
+      <main className="cart-page">
+        <div className="cart-empty-cart">
+          <span className="cart-eyebrow">YOUR SELECTIONS</span>
+          <h1 className="cart-empty-title">Your shopping bag couldn’t be loaded.</h1>
+          <p className="cart-empty-desc" role="alert">{error}</p>
+          <button
+            type="button"
+            className="cart-btn-primary cart-empty-cta"
+            onClick={() => dispatch(fetchCart())}
+          >
+            Try Again
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   if (items.length === 0) {
     return (
