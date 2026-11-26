@@ -379,7 +379,7 @@ function Dashboard() {
                 </div>
 
                 {/* SVG Area & Bezier Line Graph */}
-                <div className="relative mt-1 h-[210px] w-full max-[640px]:h-[150px] [&_svg_text]:font-light [&_svg_text]:fill-[#121214] [&_svg_text]:tabular-nums">
+                <div className="relative mt-1 h-[210px] w-full max-[640px]:h-[150px] [&_svg_text]:tabular-nums">
                   <svg
                     width="100%"
                     height="100%"
@@ -401,19 +401,19 @@ function Dashboard() {
                     <line x1="45" y1="180" x2="630" y2="180" stroke="#e5e5e8" strokeWidth="1" />
 
                     {/* Y Axis Legend */}
-                    <text x="10" y="29" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="29" className="fill-[#8e9096] text-[10px] font-normal">
                       {currentDataset.axisLabels[0]}
                     </text>
-                    <text x="10" y="69" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="69" className="fill-[#8e9096] text-[10px] font-normal">
                       {currentDataset.axisLabels[1]}
                     </text>
-                    <text x="10" y="109" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="109" className="fill-[#8e9096] text-[10px] font-normal">
                       {currentDataset.axisLabels[2]}
                     </text>
-                    <text x="10" y="149" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="149" className="fill-[#8e9096] text-[10px] font-normal">
                       {currentDataset.axisLabels[3]}
                     </text>
-                    <text x="18" y="183" fill="#9da0a8" fontSize="10">
+                    <text x="18" y="183" className="fill-[#8e9096] text-[10px] font-normal">
                       {currentDataset.axisLabels[4]}
                     </text>
 
@@ -429,44 +429,78 @@ function Dashboard() {
                       strokeLinecap="round"
                     />
 
-                    {/* Data Node Points */}
-                    {currentDataset.points.map((pt, idx) => (
-                      <g key={idx}>
-                        <circle
-                          cx={pt.x}
-                          cy={pt.y}
-                          r={activePoint?.date === pt.date ? "5.5" : "3.5"}
-                          fill="#ffffff"
-                          stroke="#121214"
-                          strokeWidth="2"
-                          className="cursor-pointer transition-all duration-150"
-                          onMouseEnter={() => setActivePoint(pt)}
-                          onMouseLeave={() => setActivePoint(null)}
-                        />
-                        {activePoint?.date === pt.date && (
-                          <g>
-                            <rect
-                              x={pt.x - 42}
-                              y={pt.y - 34}
-                              width="84"
-                              height="24"
-                              fill="#121214"
-                              rx="2"
-                            />
-                            <text
-                              x={pt.x}
-                              y={pt.y - 18}
-                              fill="#ffffff"
-                              fontSize="10.5"
-                              fontWeight="300"
-                              textAnchor="middle"
-                            >
-                              {pt.val}
-                            </text>
-                          </g>
-                        )}
-                      </g>
-                    ))}
+                    {/* Data Node Points & Sales Value Labels */}
+                    {currentDataset.points.map((pt, idx) => {
+                      const isPointActive = activePoint?.date === pt.date;
+                      const tooltipWidth = 84;
+                      const tooltipHeight = 24;
+                      const isHigh = pt.y < 45;
+                      const tooltipY = isHigh ? pt.y + 10 : pt.y - 34;
+                      const tooltipX = Math.max(
+                        8,
+                        Math.min(640 - tooltipWidth - 8, pt.x - tooltipWidth / 2)
+                      );
+
+                      return (
+                        <g key={idx}>
+                          {/* Always-visible sales value number above point */}
+                          <text
+                            x={pt.x}
+                            y={pt.y < 35 ? pt.y + 18 : pt.y - 10}
+                            textAnchor="middle"
+                            className={`pointer-events-none fill-[#121214] text-[10.5px] tracking-[0.01em] transition-opacity duration-150 ${
+                              isPointActive ? "font-semibold opacity-0" : "font-medium opacity-100"
+                            }`}
+                          >
+                            {pt.val}
+                          </text>
+
+                          {/* Generous invisible hover target */}
+                          <circle
+                            cx={pt.x}
+                            cy={pt.y}
+                            r="16"
+                            fill="transparent"
+                            className="cursor-pointer"
+                            onMouseEnter={() => setActivePoint(pt)}
+                            onMouseLeave={() => setActivePoint(null)}
+                          />
+
+                          {/* Visible point circle */}
+                          <circle
+                            cx={pt.x}
+                            cy={pt.y}
+                            r={isPointActive ? "5.5" : "3.5"}
+                            fill="#ffffff"
+                            stroke="#121214"
+                            strokeWidth="2"
+                            className="pointer-events-none transition-all duration-150"
+                          />
+
+                          {/* High-contrast tooltip on hover */}
+                          {isPointActive && (
+                            <g pointerEvents="none">
+                              <rect
+                                x={tooltipX}
+                                y={tooltipY}
+                                width={tooltipWidth}
+                                height={tooltipHeight}
+                                rx="3"
+                                className="fill-[#121214]"
+                              />
+                              <text
+                                x={tooltipX + tooltipWidth / 2}
+                                y={tooltipY + 16}
+                                textAnchor="middle"
+                                className="fill-white text-[11px] font-semibold tracking-[0.02em]"
+                              >
+                                {pt.val}
+                              </text>
+                            </g>
+                          )}
+                        </g>
+                      );
+                    })}
                   </svg>
                 </div>
 
