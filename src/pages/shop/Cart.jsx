@@ -11,8 +11,6 @@ import {
 } from "../../redux/cartSlice";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Cart.css";
-
 export default function Cart() {
   const dispatch = useDispatch();
   const items = useSelector((s) => s.cart.items);

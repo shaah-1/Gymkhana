@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
-import "./Toast.css";
-
 export default function Toast({ message, action, onClose, duration = 2800 }) {
   const [fading, setFading] = useState(false);
 

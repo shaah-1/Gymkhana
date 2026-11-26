@@ -1,9 +1,9 @@
+
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { adminLogout } from "../store/slices/adminAuthSlice";
 import { logout } from "../../redux/authSlice";
 import { signOutUser } from "../../services/authService";
-import "../admin.css";
 
 function AdminLayout() {
   const dispatch = useDispatch();
@@ -16,14 +16,18 @@ function AdminLayout() {
       console.error("Could not sign out:", error);
       return;
     }
+
     dispatch(adminLogout());
     dispatch(logout());
-    navigate("/login", { replace: true, state: { message: "See you soon." } });
+
+    navigate("/login", {
+      replace: true,
+      state: { message: "See you soon." },
+    });
   };
 
   return (
     <div className="admin-layout" style={{ display: "block" }}>
-      {/* Top Clean White Navigation Bar */}
       <header className="admin-topbar">
         <div className="admin-topbar-inner">
           <div className="admin-brand-row">
@@ -56,6 +60,7 @@ function AdminLayout() {
             >
               Overview
             </NavLink>
+
             <NavLink
               to="/admin/products"
               className={({ isActive }) =>
@@ -64,6 +69,7 @@ function AdminLayout() {
             >
               Products
             </NavLink>
+
             <NavLink
               to="/admin/users"
               className={({ isActive }) =>
@@ -72,6 +78,7 @@ function AdminLayout() {
             >
               Users
             </NavLink>
+
             <NavLink
               to="/admin/orders"
               className={({ isActive }) =>
@@ -80,6 +87,7 @@ function AdminLayout() {
             >
               Orders
             </NavLink>
+
             <NavLink
               to="/admin/profile"
               className={({ isActive }) =>
@@ -92,7 +100,6 @@ function AdminLayout() {
         </div>
       </header>
 
-      {/* Main Content Viewport */}
       <main className="admin-main-content">
         <Outlet />
       </main>

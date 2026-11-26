@@ -48,7 +48,6 @@ import AdminUsers from "./admin/pages/Users";
 import AdminOrders from "./admin/pages/Orders";
 import OrderDetails from "./admin/pages/OrderDetails";
 import AdminProfile from "./admin/pages/AdminProfile";
-import Categories from "./admin/pages/Categories.jsx"
 
 import "./index.css";
 
@@ -294,7 +293,16 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/update-password" element={<UpdatePassword />} />
-          <Route path="/Categories" element={<Categories/>}/>
+
+          <Route
+            path="/categories"
+            element={<Navigate to="/shop" replace />}
+          />
+
+          <Route
+            path="/Categories"
+            element={<Navigate to="/shop" replace />}
+          />
 
           <Route
             path="/wishlist"

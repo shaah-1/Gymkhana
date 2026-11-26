@@ -8,7 +8,6 @@ import { AboutSection } from "../about/About";
 import StudioContact from "../../components/StudioContact";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import { getProductSales } from "../../services/productService";
-import "./Home.css";
 
 const FEATURED_CATEGORIES = [
   {

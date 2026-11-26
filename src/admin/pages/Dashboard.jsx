@@ -406,7 +406,7 @@ function Dashboard() {
                       x2="630"
                       y2="105"
                       stroke="#f0f0f3"
-        f              strokeWidth="1"
+                      strokeWidth="1"
                     />
                     <line
                       x1="45"
@@ -426,19 +426,19 @@ function Dashboard() {
                     />
 
                     {/* Y Axis Legend */}
-                    <text x="10" y="29" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="29" className="admin-graph-y-label">
                       {currentDataset.axisLabels[0]}
                     </text>
-                    <text x="10" y="69" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="69" className="admin-graph-y-label">
                       {currentDataset.axisLabels[1]}
                     </text>
-                    <text x="10" y="109" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="109" className="admin-graph-y-label">
                       {currentDataset.axisLabels[2]}
                     </text>
-                    <text x="10" y="149" fill="#9da0a8" fontSize="10">
+                    <text x="10" y="149" className="admin-graph-y-label">
                       {currentDataset.axisLabels[3]}
                     </text>
-                    <text x="18" y="183" fill="#9da0a8" fontSize="10">
+                    <text x="18" y="183" className="admin-graph-y-label">
                       {currentDataset.axisLabels[4]}
                     </text>
 
@@ -457,9 +457,33 @@ function Dashboard() {
                       strokeLinecap="round"
                     />
 
-                    {/* Data Node Points */}
+                    {/* Data Node Points & Sales Value Labels */}
                     {currentDataset.points.map((pt, idx) => (
-                      <g key={idx}>
+                      <g key={idx} className="admin-graph-point-group">
+                        {/* Always-visible sales value number above point */}
+                        <text
+                          x={pt.x}
+                          y={pt.y < 35 ? pt.y + 18 : pt.y - 10}
+                          textAnchor="middle"
+                          className={`admin-graph-point-label ${
+                            activePoint?.date === pt.date ? "active" : ""
+                          }`}
+                        >
+                          {pt.val}
+                        </text>
+
+                        {/* Generous invisible hover target */}
+                        <circle
+                          cx={pt.x}
+                          cy={pt.y}
+                          r="16"
+                          fill="transparent"
+                          style={{ cursor: "pointer" }}
+                          onMouseEnter={() => setActivePoint(pt)}
+                          onMouseLeave={() => setActivePoint(null)}
+                        />
+
+                        {/* Visible point circle */}
                         <circle
                           cx={pt.x}
                           cy={pt.y}
@@ -467,32 +491,44 @@ function Dashboard() {
                           fill="#ffffff"
                           stroke="#121214"
                           strokeWidth="2"
-                          style={{ cursor: "pointer", transition: "all 0.16s ease" }}
-                          onMouseEnter={() => setActivePoint(pt)}
-                          onMouseLeave={() => setActivePoint(null)}
+                          style={{
+                            cursor: "pointer",
+                            transition: "all 0.16s ease",
+                            pointerEvents: "none",
+                          }}
                         />
-                        {activePoint?.date === pt.date && (
-                          <g>
-                            <rect
-                              x={pt.x - 42}
-                              y={pt.y - 34}
-                              width="84"
-                              height="24"
-                              fill="#121214"
-                              rx="2"
-                            />
-                            <text
-                              x={pt.x}
-                              y={pt.y - 18}
-                              fill="#ffffff"
-                              fontSize="10.5"
-                              fontWeight="300"
-                              textAnchor="middle"
-                            >
-                              {pt.val}
-                            </text>
-                          </g>
-                        )}
+
+                        {/* High-contrast tooltip on hover */}
+                        {activePoint?.date === pt.date && (() => {
+                          const tooltipWidth = 84;
+                          const tooltipHeight = 24;
+                          const isHigh = pt.y < 45;
+                          const tooltipY = isHigh ? pt.y + 10 : pt.y - 34;
+                          const tooltipX = Math.max(
+                            8,
+                            Math.min(640 - tooltipWidth - 8, pt.x - tooltipWidth / 2)
+                          );
+                          return (
+                            <g className="admin-graph-tooltip" pointerEvents="none">
+                              <rect
+                                x={tooltipX}
+                                y={tooltipY}
+                                width={tooltipWidth}
+                                height={tooltipHeight}
+                                rx="3"
+                                className="admin-graph-tooltip-bg"
+                              />
+                              <text
+                                x={tooltipX + tooltipWidth / 2}
+                                y={tooltipY + 16}
+                                className="admin-graph-tooltip-text"
+                                textAnchor="middle"
+                              >
+                                {pt.val}
+                              </text>
+                            </g>
+                          );
+                        })()}
                       </g>
                     ))}
                   </svg>

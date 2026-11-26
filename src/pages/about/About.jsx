@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./About.css";
-
 const BUILT_DISCIPLINE_SLIDES = [
   {
     src: "/images/about-runner-bg.jpg",

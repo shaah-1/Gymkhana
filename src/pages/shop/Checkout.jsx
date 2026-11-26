@@ -11,8 +11,6 @@ import { getProductById } from "../../services/productService";
 import { createOrder } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Checkout.css";
-
 const PAYMENT_METHODS = [
   { id: "cod", label: "Cash on Delivery", detail: "Pay when your order arrives", Icon: Banknote },
 ];

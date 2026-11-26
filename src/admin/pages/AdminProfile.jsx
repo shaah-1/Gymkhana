@@ -4,7 +4,6 @@ import { Camera, KeyRound, Save, ShieldCheck, UserRound } from "lucide-react";
 import { updateAdminProfile } from "../store/slices/adminAuthSlice";
 import { saveAdminUser } from "../services/userService";
 import { updatePassword } from "../../services/authService";
-import "./AdminProfile.css";
 
 function AdminProfile() {
   const dispatch = useDispatch();

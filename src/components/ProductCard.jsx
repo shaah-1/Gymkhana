@@ -9,8 +9,6 @@ import { addToCart } from "../redux/cartSlice";
 import { formatCurrency } from "../utils/formatters";
 import { publicAssetUrl } from "../utils/publicAssetUrl";
 import Toast from "./Toast";
-import "./ProductCard.css";
-
 function getProductSubtitle(product) {
   if (product?.subtitle) return product.subtitle;
   const name = String(product?.name || "").toLowerCase();

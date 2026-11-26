@@ -5,8 +5,6 @@ import { Search, X } from "lucide-react";
 
 import { getProducts } from "../../services/productService";
 import ProductCard from "../../components/ProductCard";
-import "./Shop.css";
-
 const SORT_OPTIONS = [
   { value: "default", label: "Default" },
   { value: "low-high", label: "Price: Low to high" },

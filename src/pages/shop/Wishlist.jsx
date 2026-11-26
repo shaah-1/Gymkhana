@@ -6,8 +6,6 @@ import { fetchWishlist, toggleWishlist } from "../../redux/wishlistSlice";
 import { addToCart } from "../../redux/cartSlice";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Wishlist.css";
-
 export default function Wishlist() {
   const dispatch = useDispatch();
   const { items = [], loading = false, error = null } = useSelector((s) => s.wishlist || {});

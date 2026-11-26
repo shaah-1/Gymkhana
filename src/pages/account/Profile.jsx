@@ -17,8 +17,6 @@ import {
 import { getOrdersByUserId } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Profile.css";
-
 export default function Profile({ defaultTab }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();

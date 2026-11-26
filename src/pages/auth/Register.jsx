@@ -4,8 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { registerUser } from "../../services/authService";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Login.css";
-
 export default function Register() {
   const navigate = useNavigate();
 

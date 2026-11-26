@@ -9,8 +9,6 @@ import { adminLogin, adminLogout } from "../../admin/store/slices/adminAuthSlice
 import { fetchCart } from "../../redux/cartSlice";
 import { fetchWishlist } from "../../redux/wishlistSlice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Login.css";
-
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
