@@ -223,9 +223,9 @@ begin
     raise exception 'Sign in before placing an order.';
   end if;
 
-  if exists (
+  if not exists (
     select 1 from public.profiles
-    where id = v_user_id and (blocked or role <> 'customer')
+    where id = v_user_id and blocked = false
   ) then
     raise exception 'This account cannot place orders.';
   end if;

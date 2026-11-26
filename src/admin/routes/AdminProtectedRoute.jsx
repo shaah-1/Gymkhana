@@ -15,7 +15,11 @@ function AdminProtectedRoute() {
     return <Outlet />;
   }
   if (!authInitialized) {
-    return <p role="status">Checking your session…</p>;
+    return (
+      <p className="px-6 py-12 text-center text-[13px] tracking-[0.06em] text-[#71737d]" role="status">
+        Checking your session…
+      </p>
+    );
   }
 
   // If already signed in as a regular customer without admin access

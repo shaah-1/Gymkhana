@@ -8,7 +8,11 @@ export default function ProtectedRoute({ children }) {
   const user = useSelector((s) => s.auth.user);
 
   if (!initialized) {
-    return <p role="status">Checking your session…</p>;
+    return (
+      <p className="px-6 py-12 text-center text-[13px] tracking-[0.06em] text-[#71737d]" role="status">
+        Checking your session…
+      </p>
+    );
   }
 
   if (!isAuth || user?.blocked) {

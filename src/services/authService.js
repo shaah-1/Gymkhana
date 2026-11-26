@@ -91,6 +91,9 @@ export async function updatePassword(currentPassword, newPassword) {
   const { data, error: userError } = await client.auth.getUser();
   if (userError) throw userError;
   if (!data.user?.email) throw new Error("Sign in again before changing your password.");
+  if (currentPassword === newPassword) {
+    throw new Error("Your new password must be different from your current password.");
+  }
 
   const { error: verifyError } = await client.auth.signInWithPassword({
     email: data.user.email,

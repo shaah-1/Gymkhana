@@ -59,6 +59,7 @@ export default function App() {
 
   const userId = useSelector((state) => state.auth.userId);
   const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAdminProfileRoute = location.pathname === "/admin/profile";
   const isAuthPage = [
     "/login",
     "/register",
@@ -105,7 +106,9 @@ export default function App() {
         dispatch(logout());
         dispatch(adminLogout());
         if (profile.role === "admin") {
-          dispatch(adminLogin({ ...profile, email: session.user.email }));
+          const admin = { ...profile, email: session.user.email };
+          dispatch(loginSuccess(admin));
+          dispatch(adminLogin(admin));
         } else {
           dispatch(loginSuccess({ ...profile, email: session.user.email }));
         }
@@ -155,17 +158,17 @@ export default function App() {
     };
   }, [dispatch, navigate]);
 
-  // Remove storefront navbar top-padding from body when in admin panel
+  // Remove storefront navbar top-padding from body when in admin panel or auth pages
   useEffect(() => {
-    if (isAdminRoute) {
-      document.body.classList.add("admin-body");
+    if (isAdminRoute || isAuthPage) {
+      document.body.classList.add("no-navbar-body");
     } else {
-      document.body.classList.remove("admin-body");
+      document.body.classList.remove("no-navbar-body");
     }
     return () => {
-      document.body.classList.remove("admin-body");
+      document.body.classList.remove("no-navbar-body");
     };
-  }, [isAdminRoute]);
+  }, [isAdminRoute, isAuthPage]);
 
   const handleToastClose = () => {
     navigate(location.pathname + location.search + location.hash, {
@@ -277,7 +280,11 @@ export default function App() {
 
       <div
         key={location.pathname}
-        className={isAdminRoute ? "admin-page-wrapper" : "page-transition"}
+        className={
+          isAdminRoute
+            ? `min-h-screen${isAdminProfileRoute ? " h-dvh overflow-y-auto [-webkit-overflow-scrolling:touch]" : ""}`
+            : "animate-[page-enter_420ms_cubic-bezier(.2,.75,.25,1)_both] motion-reduce:animate-none"
+        }
       >
         <Routes>
           {/* Customer routes */}

@@ -4,7 +4,7 @@ import { Camera, KeyRound, Save, ShieldCheck, UserRound } from "lucide-react";
 import { updateAdminProfile } from "../store/slices/adminAuthSlice";
 import { saveAdminUser } from "../services/userService";
 import { updatePassword } from "../../services/authService";
-import "./AdminProfile.css";
+import { ADMIN_SERIF_FONT } from "../adminClasses";
 
 function AdminProfile() {
   const dispatch = useDispatch();
@@ -58,20 +58,28 @@ function AdminProfile() {
     event.preventDefault();
     setProfileError("");
     setProfileMessage("");
+    const normalizedEmail = profile.email.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setProfileError("Please enter a valid email address.");
+      return;
+    }
     setIsSavingProfile(true);
     try {
-      const normalizedEmail = profile.email.trim().toLowerCase();
       const saved = await saveAdminUser({
         name: profile.name,
         email: normalizedEmail,
         phone: profile.phone,
         photo: profile.photo,
       });
-      dispatch(updateAdminProfile({ ...saved, email: normalizedEmail }));
-      setProfile((current) => ({ ...current, ...saved, email: normalizedEmail }));
+      dispatch(updateAdminProfile(saved));
+      setProfile((current) => ({
+        ...current,
+        ...saved,
+        email: saved.pendingEmail ? saved.email : normalizedEmail,
+      }));
       setProfileMessage(
         normalizedEmail !== admin?.email
-          ? "Profile saved. Confirm the email change using the link sent to your new address."
+          ? "Profile details saved. Confirm the email change using the link sent to your new address."
           : "Profile details saved.",
       );
     } catch (error) {
@@ -136,36 +144,36 @@ function AdminProfile() {
     .toUpperCase();
 
   return (
-    <section className="admin-profile-page">
-      <div className="admin-profile-heading">
-        <span>Account settings</span>
-        <h1>Admin profile</h1>
+    <section className="mx-auto w-full max-w-[1050px] px-[clamp(24px,4vw,48px)] py-[clamp(24px,4vw,48px)] text-[#151518] max-[760px]:px-[18px] max-[760px]:py-6 max-[480px]:px-3 max-[480px]:py-[18px]">
+      <div className="mb-7">
+        <span className="text-[10px] uppercase tracking-[.18em] text-[#777981]">Account settings</span>
+        <h1 className={`mt-[7px] ${ADMIN_SERIF_FONT} text-[clamp(28px,4vw,40px)] font-normal tracking-[.015em]`}>Admin profile</h1>
       </div>
 
-      <div className="admin-profile-grid">
-        <form className="admin-profile-card" onSubmit={handleProfileSave}>
-          <div className="admin-profile-card-heading">
-            <div className="admin-profile-section-icon">
+      <div className="grid grid-cols-1 items-start gap-[18px]">
+        <form className="w-full min-w-0 border border-[#e4e4e7] bg-white p-[clamp(28px,5vw,52px)] max-[480px]:px-[17px] max-[480px]:py-[22px] max-[380px]:px-3 max-[380px]:py-[18px]" onSubmit={handleProfileSave}>
+          <div className="mb-[22px] flex items-center gap-[11px] border-b border-[#ededee] pb-[17px]">
+            <div className="grid h-9 w-9 shrink-0 place-items-center border border-[#e1e1e4] text-[#33343a]">
               <UserRound size={17} />
             </div>
             <div>
-              <h3>Personal details</h3>
-              <p>Manage your administrator identity.</p>
+              <h3 className="mb-1 text-[13px] font-semibold tracking-[.02em] text-[#17171a]">Personal details</h3>
+              <p className="text-[10px] text-[#777981]">Manage your administrator identity.</p>
             </div>
           </div>
 
-          <div className="admin-profile-photo-row">
-            <div className="admin-profile-photo">
+          <div className="mb-[22px] flex items-center gap-4">
+            <div className="flex h-[78px] w-[78px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#dfe0e3] bg-[#f0f0f2] text-[25px] font-semibold text-[#25262a]">
               {profile.photo ? (
-                <img src={profile.photo} alt="Admin profile" />
+                <img className="block h-full w-full rounded-full object-cover" src={profile.photo} alt="Admin profile" />
               ) : (
                 <span>{initials}</span>
               )}
             </div>
-            <div className="admin-profile-photo-actions">
+            <div className="flex flex-wrap items-center gap-[10px]">
               <button
                 type="button"
-                className="admin-secondary-button"
+                className="relative inline-flex min-h-8 items-center gap-[7px] rounded-none border border-[#d9d9dd] bg-white px-[11px] text-[10px] text-[#303137] hover:bg-[#f4f4f5]"
                 onClick={() => setIsEditingPhoto((editing) => !editing)}
               >
                 <Camera size={14} />{" "}
@@ -173,18 +181,19 @@ function AdminProfile() {
               </button>
               {isEditingPhoto && (
                 <>
-                  <label className="admin-secondary-button">
+                  <label className="relative inline-flex min-h-8 items-center gap-[7px] rounded-none border border-[#d9d9dd] bg-white px-[11px] text-[10px] text-[#303137] hover:bg-[#f4f4f5]">
                     Choose image
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handlePhotoChange}
+                      className="absolute h-px w-px overflow-hidden [clip-path:inset(50%)]"
                     />
                   </label>
                   {profile.photo && (
                     <button
                       type="button"
-                      className="admin-profile-remove-photo"
+                      className="cursor-pointer border-0 bg-transparent px-0.5 py-1.5 text-[10px] text-[#74767d] hover:text-[#111]"
                       onClick={() => {
                         setProfile((current) => ({ ...current, photo: "" }));
                         if (profileMessage) setProfileMessage("");
@@ -194,14 +203,14 @@ function AdminProfile() {
                       Remove photo
                     </button>
                   )}
-                  <small>Image file up to 2 MB. Save profile to apply.</small>
+                  <small className="basis-full text-[9px] text-[#85878d]">Image file up to 2 MB. Save profile to apply.</small>
                 </>
               )}
             </div>
           </div>
 
-          <div className="admin-profile-fields">
-            <label>
+          <div className="grid gap-[15px]">
+            <label className="grid gap-[7px] text-[10px] font-semibold tracking-[.035em] text-[#5f6066]">
               Full name
               <input
                 name="name"
@@ -209,9 +218,10 @@ function AdminProfile() {
                 onChange={updateProfileField}
                 placeholder="Your name"
                 autoComplete="name"
+                className="min-h-10 w-full rounded-none border border-[#dedee2] bg-white px-[11px] py-[9px] text-[12px] text-[#17171a] outline-none focus:border-[#707178]"
               />
             </label>
-            <label>
+            <label className="grid gap-[7px] text-[10px] font-semibold tracking-[.035em] text-[#5f6066]">
               Email address
               <input
                 name="email"
@@ -221,9 +231,10 @@ function AdminProfile() {
                 placeholder="admin@example.com"
                 autoComplete="email"
                 required
+                className="min-h-10 w-full rounded-none border border-[#dedee2] bg-white px-[11px] py-[9px] text-[12px] text-[#17171a] outline-none focus:border-[#707178]"
               />
             </label>
-            <label>
+            <label className="grid gap-[7px] text-[10px] font-semibold tracking-[.035em] text-[#5f6066]">
               Phone number
               <input
                 name="phone"
@@ -232,19 +243,20 @@ function AdminProfile() {
                 onChange={updateProfileField}
                 placeholder="Optional"
                 autoComplete="tel"
+                className="min-h-10 w-full rounded-none border border-[#dedee2] bg-white px-[11px] py-[9px] text-[12px] text-[#17171a] outline-none focus:border-[#707178]"
               />
             </label>
           </div>
 
-          <div className="admin-profile-security-row">
+          <div className="mt-7 flex items-center justify-between gap-5 border-y border-[#ededee] py-5 max-[480px]:items-start max-[480px]:flex-col">
             <div>
-              <strong>Password</strong>
-              <span>
+              <strong className="text-[12px] font-semibold text-[#25262a]">Password</strong>
+              <span className="mt-[5px] block text-[10px] text-[#777981]">
                 Update the password used to sign in to the admin panel.
               </span>
             </div>
             <button
-              className="admin-profile-password-trigger"
+              className="inline-flex min-h-9 items-center justify-center gap-2 rounded-none border border-[#d9d9dd] bg-white px-[15px] text-[10px] font-semibold text-[#292a2f] transition-colors hover:border-[#151518] hover:bg-[#151518] hover:text-white"
               type="button"
               onClick={() => {
                 setIsChangingPassword(true);
@@ -257,25 +269,25 @@ function AdminProfile() {
           </div>
 
           {profileError && (
-            <p className="admin-profile-feedback is-error" role="alert">
+            <p className="mt-[13px] text-[10px] text-[#a43e3e]" role="alert">
               {profileError}
             </p>
           )}
           {profileMessage && (
-            <p className="admin-profile-feedback is-success" role="status">
+            <p className="mt-[13px] text-[10px] text-[#39784c]" role="status">
               {profileMessage}
             </p>
           )}
           {passwordMessage && (
-            <p className="admin-profile-feedback is-success" role="status">
+            <p className="mt-[13px] text-[10px] text-[#39784c]" role="status">
               {passwordMessage}
             </p>
           )}
-          <div className="admin-profile-card-footer">
-            <span>
+          <div className="mt-[21px] flex min-h-11 items-center justify-between gap-3 border-t border-[#ededee] pt-[17px] max-[480px]:items-start max-[480px]:flex-col">
+            <span className="inline-flex items-center gap-1.5 text-[9px] text-[#777981]">
               <ShieldCheck size={14} /> Admin account
               {hasChanges && (
-                <span className="admin-profile-unsaved-badge">
+                <span className="animate-[fadeInBadge_.2s_ease_both] text-[9.5px] font-semibold text-[#d97706]">
                   • Unsaved changes
                 </span>
               )}
@@ -283,7 +295,7 @@ function AdminProfile() {
 
             {(hasChanges || isSavingProfile) && (
               <button
-                className="admin-profile-primary-button has-changes"
+                className="inline-flex min-h-9 items-center justify-center gap-[7px] rounded-none whitespace-nowrap border border-[#151518] bg-[#151518] px-[13px] text-[10px] font-semibold text-white shadow-[0_2px_8px_rgb(0_0_0_/_15%)] transition hover:-translate-y-px hover:border-[#27272a] hover:bg-[#27272a] disabled:cursor-wait disabled:opacity-60 animate-[saveBtnAppear_.22s_cubic-bezier(.16,.75,.25,1)_both]"
                 type="submit"
                 disabled={isSavingProfile}
                 title="Save changes to your administrator profile"
@@ -292,8 +304,8 @@ function AdminProfile() {
                   size={14}
                   className={
                     isSavingProfile
-                      ? "admin-save-icon is-spinning"
-                      : "admin-save-icon"
+                      ? "animate-spin"
+                        : ""
                   }
                 />
                 <span>{isSavingProfile ? "Saving…" : "Save profile"}</span>
@@ -305,30 +317,30 @@ function AdminProfile() {
 
       {isChangingPassword && (
         <div
-          className="admin-password-modal-backdrop"
+          className="fixed inset-0 z-[1100] grid place-items-center bg-[rgb(15_15_18_/_46%)] p-5"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget)
               setIsChangingPassword(false);
           }}
         >
           <section
-            className="admin-password-modal"
+            className="max-h-[min(90vh,700px)] w-[min(100%,440px)] overflow-y-auto border border-[#e4e4e7] bg-white p-[26px] shadow-[0_20px_70px_rgb(0_0_0_/_18%)] max-[380px]:px-[14px] max-[380px]:py-[18px]"
             role="dialog"
             aria-modal="true"
             aria-labelledby="admin-password-title"
           >
-            <div className="admin-profile-card-heading">
-              <div className="admin-profile-section-icon">
+            <div className="mb-[22px] flex items-center gap-[11px] border-b border-[#ededee] pb-[17px]">
+              <div className="grid h-9 w-9 shrink-0 place-items-center border border-[#e1e1e4] text-[#33343a]">
                 <KeyRound size={17} />
               </div>
               <div>
-                <h3 id="admin-password-title">Change password</h3>
-                <p>Confirm your current password to continue.</p>
+                <h3 className="mb-1 text-[13px] font-semibold tracking-[.02em] text-[#17171a]" id="admin-password-title">Change password</h3>
+                <p className="text-[10px] text-[#777981]">Confirm your current password to continue.</p>
               </div>
             </div>
             <form onSubmit={handlePasswordSave}>
-              <div className="admin-profile-fields">
-                <label>
+              <div className="grid gap-[15px]">
+                <label className="grid gap-[7px] text-[10px] font-semibold tracking-[.035em] text-[#5f6066]">
                   Current password
                   <input
                     name="current"
@@ -337,9 +349,10 @@ function AdminProfile() {
                     onChange={updatePasswordField}
                     autoComplete="current-password"
                     required
+                    className="min-h-10 w-full border border-[#dedee2] bg-white px-[11px] py-[9px] text-[12px] text-[#17171a] outline-none focus:border-[#707178]"
                   />
                 </label>
-                <label>
+                <label className="grid gap-[7px] text-[10px] font-semibold tracking-[.035em] text-[#5f6066]">
                   New password
                   <input
                     name="next"
@@ -349,9 +362,10 @@ function AdminProfile() {
                     autoComplete="new-password"
                     minLength={8}
                     required
+                    className="min-h-10 w-full border border-[#dedee2] bg-white px-[11px] py-[9px] text-[12px] text-[#17171a] outline-none focus:border-[#707178]"
                   />
                 </label>
-                <label>
+                <label className="grid gap-[7px] text-[10px] font-semibold tracking-[.035em] text-[#5f6066]">
                   Confirm new password
                   <input
                     name="confirm"
@@ -361,18 +375,19 @@ function AdminProfile() {
                     autoComplete="new-password"
                     minLength={8}
                     required
+                    className="min-h-10 w-full border border-[#dedee2] bg-white px-[11px] py-[9px] text-[12px] text-[#17171a] outline-none focus:border-[#707178]"
                   />
                 </label>
               </div>
               {passwordError && (
-                <p className="admin-profile-feedback is-error" role="alert">
+                <p className="mt-[13px] text-[10px] text-[#a43e3e]" role="alert">
                   {passwordError}
                 </p>
               )}
-              <div className="admin-profile-card-footer">
+              <div className="mt-[21px] flex min-h-11 items-center justify-end gap-3 border-t border-[#ededee] pt-[17px] max-[480px]:flex-row max-[480px]:items-stretch">
                 <button
                   type="button"
-                  className="admin-secondary-button"
+                  className="relative inline-flex min-h-8 items-center gap-[7px] rounded-none border border-[#d9d9dd] bg-white px-[11px] text-[10px] text-[#303137] hover:bg-[#f4f4f5]"
                   onClick={() => {
                     setIsChangingPassword(false);
                     setPasswordForm({ current: "", next: "", confirm: "" });
@@ -381,7 +396,7 @@ function AdminProfile() {
                   Cancel
                 </button>
                 <button
-                  className="admin-profile-primary-button"
+                  className="inline-flex min-h-9 items-center justify-center gap-[7px] rounded-none whitespace-nowrap border border-[#151518] bg-[#151518] px-[13px] text-[10px] font-semibold text-white transition-colors hover:bg-[#33343a] disabled:cursor-wait disabled:opacity-60"
                   type="submit"
                   disabled={isSavingPassword}
                 >

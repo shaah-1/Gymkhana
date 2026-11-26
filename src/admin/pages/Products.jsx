@@ -8,6 +8,27 @@ import {
 } from "../store/slices/adminProductSlice";
 import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
+import {
+  adminBreadcrumbLinkClass,
+  adminBreadcrumbsClass,
+  adminBtnBlackClass,
+  adminErrorNoticeClass,
+  adminNumClass,
+  adminPageHeaderClass,
+  adminPageSubtitleClass,
+  adminPageTitleClass,
+  adminStatusTagClass,
+  adminTableClass,
+  adminTableContainerClass,
+  adminTdClass,
+  adminThClass,
+  adminThumbBoxClass,
+  adminTitleNumClass,
+  adminUnderlineInputClass,
+} from "../adminClasses";
+
+const paginationBtnClass =
+  "inline-flex h-[30px] cursor-pointer items-center gap-1 rounded-[2px] border border-[#e6e6e9] bg-white px-[10px] font-inherit text-[11px] font-medium tracking-[0.06em] text-[#121214] uppercase select-none transition-all duration-150 hover:not-disabled:border-[#121214] hover:not-disabled:bg-[#121214] hover:not-disabled:text-white disabled:cursor-not-allowed disabled:border-[#e6e6e9] disabled:bg-transparent disabled:text-[#a4a6ad] disabled:opacity-35";
 
 function Products() {
   const dispatch = useDispatch();
@@ -61,44 +82,36 @@ function Products() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="admin-breadcrumbs">
-        <Link to="/admin">Administration</Link>
-        <span>/</span>
-        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
-          Products
-        </span>
+      <div className={adminBreadcrumbsClass}>
+        <Link to="/admin" className={adminBreadcrumbLinkClass}>
+          Administration
+        </Link>
+        <span className="text-[#3b3d42]">/</span>
+        <span className="font-medium text-[#121214]">Products</span>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          gap: "20px",
-          marginBottom: "32px",
-        }}
-      >
+      <div className={adminPageHeaderClass}>
         <div>
-          <h1 className="admin-page-title" style={{ margin: 0 }}>
-            CATALOG <span className="admin-title-num">({products.length})</span>
+          <h1 className={adminPageTitleClass}>
+            CATALOG <span className={adminTitleNumClass}>({products.length})</span>
           </h1>
-          <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
+          <p className={adminPageSubtitleClass}>
             Curate specifications, stock availability, and retail pricing.
           </p>
         </div>
 
-        <Link to="/admin/products/add" className="admin-btn-black">
+        <Link to="/admin/products/add" className={adminBtnBlackClass}>
           <span>ADD PRODUCT</span>
           <ArrowRight size={13} />
         </Link>
       </div>
 
       {/* Filter line */}
-      <div className="admin-product-filters">
-        <div style={{ maxWidth: "340px", width: "100%" }}>
+      <div className="mb-6 flex flex-wrap items-center gap-5 max-[640px]:mb-5 max-[640px]:flex-col max-[640px]:items-stretch max-[640px]:gap-3">
+        <div className="w-full max-w-[340px] max-[640px]:max-w-full">
           <input
             type="search"
-            className="admin-underline-input"
+            className={adminUnderlineInputClass}
             placeholder="Filter by name or category..."
             value={searchTerm}
             onChange={(e) => {
@@ -108,10 +121,10 @@ function Products() {
           />
         </div>
 
-        <div className="admin-filter-dropdown-wrap">
+        <div className="relative inline-flex items-center max-[640px]:w-full">
           <select
             id="admin-category-select"
-            className="admin-filter-dropdown"
+            className="h-9 cursor-pointer appearance-none rounded-[2px] border border-[#e6e6e9] bg-white pr-[30px] pl-3 font-inherit text-[11.5px] font-medium tracking-[0.04em] text-[#121214] outline-none transition-colors duration-150 hover:border-[#121214] focus:border-[#121214] max-[640px]:w-full"
             value={categoryFilter}
             onChange={(e) => {
               setCategoryFilter(e.target.value);
@@ -126,26 +139,29 @@ function Products() {
               </option>
             ))}
           </select>
-          <ChevronDown size={13} className="admin-dropdown-chevron" />
+          <ChevronDown
+            size={13}
+            className="pointer-events-none absolute right-[10px] text-[#76787e]"
+          />
         </div>
       </div>
 
       {loading && products.length === 0 ? (
-        <p style={{ color: "#7a7c82" }}>Loading catalog...</p>
+        <p className="text-[#7a7c82]">Loading catalog...</p>
       ) : error ? (
-        <div className="admin-error-notice">{error}</div>
+        <div className={adminErrorNoticeClass}>{error}</div>
       ) : filteredProducts.length === 0 ? (
-        <p style={{ color: "#7a7c82" }}>No products found matching your search.</p>
+        <p className="text-[#7a7c82]">No products found matching your search.</p>
       ) : (
-        <div className="admin-table-container">
-          <table className="admin-table">
+        <div className={adminTableContainerClass}>
+          <table className={adminTableClass}>
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Inventory Status</th>
-                <th>Actions</th>
+                <th className={adminThClass}>Product</th>
+                <th className={adminThClass}>Category</th>
+                <th className={adminThClass}>Price</th>
+                <th className={adminThClass}>Inventory Status</th>
+                <th className={adminThClass}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -153,84 +169,62 @@ function Products() {
                 const stock = Number(product.stock ?? 0);
                 const isOutOfStock = stock <= 0;
                 const isLowStock = !isOutOfStock && stock <= 5;
-                const statusClass = isOutOfStock
+                const statusKey = isOutOfStock
                   ? "cancelled"
                   : isLowStock
-                  ? "pending"
-                  : "delivered";
+                    ? "pending"
+                    : "delivered";
 
                 return (
-                  <tr key={product.id}>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "14px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "44px",
-                            height: "44px",
-                            background: "var(--admin-light-box)",
-                            border: "1px solid var(--admin-border)",
-                            display: "grid",
-                            placeItems: "center",
-                            padding: "4px",
-                            boxSizing: "border-box",
-                          }}
-                        >
+                  <tr key={product.id} className="group/row hover:bg-[#fafafc]">
+                    <td className={adminTdClass}>
+                      <div className="flex items-center gap-[14px]">
+                        <div className={adminThumbBoxClass}>
                           <img
                             src={publicAssetUrl(
                               product.image || "/products/whey-protein.png"
                             )}
                             alt={product.name}
-                            style={{
-                              maxWidth: "100%",
-                              maxHeight: "100%",
-                              objectFit: "contain",
-                            }}
+                            className="max-h-full max-w-full object-contain"
                           />
                         </div>
-                        <span style={{ fontWeight: 600, color: "var(--admin-black)" }}>
+                        <span className="font-semibold text-[#121214]">
                           {product.name || product.title}
                         </span>
                       </div>
                     </td>
-                    <td>{product.category || "—"}</td>
-                    <td>
-                      <strong className="admin-num">
+                    <td className={adminTdClass}>{product.category || "—"}</td>
+                    <td className={adminTdClass}>
+                      <strong className={adminNumClass}>
                         <AdminPrice amount={product.price} />
                       </strong>
                     </td>
-                    <td>
-                      <span className={`admin-status-tag ${statusClass}`}>
+                    <td className={adminTdClass}>
+                      <span className={adminStatusTagClass(statusKey)}>
                         {isOutOfStock ? (
                           "OUT OF STOCK"
                         ) : isLowStock ? (
                           <>
-                            <strong className="admin-stock-qty">{stock}</strong> LOW STOCK
+                            <strong className="inline-block min-w-max shrink-0 text-[10.5px] font-light tracking-[0.02em] text-inherit">
+                              {stock}
+                            </strong>{" "}
+                            LOW STOCK
                           </>
                         ) : (
                           <>
-                            <strong className="admin-stock-qty">{stock}</strong> IN STOCK
+                            <strong className="inline-block min-w-max shrink-0 text-[10.5px] font-light tracking-[0.02em] text-inherit">
+                              {stock}
+                            </strong>{" "}
+                            IN STOCK
                           </>
                         )}
                       </span>
                     </td>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "14px",
-                        }}
-                      >
+                    <td className={adminTdClass}>
+                      <div className="flex items-center gap-[14px]">
                         <Link
                           to={`/admin/products/edit/${product.id}`}
-                          className="admin-action-link"
-                          style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold tracking-[0.14em] text-[#121214] uppercase no-underline transition-opacity duration-150 hover:opacity-60 max-[640px]:min-h-8 max-[640px]:rounded-[2px] max-[640px]:px-[10px] max-[640px]:py-[6px]"
                         >
                           <Edit2 size={12} />
                           <span>Edit</span>
@@ -238,20 +232,7 @@ function Products() {
                         <button
                           type="button"
                           onClick={() => handleDelete(product.id, product.name)}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "#8c4242",
-                            cursor: "pointer",
-                            fontSize: "11px",
-                            fontWeight: 600,
-                            letterSpacing: "0.12em",
-                            textTransform: "uppercase",
-                            padding: 0,
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "4px",
-                          }}
+                          className="inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-[11px] font-semibold tracking-[0.12em] text-[#8c4242] uppercase transition-opacity duration-150 hover:opacity-75 max-[640px]:min-h-8 max-[640px]:rounded-[2px] max-[640px]:px-[10px] max-[640px]:py-[6px]"
                         >
                           <Trash2 size={12} />
                           <span>Delete</span>
@@ -266,15 +247,18 @@ function Products() {
         </div>
       )}
       {filteredProducts.length > 0 && !loading && !error && (
-        <div className="admin-pagination-minimal" aria-label="Pagination">
-          <span className="admin-pagination-count">
+        <div
+          className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#e6e6e9] pt-[18px] max-[640px]:flex-col max-[640px]:items-center max-[640px]:gap-3"
+          aria-label="Pagination"
+        >
+          <span className="text-[11.5px] font-light tracking-[0.04em] text-[#76787e] tabular-nums">
             Showing {firstVisibleProduct}–{lastVisibleProduct} of {filteredProducts.length} products
           </span>
 
-          <div className="admin-pagination-controls">
+          <div className="flex items-center gap-[10px]">
             <button
               type="button"
-              className="admin-pagination-btn"
+              className={paginationBtnClass}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
               aria-label="Previous page"
@@ -283,13 +267,13 @@ function Products() {
               <span>Prev</span>
             </button>
 
-            <span className="admin-pagination-current">
-              {currentPage} <span className="admin-pagination-slash">/</span> {pageCount}
+            <span className="min-w-11 text-center text-xs font-light text-[#121214] tabular-nums">
+              {currentPage} <span className="mx-[2px] font-light text-[#b8babc]">/</span> {pageCount}
             </span>
 
             <button
               type="button"
-              className="admin-pagination-btn"
+              className={paginationBtnClass}
               onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
               disabled={currentPage >= pageCount}
               aria-label="Next page"

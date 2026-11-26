@@ -9,6 +9,20 @@ import { fetchAdminOrders } from "../store/slices/adminOrderSlice";
 import { formatCurrency } from "../../utils/formatters";
 import AdminPrice from "../components/AdminPrice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
+import {
+  adminBreadcrumbLinkClass,
+  adminBreadcrumbsClass,
+  adminBtnBlackClass,
+  adminBtnOutlineClass,
+  adminErrorNoticeClass,
+  adminNumClass,
+  adminPageTitleClass,
+  adminStatusTagClass,
+  adminTableClass,
+  adminTableContainerClass,
+  adminTdClass,
+  adminThClass,
+} from "../adminClasses";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -96,6 +110,22 @@ function getSalesDataset(orders, range) {
   };
 }
 
+const sectionBlockClass = "border-b border-[#e6e6e9] pb-[30px] last:border-b-0";
+const sectionHeaderClass =
+  "mb-5 flex cursor-pointer items-center justify-between select-none max-[480px]:mb-[14px] max-[480px]:px-3 max-[480px]:py-[10px]";
+const sectionTitleClass =
+  "m-0 flex items-center gap-[10px] text-xs font-bold tracking-[0.16em] text-[#121214] uppercase max-[480px]:gap-2 max-[480px]:text-[10.5px]";
+const sectionNumClass =
+  "text-[13px] font-light tracking-[0.02em] text-[#121214] [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums";
+const metricCardClass =
+  "flex flex-col gap-2 border border-[#e6e6e9] bg-white p-5 transition-all duration-150 hover:border-[#b5b7bc] max-[480px]:gap-[5px] max-[480px]:px-2 max-[480px]:py-[10px] max-[380px]:px-[6px] max-[380px]:py-2";
+const metricLabelClass =
+  "m-0 text-[10.5px] font-semibold tracking-[0.16em] text-[#7b7e86] uppercase max-[480px]:text-[8px] max-[480px]:tracking-[0.1em]";
+const metricValClass =
+  "m-0 text-[26px] leading-[1.1] font-light tracking-[-0.01em] text-[#121214] [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums max-[480px]:text-[18px] max-[380px]:text-base";
+const metricTrendClass =
+  "flex items-center gap-1 text-[11px] font-light tracking-[0.03em] text-[#44464c] uppercase [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums max-[480px]:text-[7px]";
+
 function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -149,144 +179,140 @@ function Dashboard() {
   ).length;
   const currentDataset = getSalesDataset(orders, timeRange);
 
-  const recentOrders =
-    [...orders]
-      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-      .slice(0, 5)
-      .map((o) => ({
-        id: String(o.id).startsWith("ORD") ? o.id : `ORD${o.id}`,
-        realId: o.id,
-        customer:
-          o.customer?.fullName ||
-          o.customer?.name ||
-          o.fullName ||
-          o.name ||
-          o.email ||
-          "Customer",
-        total: Number(o.total ?? o.totalAmount ?? 0),
-        status: String(o.status || "pending").toLowerCase(),
-        date: o.createdAt
-          ? new Date(o.createdAt).toLocaleDateString("en-IN", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })
-          : "—",
-      }));
+  const recentOrders = [...orders]
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+    .slice(0, 5)
+    .map((o) => ({
+      id: String(o.id).startsWith("ORD") ? o.id : `ORD${o.id}`,
+      realId: o.id,
+      customer:
+        o.customer?.fullName ||
+        o.customer?.name ||
+        o.fullName ||
+        o.name ||
+        o.email ||
+        "Customer",
+      total: Number(o.total ?? o.totalAmount ?? 0),
+      status: String(o.status || "pending").toLowerCase(),
+      date: o.createdAt
+        ? new Date(o.createdAt).toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })
+        : "—",
+    }));
 
-  // Top Showcase Products in Admin portrait framed boxes
   const showcaseProducts = products.slice(0, 3);
+
+  const controlItems = [
+    {
+      key: "products",
+      to: "/admin/products",
+      label: "Catalog Management & Pricing Updates",
+      right: `${totalProductsCount} ITEMS (${totalUnitsInStock} UNITS)`,
+    },
+    {
+      key: "orders",
+      to: "/admin/orders",
+      label: "Order Dispatch & Tracking Verification",
+      right: "LIVE QUEUE",
+    },
+    {
+      key: "users",
+      to: "/admin/users",
+      label: "Customer Accounts & Security Access",
+      right: `${users.length} ACCOUNTS`,
+    },
+  ];
 
   return (
     <section>
       {dataErrors.map((error) => (
-        <div className="admin-error-notice" key={error}>
+        <div className={adminErrorNoticeClass} key={error}>
           {error}
         </div>
       ))}
       {/* Breadcrumbs matching Admin aesthetic */}
-      <div className="admin-breadcrumbs">
-        <Link to="/admin">Administration</Link>
-        <span>/</span>
-        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
-          Overview
-        </span>
+      <div className={adminBreadcrumbsClass}>
+        <Link to="/admin" className={adminBreadcrumbLinkClass}>
+          Administration
+        </Link>
+        <span className="text-[#3b3d42]">/</span>
+        <span className="font-medium text-[#121214]">Overview</span>
       </div>
 
       {/* Main Luxury Display Title */}
-      <h1 className="admin-page-title">OVERVIEW</h1>
+      <h1 className={`${adminPageTitleClass} mb-9 max-[768px]:mb-6`}>OVERVIEW</h1>
 
-      {/* 2-Column Luxury Layout (Matches Admin Checkout Structure) */}
-      <div className="admin-layout-grid">
+      {/* 2-Column Luxury Layout */}
+      <div className="grid grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] items-start gap-[clamp(36px,5vw,72px)] max-[1200px]:gap-9 max-[900px]:grid-cols-1 max-[900px]:gap-8">
         {/* Left Column: Numbered Sections */}
-        <div className="admin-sections-col">
+        <div className="flex flex-col gap-8">
           {/* Section 1: Performance Metrics */}
-          <div className="admin-section-block">
-            <div
-              className="admin-section-header"
-              onClick={() => toggleSection("metrics")}
-            >
-              <h2 className="admin-section-title">
-                <span className="admin-section-num">1</span>
+          <div className={sectionBlockClass}>
+            <div className={sectionHeaderClass} onClick={() => toggleSection("metrics")}>
+              <h2 className={sectionTitleClass}>
+                <span className={sectionNumClass}>1</span>
                 <span>PERFORMANCE METRICS</span>
               </h2>
-              <span className="admin-section-toggle">
-                {openSections.metrics ? (
-                  <ChevronUp size={16} />
-                ) : (
-                  <ChevronDown size={16} />
-                )}
+              <span className="text-sm text-[#717379]">
+                {openSections.metrics ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </span>
             </div>
 
             {openSections.metrics && (
-              <div className="admin-metrics-grid">
-                <div className="admin-metric-card">
-                  <p className="admin-metric-label">Order value (excl. cancelled)</p>
-                  <p className="admin-metric-val">
+              <div className="mb-6 grid grid-cols-4 gap-4 max-[1200px]:grid-cols-2 max-[900px]:gap-[14px] max-[480px]:grid-cols-2 max-[480px]:gap-2 max-[380px]:gap-[6px]">
+                <div className={metricCardClass}>
+                  <p className={metricLabelClass}>Order value (excl. cancelled)</p>
+                  <p className={metricValClass}>
                     <AdminPrice amount={totalRevenue} />
                   </p>
-                  <span className="admin-metric-trend">ALL RECORDED ORDERS</span>
+                  <span className={metricTrendClass}>ALL RECORDED ORDERS</span>
                 </div>
 
-                <div className="admin-metric-card">
-                  <p className="admin-metric-label">Total Orders</p>
-                  <p className="admin-metric-val">{totalOrdersCount}</p>
-                  <span className="admin-metric-trend">ORDERS ON RECORD</span>
+                <div className={metricCardClass}>
+                  <p className={metricLabelClass}>Total Orders</p>
+                  <p className={metricValClass}>{totalOrdersCount}</p>
+                  <span className={metricTrendClass}>ORDERS ON RECORD</span>
                 </div>
 
-                <div className="admin-metric-card">
-                  <p className="admin-metric-label">Products Active</p>
-                  <p className="admin-metric-val">{totalProductsCount}</p>
-                  <span className="admin-metric-trend">100% INVENTORY TRACKED</span>
+                <div className={metricCardClass}>
+                  <p className={metricLabelClass}>Products Active</p>
+                  <p className={metricValClass}>{totalProductsCount}</p>
+                  <span className={metricTrendClass}>100% INVENTORY TRACKED</span>
                 </div>
 
                 <div
-                  className="admin-metric-card"
+                  className={`${metricCardClass} cursor-pointer`}
                   onClick={() => navigate("/admin/products")}
-                  style={{ cursor: "pointer" }}
                   title="View full inventory in Catalog"
                 >
-                  <p className="admin-metric-label">Inventory Status</p>
-                  <p className="admin-metric-val">
+                  <p className={metricLabelClass}>Inventory Status</p>
+                  <p className={metricValClass}>
                     {totalUnitsInStock}{" "}
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: 400,
-                        color: "#6f7177",
-                        letterSpacing: "0.04em",
-                      }}
-                    >
+                    <span className="text-[13px] font-normal tracking-[0.04em] text-[#6f7177]">
                       UNITS
                     </span>
                   </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "5px",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      marginTop: "3px",
-                    }}
-                  >
-                    <span className="admin-status-tag delivered">
-                      <strong className="admin-stock-qty">
+                  <div className="mt-[3px] flex flex-wrap items-center gap-[5px]">
+                    <span className={adminStatusTagClass("delivered")}>
+                      <strong className="inline-block min-w-max shrink-0 text-[10.5px] font-light tracking-[0.02em] text-inherit">
                         {inStockCount}
                       </strong>{" "}
                       IN STOCK
                     </span>
                     {lowStockCount > 0 && (
-                      <span className="admin-status-tag pending">
-                        <strong className="admin-stock-qty">
+                      <span className={adminStatusTagClass("pending")}>
+                        <strong className="inline-block min-w-max shrink-0 text-[10.5px] font-light tracking-[0.02em] text-inherit">
                           {lowStockCount}
                         </strong>{" "}
                         LOW
                       </span>
                     )}
                     {outOfStockCount > 0 && (
-                      <span className="admin-status-tag cancelled">
-                        <strong className="admin-stock-qty">
+                      <span className={adminStatusTagClass("cancelled")}>
+                        <strong className="inline-block min-w-max shrink-0 text-[10.5px] font-light tracking-[0.02em] text-inherit">
                           {outOfStockCount}
                         </strong>{" "}
                         OUT
@@ -299,49 +325,47 @@ function Dashboard() {
           </div>
 
           {/* Section 2: Sales Overview Graph & Revenue Trends */}
-          <div className="admin-section-block">
-            <div
-              className="admin-section-header"
-              onClick={() => toggleSection("sales")}
-            >
-              <h2 className="admin-section-title">
-                <span className="admin-section-num">2</span>
-                <span>SALES OVERVIEW & REVENUE TRENDS</span>
+          <div className={sectionBlockClass}>
+            <div className={sectionHeaderClass} onClick={() => toggleSection("sales")}>
+              <h2 className={sectionTitleClass}>
+                <span className={sectionNumClass}>2</span>
+                <span>SALES OVERVIEW &amp; REVENUE TRENDS</span>
               </h2>
-              <span className="admin-section-toggle">
-                {openSections.sales ? (
-                  <ChevronUp size={16} />
-                ) : (
-                  <ChevronDown size={16} />
-                )}
+              <span className="text-sm text-[#717379]">
+                {openSections.sales ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </span>
             </div>
 
             {openSections.sales && (
-              <div className="admin-sales-graph-panel">
+              <div className="relative flex flex-col border border-[#e6e6e9] bg-white px-[26px] pt-6 pb-5 max-[640px]:px-3 max-[640px]:pt-4 max-[640px]:pb-[14px]">
                 {/* Graph Header: Metrics and Time Selector Tabs */}
-                <div className="admin-graph-top">
+                <div className="mb-4 flex flex-wrap items-end justify-between gap-4 max-[640px]:flex-col max-[640px]:items-start max-[640px]:gap-3">
                   <div>
-                    <p className="admin-graph-revenue-label">
+                    <p className="m-0 mb-1 text-[10.5px] font-bold tracking-[0.16em] text-[#7b7e86] uppercase">
                       Order value ({timeRange})
                     </p>
-                    <div className="admin-graph-revenue-group">
-                      <span className="admin-graph-revenue-num">
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-[26px] leading-none font-light tracking-[-0.01em] text-[#121214] [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums max-[640px]:text-[22px] max-[480px]:text-xl">
                         <AdminPrice amount={currentDataset.revenue} />
                       </span>
-                      <span className="admin-graph-pill-badge">
+                      <span className="rounded-[2px] border border-[#c2e2cb] bg-[#f1f8f3] px-[7px] py-[2px] text-[10px] font-semibold tracking-[0.1em] text-[#204b2b] uppercase">
                         {currentDataset.trend}
                       </span>
                     </div>
                   </div>
 
-                  <div className="admin-graph-time-tabs" role="tablist">
+                  <div
+                    className="inline-flex gap-[2px] border border-[#e6e6e9] bg-[#f4f4f6] p-[2px] max-[640px]:flex max-[640px]:w-full max-[640px]:justify-between"
+                    role="tablist"
+                  >
                     {["7D", "30D", "90D", "1Y"].map((tab) => (
                       <button
                         key={tab}
                         type="button"
-                        className={`admin-graph-time-tab ${
-                          timeRange === tab ? "active" : ""
+                        className={`cursor-pointer border-0 px-3 py-[5px] font-inherit text-[10.5px] font-semibold tracking-[0.14em] uppercase transition-all duration-150 max-[640px]:flex-1 max-[640px]:px-1 max-[640px]:py-[6px] max-[640px]:text-center max-[640px]:text-[10px] ${
+                          timeRange === tab
+                            ? "bg-[#121214] text-white"
+                            : "bg-transparent text-[#6e7178] hover:text-[#121214]"
                         }`}
                         onClick={() => {
                           setTimeRange(tab);
@@ -355,7 +379,7 @@ function Dashboard() {
                 </div>
 
                 {/* SVG Area & Bezier Line Graph */}
-                <div className="admin-graph-svg-wrap">
+                <div className="relative mt-1 h-[210px] w-full max-[640px]:h-[150px] [&_svg_text]:font-light [&_svg_text]:fill-[#121214] [&_svg_text]:tabular-nums">
                   <svg
                     width="100%"
                     height="100%"
@@ -363,67 +387,18 @@ function Dashboard() {
                     preserveAspectRatio="none"
                   >
                     <defs>
-                      <linearGradient
-                        id="adminSalesGrad"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop
-                          offset="0%"
-                          stopColor="#121214"
-                          stopOpacity="0.08"
-                        />
-                        <stop
-                          offset="100%"
-                          stopColor="#121214"
-                          stopOpacity="0.00"
-                        />
+                      <linearGradient id="adminSalesGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#121214" stopOpacity="0.08" />
+                        <stop offset="100%" stopColor="#121214" stopOpacity="0.00" />
                       </linearGradient>
                     </defs>
 
                     {/* Horizontal Grid Hairlines */}
-                    <line
-                      x1="45"
-                      y1="25"
-                      x2="630"
-                      y2="25"
-                      stroke="#f0f0f3"
-                      strokeWidth="1"
-                    />
-                    <line
-                      x1="45"
-                      y1="65"
-                      x2="630"
-                      y2="65"
-                      stroke="#f0f0f3"
-                      strokeWidth="1"
-                    />
-                    <line
-                      x1="45"
-                      y1="105"
-                      x2="630"
-                      y2="105"
-                      stroke="#f0f0f3"
-        f              strokeWidth="1"
-                    />
-                    <line
-                      x1="45"
-                      y1="145"
-                      x2="630"
-                      y2="145"
-                      stroke="#f0f0f3"
-                      strokeWidth="1"
-                    />
-                    <line
-                      x1="45"
-                      y1="180"
-                      x2="630"
-                      y2="180"
-                      stroke="#e5e5e8"
-                      strokeWidth="1"
-                    />
+                    <line x1="45" y1="25" x2="630" y2="25" stroke="#f0f0f3" strokeWidth="1" />
+                    <line x1="45" y1="65" x2="630" y2="65" stroke="#f0f0f3" strokeWidth="1" />
+                    <line x1="45" y1="105" x2="630" y2="105" stroke="#f0f0f3" strokeWidth="1" />
+                    <line x1="45" y1="145" x2="630" y2="145" stroke="#f0f0f3" strokeWidth="1" />
+                    <line x1="45" y1="180" x2="630" y2="180" stroke="#e5e5e8" strokeWidth="1" />
 
                     {/* Y Axis Legend */}
                     <text x="10" y="29" fill="#9da0a8" fontSize="10">
@@ -443,10 +418,7 @@ function Dashboard() {
                     </text>
 
                     {/* Area fill */}
-                    <path
-                      d={currentDataset.fill}
-                      fill="url(#adminSalesGrad)"
-                    />
+                    <path d={currentDataset.fill} fill="url(#adminSalesGrad)" />
 
                     {/* Line Stroke */}
                     <path
@@ -467,7 +439,7 @@ function Dashboard() {
                           fill="#ffffff"
                           stroke="#121214"
                           strokeWidth="2"
-                          style={{ cursor: "pointer", transition: "all 0.16s ease" }}
+                          className="cursor-pointer transition-all duration-150"
                           onMouseEnter={() => setActivePoint(pt)}
                           onMouseLeave={() => setActivePoint(null)}
                         />
@@ -499,34 +471,40 @@ function Dashboard() {
                 </div>
 
                 {/* X Axis Date Labels */}
-                <div className="admin-graph-x-labels">
+                <div className="flex justify-between pt-2 pr-[10px] pl-[46px] text-[10.5px] font-light tracking-[0.04em] text-[#55575e] uppercase tabular-nums max-[480px]:overflow-hidden max-[480px]:pt-[6px] max-[480px]:pr-0 max-[480px]:pl-4 max-[480px]:text-[8px]">
                   {currentDataset.labels.map((lbl, idx) => (
                     <span key={idx}>{lbl}</span>
                   ))}
                 </div>
 
                 {/* Bottom Sub-metrics */}
-                <div className="admin-graph-submetrics">
-                  <div className="admin-submetric-item">
-                    <span className="admin-submetric-label">
+                <div className="mt-5 grid grid-cols-3 gap-4 border-t border-[#e6e6e9] pt-4 max-[640px]:mt-[14px] max-[640px]:grid-cols-1 max-[640px]:gap-2 max-[640px]:pt-3">
+                  <div className="flex flex-col gap-[3px] max-[640px]:flex-row max-[640px]:items-center max-[640px]:justify-between max-[640px]:border-b max-[640px]:border-[#f2f2f5] max-[640px]:py-[5px]">
+                    <span className="text-[9.5px] font-bold tracking-[0.14em] text-[#8c8f96] uppercase">
                       Average Order Value
                     </span>
-                    <span className="admin-submetric-val">
+                    <span className="text-[13.5px] font-light tracking-[0.01em] text-[#121214] tabular-nums">
                       <AdminPrice amount={currentDataset.averageOrderValue} />
                     </span>
                   </div>
-                  <div className="admin-submetric-item">
-                    <span className="admin-submetric-label">
+                  <div className="flex flex-col gap-[3px] max-[640px]:flex-row max-[640px]:items-center max-[640px]:justify-between max-[640px]:border-b max-[640px]:border-[#f2f2f5] max-[640px]:py-[5px]">
+                    <span className="text-[9.5px] font-bold tracking-[0.14em] text-[#8c8f96] uppercase">
                       Orders in period
                     </span>
-                    <span className="admin-submetric-val">{currentDataset.orderCount}</span>
+                    <span className="text-[13.5px] font-light tracking-[0.01em] text-[#121214] tabular-nums">
+                      {currentDataset.orderCount}
+                    </span>
                   </div>
-                  <div className="admin-submetric-item">
-                    <span className="admin-submetric-label">
+                  <div className="flex flex-col gap-[3px] max-[640px]:flex-row max-[640px]:items-center max-[640px]:justify-between max-[640px]:py-[5px]">
+                    <span className="text-[9.5px] font-bold tracking-[0.14em] text-[#8c8f96] uppercase">
                       Cancelled orders
                     </span>
-                    <span className="admin-submetric-val">
-                      {orders.filter((order) => String(order.status).toLowerCase() === "cancelled").length}
+                    <span className="text-[13.5px] font-light tracking-[0.01em] text-[#121214] tabular-nums">
+                      {
+                        orders.filter(
+                          (order) => String(order.status).toLowerCase() === "cancelled"
+                        ).length
+                      }
                     </span>
                   </div>
                 </div>
@@ -535,83 +513,82 @@ function Dashboard() {
           </div>
 
           {/* Section 3: Recent Orders & Fulfillment */}
-          <div className="admin-section-block">
-            <div
-              className="admin-section-header"
-              onClick={() => toggleSection("orders")}
-            >
-              <h2 className="admin-section-title">
-                <span className="admin-section-num">3</span>
-                <span>RECENT FULFILLMENT & ORDERS</span>
+          <div className={sectionBlockClass}>
+            <div className={sectionHeaderClass} onClick={() => toggleSection("orders")}>
+              <h2 className={sectionTitleClass}>
+                <span className={sectionNumClass}>3</span>
+                <span>RECENT FULFILLMENT &amp; ORDERS</span>
               </h2>
-              <span className="admin-section-toggle">
-                {openSections.orders ? (
-                  <ChevronUp size={16} />
-                ) : (
-                  <ChevronDown size={16} />
-                )}
+              <span className="text-sm text-[#717379]">
+                {openSections.orders ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </span>
             </div>
 
             {openSections.orders && (
-              <div className="admin-table-container">
-                <table className="admin-table">
+              <div className={adminTableContainerClass}>
+                <table className={adminTableClass}>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
-                      <th>Customer</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Total</th>
+                      <th className={adminThClass}>Order ID</th>
+                      <th className={adminThClass}>Customer</th>
+                      <th className={adminThClass}>Date</th>
+                      <th className={adminThClass}>Status</th>
+                      <th className={adminThClass}>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     {recentOrders.length === 0 && (
                       <tr>
-                        <td colSpan={5}>No orders yet.</td>
+                        <td colSpan={5} className={adminTdClass}>
+                          No orders yet.
+                        </td>
                       </tr>
                     )}
                     {recentOrders.map((order) => {
                       const statusKey = order.status.includes("deliv")
                         ? "delivered"
                         : order.status.includes("ship")
-                        ? "shipped"
-                        : order.status.includes("process")
-                        ? "processing"
-                        : order.status.includes("cancel")
-                        ? "cancelled"
-                        : "pending";
+                          ? "shipped"
+                          : order.status.includes("process")
+                            ? "processing"
+                            : order.status.includes("cancel")
+                              ? "cancelled"
+                              : "pending";
 
                       const statusLabel =
                         statusKey === "delivered"
                           ? "Delivered"
                           : statusKey === "shipped"
-                          ? "Shipped"
-                          : statusKey === "processing"
-                          ? "Processing"
-                          : statusKey === "cancelled"
-                          ? "Cancelled"
-                          : "Pending";
+                            ? "Shipped"
+                            : statusKey === "processing"
+                              ? "Processing"
+                              : statusKey === "cancelled"
+                                ? "Cancelled"
+                                : "Pending";
 
                       return (
                         <tr
                           key={order.id}
                           onClick={() => navigate(`/admin/orders/${order.realId || order.id}`)}
-                          className="admin-clickable-row"
+                          className="group/row cursor-pointer transition-colors duration-150 hover:bg-[#f2f2f5]"
                           title={`Click to open order #${order.id}`}
                         >
-                          <td>
-                            <strong className="admin-order-id-link">#{order.id}</strong>
+                          <td className={adminTdClass}>
+                            <strong className={`${adminNumClass} group-hover/row:underline`}>
+                              #{order.id}
+                            </strong>
                           </td>
-                          <td>{order.customer}</td>
-                          <td>{order.date}</td>
-                          <td>
-                            <span className={`admin-status-tag ${statusKey}`}>
+                          <td className={adminTdClass}>{order.customer}</td>
+                          <td className={adminTdClass}>{order.date}</td>
+                          <td className={adminTdClass}>
+                            <span className={adminStatusTagClass(statusKey)}>
                               {statusLabel}
                             </span>
                           </td>
-                          <td>
-                            <strong><AdminPrice amount={order.total} /></strong>
+                          <td className={adminTdClass}>
+                            <strong className={adminNumClass}>
+                              <AdminPrice amount={order.total} />
+                            </strong>
                           </td>
                         </tr>
                       );
@@ -623,96 +600,80 @@ function Dashboard() {
           </div>
 
           {/* Section 4: Operational Quick Controls */}
-          <div className="admin-section-block">
-            <div
-              className="admin-section-header"
-              onClick={() => toggleSection("controls")}
-            >
-              <h2 className="admin-section-title">
-                <span className="admin-section-num">4</span>
+          <div className={sectionBlockClass}>
+            <div className={sectionHeaderClass} onClick={() => toggleSection("controls")}>
+              <h2 className={sectionTitleClass}>
+                <span className={sectionNumClass}>4</span>
                 <span>OPERATIONAL CONTROLS</span>
               </h2>
-              <span className="admin-section-toggle">
-                {openSections.controls ? (
-                  <ChevronUp size={16} />
-                ) : (
-                  <ChevronDown size={16} />
-                )}
+              <span className="text-sm text-[#717379]">
+                {openSections.controls ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </span>
             </div>
 
             {openSections.controls && (
-              <div className="admin-radio-list">
-                <div
-                  className={`admin-radio-item ${
-                    quickFilter === "products" ? "selected" : ""
-                  }`}
-                  onClick={() => {
-                    setQuickFilter("products");
-                    navigate("/admin/products");
-                  }}
-                >
-                  <div className="admin-radio-label">
-                    <span className="admin-radio-dot" />
-                    <span>Catalog Management & Pricing Updates</span>
-                  </div>
-                  <span className="admin-radio-price">
-                    {totalProductsCount} ITEMS ({totalUnitsInStock} UNITS)
-                  </span>
-                </div>
-
-                <div
-                  className={`admin-radio-item ${
-                    quickFilter === "orders" ? "selected" : ""
-                  }`}
-                  onClick={() => {
-                    setQuickFilter("orders");
-                    navigate("/admin/orders");
-                  }}
-                >
-                  <div className="admin-radio-label">
-                    <span className="admin-radio-dot" />
-                    <span>Order Dispatch & Tracking Verification</span>
-                  </div>
-                  <span className="admin-radio-price">LIVE QUEUE</span>
-                </div>
-
-                <div
-                  className={`admin-radio-item ${
-                    quickFilter === "users" ? "selected" : ""
-                  }`}
-                  onClick={() => {
-                    setQuickFilter("users");
-                    navigate("/admin/users");
-                  }}
-                >
-                  <div className="admin-radio-label">
-                    <span className="admin-radio-dot" />
-                    <span>Customer Accounts & Security Access</span>
-                  </div>
-                  <span className="admin-radio-price">
-                    {users.length} ACCOUNTS
-                  </span>
-                </div>
+              <div className="mt-2 flex flex-col gap-[14px]">
+                {controlItems.map((item) => {
+                  const isSelected = quickFilter === item.key;
+                  return (
+                    <div
+                      key={item.key}
+                      className={`flex cursor-pointer items-center justify-between rounded-[4px] border bg-white px-[14px] py-3 transition-colors duration-150 hover:border-[#121214] max-[640px]:flex-col max-[640px]:items-start max-[640px]:gap-[6px] max-[640px]:px-[10px] max-[640px]:py-3 ${
+                        isSelected ? "border-[#121214]" : "border-[#e6e6e9]"
+                      }`}
+                      onClick={() => {
+                        setQuickFilter(item.key);
+                        navigate(item.to);
+                      }}
+                    >
+                      <div className="flex items-center gap-3 text-xs font-medium text-[#121214]">
+                        <span
+                          className={`grid h-[14px] w-[14px] place-items-center rounded-full border ${
+                            isSelected
+                              ? "border-[#121214] after:h-[6px] after:w-[6px] after:rounded-full after:bg-[#121214] after:content-['']"
+                              : "border-[#8e9198]"
+                          }`}
+                        />
+                        <span>{item.label}</span>
+                      </div>
+                      <span className="text-[12.5px] font-light tracking-[0.02em] text-[#121214] [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums max-[640px]:pl-[26px] max-[640px]:text-[11px]">
+                        {item.right}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
 
-        {/* Right Column: Admin Summary Panel (Matches "YOUR ORDER (14)" from Screenshot) */}
-        <div className="admin-summary-col">
-          <h3 className="admin-summary-heading">STORE SUMMARY</h3>
+        {/* Right Column: Admin Summary Panel */}
+        <div className="sticky top-[136px] border border-[#e6e6e9] bg-white p-[clamp(24px,3.5vw,36px)] max-[900px]:static max-[640px]:px-[14px] max-[640px]:py-5">
+          <h3 className="m-0 mb-6 border-b border-[#e6e6e9] pb-4 text-xs font-bold tracking-[0.18em] text-[#121214] uppercase">
+            STORE SUMMARY
+          </h3>
 
-          {/* Product Gallery Strip in framed boxes (Matches 3 cosmetic bottles in screenshot) */}
-          <div className="admin-products-strip">
+          {/* Product Gallery Strip in framed boxes */}
+          <div className="mb-6 grid grid-cols-3 gap-3 max-[640px]:mb-[18px] max-[640px]:gap-2">
             {showcaseProducts.length === 0 && (
-              <p>No products have been added yet.</p>
+              <p className="col-span-full text-xs text-[#6f7177]">
+                No products have been added yet.
+              </p>
             )}
             {showcaseProducts.map((p) => (
-              <div className="admin-product-box" key={p.name}>
-                <img src={publicAssetUrl(p.image)} alt={p.name} />
-                <span className="admin-product-box-name">{p.name}</span>
-                <span className="admin-product-box-price">
+              <div
+                className="box-border flex aspect-[1/1.15] flex-col items-center justify-center border border-[#eeeeef] bg-[#f5f5f7] p-[10px] text-center transition-colors duration-150 hover:border-[#c9cace] max-[640px]:aspect-[1/1.1] max-[640px]:p-[6px]"
+                key={p.name}
+              >
+                <img
+                  src={publicAssetUrl(p.image)}
+                  alt={p.name}
+                  className="mb-[6px] max-h-[70px] max-w-[80%] object-contain max-[640px]:max-h-[52px]"
+                />
+                <span className="w-full overflow-hidden text-[10px] font-medium text-ellipsis whitespace-nowrap text-[#3b3d42] max-[640px]:text-[9px]">
+                  {p.name}
+                </span>
+                <span className="mt-[2px] text-xs font-light tracking-[0.02em] text-[#121214] [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums max-[640px]:text-[11px]">
                   <AdminPrice amount={p.price} />
                 </span>
               </div>
@@ -720,36 +681,38 @@ function Dashboard() {
           </div>
 
           {/* Underline Action Search Field with Arrow */}
-          <div className="admin-promo-line">
+          <div className="mb-6 flex items-center justify-between border-b border-[#d4d5d9] py-[10px]">
             <input
               type="text"
               placeholder="Search product code or SKU..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") navigate("/admin/products");
               }}
+              className="w-full border-0 bg-transparent font-inherit text-xs text-[#121214] outline-none placeholder:text-[#8c8f96]"
             />
             <button
               type="button"
               onClick={() => navigate("/admin/products")}
               aria-label="Search"
+              className="cursor-pointer border-0 bg-transparent px-1 text-sm text-[#121214]"
             >
               →
             </button>
           </div>
 
-          {/* Financial Ledger (Exact aesthetic from Admin screenshot) */}
-          <div className="admin-ledger">
-            <div className="admin-ledger-row">
+          {/* Financial Ledger */}
+          <div className="mb-7 flex flex-col gap-3">
+            <div className="flex items-center justify-between text-[11.5px] font-light tracking-[0.04em] text-[#6e7178] uppercase [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums">
               <span>GROSS ORDER VALUE:</span>
               <span>
                 <AdminPrice amount={totalRevenue} />
               </span>
             </div>
-            <div className="admin-ledger-row">
+            <div className="flex items-center justify-between text-[11.5px] font-light tracking-[0.04em] text-[#6e7178] uppercase [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums">
               <span>ESTIMATED FULFILLMENT:</span>
               <span>COMPLIMENTARY</span>
             </div>
-            <div className="admin-ledger-row total">
+            <div className="flex items-center justify-between border-t border-[#e6e6e9] pt-[14px] text-[15px] font-normal tracking-[0.02em] text-[#121214] uppercase [font-feature-settings:'lnum'_1,'tnum'_1] tabular-nums">
               <span>TOTAL ORDER VALUE:</span>
               <span>
                 <AdminPrice amount={totalRevenue} />
@@ -758,13 +721,13 @@ function Dashboard() {
           </div>
 
           {/* Primary Action Button */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <Link to="/admin/products/add" className="admin-btn-black">
+          <div className="flex flex-col gap-3">
+            <Link to="/admin/products/add" className={adminBtnBlackClass}>
               <span>ADD PRODUCT</span>
               <ArrowRight size={14} />
             </Link>
 
-            <Link to="/admin/orders" className="admin-btn-outline">
+            <Link to="/admin/orders" className={adminBtnOutlineClass}>
               VIEW ALL ORDERS
             </Link>
           </div>

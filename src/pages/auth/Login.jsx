@@ -4,12 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../../services/authService";
-import { loginSuccess, logout } from "../../redux/authSlice";
+import { loginSuccess } from "../../redux/authSlice";
 import { adminLogin, adminLogout } from "../../admin/store/slices/adminAuthSlice";
 import { fetchCart } from "../../redux/cartSlice";
 import { fetchWishlist } from "../../redux/wishlistSlice";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Login.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -69,29 +68,23 @@ export default function Login() {
       const safeUser = { ...user };
       delete safeUser.password;
 
-      // Admin and customer sessions are strictly separated:
-      // If user has admin rights, log into admin session only and clear customer session.
-      // If regular customer, log into customer session and clear admin session.
+      dispatch(loginSuccess(safeUser));
       if (isUserAdmin) {
         dispatch(adminLogin({ email: trimmedEmail, ...safeUser }));
-        dispatch(logout());
       } else {
-        dispatch(loginSuccess(safeUser));
         dispatch(adminLogout());
+      }
 
-        if (safeUser.id) {
-          dispatch(fetchCart(safeUser.id));
-          dispatch(fetchWishlist(safeUser.id));
-        }
+      if (safeUser.id) {
+        dispatch(fetchCart(safeUser.id));
+        dispatch(fetchWishlist(safeUser.id));
       }
 
       const dest = location.state?.from;
       let next;
 
       if (isUserAdmin) {
-        // Administrators MUST always land in the admin dashboard.
-        // If specifically navigating to an admin sub-path (e.g. /admin/orders or /admin/products), restore it.
-        // NEVER route an admin to customer protected routes like /cart or /checkout, which would bounce back to /login.
+        // Administrators land in the dashboard unless they requested an admin sub-path.
         if (dest?.pathname?.startsWith("/admin")) {
           next = {
             pathname: dest.pathname,
@@ -126,69 +119,91 @@ export default function Login() {
       });
     } catch (err) {
       const message = err.message || "";
-      setError(message.includes("Invalid login credentials")
-        ? "Invalid email or password."
-        : message || "Unable to log in. Check your connection and try again.");
+      setError(
+        message.includes("Invalid login credentials")
+          ? "Invalid email or password."
+          : message || "Unable to log in. Check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="editorial-login-page">
+    <div
+      data-auth-screen="true"
+      className="box-border flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-white max-[820px]:h-auto max-[820px]:max-h-none max-[820px]:min-h-dvh max-[820px]:overflow-y-auto [@media(max-height:720px)]:h-auto [@media(max-height:720px)]:max-h-none [@media(max-height:720px)]:min-h-dvh [@media(max-height:720px)]:overflow-y-auto"
+    >
       {/* Top Header Bar across the screen */}
-      <header className="editorial-login-nav">
-        <div className="editorial-nav-left">
+      <header className="relative box-border flex h-[var(--navbar-height,72px)] min-h-[var(--navbar-height,72px)] w-full shrink-0 items-center justify-between border-b border-[#f0f0f2] bg-white px-[clamp(24px,4vw,56px)] max-[768px]:h-[var(--navbar-height,64px)] max-[768px]:min-h-[var(--navbar-height,64px)] max-[768px]:px-5 max-[640px]:px-4 max-[440px]:px-3">
+        <div className="z-[1] flex items-center gap-[18px]">
           <Link
             to="/"
-            className="editorial-nav-menu-btn"
+            className="inline-flex cursor-pointer flex-col gap-1 border-0 bg-transparent p-1 no-underline"
             aria-label="Home"
             title="Home"
           >
-            <span className="editorial-nav-menu-line" />
-            <span className="editorial-nav-menu-line" />
+            <span className="block h-[1.5px] w-[15px] bg-[#111113]" />
+            <span className="block h-[1.5px] w-[15px] bg-[#111113]" />
           </Link>
         </div>
 
-        <Link to="/" className="editorial-nav-brand">
+        <Link
+          to="/"
+          className="pointer-events-auto absolute top-1/2 left-1/2 z-[2] m-0 -translate-x-1/2 -translate-y-1/2 p-0 text-center font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-base font-light tracking-[0.28em] whitespace-nowrap text-[#111113] uppercase no-underline max-[640px]:text-sm max-[640px]:tracking-[0.22em] max-[440px]:text-[13px] max-[440px]:tracking-[0.18em]"
+        >
           GYMKHANA
         </Link>
 
-        <div className="editorial-nav-right">
-          <span className="editorial-nav-link active">LOG IN</span>
-          <Link to="/register" className="editorial-nav-link">
+        <div className="z-[1] ml-auto flex items-center gap-6 max-[640px]:gap-[14px] max-[440px]:gap-0">
+          <span className="text-[10.5px] font-normal tracking-[0.18em] text-[#111113] uppercase no-underline max-[640px]:text-[9.5px] max-[640px]:tracking-[0.12em] max-[440px]:hidden">
+            LOG IN
+          </span>
+          <Link
+            to="/register"
+            className="text-[10.5px] font-light tracking-[0.18em] text-[#222225] uppercase no-underline transition-colors duration-150 hover:text-black max-[640px]:text-[9.5px] max-[640px]:tracking-[0.12em]"
+          >
             CREATE ACCOUNT
           </Link>
         </div>
       </header>
 
       {/* Main Full-Screen Layout */}
-      <main className="editorial-login-main">
-        <div className="editorial-login-content">
+      <main className="box-border flex min-h-0 w-full flex-1 items-center justify-center overflow-hidden px-[clamp(24px,4vw,64px)] py-[clamp(8px,1.8vh,24px)] max-[820px]:overflow-y-visible max-[820px]:px-5 max-[820px]:py-6">
+        <div className="mx-auto grid w-full max-w-[1120px] grid-cols-[1.08fr_1fr] items-center gap-[clamp(28px,4.5vw,68px)] max-[820px]:grid-cols-1 max-[820px]:gap-8">
           {/* Left Column: Framed Editorial Photo */}
-          <section className="editorial-photo-col">
-            <div className="editorial-photo-frame">
+          <section className="flex min-h-0 w-full items-center justify-center max-[820px]:hidden">
+            <div className="box-border aspect-[3/4] max-h-[calc(100dvh-120px)] w-[min(100%,485px,calc((100dvh-120px)*0.75))] overflow-hidden border border-[#f0f0f2] bg-[#f4f4f6]">
               <img
                 src={publicAssetUrl("/images/login-banner.jpg")}
                 alt="GYMKHANA Training Space"
+                className="block h-full w-full object-cover object-center"
               />
             </div>
           </section>
 
           {/* Right Column: Login Form */}
-          <section className="editorial-form-col">
-            <h1 className="editorial-login-heading">Log in</h1>
+          <section className="mx-auto flex w-full max-w-[420px] flex-col justify-center">
+            <h1 className="m-0 mb-[clamp(16px,2.5vh,26px)] font-['Cormorant_Garamond',Georgia,serif] text-[clamp(42px,4.6vw,54px)] leading-[1.05] font-medium tracking-[-0.01em] text-[#121214] italic max-[820px]:mb-[22px] max-[820px]:text-[clamp(36px,9vw,44px)]">
+              Log in
+            </h1>
 
             {error && (
-              <p className="editorial-error-alert" role="alert">
+              <p
+                className="mb-5 border-l-2 border-[#b91c1c] bg-[#fef2f2] px-3 py-2 text-[11.5px] text-[#b91c1c]"
+                role="alert"
+              >
                 {error}
               </p>
             )}
 
             <form onSubmit={handleSubmit} noValidate>
               {/* EMAIL */}
-              <div className="editorial-field-group">
-                <label htmlFor="login-email" className="editorial-field-label">
+              <div className="mb-[clamp(14px,2vh,22px)] flex flex-col">
+                <label
+                  htmlFor="login-email"
+                  className="mb-[3px] text-[10px] font-semibold tracking-[0.18em] text-[#8b8e96] uppercase"
+                >
                   EMAIL
                 </label>
                 <input
@@ -210,27 +225,27 @@ export default function Login() {
                     }
                   }}
                   required
-                  className="editorial-underline-input"
+                  className="w-full rounded-none border-0 border-b border-[#d5d7dc] bg-transparent py-[9px] font-inherit text-[14px] text-[#121214] outline-none transition-colors duration-200 placeholder:font-light placeholder:text-[#b0b3ba] focus:border-b-[#121214]"
                 />
               </div>
 
               {/* PASSWORD */}
-              <div className="editorial-field-group">
-                <div className="editorial-field-header">
+              <div className="mb-[clamp(14px,2vh,22px)] flex flex-col">
+                <div className="mb-[3px] flex items-baseline justify-between">
                   <label
                     htmlFor="login-password"
-                    className="editorial-field-label"
+                    className="text-[10px] font-semibold tracking-[0.18em] text-[#8b8e96] uppercase"
                   >
                     PASSWORD
                   </label>
                   <Link
                     to="/forgot-password"
-                    className="editorial-forgot-link"
+                    className="text-[11px] text-[#8b8e96] underline underline-offset-[3px] transition-colors duration-150 hover:text-[#111113]"
                   >
                     Forgot?
                   </Link>
                 </div>
-                <div className="editorial-input-wrapper">
+                <div className="relative w-full">
                   <input
                     ref={passwordInputRef}
                     id="login-password"
@@ -242,15 +257,13 @@ export default function Login() {
                       if (error) setError("");
                     }}
                     required
-                    className="editorial-underline-input"
+                    className="w-full rounded-none border-0 border-b border-[#d5d7dc] bg-transparent py-[9px] pr-8 font-inherit text-[14px] text-[#121214] outline-none transition-colors duration-200 placeholder:font-light placeholder:text-[#b0b3ba] focus:border-b-[#121214]"
                   />
                   <button
                     type="button"
-                    className="editorial-password-toggle"
+                    className="absolute top-1/2 right-0 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-1 text-[#8b8e96] transition-colors duration-150 hover:text-[#121214]"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                     aria-pressed={showPassword}
                   >
                     {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -261,16 +274,21 @@ export default function Login() {
               {/* SIGN IN BUTTON */}
               <button
                 type="submit"
-                className="editorial-signin-btn"
+                className="mt-[10px] w-full cursor-pointer rounded-none border-0 bg-[#121214] px-[18px] py-[15px] font-inherit text-[11.5px] font-light tracking-[0.22em] text-white uppercase transition-[background,opacity] duration-200 hover:not-disabled:bg-[#2a2a30] disabled:cursor-not-allowed disabled:opacity-65"
                 disabled={loading}
               >
                 {loading ? "SIGNING IN..." : "SIGN IN"}
               </button>
 
               {/* SIGNUP PROMPT */}
-              <p className="editorial-signup-row">
-                Don't have an account yet?
-                <Link to="/register">Create account</Link>
+              <p className="mt-5 text-left text-xs text-[#55575e]">
+                Don&apos;t have an account yet?
+                <Link
+                  to="/register"
+                  className="ml-1 font-medium text-[#121214] underline underline-offset-[3px] transition-colors duration-150 hover:text-black"
+                >
+                  Create account
+                </Link>
               </p>
             </form>
           </section>

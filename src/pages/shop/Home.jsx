@@ -8,7 +8,6 @@ import { AboutSection } from "../about/About";
 import StudioContact from "../../components/StudioContact";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
 import { getProductSales } from "../../services/productService";
-import "./Home.css";
 
 const FEATURED_CATEGORIES = [
   {
@@ -95,81 +94,122 @@ export default function Home() {
   }, [items, sales]);
 
   return (
-    <main className="home-container">
+    <main className="m-0 w-full bg-[#e1e0dc] p-0 text-[#121214]">
       {/* 1. HERO SECTION - HIGH-FASHION EDITORIAL ATHLETIC STAGING (GYMKHANA MONUMENTAL) */}
-      <section className="gym-hero-section" id="home">
-        <div className="gym-hero-stage">
+      <section
+        className="relative m-0 box-border flex h-[calc(100dvh-var(--navbar-height,72px))] max-h-[calc(100dvh-var(--navbar-height,72px))] w-full flex-col justify-between overflow-hidden border-b border-[#d4d3cf] bg-[#e1e0dc] px-[clamp(24px,5vw,72px)] pt-[clamp(14px,1.8vh,24px)] pb-[clamp(20px,2.5vh,32px)] text-[#0d0d0f] max-[820px]:h-[calc(100dvh-var(--navbar-height,64px))] max-[820px]:max-h-[calc(100dvh-var(--navbar-height,64px))] max-[820px]:px-5 max-[820px]:pt-[14px] max-[820px]:pb-[22px] max-[540px]:px-[14px] max-[540px]:pt-3 max-[540px]:pb-[18px]"
+        id="home"
+      >
+        <div className="relative mx-auto box-border flex h-full min-h-0 w-full max-w-[1560px] flex-1 flex-col justify-between">
           {/* Top-Left Editorial Micro-Copy */}
-          <div className="gym-meta-top">
-            <p className="gym-meta-heading">
+          <div className="z-[10] flex shrink-0 flex-col items-start">
+            <p className="m-0 flex flex-col font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',Roboto,'Helvetica_Neue',Arial,sans-serif] text-[clamp(10px,1vw,12px)] leading-[1.5] font-bold tracking-[0.22em] text-[#0d0d0f] uppercase max-[540px]:text-[9.5px] max-[540px]:tracking-[0.18em]">
               <span>FUEL YOUR GRIND</span>
               <span>BUILT YOUR STRENGTH</span>
-              
             </p>
-            <span className="gym-meta-line" aria-hidden="true" />
+            <span
+              className="mt-2 block h-[1.5px] w-7 bg-[#0d0d0f] max-[540px]:mt-[6px] max-[540px]:w-[22px]"
+              aria-hidden="true"
+            />
           </div>
 
           {/* Central Monumental Typography & Centered Athlete Staging */}
-          <div className="gym-monumental-stage">
-            <div className="gym-brand-backdrop" aria-hidden="true">
-              <span className="gym-letters-left">GYMK</span>
-              <span className="gym-letters-right">HANA</span>
+          <div className="relative m-0 flex min-h-0 w-full flex-1 items-center justify-center overflow-visible p-0 max-[820px]:my-1 max-[540px]:my-[2px]">
+            <div
+              className="pointer-events-none absolute inset-0 z-[1] flex w-full items-center justify-center gap-[clamp(12px,1.6vw,32px)] font-['Manrope',-apple-system,BlinkMacSystemFont,'Segoe_UI',Roboto,sans-serif] text-[clamp(64px,13.5vw,215px)] leading-[0.86] font-extrabold tracking-[-0.035em] whitespace-nowrap text-[#0d0d0f] uppercase select-none max-[820px]:gap-[clamp(10px,2.4vw,28px)] max-[820px]:text-[clamp(86px,18.5vw,155px)] max-[820px]:font-black max-[820px]:tracking-[-0.04em] max-[540px]:gap-[clamp(6px,1.6vw,12px)] max-[540px]:text-[clamp(70px,19.5vw,106px)] max-[540px]:leading-[0.82] max-[540px]:tracking-[-0.045em] max-[380px]:gap-1 max-[380px]:text-[clamp(62px,18.5vw,76px)]"
+              aria-hidden="true"
+            >
+              <span className="inline-block text-right tracking-[clamp(0.01em,0.4vw,0.06em)] max-[820px]:tracking-[-0.03em] max-[540px]:tracking-[-0.04em]">
+                GYMK
+              </span>
+              <span className="inline-block text-left tracking-[clamp(0.01em,0.4vw,0.06em)] max-[820px]:tracking-[-0.03em] max-[540px]:tracking-[-0.04em]">
+                HANA
+              </span>
             </div>
 
-            <div className="gym-athlete-frame">
+            <div className="relative z-[2] flex h-full max-h-full w-auto origin-bottom scale-[1.18] flex-col items-center justify-end transition-transform duration-250 max-[820px]:h-[92%] max-[820px]:max-h-[92%] max-[820px]:max-w-[clamp(230px,46vw,340px)] max-[820px]:scale-100 max-[540px]:h-[86%] max-[540px]:max-h-[86%] max-[540px]:max-w-[clamp(180px,52vw,230px)] max-[380px]:h-[84%] max-[380px]:max-h-[84%] max-[380px]:max-w-[190px]">
               <img
                 src={publicAssetUrl("/images/hero-athlete-cutout.png")}
                 alt="Gymkhana Athlete"
-                className="gym-athlete-img"
+                className="block h-full max-h-full w-auto object-contain object-bottom"
                 loading="eager"
               />
-              <div className="gym-floor-shadow" aria-hidden="true" />
+              <div
+                className="pointer-events-none absolute bottom-0 h-3 w-[70%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(13,13,15,0.35)_0%,rgba(13,13,15,0)_72%)]"
+                aria-hidden="true"
+              />
             </div>
           </div>
 
           {/* Bottom Controls Row: Shop Now / Explore on left, Collection tag on right */}
-          <div className="gym-hero-footer">
-            <div className="gym-hero-actions">
-              <Link to="/shop" className="gym-btn-shop">
+          <div className="z-[10] flex w-full shrink-0 items-end justify-between gap-6 pb-[clamp(14px,2vh,26px)] max-[820px]:flex-row max-[820px]:gap-4 max-[820px]:pb-[6px] max-[540px]:gap-3 max-[540px]:pb-[2px]">
+            <div className="flex flex-wrap items-center gap-[clamp(16px,2.5vw,32px)] max-[540px]:gap-3">
+              <Link
+                to="/shop"
+                className="inline-flex items-center justify-center rounded-none bg-[#0d0d0f] px-[clamp(22px,2.2vw,32px)] py-[13px] font-inherit text-[11px] font-bold tracking-[0.22em] text-white uppercase no-underline transition-[background,transform] duration-200 hover:bg-[#2b2b32] max-[820px]:px-5 max-[820px]:py-[11px] max-[820px]:text-[10.5px] max-[540px]:px-[15px] max-[540px]:py-[9px] max-[540px]:text-[9.5px] max-[540px]:tracking-[0.16em]"
+              >
                 SHOP NOW
               </Link>
-              <Link to="/shop" className="gym-link-explore">
+              <Link
+                to="/shop"
+                className="inline-flex items-center border-b-[1.5px] border-[#0d0d0f] pb-[3px] font-inherit text-[11px] font-bold tracking-[0.22em] text-[#0d0d0f] uppercase no-underline transition-opacity duration-200 hover:opacity-60 max-[820px]:text-[10.5px] max-[540px]:text-[9.5px] max-[540px]:tracking-[0.16em]"
+              >
                 EXPLORE NEW IN
               </Link>
             </div>
 
-            <div className="gym-meta-bottom">
-              <p className="gym-meta-bottom-title">NEW</p>
-              <p className="gym-meta-bottom-title">COLLECTION</p>
-              <p className="gym-meta-bottom-year">2 0 2 6</p>
-              <span className="gym-meta-line" aria-hidden="true" />
+            <div className="flex flex-col items-start text-left">
+              <p className="m-0 text-[10.5px] leading-[1.45] font-bold tracking-[0.24em] text-[#0d0d0f] uppercase max-[540px]:text-[9px] max-[540px]:tracking-[0.18em]">
+                NEW
+              </p>
+              <p className="m-0 text-[10.5px] leading-[1.45] font-bold tracking-[0.24em] text-[#0d0d0f] uppercase max-[540px]:text-[9px] max-[540px]:tracking-[0.18em]">
+                COLLECTION
+              </p>
+              <p className="mt-px mb-0 text-[10.5px] font-bold tracking-[0.32em] text-[#0d0d0f] max-[540px]:text-[9px] max-[540px]:tracking-[0.24em]">
+                2 0 2 6
+              </p>
+              <span
+                className="mt-2 block h-[1.5px] w-7 bg-[#0d0d0f] max-[540px]:mt-[6px] max-[540px]:w-[22px]"
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* 2. CATEGORIES SECTION - BLACK LUXURY EDITORIAL */}
-      <section id="categories" className="home-categories-section">
-        <div className="home-categories-container">
-          <div className="home-minimal-categories-grid">
+      <section
+        id="categories"
+        className="m-0 box-border w-full bg-[#0d0d0f] px-[clamp(20px,4vw,64px)] py-[clamp(20px,2.5vw,32px)] max-[960px]:px-[18px] max-[960px]:pt-[18px] max-[960px]:pb-[22px] max-[580px]:px-3 max-[580px]:pt-[14px] max-[580px]:pb-[18px]"
+      >
+        <div className="mx-auto box-border w-full max-w-[1440px]">
+          <div className="grid w-full grid-cols-4 gap-[clamp(8px,1.2vw,14px)] max-[960px]:grid-cols-2 max-[960px]:gap-3 max-[580px]:grid-cols-1 max-[580px]:gap-[10px]">
             {FEATURED_CATEGORIES.map((cat, idx) => (
               <Link
                 key={cat.id}
                 to={`/shop?category=${encodeURIComponent(cat.slug)}`}
-                className="home-minimal-category-card"
+                className="group box-border flex min-h-[140px] flex-col justify-between rounded-[2px] border border-[#232328] bg-[#141417] px-[clamp(12px,1.2vw,16px)] py-[clamp(12px,1.4vw,18px)] no-underline shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-200 hover:-translate-y-[3px] hover:border-white hover:bg-[#1c1c21] hover:shadow-[0_12px_28px_rgba(0,0,0,0.5)]"
               >
-                <div className="home-minimal-cat-top">
-                  <span className="home-minimal-cat-num">0{idx + 1}</span>
-                  <span className="home-minimal-cat-badge">{cat.badge}</span>
+                <div className="mb-3 flex items-baseline justify-between">
+                  <span className="font-[Arial,sans-serif] text-[17px] leading-none font-bold tracking-[-0.02em] text-[#555760] transition-colors duration-200 group-hover:text-[#8b8e96]">
+                    0{idx + 1}
+                  </span>
+                  <span className="text-[9px] font-bold tracking-[0.16em] text-[#a0a2aa] uppercase">
+                    {cat.badge}
+                  </span>
                 </div>
 
-                <div className="home-minimal-cat-body">
-                  <h3 className="home-minimal-cat-name">{cat.name}</h3>
-                  <p className="home-minimal-cat-desc">{cat.desc}</p>
+                <div>
+                  <h3 className="m-0 mb-[6px] text-[13.5px] leading-[1.3] font-bold tracking-[0.05em] text-white uppercase">
+                    {cat.name}
+                  </h3>
+                  <p className="m-0 mb-[14px] text-[11.5px] leading-[1.5] text-[#8e9098]">
+                    {cat.desc}
+                  </p>
                 </div>
 
-                <div className="home-minimal-cat-footer">
-                  <span className="home-minimal-cat-link">
+                <div className="border-t border-[#232328] pt-[10px]">
+                  <span className="inline-flex items-center border-b-[1.5px] border-transparent pb-[2px] text-[10px] font-bold tracking-[0.12em] text-white uppercase transition-colors duration-200 group-hover:border-b-white">
                     Explore Formulations &rarr;
                   </span>
                 </div>
@@ -179,30 +219,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. BEST SELLERS SECTION */}
-      <section id="bestsellers" className="home-section best-sellers-section">
-        <div className="home-section-header">
+      {/* 3. BEST SELLERS SECTION */}
+      <section
+        id="bestsellers"
+        className="relative m-0 box-border w-full max-w-full border-b border-[#ebebef] bg-white px-[clamp(20px,4.5vw,64px)] py-[clamp(38px,4.8vw,68px)] max-[1023px]:px-5 max-[1023px]:pt-8 max-[1023px]:pb-11 max-[600px]:px-4 max-[600px]:pt-6 max-[600px]:pb-8"
+      >
+        <div className="mx-auto mb-[clamp(20px,3.2vw,36px)] flex max-w-[1200px] items-end justify-between gap-5 max-[600px]:mb-5 max-[600px]:flex-col max-[600px]:items-start max-[600px]:gap-[10px]">
           <div>
-            <p className="home-section-eyebrow">THE ESSENTIAL FORMULATIONS</p>
-            <h2 className="home-section-title">BEST OF GYMKHANA</h2>
+            <p className="m-0 mb-[5px] font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',Roboto,'Helvetica_Neue',Arial,sans-serif] text-[8.5px] font-bold tracking-[0.26em] text-[#8b8e96] uppercase">
+              THE ESSENTIAL FORMULATIONS
+            </p>
+            <h2 className="m-0 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',Roboto,'Helvetica_Neue',Arial,sans-serif] text-[13.5px] leading-[1.2] font-semibold tracking-[0.28em] text-[#121214] uppercase">
+              BEST OF GYMKHANA
+            </h2>
           </div>
-          <Link to="/shop" className="home-section-more-link">
+          <Link
+            to="/shop"
+            className="border-b-[1.5px] border-[#121214] pb-[2px] text-[10px] font-semibold tracking-[0.16em] whitespace-nowrap text-[#121214] uppercase no-underline transition-opacity duration-200 hover:opacity-65"
+          >
             View All Products &rarr;
           </Link>
         </div>
 
-        {loading && <p className="home-status-msg">Loading best seller formulations...</p>}
-        {error && <p className="home-status-msg error">{error}</p>}
-        {salesError && <p className="home-status-msg error">{salesError}</p>}
+        {loading && (
+          <p className="p-10 text-center text-[#8b8e96]">
+            Loading best seller formulations...
+          </p>
+        )}
+        {error && (
+          <p className="p-10 text-center text-[#c94a3e]">{error}</p>
+        )}
+        {salesError && (
+          <p className="p-10 text-center text-[#c94a3e]">{salesError}</p>
+        )}
 
         {!loading && !error && (
-          <div className="product-grid">
+          <div className="mx-auto grid w-full max-w-[1200px] grid-cols-4 items-stretch gap-[clamp(14px,1.8vw,24px)] max-[1023px]:max-w-[580px] max-[1023px]:grid-cols-2 max-[1023px]:gap-4 max-[600px]:max-w-full max-[600px]:gap-3">
             {bestSellers.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 showBadge={false}
                 variant="imageOnly"
+                compact
               />
             ))}
           </div>
@@ -210,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* 4. ABOUT PREVIEW SECTION */}
-      <section id="about-preview" className="home-about-preview-anchor">
+      <section id="about-preview" className="w-full">
         <AboutSection isStandalone={false} />
       </section>
 

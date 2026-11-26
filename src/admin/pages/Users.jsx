@@ -5,6 +5,22 @@ import {
   fetchAdminUsers,
   toggleUserBlocked,
 } from "../store/slices/adminUserSlice";
+import {
+  adminBreadcrumbLinkClass,
+  adminBreadcrumbsClass,
+  adminErrorNoticeClass,
+  adminPageHeaderClass,
+  adminPageSubtitleClass,
+  adminPageTitleClass,
+  adminSearchWrapClass,
+  adminStatusTagClass,
+  adminTableClass,
+  adminTableContainerClass,
+  adminTdClass,
+  adminThClass,
+  adminTitleNumClass,
+  adminUnderlineInputClass,
+} from "../adminClasses";
 
 function Users() {
   const dispatch = useDispatch();
@@ -36,28 +52,30 @@ function Users() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="admin-breadcrumbs">
-        <Link to="/admin">Administration</Link>
-        <span>/</span>
-        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
-          Users
-        </span>
+      <div className={adminBreadcrumbsClass}>
+        <Link to="/admin" className={adminBreadcrumbLinkClass}>
+          Administration
+        </Link>
+        <span className="text-[#3b3d42]">/</span>
+        <span className="font-medium text-[#121214]">Users</span>
       </div>
 
-      <div style={{ marginBottom: "32px" }}>
-        <h1 className="admin-page-title" style={{ margin: 0 }}>
-          CLIENT ACCOUNTS <span className="admin-title-num">({clientUsers.length})</span>
-        </h1>
-        <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
-          Registered customer accounts, contact directories, and authorization.
-        </p>
+      <div className={adminPageHeaderClass}>
+        <div>
+          <h1 className={adminPageTitleClass}>
+            CLIENT ACCOUNTS <span className={adminTitleNumClass}>({clientUsers.length})</span>
+          </h1>
+          <p className={adminPageSubtitleClass}>
+            Registered customer accounts, contact directories, and authorization.
+          </p>
+        </div>
       </div>
 
       {/* Filter line */}
-      <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
+      <div className={adminSearchWrapClass}>
         <input
           type="search"
-          className="admin-underline-input"
+          className={adminUnderlineInputClass}
           placeholder="Filter by name or email address..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -65,61 +83,53 @@ function Users() {
       </div>
 
       {loading && users.length === 0 ? (
-        <p style={{ color: "#7a7c82" }}>Loading customer accounts...</p>
+        <p className="text-[#7a7c82]">Loading customer accounts...</p>
       ) : error ? (
-        <div className="admin-error-notice">{error}</div>
+        <div className={adminErrorNoticeClass}>{error}</div>
       ) : filteredUsers.length === 0 ? (
-        <p style={{ color: "#7a7c82" }}>No user accounts found matching your search.</p>
+        <p className="text-[#7a7c82]">No user accounts found matching your search.</p>
       ) : (
-        <div className="admin-table-container">
-          <table className="admin-table">
+        <div className={adminTableContainerClass}>
+          <table className={adminTableClass}>
             <thead>
               <tr>
-                <th>User / Name</th>
-                <th>Email Address</th>
-                <th>Role</th>
-                <th>Account Status</th>
-                <th>Access Action</th>
+                <th className={adminThClass}>User / Name</th>
+                <th className={adminThClass}>Email Address</th>
+                <th className={adminThClass}>Role</th>
+                <th className={adminThClass}>Account Status</th>
+                <th className={adminThClass}>Access Action</th>
               </tr>
             </thead>
             <tbody>
               {filteredUsers.map((user) => (
-                <tr key={user.id}>
-                  <td>
-                    <span style={{ color: "var(--admin-black)", fontWeight: 600 }}>
+                <tr key={user.id} className="group/row hover:bg-[#fafafc]">
+                  <td className={adminTdClass}>
+                    <span className="font-semibold text-[#121214]">
                       {user.name || user.fullName || "Customer"}
                     </span>
                   </td>
-                  <td>{user.email}</td>
-                  <td>
-                    <span style={{ textTransform: "uppercase", fontSize: "11px", letterSpacing: "0.08em" }}>
+                  <td className={adminTdClass}>{user.email}</td>
+                  <td className={adminTdClass}>
+                    <span className="text-[11px] tracking-[0.08em] uppercase">
                       {user.role || "Customer"}
                     </span>
                   </td>
-                  <td>
+                  <td className={adminTdClass}>
                     <span
-                      className={`admin-status-tag ${
+                      className={adminStatusTagClass(
                         user.blocked ? "cancelled" : "delivered"
-                      }`}
+                      )}
                     >
                       {user.blocked ? "BLOCKED" : "ACTIVE"}
                     </span>
                   </td>
-                  <td>
+                  <td className={adminTdClass}>
                     <button
                       type="button"
                       onClick={() => handleToggleBlock(user)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        color: user.blocked ? "#204b2b" : "#793232",
-                        cursor: "pointer",
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        letterSpacing: "0.14em",
-                        textTransform: "uppercase",
-                        padding: 0,
-                      }}
+                      className={`cursor-pointer border-0 bg-transparent p-0 text-[11px] font-semibold tracking-[0.14em] uppercase transition-opacity duration-150 hover:opacity-70 ${
+                        user.blocked ? "text-[#204b2b]" : "text-[#793232]"
+                      }`}
                     >
                       {user.blocked ? "Restore Access" : "Block User"}
                     </button>

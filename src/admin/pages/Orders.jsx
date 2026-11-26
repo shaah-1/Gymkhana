@@ -3,6 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminOrders } from "../store/slices/adminOrderSlice";
 import AdminPrice from "../components/AdminPrice";
+import {
+  adminBreadcrumbLinkClass,
+  adminBreadcrumbsClass,
+  adminErrorNoticeClass,
+  adminNumClass,
+  adminPageHeaderClass,
+  adminPageSubtitleClass,
+  adminPageTitleClass,
+  adminSearchWrapClass,
+  adminStatusTagClass,
+  adminTableClass,
+  adminTableContainerClass,
+  adminTdClass,
+  adminThClass,
+  adminTitleNumClass,
+  adminUnderlineInputClass,
+} from "../adminClasses";
 
 function Orders() {
   const dispatch = useDispatch();
@@ -33,28 +50,30 @@ function Orders() {
   return (
     <section>
       {/* Breadcrumbs */}
-      <div className="admin-breadcrumbs">
-        <Link to="/admin">Administration</Link>
-        <span>/</span>
-        <span style={{ color: "var(--admin-black)", fontWeight: 500 }}>
-          Orders
-        </span>
+      <div className={adminBreadcrumbsClass}>
+        <Link to="/admin" className={adminBreadcrumbLinkClass}>
+          Administration
+        </Link>
+        <span className="text-[#3b3d42]">/</span>
+        <span className="font-medium text-[#121214]">Orders</span>
       </div>
 
-      <div style={{ marginBottom: "32px" }}>
-        <h1 className="admin-page-title" style={{ margin: 0 }}>
-          FULFILLMENT <span className="admin-title-num">({orders.length})</span>
-        </h1>
-        <p style={{ margin: "6px 0 0", color: "#6f7177", fontSize: "12.5px" }}>
-          Live customer orders and shipping fulfillment statuses.
-        </p>
+      <div className={adminPageHeaderClass}>
+        <div>
+          <h1 className={adminPageTitleClass}>
+            FULFILLMENT <span className={adminTitleNumClass}>({orders.length})</span>
+          </h1>
+          <p className={adminPageSubtitleClass}>
+            Live customer orders and shipping fulfillment statuses.
+          </p>
+        </div>
       </div>
 
       {/* Filter line */}
-      <div style={{ maxWidth: "340px", marginBottom: "24px" }}>
+      <div className={adminSearchWrapClass}>
         <input
           type="search"
-          className="admin-underline-input"
+          className={adminUnderlineInputClass}
           placeholder="Filter by ID, customer name, or status..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -62,22 +81,22 @@ function Orders() {
       </div>
 
       {loading && orders.length === 0 ? (
-        <p style={{ color: "#7a7c82" }}>Loading orders queue...</p>
+        <p className="text-[#7a7c82]">Loading orders queue...</p>
       ) : error ? (
-        <div className="admin-error-notice">{error}</div>
+        <div className={adminErrorNoticeClass}>{error}</div>
       ) : filteredOrders.length === 0 ? (
-        <p style={{ color: "#7a7c82" }}>No orders found matching your search.</p>
+        <p className="text-[#7a7c82]">No orders found matching your search.</p>
       ) : (
-        <div className="admin-table-container">
-          <table className="admin-table">
+        <div className={adminTableContainerClass}>
+          <table className={adminTableClass}>
             <thead>
               <tr>
-                <th>Order ID</th>
-                <th>Placement Date</th>
-                <th>Client</th>
-                <th>Units</th>
-                <th>Fulfillment</th>
-                <th>Gross Total</th>
+                <th className={adminThClass}>Order ID</th>
+                <th className={adminThClass}>Placement Date</th>
+                <th className={adminThClass}>Client</th>
+                <th className={adminThClass}>Units</th>
+                <th className={adminThClass}>Fulfillment</th>
+                <th className={adminThClass}>Gross Total</th>
               </tr>
             </thead>
             <tbody>
@@ -100,23 +119,23 @@ function Orders() {
                 const statusKey = statusStr.includes("deliv")
                   ? "delivered"
                   : statusStr.includes("ship")
-                  ? "shipped"
-                  : statusStr.includes("process")
-                  ? "processing"
-                  : statusStr.includes("cancel")
-                  ? "cancelled"
-                  : "pending";
+                    ? "shipped"
+                    : statusStr.includes("process")
+                      ? "processing"
+                      : statusStr.includes("cancel")
+                        ? "cancelled"
+                        : "pending";
 
                 const statusLabel =
                   statusKey === "delivered"
                     ? "Delivered"
                     : statusKey === "shipped"
-                    ? "Shipped"
-                    : statusKey === "processing"
-                    ? "Processing"
-                    : statusKey === "cancelled"
-                    ? "Cancelled"
-                    : "Pending";
+                      ? "Shipped"
+                      : statusKey === "processing"
+                        ? "Processing"
+                        : statusKey === "cancelled"
+                          ? "Cancelled"
+                          : "Pending";
 
                 const dateStr = order.createdAt
                   ? new Date(order.createdAt).toLocaleDateString("en-IN", {
@@ -130,26 +149,28 @@ function Orders() {
                   <tr
                     key={order.id}
                     onClick={() => navigate(`/admin/orders/${order.id}`)}
-                    className="admin-clickable-row"
+                    className="group/row cursor-pointer transition-colors duration-150 hover:bg-[#f2f2f5]"
                     title={`Click to open order #${order.id}`}
                   >
-                    <td>
-                      <strong className="admin-num admin-order-id-link" style={{ color: "var(--admin-black)" }}>
+                    <td className={adminTdClass}>
+                      <strong
+                        className={`${adminNumClass} group-hover/row:underline`}
+                      >
                         #{order.id}
                       </strong>
                     </td>
-                    <td className="admin-num-cell">{dateStr}</td>
-                    <td>{customerName}</td>
-                    <td className="admin-num-cell">
+                    <td className={`${adminTdClass} ${adminNumClass}`}>{dateStr}</td>
+                    <td className={adminTdClass}>{customerName}</td>
+                    <td className={`${adminTdClass} ${adminNumClass}`}>
                       {itemCount} {itemCount === 1 ? "unit" : "units"}
                     </td>
-                    <td>
-                      <span className={`admin-status-tag ${statusKey}`}>
+                    <td className={adminTdClass}>
+                      <span className={adminStatusTagClass(statusKey)}>
                         {statusLabel}
                       </span>
                     </td>
-                    <td>
-                      <strong className="admin-num">
+                    <td className={adminTdClass}>
+                      <strong className={adminNumClass}>
                         <AdminPrice
                           amount={order.total ?? order.totalAmount ?? 0}
                         />

@@ -4,14 +4,13 @@ import { storage as localStorage } from "../../utils/storage";
 import { Link, useNavigate } from "react-router-dom";
 import { Banknote } from "lucide-react";
 
-import { clearCart } from "../../redux/cartSlice";
+import { clearCart, fetchCart } from "../../redux/cartSlice";
 import { logout } from "../../redux/authSlice";
 import { getUserById, signOutUser } from "../../services/authService";
 import { getProductById } from "../../services/productService";
 import { createOrder } from "../../services/orderService";
 import { formatCurrency } from "../../utils/formatters";
 import { publicAssetUrl } from "../../utils/publicAssetUrl";
-import "./Checkout.css";
 
 const PAYMENT_METHODS = [
   { id: "cod", label: "Cash on Delivery", detail: "Pay when your order arrives", Icon: Banknote },
@@ -24,10 +23,38 @@ const STEPS = [
   { id: 4, label: "Payment Method", shortLabel: "Payment" },
 ];
 
+const labelClass =
+  "mb-[18px] flex flex-col gap-2 font-[Arial,sans-serif] text-[10.5px] font-bold tracking-[0.14em] text-[#8b8e96] uppercase";
+
+const rowLabelClass =
+  "mb-0 flex flex-col gap-2 font-[Arial,sans-serif] text-[10.5px] font-bold tracking-[0.14em] text-[#8b8e96] uppercase";
+
+const inputClass =
+  "box-border w-full rounded-none border border-[#ebebef] bg-white px-[14px] py-3 font-[Arial,sans-serif] text-[13.5px] font-normal tracking-normal text-[#121214] normal-case outline-none transition-colors duration-150 placeholder:text-[#a1a1aa] focus:border-[#121214]";
+
+const primaryBtnClass =
+  "block w-full cursor-pointer rounded-none border border-[#121214] bg-[#121214] px-6 py-[15px] font-[Arial,sans-serif] text-[11px] font-bold tracking-[0.18em] text-white uppercase transition-[background,opacity] duration-150 hover:not-disabled:border-[#2b2b30] hover:not-disabled:bg-[#2b2b30] disabled:cursor-not-allowed disabled:opacity-60 max-[480px]:box-border max-[480px]:w-full max-[480px]:px-5 max-[480px]:py-[13px] max-[480px]:text-center";
+
+const backBtnClass =
+  "inline-flex cursor-pointer items-center justify-center rounded-none border border-[#ebebef] bg-white px-7 py-[15px] font-[Arial,sans-serif] text-[11px] font-bold tracking-[0.16em] whitespace-nowrap text-[#121214] uppercase transition-all duration-150 hover:border-[#121214] hover:bg-[#f7f7f9] max-[480px]:box-border max-[480px]:w-full max-[480px]:px-5 max-[480px]:py-[13px] max-[480px]:text-center";
+
+const errorBoxClass =
+  "my-[18px] border border-[#fecaca] bg-[#fef2f2] px-[14px] py-3 text-[12.5px] font-semibold text-[#b91c1c]";
+
+const stateCardClass =
+  "mx-auto my-20 box-border max-w-[580px] border border-[#ebebef] bg-[#fbfbfd] px-10 py-[60px] text-center max-[640px]:my-10 max-[640px]:px-5 max-[640px]:py-10";
+
+const stateBtnClass =
+  "mt-6 inline-flex cursor-pointer items-center justify-center rounded-none border border-[#121214] bg-[#121214] px-8 py-[14px] font-[Arial,sans-serif] text-[11px] font-bold tracking-[0.18em] text-white uppercase transition-colors duration-150 hover:border-[#2b2b30] hover:bg-[#2b2b30]";
+
 export default function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const items = useSelector((s) => s.cart.items);
+  const cartLoading = useSelector((s) => s.cart.loading);
+  const cartLoaded = useSelector((s) => s.cart.loaded);
+  const cartError = useSelector((s) => s.cart.error);
+  const isAuthenticated = useSelector((s) => s.auth.isAuthenticated);
   const authUser = useSelector((s) => s.auth.user);
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -45,6 +72,12 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [emailCheck, setEmailCheck] = useState({ status: "idle", message: "" });
+
+  useEffect(() => {
+    if (isAuthenticated && !cartLoaded && !cartLoading) {
+      dispatch(fetchCart());
+    }
+  }, [cartLoaded, cartLoading, dispatch, isAuthenticated]);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -245,55 +278,114 @@ export default function Checkout() {
 
   if (success) {
     return (
-      <div className="checkout-success">
-        <div className="checkout-success-icon">✓</div>
-        <h1>Order Placed Successfully!</h1>
-        <p>Thank you for shopping with GYMKHANA Nutrition.</p>
-        <p>Order ID: {orderId}</p>
-        <button type="button" onClick={() => navigate("/")}>Continue Shopping</button>
+      <div className={stateCardClass}>
+        <div className="mb-6 inline-flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[#15803d] text-[26px] font-bold text-white">
+          ✓
+        </div>
+        <h1 className="m-0 mb-3 font-['DM_Sans',sans-serif] text-[clamp(26px,3.2vw,36px)] font-semibold tracking-[-0.02em] text-[#121214]">
+          Order Placed Successfully!
+        </h1>
+        <p className="m-0 mb-2 text-sm leading-[1.6] text-[#55575e]">
+          Thank you for shopping with GYMKHANA Nutrition.
+        </p>
+        <p className="m-0 mb-2 text-sm leading-[1.6] text-[#55575e]">
+          Order ID: {orderId}
+        </p>
+        <button type="button" className={stateBtnClass} onClick={() => navigate("/")}>
+          Continue Shopping
+        </button>
+      </div>
+    );
+  }
+
+  if (cartLoading || !cartLoaded) {
+    return (
+      <div className={stateCardClass} role="status">
+        <h2 className="m-0 mb-6 font-['DM_Sans',sans-serif] text-[clamp(24px,3vw,32px)] font-semibold tracking-[-0.02em] text-[#121214]">
+          Loading your cart…
+        </h2>
+      </div>
+    );
+  }
+
+  if (cartError && items.length === 0) {
+    return (
+      <div className={stateCardClass}>
+        <h2 className="m-0 mb-6 font-['DM_Sans',sans-serif] text-[clamp(24px,3vw,32px)] font-semibold tracking-[-0.02em] text-[#121214]">
+          Your cart couldn&rsquo;t be loaded
+        </h2>
+        <p className={errorBoxClass} role="alert">
+          {cartError}
+        </p>
+        <button type="button" className={stateBtnClass} onClick={() => dispatch(fetchCart())}>
+          Try Again
+        </button>
       </div>
     );
   }
 
   if (items.length === 0) {
     return (
-      <div className="checkout-empty">
-        <h2>Your cart is empty</h2>
-        <button type="button" onClick={() => navigate("/")}>Browse Products</button>
+      <div className={stateCardClass}>
+        <h2 className="m-0 mb-6 font-['DM_Sans',sans-serif] text-[clamp(24px,3vw,32px)] font-semibold tracking-[-0.02em] text-[#121214]">
+          Your cart is empty
+        </h2>
+        <button type="button" className={stateBtnClass} onClick={() => navigate("/")}>
+          Browse Products
+        </button>
       </div>
     );
   }
 
   return (
-    <main className="checkout-page">
-      <div className="checkout-content">
-        <nav className="checkout-breadcrumbs" aria-label="Breadcrumb">
-          <Link to="/">Home</Link>
-          <span>/</span>
-          <Link to="/cart">Cart</Link>
-          <span>/</span>
-          <span aria-current="page">Checkout</span>
+    <main className="box-border min-h-[calc(100vh-80px)] w-full bg-white px-[clamp(20px,5vw,64px)] pt-12 pb-[100px] font-[Arial,sans-serif] text-[#121214] max-[640px]:px-4 max-[640px]:pt-7 max-[640px]:pb-[60px] max-[480px]:px-[14px] max-[480px]:pt-5 max-[480px]:pb-12">
+      <div className="mx-auto max-w-[1240px]">
+        <nav
+          className="mb-7 flex items-center gap-2 font-[Arial,sans-serif] text-[10.5px] font-bold tracking-[0.16em] text-[#8b8e96] uppercase max-[360px]:text-[9.5px] max-[360px]:tracking-[0.12em]"
+          aria-label="Breadcrumb"
+        >
+          <Link to="/" className="text-[#8b8e96] no-underline transition-colors duration-150 hover:text-[#121214]">
+            Home
+          </Link>
+          <span className="text-[#d1d1d6]">/</span>
+          <Link to="/cart" className="text-[#8b8e96] no-underline transition-colors duration-150 hover:text-[#121214]">
+            Cart
+          </Link>
+          <span className="text-[#d1d1d6]">/</span>
+          <span aria-current="page" className="text-[#121214]">
+            Checkout
+          </span>
         </nav>
 
         {/* Top Progress Stepper Line (1 Contact -> 2 Shipping -> 3 Delivery -> 4 Payment) */}
-        <div className="checkout-stepper-container" aria-label="Checkout Progress">
-          <div className="checkout-stepper-bar">
+        <div
+          className="mb-11 flex items-center justify-center pt-2 max-[640px]:mb-[30px] max-[480px]:mb-6 max-[480px]:pt-1"
+          aria-label="Checkout Progress"
+        >
+          <div className="flex w-full max-w-[640px] items-end">
             {STEPS.map((step, idx) => {
               const isCompleted = currentStep > step.id;
               const isActive = currentStep === step.id;
               const isNavigable = step.id < currentStep;
 
               return (
-                <div key={step.id} className="checkout-stepper-item">
+                <div
+                  key={step.id}
+                  className={`flex items-end ${idx > 0 ? "flex-1" : ""}`}
+                >
                   {idx > 0 && (
                     <div
-                      className={`checkout-stepper-connector ${currentStep >= step.id ? "filled" : ""}`}
+                      className={`mb-1 h-[1.5px] flex-1 transition-[background] duration-250 ${
+                        currentStep >= step.id ? "bg-[#121214]" : "bg-[#e5e7eb]"
+                      }`}
                       aria-hidden="true"
                     />
                   )}
                   <button
                     type="button"
-                    className={`checkout-stepper-step ${isActive ? "active" : ""} ${isCompleted ? "completed" : ""} ${isNavigable ? "navigable" : ""}`}
+                    className={`m-0 flex shrink-0 flex-col items-center gap-2 border-0 bg-transparent p-0 ${
+                      isNavigable ? "cursor-pointer" : "cursor-default"
+                    }`}
                     onClick={() => {
                       if (isNavigable) {
                         setError("");
@@ -304,11 +396,27 @@ export default function Checkout() {
                     aria-current={isActive ? "step" : undefined}
                     title={isNavigable ? `Return to ${step.label}` : step.label}
                   >
-                    <span className="checkout-stepper-label">
-                      <span className="checkout-stepper-text-full">{step.label}</span>
-                      <span className="checkout-stepper-text-short">{step.shortLabel}</span>
+                    <span
+                      className={`flex items-center gap-[5px] font-[Arial,sans-serif] text-xs tracking-[0.02em] whitespace-nowrap transition-[color,font-weight] duration-200 max-[640px]:gap-[3px] max-[640px]:text-[10.5px] max-[480px]:gap-[2px] max-[480px]:text-[9.5px] max-[360px]:text-[8.5px] ${
+                        isActive
+                          ? "font-bold text-[#121214]"
+                          : isCompleted
+                            ? "font-semibold text-[#121214]"
+                            : "font-medium text-[#8b8e96]"
+                      }`}
+                    >
+                      <span className="max-[640px]:hidden">{step.label}</span>
+                      <span className="hidden max-[640px]:inline">{step.shortLabel}</span>
                     </span>
-                    <span className="checkout-stepper-dot" />
+                    <span
+                      className={`box-border h-[9px] w-[9px] rounded-full transition-all duration-200 ${
+                        isActive
+                          ? "border-[2.5px] border-[#121214] bg-white"
+                          : isCompleted
+                            ? "border-[1.5px] border-[#121214] bg-[#121214]"
+                            : "border-[1.5px] border-[#d1d5db] bg-white"
+                      }`}
+                    />
                   </button>
                 </div>
               );
@@ -316,16 +424,20 @@ export default function Checkout() {
           </div>
         </div>
 
-        <h1>Checkout</h1>
+        <h1 className="m-0 mb-10 font-['DM_Sans',sans-serif] text-[clamp(32px,4vw,44px)] leading-[1.15] font-semibold tracking-[-0.02em] text-[#121214] max-[480px]:mb-6 max-[480px]:text-[26px]">
+          Checkout
+        </h1>
 
-        <div className="checkout-layout">
-          <form className="checkout-form" onSubmit={handleFormSubmit}>
+        <div className="grid grid-cols-[minmax(0,1.35fr)_minmax(320px,420px)] items-start gap-[clamp(32px,4.5vw,56px)] max-[960px]:grid-cols-1 max-[960px]:gap-12">
+          <form className="flex flex-col" onSubmit={handleFormSubmit}>
             {/* Step 1: Contact Information */}
             {currentStep === 1 && (
-              <section className="checkout-step">
-                <h2>Contact Information</h2>
-                <div className="checkout-fields-row">
-                  <label>
+              <section className="mb-4 pb-2">
+                <h2 className="m-0 mb-[22px] flex items-center gap-[10px] font-['DM_Sans',sans-serif] text-[15px] font-semibold tracking-[0.1em] text-[#121214] uppercase">
+                  Contact Information
+                </h2>
+                <div className="grid grid-cols-2 gap-4 max-[640px]:grid-cols-1 max-[640px]:gap-4">
+                  <label className={rowLabelClass}>
                     Full Name
                     <input
                       name="fullName"
@@ -334,10 +446,11 @@ export default function Checkout() {
                       required
                       autoComplete="name"
                       placeholder="Enter your full name"
+                      className={inputClass}
                     />
                   </label>
-                  <div className="checkout-email-field">
-                    <label>
+                  <div className="flex flex-col">
+                    <label className={rowLabelClass}>
                       Email
                       <input
                         type="email"
@@ -348,18 +461,25 @@ export default function Checkout() {
                         autoComplete="email"
                         placeholder="you@example.com"
                         onBlur={(e) => e.target.value.trim() && verifyAccountEmail(e.target.value)}
+                        className={inputClass}
                       />
                     </label>
                     {emailCheck.message && (
                       <p
-                        className={`checkout-email-feedback ${emailCheck.status}`}
+                        className={`mt-[6px] mb-0 text-[11.5px] font-semibold tracking-[0.02em] ${
+                          emailCheck.status === "valid"
+                            ? "text-[#15803d]"
+                            : emailCheck.status === "invalid"
+                              ? "text-[#b91c1c]"
+                              : "text-[#71737d]"
+                        }`}
                         role={emailCheck.status === "invalid" ? "alert" : "status"}
                       >
                         {emailCheck.message}
                       </p>
                     )}
                   </div>
-                  <label>
+                  <label className={rowLabelClass}>
                     Phone Number
                     <input
                       type="tel"
@@ -372,16 +492,21 @@ export default function Checkout() {
                       maxLength={10}
                       inputMode="numeric"
                       placeholder="10-digit mobile number"
+                      className={inputClass}
                     />
                   </label>
                 </div>
 
-                {error && <p className="checkout-error" role="alert">{error}</p>}
+                {error && (
+                  <p className={errorBoxClass} role="alert">
+                    {error}
+                  </p>
+                )}
 
-                <div className="checkout-step-actions">
+                <div className="mt-6">
                   <button
                     type="button"
-                    className="place-order-btn checkout-next-btn"
+                    className={primaryBtnClass}
                     onClick={handleNextFromContact}
                   >
                     Continue to Shipping Address
@@ -392,9 +517,11 @@ export default function Checkout() {
 
             {/* Step 2: Shipping Address */}
             {currentStep === 2 && (
-              <section className="checkout-step">
-                <h2>Shipping Address</h2>
-                <label>
+              <section className="mb-4 pb-2">
+                <h2 className="m-0 mb-[22px] flex items-center gap-[10px] font-['DM_Sans',sans-serif] text-[15px] font-semibold tracking-[0.1em] text-[#121214] uppercase">
+                  Shipping Address
+                </h2>
+                <label className={labelClass}>
                   Delivery Address
                   <textarea
                     name="address"
@@ -404,10 +531,11 @@ export default function Checkout() {
                     autoComplete="street-address"
                     placeholder="House number, street, area"
                     rows={2}
+                    className={`${inputClass} min-h-[70px] resize-y`}
                   />
                 </label>
-                <div className="checkout-fields-row">
-                  <label>
+                <div className="grid grid-cols-2 gap-4 max-[640px]:grid-cols-1 max-[640px]:gap-4">
+                  <label className={rowLabelClass}>
                     City
                     <input
                       name="city"
@@ -416,9 +544,10 @@ export default function Checkout() {
                       required
                       autoComplete="address-level2"
                       placeholder="City"
+                      className={inputClass}
                     />
                   </label>
-                  <label>
+                  <label className={rowLabelClass}>
                     PIN Code
                     <input
                       name="pincode"
@@ -430,16 +559,21 @@ export default function Checkout() {
                       inputMode="numeric"
                       autoComplete="postal-code"
                       placeholder="6-digit PIN"
+                      className={inputClass}
                     />
                   </label>
                 </div>
 
-                {error && <p className="checkout-error" role="alert">{error}</p>}
+                {error && (
+                  <p className={errorBoxClass} role="alert">
+                    {error}
+                  </p>
+                )}
 
-                <div className="checkout-step-actions checkout-step-actions-split">
+                <div className="mt-6 flex items-center gap-[14px] max-[480px]:flex-col-reverse max-[480px]:items-stretch max-[480px]:gap-[10px]">
                   <button
                     type="button"
-                    className="checkout-back-btn"
+                    className={backBtnClass}
                     onClick={() => {
                       setError("");
                       setCurrentStep(1);
@@ -449,7 +583,7 @@ export default function Checkout() {
                   </button>
                   <button
                     type="button"
-                    className="place-order-btn checkout-next-btn"
+                    className={`${primaryBtnClass} flex-1`}
                     onClick={handleNextFromShipping}
                   >
                     Continue to Delivery Option
@@ -460,16 +594,24 @@ export default function Checkout() {
 
             {/* Step 3: Delivery Option */}
             {currentStep === 3 && (
-              <section className="checkout-step checkout-payment-step">
-                <h2>Delivery Option</h2>
-                <p className="checkout-delivery-note">Your order will be delivered to the address provided above.</p>
+              <section className="mb-4 pb-2">
+                <h2 className="m-0 mb-[22px] flex items-center gap-[10px] font-['DM_Sans',sans-serif] text-[15px] font-semibold tracking-[0.1em] text-[#121214] uppercase">
+                  Delivery Option
+                </h2>
+                <p className="m-0 text-[13.5px] leading-[1.6] text-[#55575e]">
+                  Your order will be delivered to the address provided above.
+                </p>
 
-                {error && <p className="checkout-error" role="alert">{error}</p>}
+                {error && (
+                  <p className={errorBoxClass} role="alert">
+                    {error}
+                  </p>
+                )}
 
-                <div className="checkout-step-actions checkout-step-actions-split">
+                <div className="mt-6 flex items-center gap-[14px] max-[480px]:flex-col-reverse max-[480px]:items-stretch max-[480px]:gap-[10px]">
                   <button
                     type="button"
-                    className="checkout-back-btn"
+                    className={backBtnClass}
                     onClick={() => {
                       setError("");
                       setCurrentStep(2);
@@ -479,7 +621,7 @@ export default function Checkout() {
                   </button>
                   <button
                     type="button"
-                    className="place-order-btn checkout-next-btn"
+                    className={`${primaryBtnClass} flex-1`}
                     onClick={() => {
                       setError("");
                       setCurrentStep(4);
@@ -493,37 +635,63 @@ export default function Checkout() {
 
             {/* Step 4: Payment Method */}
             {currentStep === 4 && (
-              <section className="checkout-step checkout-payment-step">
-                <h2>Payment Method</h2>
-                <div className="payment-method-options">
-                  {PAYMENT_METHODS.map((m) => (
-                    <label key={m.id} className={`payment-method-option ${paymentMethod === m.id ? "selected" : ""}`}>
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value={m.id}
-                        checked={paymentMethod === m.id}
-                        onChange={() => setPaymentMethod(m.id)}
-                      />
-                      <m.Icon className="payment-method-icon" size={18} strokeWidth={1.6} aria-hidden="true" />
-                      <span className="payment-method-copy">
-                        <strong>{m.label}</strong>
-                        <small>{m.detail}</small>
-                      </span>
-                    </label>
-                  ))}
+              <section className="mb-4 pb-2">
+                <h2 className="m-0 mb-[22px] flex items-center gap-[10px] font-['DM_Sans',sans-serif] text-[15px] font-semibold tracking-[0.1em] text-[#121214] uppercase">
+                  Payment Method
+                </h2>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3 max-[640px]:grid-cols-1">
+                  {PAYMENT_METHODS.map((m) => {
+                    const isSelected = paymentMethod === m.id;
+                    return (
+                      <label
+                        key={m.id}
+                        className={`mb-0 flex cursor-pointer flex-row items-start gap-3 rounded-none border px-4 py-[14px] tracking-normal normal-case transition-[border-color,background] duration-150 hover:border-[#121214] ${
+                          isSelected
+                            ? "border-[#121214] bg-[#fbfbfd]"
+                            : "border-[#ebebef] bg-white"
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value={m.id}
+                          checked={isSelected}
+                          onChange={() => setPaymentMethod(m.id)}
+                          className="mt-[2px] h-4 w-4 cursor-pointer accent-[#121214]"
+                        />
+                        <m.Icon
+                          className="mt-px shrink-0 text-[#121214]"
+                          size={18}
+                          strokeWidth={1.6}
+                          aria-hidden="true"
+                        />
+                        <span className="flex flex-col gap-[3px]">
+                          <strong className="font-[Arial,sans-serif] text-[13px] font-bold text-[#121214]">
+                            {m.label}
+                          </strong>
+                          <small className="font-[Arial,sans-serif] text-[11.5px] font-normal text-[#71737d]">
+                            {m.detail}
+                          </small>
+                        </span>
+                      </label>
+                    );
+                  })}
                 </div>
 
-                <p className="checkout-payment-note">
+                <p className="mt-4 mb-0 text-[12.5px] leading-[1.5] text-[#71737d]">
                   Online payments are not connected yet. Only cash on delivery is available; this checkout will not collect card or UPI details.
                 </p>
 
-                {error && <p className="checkout-error" role="alert">{error}</p>}
+                {error && (
+                  <p className={errorBoxClass} role="alert">
+                    {error}
+                  </p>
+                )}
 
-                <div className="checkout-step-actions checkout-step-actions-split">
+                <div className="mt-6 flex items-center gap-[14px] max-[480px]:flex-col-reverse max-[480px]:items-stretch max-[480px]:gap-[10px]">
                   <button
                     type="button"
-                    className="checkout-back-btn"
+                    className={backBtnClass}
                     onClick={() => {
                       setError("");
                       setCurrentStep(3);
@@ -533,7 +701,7 @@ export default function Checkout() {
                   </button>
                   <button
                     type="submit"
-                    className="place-order-btn"
+                    className={`${primaryBtnClass} flex-1`}
                     disabled={loading}
                   >
                     {loading ? "Placing Order..." : "Place Order"}
@@ -544,41 +712,72 @@ export default function Checkout() {
           </form>
 
           {/* Right Column: Original Order Summary */}
-          <aside className="checkout-summary">
-            <h2>Your Order <span>({items.reduce((c, i) => c + i.quantity, 0)})</span></h2>
-            <div className="checkout-order-images">
+          <aside className="static box-border w-full border border-[#ebebef] bg-[#fbfbfd] px-6 py-[26px] max-[640px]:px-[18px] max-[640px]:py-6 max-[480px]:px-[14px] max-[480px]:py-5">
+            <h2 className="m-0 mb-4 flex items-baseline justify-between border-b border-[#ebebef] pb-[14px] font-['DM_Sans',sans-serif] text-[14.5px] font-semibold tracking-[0.08em] text-[#121214] uppercase">
+              Your Order{" "}
+              <span className="font-[Arial,sans-serif] text-[11.5px] font-bold text-[#8b8e96]">
+                ({items.reduce((c, i) => c + i.quantity, 0)})
+              </span>
+            </h2>
+            <div className="mb-[18px] grid grid-cols-[repeat(auto-fill,minmax(50px,1fr))] gap-[10px] border-b border-[#ebebef] pb-4">
               {items.map((i) => (
-                <div className="checkout-order-image" key={i.id}>
-                  <img src={publicAssetUrl(i.image)} alt={i.name} />
-                  <span>{i.quantity}</span>
+                <div
+                  className="relative box-border flex aspect-square items-center justify-center overflow-hidden rounded-none border border-[#ebebef] bg-[#f7f7f9] p-[5px]"
+                  key={i.id}
+                >
+                  <img
+                    src={publicAssetUrl(i.image)}
+                    alt={i.name}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                  <span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#121214] px-[3px] font-[Arial,sans-serif] text-[9.5px] font-bold text-white">
+                    {i.quantity}
+                  </span>
                 </div>
               ))}
             </div>
 
-            <div className="checkout-order-items">
+            <div className="mb-[18px] flex flex-col">
               {items.map((i) => (
-                <div className="checkout-item" key={i.id}>
+                <div
+                  className="flex items-center justify-between gap-[14px] border-b border-[#ebebef] py-3"
+                  key={i.id}
+                >
                   <div>
-                    <strong>{i.name}</strong>
-                    <p>Quantity: {i.quantity}</p>
+                    <strong className="block font-[Arial,sans-serif] text-[13px] leading-[1.35] font-semibold text-[#121214]">
+                      {i.name}
+                    </strong>
+                    <p className="mt-[3px] mb-0 font-[Arial,sans-serif] text-[11.5px] text-[#71737d]">
+                      Quantity: {i.quantity}
+                    </p>
                   </div>
-                  <span>{formatCurrency(Number(i.price) * i.quantity)}</span>
+                  <span className="font-[Arial,sans-serif] text-[13px] font-bold whitespace-nowrap text-[#121214] tabular-nums">
+                    {formatCurrency(Number(i.price) * i.quantity)}
+                  </span>
                 </div>
               ))}
             </div>
 
-            <div className="checkout-totals">
-              <div className="checkout-total-row">
+            <div className="flex flex-col gap-[10px]">
+              <div className="flex items-center justify-between text-[13px] text-[#55575e]">
                 <span>Subtotal</span>
-                <span>{formatCurrency(total)}</span>
+                <span className="font-[Arial,sans-serif] font-semibold text-[#121214] tabular-nums">
+                  {formatCurrency(total)}
+                </span>
               </div>
-              <div className="checkout-total-row">
+              <div className="flex items-center justify-between text-[13px] text-[#55575e]">
                 <span>Shipping</span>
-                <span>Calculated at checkout</span>
+                <span className="font-[Arial,sans-serif] font-semibold text-[#121214] tabular-nums">
+                  Calculated at checkout
+                </span>
               </div>
-              <div className="checkout-total checkout-grand-total">
-                <span>Total</span>
-                <strong>{formatCurrency(total)}</strong>
+              <div className="mt-1 flex items-baseline justify-between border-t border-[#ebebef] pt-3 text-sm text-[#121214]">
+                <span className="font-[Arial,sans-serif] font-bold tracking-[0.08em] uppercase">
+                  Total
+                </span>
+                <strong className="font-[Arial,sans-serif] text-xl font-extrabold text-[#121214] tabular-nums">
+                  {formatCurrency(total)}
+                </strong>
               </div>
             </div>
           </aside>
